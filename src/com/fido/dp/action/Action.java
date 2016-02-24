@@ -28,7 +28,11 @@ public abstract class Action {
 	public abstract void run();
     
     public void finish(){
-        
+        agent.onActionFinish();
+    }
+    
+    public void fail(String reason){
+        agent.onActionFailed(reason);
     }
 	
 	

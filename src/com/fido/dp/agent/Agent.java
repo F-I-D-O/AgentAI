@@ -5,8 +5,10 @@
  */
 package com.fido.dp.agent;
 
+import com.fido.dp.Log;
 import com.fido.dp.State;
 import com.fido.dp.action.Action;
+import java.util.logging.Level;
 
 /**
  *
@@ -37,6 +39,12 @@ public abstract class Agent {
 	protected abstract Action chooseAction();
     
     public void onActionFinish(){
+        Log.log(this, Level.FINE, "Action finished: {0}", chosenAction);
+        run();
+    }
+    
+    public void onActionFailed(String reason){
+        Log.log(this, Level.WARNING, "Action {0} failed: {1}", chosenAction, reason);
         run();
     }
 }
