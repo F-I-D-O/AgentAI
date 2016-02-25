@@ -21,7 +21,7 @@ public class TestAction extends Action{
 	}
 
 	@Override
-	public void run() {
+	public void performAction() {
 		System.out.println("Action run started: " + getClass());
 		
 		ArrayList<Agent> subordinateAgents = ((CommandAgent) agent).getSubordinateAgents();

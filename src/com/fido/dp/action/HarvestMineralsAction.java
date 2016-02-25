@@ -20,7 +20,7 @@ public class HarvestMineralsAction extends UnitAction{
 	}
 
 	@Override
-	public void run() {
+	public void performAction() {
 		if(getUnitAgent().isIdle()){
 			Unit closestMineral = null;
 			Unit unit = getUnitAgent().getUnit();

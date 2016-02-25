@@ -5,8 +5,10 @@
  */
 package com.fido.dp.action;
 
+import com.fido.dp.GameAPI;
 import com.fido.dp.agent.Agent;
 import com.fido.dp.agent.CommandAgent;
+import com.fido.dp.agent.LeafAgent;
 import com.fido.dp.agent.Vulture;
 import java.util.ArrayList;
 
@@ -22,16 +24,17 @@ public class StrategicExplorationAction extends Action {
         super(agent);
         scouts = new ArrayList<>();
         for (Agent subordinateAgent : agent.getSubordinateAgents()) {
-            if(subordinateAgent instanceof Vulture){
+//            if(subordinateAgent instanceof Vulture){
                 scouts.add((Vulture) subordinateAgent);
-            }
+//            }
         }
     }
 
     @Override
-    public void run() {
-        for (Vulture scout : scouts) {
-            
+    public void performAction() {
+        for (LeafAgent scout : scouts) {
+            scout.setCommandedAction(new ExploreBaseLocation(
+                    scout, bwta.BWTA.getNearestBaseLocation(scout.getUnit().getPosition()).getPosition()));
         }
     }
     

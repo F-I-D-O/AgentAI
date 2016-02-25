@@ -19,6 +19,17 @@ public abstract class Agent {
 	protected Action commandedAction;
     
     protected Action chosenAction;
+
+    
+    
+    
+    public void setCommandedAction(Action commandedAction) {
+        this.commandedAction = commandedAction;
+    }
+    
+    
+    
+    
 	
 	public void start(){
 		System.out.println("Agent started: " + getClass());
@@ -36,7 +47,9 @@ public abstract class Agent {
 		System.out.println("Agent run ended: " + getClass());
 	}
 
-	protected abstract Action chooseAction();
+	protected Action chooseAction(){
+        return commandedAction;
+    }
     
     public void onActionFinish(){
         Log.log(this, Level.FINE, "Action finished: {0}", chosenAction);

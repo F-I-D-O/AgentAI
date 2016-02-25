@@ -5,7 +5,6 @@
  */
 package com.fido.dp.action;
 
-import com.fido.dp.agent.Agent;
 import com.fido.dp.agent.LeafAgent;
 
 /**
@@ -19,7 +18,7 @@ public class ScoutAction extends UnitAction{
     }
 
     @Override
-    public void run() {
+    public void performAction() {
         if(getUnitAgent().isIdle()){
             
         }

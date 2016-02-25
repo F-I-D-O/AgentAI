@@ -6,6 +6,7 @@
 package com.fido.dp.action;
 
 import bwapi.Position;
+import bwapi.Unit;
 import com.fido.dp.agent.LeafAgent;
 
 /**
@@ -16,23 +17,42 @@ public class Move extends UnitAction {
     
     private Position target;
     
+    private double maxDistanceFromTarget;
+    
     private boolean onMove;
+
+    
+    
+    
+    public Position getTarget() {
+        return target;
+    }
+    
+    
+    
+    
 
     public Move(LeafAgent unitAgent, Position target) {
         super(unitAgent);
+        this.target = target;
+        maxDistanceFromTarget = 32;
     }
 
     @Override
-    public void run() {
+    public void performAction() {
+        Unit unit = getUnitAgent().getUnit();
         if(!onMove){
             if(!target.isValid()){
                 fail("Invalid target");
             }
-            getUnitAgent().getUnit().move(target);
+            unit.move(target);
             
             onMove = true;
         }
-//        if()
+        if(unit.getPosition().getDistance(target) <= maxDistanceFromTarget){
+            unit.stop();
+            finish();
+        }
     }
     
 }
