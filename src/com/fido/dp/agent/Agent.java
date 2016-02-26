@@ -39,7 +39,9 @@ public abstract class Agent {
 	
 	public void run(){
 		System.out.println("Agent run started: " + getClass());
-		chosenAction = chooseAction(); 
+        if(chosenAction == null){
+            chosenAction = chooseAction(); 
+        }
 		if(chosenAction != null){
 			System.out.println("ChosenAction: " + chosenAction.getClass());
 			chosenAction.run();

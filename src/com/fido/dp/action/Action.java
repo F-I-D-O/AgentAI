@@ -35,12 +35,14 @@ public abstract class Action {
 	public abstract void performAction();
     
     public final void run(){
+        Log.log(this, Level.FINE, "{0}: run() START", this);
         if(childAction != null){
             childAction.run();
         }
         else{
             performAction();
         }
+        Log.log(this, Level.FINE, "{0}: run() END", this);
     }
     
     protected final void finish(){

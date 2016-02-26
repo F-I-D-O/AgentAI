@@ -12,9 +12,13 @@ import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.agent.Agent;
 import com.fido.dp.agent.Commander;
+import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.agent.LeafAgent;
 import com.fido.dp.agent.SCV;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import static java.util.logging.Level.FINER;
+import java.util.logging.Logger;
 
 /**
  *
@@ -94,9 +98,17 @@ public class GameAPI extends DefaultBWListener {
 
 	@Override
 	public void onStart() {
+        Logger rootLog = Logger.getLogger("");
+        bwta.BWTA.readMap();
+        bwta.BWTA.analyze();
+        rootLog.setLevel( Level.FINER );
+        rootLog.getHandlers()[0].setLevel( Level.FINER );
 		commander = new Commander();
 		agents.add(commander);
 		mirror.getGame().setLocalSpeed(42);
+        ExplorationCommand explorationCommand = new ExplorationCommand();
+        commander.addsubordinateAgent(explorationCommand);
+        agents.add(explorationCommand);
 	}
 	
 	

@@ -7,7 +7,9 @@ package com.fido.dp.action;
 
 import bwapi.Position;
 import bwapi.Unit;
+import com.fido.dp.Log;
 import com.fido.dp.agent.LeafAgent;
+import java.util.logging.Level;
 
 /**
  *
@@ -36,6 +38,7 @@ public class Move extends UnitAction {
         super(unitAgent);
         this.target = target;
         maxDistanceFromTarget = 32;
+        onMove = false;
     }
 
     @Override
@@ -45,11 +48,17 @@ public class Move extends UnitAction {
             if(!target.isValid()){
                 fail("Invalid target");
             }
+            Log.log(this, Level.FINE, "{0}: {1} On position: {2}", this.getAgent().getClass(), 
+                    this.getAgent().getClass(), this.getUnitAgent().getUnit().getPosition());
+            Log.log(this, Level.FINE, "{0}: {1} target position: {2}", this.getAgent().getClass(), 
+                    this.getAgent().getClass(), target);
             unit.move(target);
             
             onMove = true;
         }
         if(unit.getPosition().getDistance(target) <= maxDistanceFromTarget){
+            Log.log(this, Level.FINE, "{0}: {1} Reached target: {2}", this.getAgent().getClass(), 
+                    this.getAgent().getClass(), target);
             unit.stop();
             finish();
         }

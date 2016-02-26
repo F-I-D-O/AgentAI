@@ -28,10 +28,10 @@ public class ExploreBaseLocation extends UnitAction{
     @Override
     public void performAction() {
         if(locationExplored){
-            runChildAction(new Move(this.getUnitAgent(), baseLocation));
+            runChildAction(new Move(this.getUnitAgent(), GameAPI.getGame().self().getStartLocation().toPosition()));
         }
         else{
-            runChildAction(new Move(this.getUnitAgent(), GameAPI.getGame().self().getStartLocation().toPosition()));
+            runChildAction(new Move(this.getUnitAgent(), baseLocation));
         }
     }
 

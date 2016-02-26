@@ -15,7 +15,7 @@ import com.fido.dp.action.TestAction;
 public class Commander extends CommandAgent {
 
     public Commander() {
-        subordinateAgents.add(new ExplorationCommand());
+
     }
     
     

@@ -27,10 +27,11 @@ public class SCV extends LeafAgent {
 
 	@Override
 	protected Action chooseAction() {
-		Action action = null;
-		if(commandedAction instanceof HarvestMineralsAction){
-			action = commandedAction;
-		}
-		return action;
+//		Action action = null;
+//		if(commandedAction instanceof HarvestMineralsAction){
+//			action = commandedAction;
+//		}
+//		return action;
+        return commandedAction;
 	}
 }
