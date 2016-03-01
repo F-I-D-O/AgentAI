@@ -1,64 +1,50 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.fido.dp.agent;
 
 import com.fido.dp.Log;
-import com.fido.dp.State;
 import com.fido.dp.action.Action;
 import java.util.logging.Level;
 
-/**
- *
- * @author F.I.D.O.
- */
 public abstract class Agent {
-	
-	protected Action commandedAction;
-    
+
+    private Action commandedAction;
+
     protected Action chosenAction;
 
-    
-    
-    
-    public void setCommandedAction(Action commandedAction) {
-        this.commandedAction = commandedAction;
-    }
-    
-    
-    
-    
-	
-	public void start(){
-		System.out.println("Agent started: " + getClass());
-	}
-	
-	protected State currentState;
-	
-	public void run(){
-		System.out.println("Agent run started: " + getClass());
-        if(chosenAction == null){
-            chosenAction = chooseAction(); 
-        }
-		if(chosenAction != null){
-			System.out.println("ChosenAction: " + chosenAction.getClass());
-			chosenAction.run();
-		}
-		System.out.println("Agent run ended: " + getClass());
-	}
-
-	protected Action chooseAction(){
+    public Action getCommandedAction() {
         return commandedAction;
     }
-    
-    public void onActionFinish(){
+
+    protected final void setCommandedAction(Action commandedAction) {
+        if (!commandedAction.equals(this.commandedAction)) {
+            this.commandedAction = commandedAction;
+            Log.log(this, Level.FINE, " {0}: Commanded action: {1}", this.getClass(), commandedAction.getClass());
+        }
+    }
+
+    public void start() {
+        System.out.println("Agent started: " + getClass());
+    }
+
+    public final void run() {
+        Log.log(this, Level.FINE, " {0}: Agent run started", this.getClass());
+        if (chosenAction == null) {
+            chosenAction = chooseAction();
+        }
+        if (chosenAction != null) {
+            Log.log(this, Level.FINE, " {0}: Chosen action: {1}", this.getClass(), chosenAction.getClass());
+            chosenAction.run();
+        }
+        Log.log(this, Level.FINE, " {0}: Agent run ended", this.getClass());
+    }
+
+    protected abstract Action chooseAction();
+
+    public final void onActionFinish() {
         Log.log(this, Level.FINE, "Action finished: {0}", chosenAction);
         run();
     }
-    
-    public void onActionFailed(String reason){
+
+    public final void onActionFailed(String reason) {
         Log.log(this, Level.WARNING, "Action {0} failed: {1}", chosenAction, reason);
         run();
     }

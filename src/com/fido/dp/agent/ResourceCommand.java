@@ -5,10 +5,21 @@
  */
 package com.fido.dp.agent;
 
+import com.fido.dp.action.Action;
+import com.fido.dp.action.ManageHarvest;
+
 /**
  *
  * @author david_000
  */
 public class ResourceCommand extends CommandAgent{
+
+    @Override
+    protected Action chooseAction() {
+        return getCommandedAction();
+    }
     
+    public void commandHarvest(double mineralShare){
+        setCommandedAction(new ManageHarvest(this, mineralShare));
+    }
 }

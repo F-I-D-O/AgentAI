@@ -8,6 +8,7 @@ package com.fido.dp.action;
 import bwapi.Position;
 import com.fido.dp.agent.LeafAgent;
 import com.fido.dp.GameAPI;
+import java.util.Objects;
 
 /**
  *
@@ -45,6 +46,22 @@ public class ExploreBaseLocation extends UnitAction{
         locationExplored = true;
         super.onChildActionFinish();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ExploreBaseLocation other = (ExploreBaseLocation) obj;
+        if (!Objects.equals(this.baseLocation, other.baseLocation)) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
 }

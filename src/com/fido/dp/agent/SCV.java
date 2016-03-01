@@ -1,37 +1,39 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.fido.dp.agent;
 
+import bwapi.Position;
 import bwapi.Unit;
+import com.fido.dp.Scout;
 import com.fido.dp.action.Action;
+import com.fido.dp.action.ExploreBaseLocation;
 import com.fido.dp.action.HarvestMineralsAction;
 
-/**
- *
- * @author F.I.D.O.
- */
-public class SCV extends LeafAgent {
-	
+public class SCV extends LeafAgent implements Scout {
 
-	public SCV(Unit unit) {
-		super(unit);
-	}
+    @Override
+    public void commandExploreBaseLocation(Position targetBase) {
+        setCommandedAction(new ExploreBaseLocation(this, targetBase));
+    }
 
-	
-	public void commandHarvest(){
-		commandedAction = new HarvestMineralsAction(this);
-	}
+    public enum Material {
 
-	@Override
-	protected Action chooseAction() {
-//		Action action = null;
-//		if(commandedAction instanceof HarvestMineralsAction){
-//			action = commandedAction;
-//		}
-//		return action;
-        return commandedAction;
-	}
+        MINERALS, GAS
+    }
+
+    public SCV(Unit unit) {
+        super(unit);
+    }
+
+    public void commandHarvest(Material material) {
+        if (material == Material.MINERALS) {
+            setCommandedAction(new HarvestMineralsAction(this));
+        }
+    }
+
+    @Override
+    protected Action chooseAction() {
+        return getCommandedAction();
+    }
+
+    public void commandHarvest() {
+    }
 }

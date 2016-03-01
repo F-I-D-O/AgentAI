@@ -19,4 +19,8 @@ public class ExplorationCommand extends CommandAgent {
         return new StrategicExplorationAction(this);
     }
     
+    public int getNumberOfScouts(){
+        return subordinateAgents.size();
+    }
+    
 }

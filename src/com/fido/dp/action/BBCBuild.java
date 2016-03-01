@@ -5,20 +5,28 @@
  */
 package com.fido.dp.action;
 
-import com.fido.dp.agent.Agent;
+import com.fido.dp.action.Action;
+import com.fido.dp.agent.CommandAgent;
 
 /**
  *
  * @author david_000
  */
-public class BBCStrategy extends Action{
+public class BBCBuild extends CommandAction {
 
-    public BBCStrategy(Agent agent) {
+    public BBCBuild(CommandAgent agent) {
         super(agent);
     }
 
+
+
     @Override
     public void performAction() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean equals(Object obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

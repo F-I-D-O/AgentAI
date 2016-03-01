@@ -5,23 +5,27 @@
  */
 package com.fido.dp.action;
 
-import com.fido.dp.agent.LeafAgent;
+import com.fido.dp.agent.CommandAgent;
 
 /**
  *
  * @author david_000
  */
-public class ScoutAction extends UnitAction{
+public abstract class CommandAction extends Action{
 
-    public ScoutAction(LeafAgent unitAgent) {
-        super(unitAgent);
+    public CommandAction(CommandAgent agent) {
+        super(agent);
     }
+
 
     @Override
-    public void performAction() {
-        if(getUnitAgent().isIdle()){
-            
-        }
+    public CommandAgent getAgent() {
+        return (CommandAgent) agent;
     }
+    
+    
+    
+
+    
     
 }

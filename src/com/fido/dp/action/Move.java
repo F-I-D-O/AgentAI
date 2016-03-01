@@ -9,6 +9,7 @@ import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.Log;
 import com.fido.dp.agent.LeafAgent;
+import java.util.Objects;
 import java.util.logging.Level;
 
 /**
@@ -63,5 +64,25 @@ public class Move extends UnitAction {
             finish();
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Move other = (Move) obj;
+        if (!Objects.equals(this.target, other.target)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.maxDistanceFromTarget) != Double.doubleToLongBits(other.maxDistanceFromTarget)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }
