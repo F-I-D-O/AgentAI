@@ -13,6 +13,8 @@ import com.fido.dp.action.ManageHarvest;
  * @author david_000
  */
 public class ResourceCommand extends CommandAgent{
+    
+    
 
     @Override
     protected Action chooseAction() {

@@ -5,10 +5,48 @@
  */
 package com.fido.dp;
 
+import bwapi.UnitType;
+
 /**
  *
  * @author david_000
  */
-public class BuildPlan {
+public class BuildPlan implements Comparable<BuildPlan>{
+
+    private int priority;
+    
+    private UnitType buildingType;
+
+    
+    
+    
+    public UnitType getBuildingType() {
+        return buildingType;
+    }
+
+    
+    
+    
+    
+    public BuildPlan(int priority, UnitType buildingType) {
+        this.priority = priority;
+        this.buildingType = buildingType;
+    }
+    
+    
+    
+    
+    @Override
+    public int compareTo(BuildPlan buildPlan) {
+        return priority - buildPlan.priority;
+    }
+    
+    public int getGasPrice(){
+        return buildingType.gasPrice();
+    }
+    
+    public int getMineralsPrice(){
+        return buildingType.mineralPrice();
+    }
     
 }

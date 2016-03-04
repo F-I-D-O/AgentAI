@@ -6,7 +6,7 @@ import bwapi.Mirror;
 import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.agent.Agent;
-import com.fido.dp.agent.BuildCommand;
+import com.fido.dp.agent.BuildingConstructionCommand;
 import com.fido.dp.agent.Commander;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.agent.LeafAgent;
@@ -89,7 +89,7 @@ public class GameAPI extends DefaultBWListener {
         mirror.getGame().setLocalSpeed(42);
         addAgent(new ExplorationCommand());
         addAgent(new ResourceCommand());
-        addAgent(new BuildCommand());
+        addAgent(new BuildingConstructionCommand());
     }
 
     public void addAgent(Agent agent) {

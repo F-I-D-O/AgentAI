@@ -6,17 +6,13 @@ import com.fido.dp.Scout;
 import com.fido.dp.action.Action;
 import com.fido.dp.action.ExploreBaseLocation;
 import com.fido.dp.action.HarvestMineralsAction;
+import com.fido.dp.Material;
 
 public class SCV extends LeafAgent implements Scout {
 
     @Override
     public void commandExploreBaseLocation(Position targetBase) {
         setCommandedAction(new ExploreBaseLocation(this, targetBase));
-    }
-
-    public enum Material {
-
-        MINERALS, GAS
     }
 
     public SCV(Unit unit) {

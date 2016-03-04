@@ -5,29 +5,59 @@
  */
 package com.fido.dp.action;
 
-import com.fido.dp.action.Action;
-import com.fido.dp.agent.CommandAgent;
+import bwapi.UnitType;
+import com.fido.dp.BuildPlan;
+import com.fido.dp.agent.BuildingConstructionCommand;
 
 /**
  *
  * @author david_000
  */
 public class BBCBuild extends CommandAction {
+    
+    
 
-    public BBCBuild(CommandAgent agent) {
+    public BBCBuild(BuildingConstructionCommand agent) {
         super(agent);
+    }
+
+    @Override
+    protected void init() {
+        super.init(); 
+        getAgent().addBuildPlan(new BuildPlan(10, UnitType.Terran_Barracks));
+        getAgent().addBuildPlan(new BuildPlan(10, UnitType.Terran_Barracks));
+        getAgent().addBuildPlan(new BuildPlan(10, UnitType.Terran_Supply_Depot));
+    }
+
+    @Override
+    public BuildingConstructionCommand getAgent() {
+        return (BuildingConstructionCommand) agent; //To change body of generated methods, choose Tools | Templates.
     }
 
 
 
     @Override
     public void performAction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        switch(getAgent().automaticBuild()){
+            case MISSING_GAS:
+                break;
+            case MISSING_MINERALS:
+                break;
+            case MISSING_WORKERS:
+                break;
+        }
     }
 
     @Override
     public boolean equals(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final BBSStrategy other = (BBSStrategy) obj;
+        return true;
     }
     
 }

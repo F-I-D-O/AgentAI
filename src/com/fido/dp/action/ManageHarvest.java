@@ -5,6 +5,7 @@
  */
 package com.fido.dp.action;
 
+import com.fido.dp.Material;
 import com.fido.dp.agent.Agent;
 import com.fido.dp.agent.CommandAgent;
 import com.fido.dp.agent.SCV;
@@ -28,7 +29,7 @@ public class ManageHarvest extends CommandAction{
         for (Agent subordinateAgent : getAgent().getSubordinateAgents()) {
             if(subordinateAgent instanceof SCV){
                 if(!(subordinateAgent.getCommandedAction() instanceof HarvestMineralsAction)){
-                    ((SCV) subordinateAgent).commandHarvest(SCV.Material.MINERALS);
+                    ((SCV) subordinateAgent).commandHarvest(Material.MINERALS);
                 }
             }
         }

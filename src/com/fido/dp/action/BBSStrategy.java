@@ -5,7 +5,7 @@
  */
 package com.fido.dp.action;
 
-import com.fido.dp.agent.BuildCommand;
+import com.fido.dp.agent.BuildingConstructionCommand;
 import com.fido.dp.agent.CommandAgent;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.agent.ResourceCommand;
@@ -22,7 +22,7 @@ public class BBSStrategy extends CommandAction{
     
     private final ExplorationCommand explorationCommand;
     
-    private final BuildCommand buildCommand;
+    private final BuildingConstructionCommand buildCommand;
     
     private int targetNumberOfScouts;
 
@@ -31,7 +31,7 @@ public class BBSStrategy extends CommandAction{
         
         resourceCommand = (ResourceCommand) getAgent().getSubordinateAgent(ResourceCommand.class);
         explorationCommand = (ExplorationCommand) getAgent().getSubordinateAgent(ExplorationCommand.class);
-        buildCommand = (BuildCommand) getAgent().getSubordinateAgent(BuildCommand.class);
+        buildCommand = (BuildingConstructionCommand) getAgent().getSubordinateAgent(BuildingConstructionCommand.class);
         
         targetNumberOfScouts = 1;
     }
