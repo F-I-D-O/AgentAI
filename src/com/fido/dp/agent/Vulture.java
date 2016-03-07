@@ -5,6 +5,7 @@
  */
 package com.fido.dp.agent;
 
+import com.fido.dp.base.LeafAgent;
 import bwapi.Unit;
 import com.fido.dp.action.Action;
 

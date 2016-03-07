@@ -1,7 +1,7 @@
 package com.fido.dp.action;
 
-import com.fido.dp.agent.Agent;
-import com.fido.dp.agent.LeafAgent;
+import com.fido.dp.base.Agent;
+import com.fido.dp.base.LeafAgent;
 
 public abstract class UnitAction extends Action {
 

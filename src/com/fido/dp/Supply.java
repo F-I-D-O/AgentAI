@@ -54,7 +54,7 @@ public class Supply {
     
     public Supply split(int amount){
         if(amount > this.amount){
-            Log.log(this, Level.SEVERE, "Don|t have enough supply to split - requested amount: {0}, current amount: {1}",
+            Log.log(this, Level.SEVERE, "Don't have enough supply to split - requested amount: {0}, current amount: {1}",
                     amount, this.amount);
             return null;
         }

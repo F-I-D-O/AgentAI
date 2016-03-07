@@ -8,7 +8,7 @@ package com.fido.dp.action;
 import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.Log;
-import com.fido.dp.agent.LeafAgent;
+import com.fido.dp.base.LeafAgent;
 import java.util.Objects;
 import java.util.logging.Level;
 

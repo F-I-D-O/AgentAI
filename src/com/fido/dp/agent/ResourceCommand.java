@@ -5,8 +5,10 @@
  */
 package com.fido.dp.agent;
 
+import com.fido.dp.base.CommandAgent;
 import com.fido.dp.action.Action;
 import com.fido.dp.action.ManageHarvest;
+import com.fido.dp.goal.HarvestGoal;
 
 /**
  *
@@ -18,10 +20,14 @@ public class ResourceCommand extends CommandAgent{
 
     @Override
     protected Action chooseAction() {
-        return getCommandedAction();
+        if(getGoal() instanceof HarvestGoal){
+			HarvestGoal goal = getGoal();
+			return new ManageHarvest(this, goal.getMineralShare());
+		}
+		return null;
     }
     
-    public void commandHarvest(double mineralShare){
-        setCommandedAction(new ManageHarvest(this, mineralShare));
-    }
+//    public void commandHarvest(double mineralShare){
+//        setCommandedAction(new ManageHarvest(this, mineralShare));
+//    }
 }

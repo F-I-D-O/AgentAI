@@ -5,6 +5,7 @@
  */
 package com.fido.dp.agent;
 
+import com.fido.dp.base.CommandAgent;
 import com.fido.dp.action.Action;
 
 /**

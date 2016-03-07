@@ -1,5 +1,6 @@
-package com.fido.dp.agent;
+package com.fido.dp.base;
 
+import com.fido.dp.base.Agent;
 import bwapi.Unit;
 
 public abstract class LeafAgent extends Agent {

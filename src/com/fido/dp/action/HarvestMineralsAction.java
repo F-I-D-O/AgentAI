@@ -2,7 +2,7 @@ package com.fido.dp.action;
 
 import com.fido.dp.GameAPI;
 import bwapi.Unit;
-import com.fido.dp.agent.LeafAgent;
+import com.fido.dp.base.LeafAgent;
 
 public class HarvestMineralsAction extends UnitAction {
 

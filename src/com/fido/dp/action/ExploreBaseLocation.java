@@ -6,7 +6,7 @@
 package com.fido.dp.action;
 
 import bwapi.Position;
-import com.fido.dp.agent.LeafAgent;
+import com.fido.dp.base.LeafAgent;
 import com.fido.dp.GameAPI;
 import java.util.Objects;
 

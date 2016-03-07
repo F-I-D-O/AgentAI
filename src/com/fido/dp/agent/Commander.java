@@ -1,12 +1,27 @@
 package com.fido.dp.agent;
 
+import com.fido.dp.base.CommandAgent;
 import com.fido.dp.GameAPI;
+import com.fido.dp.Log;
 import com.fido.dp.Supply;
 import com.fido.dp.action.Action;
 import com.fido.dp.action.BBSStrategy;
 import com.fido.dp.Material;
+import java.util.logging.Level;
 
 public class Commander extends CommandAgent {
+	
+//	private static Commander comander;
+	
+//	private static Commander get(){
+//		if(comander == null){
+//			comander = new Commander();
+//		}
+//		return comander;
+//	}
+	
+	
+	
     
     private int reservedMinerals;
     
@@ -36,4 +51,36 @@ public class Commander extends CommandAgent {
     public int getFreeMinerals(){
         return GameAPI.getGame().self().minerals() - reservedMinerals;
     }
+	
+	@Override
+	public final void giveSupply(CommandAgent receiver, Material material, int amount){
+		if(material == Material.GAS && getOwnedGas() < amount){
+			Log.log(this, Level.SEVERE, "Don't have enough gas - requested amount: {0}, current amount: {1}", amount, 
+					getOwnedGas());
+			return;
+		}
+		else if(getOwnedMinerals() < amount){
+			Log.log(this, Level.SEVERE, "Don't have enough minerals - requested amount: {0}, current amount: {1}",
+					amount, getOwnedMinerals());
+			return;
+		}
+		receiver.receiveSupply(new Supply(this, material, amount));
+	}
+    
+	@Override
+    public int getOwnedGas(){
+        return getFreeGas();
+    } 
+    
+	@Override
+    public int getOwnedMinerals(){
+        return getFreeMinerals();
+    }
+
+//	@Override
+//	protected void routine() {
+//		gas = 
+//	}
+	
+	
 }

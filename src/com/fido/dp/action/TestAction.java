@@ -1,8 +1,8 @@
 package com.fido.dp.action;
 
 import com.fido.dp.Log;
-import com.fido.dp.agent.Agent;
-import com.fido.dp.agent.CommandAgent;
+import com.fido.dp.base.Agent;
+import com.fido.dp.base.CommandAgent;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.agent.SCV;
 import java.util.ArrayList;

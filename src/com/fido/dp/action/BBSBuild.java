@@ -7,17 +7,20 @@ package com.fido.dp.action;
 
 import bwapi.UnitType;
 import com.fido.dp.BuildPlan;
-import com.fido.dp.agent.BuildingConstructionCommand;
+import com.fido.dp.Log;
+import com.fido.dp.agent.BuildCommand;
+import com.fido.dp.agent.SCV;
+import java.util.logging.Level;
 
 /**
  *
  * @author david_000
  */
-public class BBCBuild extends CommandAction {
+public class BBSBuild extends CommandAction {
     
     
 
-    public BBCBuild(BuildingConstructionCommand agent) {
+    public BBSBuild(BuildCommand agent) {
         super(agent);
     }
 
@@ -30,20 +33,30 @@ public class BBCBuild extends CommandAction {
     }
 
     @Override
-    public BuildingConstructionCommand getAgent() {
-        return (BuildingConstructionCommand) agent; //To change body of generated methods, choose Tools | Templates.
+    public BuildCommand getAgent() {
+        return (BuildCommand) agent; //To change body of generated methods, choose Tools | Templates.
     }
 
 
 
     @Override
     public void performAction() {
+		for (SCV scv : getAgent().<SCV>getSubordinateAgents(SCV.class)) {
+			if(!scv.IsAssigned()){
+				getAgent().addWorker(scv);
+				scv.setAssigned(true);
+			}
+		}
+		
         switch(getAgent().automaticBuild()){
             case MISSING_GAS:
+				Log.log(this, Level.FINE, "{0}: Missing gas!", this.getClass());
                 break;
             case MISSING_MINERALS:
+				Log.log(this, Level.FINE, "{0}: Missing minerals!", this.getClass());
                 break;
             case MISSING_WORKERS:
+				Log.log(this, Level.FINE, "{0}: Missing workers!", this.getClass());
                 break;
         }
     }
@@ -56,7 +69,7 @@ public class BBCBuild extends CommandAction {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final BBSStrategy other = (BBSStrategy) obj;
+        final BBSBuild other = (BBSBuild) obj;
         return true;
     }
     

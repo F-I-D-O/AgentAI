@@ -5,13 +5,14 @@
  */
 package com.fido.dp.action;
 
+import bwapi.Position;
 import bwta.BaseLocation;
 import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Scout;
-import com.fido.dp.agent.Agent;
-import com.fido.dp.agent.CommandAgent;
-import com.fido.dp.agent.LeafAgent;
+import com.fido.dp.base.Agent;
+import com.fido.dp.base.CommandAgent;
+import com.fido.dp.command.ExploreBaseLocationCommand;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -53,7 +54,7 @@ public class StrategicExplorationAction extends CommandAction {
                 }
             }
             if(target != null){
-                scout.commandExploreBaseLocation(target.getPosition());
+				new ExploreBaseLocationCommand(scout, this.getAgent(), target.getPosition()).issueCommand();
             }
         }
     }

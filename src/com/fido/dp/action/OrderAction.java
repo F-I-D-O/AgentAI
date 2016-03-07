@@ -1,6 +1,6 @@
 package com.fido.dp.action;
 
-import com.fido.dp.agent.Agent;
+import com.fido.dp.base.Agent;
 
 public abstract class OrderAction extends Action {
 

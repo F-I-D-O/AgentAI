@@ -6,7 +6,7 @@
 package com.fido.dp.action;
 
 import com.fido.dp.Log;
-import com.fido.dp.agent.Agent;
+import com.fido.dp.base.Agent;
 import java.util.logging.Level;
 
 /**
@@ -44,6 +44,7 @@ public abstract class Action {
         else{
             if(!isInitialized){
                 init();
+				isInitialized = true;
             }
             performAction();
         }

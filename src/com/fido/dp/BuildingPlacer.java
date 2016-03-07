@@ -5,14 +5,12 @@
  */
 package com.fido.dp;
 
-import bwapi.Position;
+import bwapi.TilePosition;
 
 /**
  *
- * @author david_000
+ * @author F.I.D.O.
  */
-public interface Scout {
-    
-//    public void commandExploreBaseLocation(Position targetBase);
-    
+public interface BuildingPlacer {
+	public TilePosition getBuildingLocation(final Building building);
 }

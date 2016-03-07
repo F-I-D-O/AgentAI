@@ -5,10 +5,11 @@
  */
 package com.fido.dp.action;
 
-import com.fido.dp.Material;
-import com.fido.dp.agent.Agent;
-import com.fido.dp.agent.CommandAgent;
+import com.fido.dp.base.CommandAgent;
 import com.fido.dp.agent.SCV;
+import com.fido.dp.command.HarvestMineralsCommand;
+import com.fido.dp.goal.HarvestMineralsGoal;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Objects;
  */
 public class ManageHarvest extends CommandAction{
 	
-	private double mineralShare;
+	private final double mineralShare;
 
     public ManageHarvest(CommandAgent agent, double mineralShare) {
         super(agent);
@@ -26,12 +27,11 @@ public class ManageHarvest extends CommandAction{
 
     @Override
     public void performAction() {
-        for (Agent subordinateAgent : getAgent().getSubordinateAgents()) {
-            if(subordinateAgent instanceof SCV){
-                if(!(subordinateAgent.getCommandedAction() instanceof HarvestMineralsAction)){
-                    ((SCV) subordinateAgent).commandHarvest(Material.MINERALS);
-                }
-            }
+		List<SCV> scvs = getAgent().getSubordinateAgents(SCV.class);
+        for (SCV scv : scvs) {
+			if(!(scv.getGoal() instanceof HarvestMineralsGoal)){
+				new HarvestMineralsCommand(scv, this.getAgent()).issueCommand();
+			}
         }
     }
     

@@ -6,13 +6,16 @@
 package com.fido.dp;
 
 import bwapi.Position;
+import bwapi.TilePosition;
+import java.util.ArrayList;
 
 /**
  *
- * @author david_000
+ * @author F.I.D.O.
  */
-public interface Scout {
-    
-//    public void commandExploreBaseLocation(Position targetBase);
-    
+public interface MapTools {
+	
+	public ArrayList<TilePosition> getClosestTilesTo(Position position);
+	
+	public TilePosition getNextExpansion();
 }

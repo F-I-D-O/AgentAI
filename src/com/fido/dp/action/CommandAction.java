@@ -5,7 +5,11 @@
  */
 package com.fido.dp.action;
 
-import com.fido.dp.agent.CommandAgent;
+import com.fido.dp.Log;
+import com.fido.dp.base.CommandAgent;
+import com.fido.dp.request.Request;
+import java.util.Queue;
+import java.util.logging.Level;
 
 /**
  *
@@ -23,7 +27,17 @@ public abstract class CommandAction extends Action{
         return (CommandAgent) agent;
     }
     
-    
+    protected void handleRequests(){
+		Queue<Request> requests = getAgent().getRequests();
+		Request request;
+		while((request = requests.poll()) != null){
+			handleRequest(request);
+		}
+	}
+
+	private void handleRequest(Request request) {
+		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());
+	}
     
 
     

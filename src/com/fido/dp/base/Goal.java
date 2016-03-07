@@ -3,16 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp;
-
-import bwapi.Position;
+package com.fido.dp.base;
 
 /**
  *
- * @author david_000
+ * @author F.I.D.O.
  */
-public interface Scout {
-    
-//    public void commandExploreBaseLocation(Position targetBase);
-    
+public abstract class Goal {
+	protected Agent agent;
+
+	public Goal(Agent agent) {
+		this.agent = agent;
+	}
+	
+	
 }
