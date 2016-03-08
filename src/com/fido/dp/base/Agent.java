@@ -60,7 +60,7 @@ public abstract class Agent {
 
     public final void run() {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
-		acceptOrders();
+		acceptCommand();
 		routine();
         if (chosenAction == null) {
             chosenAction = chooseAction();
@@ -100,11 +100,11 @@ public abstract class Agent {
 		this.goal = goal;
 	}
 	
-	private final void acceptOrders() {
-		Command order;
+	private final void acceptCommand() {
+		Command command;
 		while(!commandQueue.isEmpty()){
-			order = commandQueue.poll();
-			order.execute();
+			command = commandQueue.poll();
+			command.execute();
 		}
 	}
 }

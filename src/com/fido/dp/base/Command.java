@@ -26,7 +26,7 @@ public abstract class Command {
 	
 	protected abstract void execute();
 	
-	public void issueCommand(){
+	public final void issueCommand(){
 		target.addToCommandQueue(this);
 	}
 	
