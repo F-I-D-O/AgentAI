@@ -15,26 +15,21 @@ import java.util.logging.Level;
 /**
  *
  * @author david_000
+ * @param <T>
  */
-public class BBSBuild extends CommandAction {
+public class BBSBuild<T extends BuildCommand> extends CommandAction<T> {
     
     
 
-    public BBSBuild(BuildCommand agent) {
+    public BBSBuild(T agent) {
         super(agent);
     }
 
     @Override
     protected void init() {
-        super.init(); 
-        getAgent().addBuildPlan(new BuildPlan(10, UnitType.Terran_Barracks));
-        getAgent().addBuildPlan(new BuildPlan(10, UnitType.Terran_Barracks));
-        getAgent().addBuildPlan(new BuildPlan(10, UnitType.Terran_Supply_Depot));
-    }
-
-    @Override
-    public BuildCommand getAgent() {
-        return (BuildCommand) agent; //To change body of generated methods, choose Tools | Templates.
+        agent.addBuildPlan(new BuildPlan(10, UnitType.Terran_Barracks));
+        agent.addBuildPlan(new BuildPlan(10, UnitType.Terran_Barracks));
+        agent.addBuildPlan(new BuildPlan(10, UnitType.Terran_Supply_Depot));
     }
 
 

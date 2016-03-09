@@ -45,7 +45,12 @@ public class TestAction extends Action {
 
     @Override
     public boolean equals(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
+
+	@Override
+	protected void init() {
+		
+	}
 
 }

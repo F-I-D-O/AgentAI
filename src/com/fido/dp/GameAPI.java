@@ -24,6 +24,10 @@ public class GameAPI extends DefaultBWListener {
 	
 	private static BuildingPlacer buildingPlacer;
 	
+	private static Mirror mirror;
+
+    private static Game game;
+	
 	
 	
 	public static Commander getCommander(){
@@ -50,9 +54,7 @@ public class GameAPI extends DefaultBWListener {
 	
 	
 
-    private static Mirror mirror;
-
-    private static Game game;
+    
 	
 	private Commander commander;
 	
@@ -132,6 +134,9 @@ public class GameAPI extends DefaultBWListener {
 			rootLog.setLevel(Level.FINEST);
 			rootLog.getHandlers()[0].setLevel(Level.FINEST);
 			rootLog.getHandlers()[0].setFormatter(new LogFormater());
+			
+			getGame().setLocalSpeed(10);
+			getGame().setFrameSkip(0);
 
 			commander = new Commander();
 
@@ -140,7 +145,6 @@ public class GameAPI extends DefaultBWListener {
 			buildingPlacer = new UAlbertaBuildingPlacer();
 
 			agents.add(commander);
-			mirror.getGame().setLocalSpeed(42);
 			addAgent(new ExplorationCommand());
 			addAgent(new ResourceCommand());
 			addAgent(new BuildCommand());

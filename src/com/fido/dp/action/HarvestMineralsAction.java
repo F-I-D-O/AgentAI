@@ -40,4 +40,9 @@ public class HarvestMineralsAction extends UnitAction {
         return true;
     }
 
+	@Override
+	protected void init() {
+		
+	}
+
 }

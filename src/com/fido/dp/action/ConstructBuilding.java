@@ -7,29 +7,34 @@ package com.fido.dp.action;
 
 import bwapi.TilePosition;
 import bwapi.UnitType;
-import com.fido.dp.base.Agent;
+import com.fido.dp.agent.SCV;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class ConstructBuilding extends LeafAction {
+public class ConstructBuilding extends LeafAction<SCV>{
 	
 	private final UnitType buildingType;
 	
 	private final TilePosition placeToBuildOn;
 
-	public ConstructBuilding(Agent agent, UnitType buildingType, TilePosition placeToBuildOn) {
+	public ConstructBuilding(SCV agent, UnitType buildingType, TilePosition placeToBuildOn) {
 		super(agent);
 		this.buildingType = buildingType;
 		this.placeToBuildOn = placeToBuildOn;
 	}
 
 	@Override
-	public void performAction() {
-		if(getUnit().isIdle()){
-			getUnit().build(buildingType, placeToBuildOn);
-		}
+	protected void init() {
+		agent.build(buildingType, placeToBuildOn);
 	}
+
+	@Override
+	protected void performAction() {
+		
+	}
+	
+	
 	
 }

@@ -18,9 +18,9 @@ import java.util.logging.Level;
  */
 public class Move extends UnitAction {
     
-    private Position target;
+    private final Position target;
     
-    private double maxDistanceFromTarget;
+    private final double maxDistanceFromTarget;
     
     private boolean onMove;
 
@@ -82,6 +82,11 @@ public class Move extends UnitAction {
         }
         return true;
     }
+
+	@Override
+	protected void init() {
+		
+	}
     
     
     

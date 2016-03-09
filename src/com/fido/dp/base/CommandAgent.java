@@ -67,16 +67,6 @@ public abstract class CommandAgent extends Agent {
     }
 
     public final <T> List<T> getSubordinateAgents(Class agentClass) {
-//        ArrayList<T> agents = new ArrayList();
-//        for (Agent subordinateAgent : subordinateAgents) {
-//            if (agentClass.isInstance(subordinateAgent)) {
-//                agents.add((T) subordinateAgent);
-//            }
-//        }
-//        if (agents.isEmpty()) {
-//            Log.log(this, Level.WARNING, "{0}: No subordinate agents of type: {1}", this.getClass(), agentClass);
-//        }
-//        return agents;
 		return getSubordinateAgents(agentClass, Integer.MAX_VALUE);
     }
 	

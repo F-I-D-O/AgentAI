@@ -12,29 +12,32 @@ import java.util.logging.Level;
 /**
  *
  * @author F.I.D.O.
+ * @param <T>
  */
-public abstract class Action {
+public abstract class Action <T extends Agent> {
     
     private boolean isInitialized;
 	
-	protected Agent agent;
+	protected T agent;
     
     protected Action parrentAction;
     
     protected Action childAction;
     
 
-	public Agent getAgent() {
-		return agent;
+	public final T getAgent() {
+		return (T) agent;
 	}
 
-	public Action(Agent agent) {
+	public Action(T agent) {
 		this.agent = agent;
 	}
 	
 	
 
-	public abstract void performAction();
+	protected abstract void performAction();
+	
+	protected abstract void init();
     
     public final void run(){
         Log.log(this, Level.FINE, "{0}: run() START", this.getClass());
@@ -76,9 +79,7 @@ public abstract class Action {
         this.childAction.run();
     }
 
-    protected void init() {
-        Log.log(this, Level.FINE, "{0}: init()", this.getClass());
-    }
+    
 	
 	
 }

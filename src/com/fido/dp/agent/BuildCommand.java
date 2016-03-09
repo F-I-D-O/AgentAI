@@ -7,21 +7,20 @@ package com.fido.dp.agent;
 
 import com.fido.dp.base.CommandAgent;
 import bwapi.TilePosition;
-import bwapi.UnitType;
 import com.fido.dp.action.BBSBuild;
 import com.fido.dp.BuildPlan;
 import com.fido.dp.Building;
 import com.fido.dp.BuildingPlacer;
 import com.fido.dp.GameAPI;
+import com.fido.dp.Log;
 import com.fido.dp.UAlbertaBuildingPlacer;
 import com.fido.dp.action.Action;
-import com.fido.dp.action.ExploreBaseLocation;
 import com.fido.dp.command.ConstructBuildingCommand;
 import com.fido.dp.goal.BBSBuildGoal;
-import com.fido.dp.goal.ExploreBaseLocationGoal;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Queue;
+import java.util.logging.Level;
 
 /**
  *
@@ -89,17 +88,17 @@ public class BuildCommand extends CommandAgent{
         
         buildPlans.sort(null);
         for (BuildPlan buildPlan : buildPlans) {
-            if(freeWorkers.isEmpty()){
-				numberOfMissingWorkers++;
-                return BuildCommandState.MISSING_WORKERS;
-            }
-            if(buildPlan.getGasPrice() > getOwnedGas()){
+			if(buildPlan.getGasPrice() > getOwnedGas()){
                 return BuildCommandState.MISSING_GAS;
             }
             if(buildPlan.getMineralsPrice() > getOwnedMinerals()){
                 return BuildCommandState.MISSING_MINERALS;
             }
-            
+            if(freeWorkers.isEmpty()){
+				numberOfMissingWorkers++;
+                return BuildCommandState.MISSING_WORKERS;
+            }
+
             commandrBuildingConstruction(buildPlan);
         }
         
@@ -107,6 +106,8 @@ public class BuildCommand extends CommandAgent{
     }
 
     public void commandrBuildingConstruction(BuildPlan buildPlan){        
+		Log.log(this, Level.INFO, "{0}: Building construction commanded: {1}", this.getClass(), 
+				buildPlan.getBuildingType().getClass());
 		SCV worker = freeWorkers.poll();
 		TilePosition buildingPlace = findPositionForBuild(buildPlan, worker);
 		new ConstructBuildingCommand(worker, this, buildPlan.getBuildingType(), buildingPlace).issueCommand();

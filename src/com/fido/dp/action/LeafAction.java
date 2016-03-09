@@ -6,24 +6,18 @@
 package com.fido.dp.action;
 
 import bwapi.Unit;
-import com.fido.dp.base.Agent;
 import com.fido.dp.base.LeafAgent;
 
 /**
  *
  * @author F.I.D.O.
+ * @param <T>
  */
-public abstract class LeafAction extends Action{
-	
-	public LeafAction(Agent agent) {
+public abstract class LeafAction<T extends LeafAgent> extends Action<T>{
+
+	public LeafAction(T agent) {
 		super(agent);
 	}
-
-	@Override
-	public LeafAgent getAgent() {
-		return (LeafAgent) agent;
-	}
-	
 	
 	
 	public Unit getUnit() {

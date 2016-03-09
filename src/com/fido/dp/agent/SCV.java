@@ -1,7 +1,11 @@
 package com.fido.dp.agent;
 
+import bwapi.TilePosition;
 import com.fido.dp.base.LeafAgent;
 import bwapi.Unit;
+import bwapi.UnitType;
+import com.fido.dp.GameAPI;
+import com.fido.dp.Log;
 import com.fido.dp.Scout;
 import com.fido.dp.action.Action;
 import com.fido.dp.action.HarvestMineralsAction;
@@ -10,23 +14,43 @@ import com.fido.dp.action.ExploreBaseLocation;
 import com.fido.dp.goal.ConstructBuildingGoal;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.goal.HarvestMineralsGoal;
+import java.util.logging.Level;
 
 public class SCV extends LeafAgent implements Scout {
+	
+	private boolean constructingBuilding;
+	
+	private UnitType constructedBuildingType;
 
-//    @Override
-//    public void commandExploreBaseLocation(Position targetBase) {
-//        setCommandedAction(new ExploreBaseLocation(this, targetBase));
-//    }
+	
+	
+	public boolean isConstructingBuilding() {
+		return constructingBuilding;
+	}
+
+	
+	
+
 
     public SCV(Unit unit) {
         super(unit);
     }
 
-//    public void commandHarvest(Material material) {
-//        if (material == Material.MINERALS) {
-//            setCommandedAction(new HarvestMineralsAction(this));
-//        }
-//    }
+	public void build(UnitType buildingType, TilePosition placeToBuildOn){
+		if(placeToBuildOn == null){
+			Log.log(this, Level.SEVERE, "{0}: place to build on is null!", this.getClass());
+			return;
+		}
+		
+		if(GameAPI.getGame().canBuildHere(placeToBuildOn, buildingType)){
+			unit.build(buildingType, placeToBuildOn);
+			constructingBuilding = true;
+			constructedBuildingType = buildingType;
+		}
+		else{
+			Log.log(this, Level.SEVERE, "{0}: cannot build here! {1}", this.getClass(), placeToBuildOn);
+		}
+	}
 
     @Override
     protected Action chooseAction() {

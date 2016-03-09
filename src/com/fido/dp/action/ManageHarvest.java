@@ -5,7 +5,7 @@
  */
 package com.fido.dp.action;
 
-import com.fido.dp.base.CommandAgent;
+import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
 import com.fido.dp.command.HarvestMineralsCommand;
 import com.fido.dp.goal.HarvestMineralsGoal;
@@ -15,12 +15,13 @@ import java.util.Objects;
 /**
  *
  * @author david_000
+ * @param <T>
  */
-public class ManageHarvest extends CommandAction{
+public class ManageHarvest<T extends ResourceCommand> extends CommandAction<T>{
 	
 	private final double mineralShare;
 
-    public ManageHarvest(CommandAgent agent, double mineralShare) {
+    public ManageHarvest(T agent, double mineralShare) {
         super(agent);
         this.mineralShare = mineralShare;
     }
@@ -49,5 +50,10 @@ public class ManageHarvest extends CommandAction{
         }
         return true;
     }
+
+	@Override
+	protected void init() {
+		
+	}
     
 }

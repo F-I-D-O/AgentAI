@@ -5,11 +5,11 @@
  */
 package com.fido.dp.action;
 
-import bwapi.Position;
 import bwta.BaseLocation;
 import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Scout;
+import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.command.ExploreBaseLocationCommand;
@@ -19,12 +19,13 @@ import java.util.logging.Level;
 /**
  *
  * @author david_000
+ * @param <T>
  */
-public class StrategicExplorationAction extends CommandAction {
+public class StrategicExplorationAction<T extends ExplorationCommand> extends CommandAction<T> {
     
     private final ArrayList<Scout> scouts;
 
-    public StrategicExplorationAction(CommandAgent agent) {
+    public StrategicExplorationAction(T agent) {
         super(agent);
         scouts = new ArrayList<>();
        
@@ -70,6 +71,11 @@ public class StrategicExplorationAction extends CommandAction {
         final StrategicExplorationAction other = (StrategicExplorationAction) obj;
         return true;
     }
+
+	@Override
+	protected void init() {
+		
+	}
     
     
     

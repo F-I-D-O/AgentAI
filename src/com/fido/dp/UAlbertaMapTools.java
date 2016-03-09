@@ -13,6 +13,7 @@ import bwta.BaseLocation;
 import bwta.BWTA;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -24,7 +25,7 @@ public class UAlbertaMapTools implements MapTools{
 	/**
 	 * a cache of already computed distance maps
 	 */
-	private HashMap<Position,DistanceMap> allMaps;
+	private final Map<Position,DistanceMap> allMaps;
 	
 	/**
 	 * the map stored at TilePosition resolution, values are 0/1 for walkable or not walkable
@@ -34,7 +35,7 @@ public class UAlbertaMapTools implements MapTools{
 	/**
 	 * the fringe vector which is used as a sort of 'open list'
 	 */
-	private final ArrayList<Integer> fringe;
+	private final int[] fringe;
 	
 	private final int rows;
 	
@@ -43,10 +44,11 @@ public class UAlbertaMapTools implements MapTools{
 	
 	
 	public UAlbertaMapTools() {
+		allMaps = new HashMap<>();
 		rows = GameAPI.getGame().mapHeight();
 		cols = GameAPI.getGame().mapWidth();
 		map = new boolean[rows * cols];
-		fringe = new ArrayList<>(rows * cols);
+		fringe = new int[rows * cols];
 
 		setBWAPIMapData();
 	}
@@ -216,8 +218,8 @@ public class UAlbertaMapTools implements MapTools{
 		// set the fringe variables accordingly
 		int fringeSize = 1;
 		int fringeIndex = 0;
-		fringe.set(0, getIndex(startRow, startColumn));
-		distanceMap.addSorted(getTilePosition(fringe.get(0)));
+		fringe[0] = getIndex(startRow, startColumn);
+		distanceMap.addSorted(getTilePosition(fringe[0]));
 
 		// temporary variables used in search loop
 		int currentIndex;
@@ -231,7 +233,7 @@ public class UAlbertaMapTools implements MapTools{
 		while (fringeIndex < fringeSize)
 		{
 			// grab the current index to expand from the fringe
-			currentIndex = fringe.get(fringeIndex++);
+			currentIndex = fringe[fringeIndex++];
 			newDistance = distanceMap.getDistance(currentIndex) + 1;
 
 			// search up
@@ -244,7 +246,7 @@ public class UAlbertaMapTools implements MapTools{
 				distanceMap.addSorted(getTilePosition(nextIndex));
 
 				// put it in the fringe
-				fringe.set(fringeSize++, nextIndex);
+				fringe[fringeSize++] = nextIndex;
 			}
 
 			// search down
@@ -257,7 +259,7 @@ public class UAlbertaMapTools implements MapTools{
 				distanceMap.addSorted(getTilePosition(nextIndex));
 
 				// put it in the fringe
-				fringe.set(fringeSize++, nextIndex);
+				fringe[fringeSize++] = nextIndex;
 			}
 
 			// search left
@@ -270,7 +272,7 @@ public class UAlbertaMapTools implements MapTools{
 				distanceMap.addSorted(getTilePosition(nextIndex));
 
 				// put it in the fringe
-				fringe.set(fringeSize++, nextIndex);
+				fringe[fringeSize++] = nextIndex;
 			}
 
 			// search right
@@ -283,7 +285,7 @@ public class UAlbertaMapTools implements MapTools{
 				distanceMap.addSorted(getTilePosition(nextIndex));
 
 				// put it in the fringe
-				fringe.set(fringeSize++, nextIndex);
+				fringe[fringeSize++] = nextIndex;
 			}
 		}
 	}

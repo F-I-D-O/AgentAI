@@ -23,7 +23,7 @@ public class DistanceMap {
 	
 	private int startColumn;
 	
-	private final ArrayList<Integer> distances;
+	private final int[] distances;
 	
 	private final ArrayList<Character> moveTo;
 	
@@ -41,12 +41,13 @@ public class DistanceMap {
 	
 	
 	public DistanceMap() {
-		distances = new ArrayList<>(GameAPI.getGame().mapWidth() * GameAPI.getGame().mapHeight());
+		distances = new int[GameAPI.getGame().mapWidth() * GameAPI.getGame().mapHeight()];
 		moveTo = new ArrayList<>(GameAPI.getGame().mapWidth() * GameAPI.getGame().mapHeight());
 		rows = GameAPI.getGame().mapHeight();
 		cols = GameAPI.getGame().mapWidth();
 		startRow = -1;
 		startColumn = -1; 
+		sorted = new ArrayList<>();
 	}
 	
 	
@@ -63,15 +64,15 @@ public class DistanceMap {
 	}
 	
 	public int getDistanceTo(Position position){
-		return distances.get(getIndex(position.getY() / 32, position.getX() / 32));
+		return distances[getIndex(position.getY() / 32, position.getX() / 32)];
 	}
 	
 	public int getDistance(int index){
-		return distances.get(index);
+		return distances[index];
 	}
 	
 	public void setDistance(int index, int distance){
-		distances.set(index, distance);
+		distances[index] = distance;
 	}
 	
 	public void setStartPosition(int startRow, int startColumn){

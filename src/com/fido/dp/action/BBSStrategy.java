@@ -8,6 +8,7 @@ package com.fido.dp.action;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.agent.BuildCommand;
+import com.fido.dp.agent.Commander;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.agent.ResourceCommand;
@@ -21,8 +22,9 @@ import java.util.logging.Level;
 /**
  *
  * @author david_000
+ * @param <T>
  */
-public class BBSStrategy extends CommandAction{
+public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 	
 	private static final int MINERALS_FOR_BUILDING_CONSTRUCTION = 400;
 	
@@ -39,12 +41,12 @@ public class BBSStrategy extends CommandAction{
 	
 	
 
-    public BBSStrategy(CommandAgent agent) {
+    public BBSStrategy(T agent) {
         super(agent);
         
-        resourceCommand = (ResourceCommand) getAgent().getSubordinateAgent(ResourceCommand.class);
-        explorationCommand = (ExplorationCommand) getAgent().getSubordinateAgent(ExplorationCommand.class);
-        buildCommand = (BuildCommand) getAgent().getSubordinateAgent(BuildCommand.class);
+        resourceCommand = agent.getSubordinateAgent(ResourceCommand.class);
+        explorationCommand = agent.getSubordinateAgent(ExplorationCommand.class);
+        buildCommand = agent.getSubordinateAgent(BuildCommand.class);
         
         targetNumberOfScouts = 1;
 		unitsDetachedFromBuildCommand = true;
@@ -52,14 +54,14 @@ public class BBSStrategy extends CommandAction{
 
     @Override
     public void performAction() {
-		List<SCV> scvs = getAgent().getSubordinateAgents(SCV.class);
+		List<SCV> scvs = agent.getSubordinateAgents(SCV.class);
 		if(buildCommand.getMissingCrystalForFirsItem() == 0){
 			Log.log(this, Level.FINER, "{0}: Missing crystal - NO", this.getClass());
 			if(buildCommand.needWorkes()){
 				Log.log(this, Level.FINER, "{0}: Need workers - YES", this.getClass());
 				if(scvs.isEmpty()){
 					Log.log(this, Level.FINER, "{0}: Have workers - NO", this.getClass());
-					new DeatchBack(resourceCommand, this.getAgent(), SCV.class, 1).issueCommand();
+					new DeatchBack(resourceCommand, agent, SCV.class, 1).issueCommand();
 				}
 				else {
 					Log.log(this, Level.FINER, "{0}: Have workers - YES", this.getClass());
@@ -81,7 +83,7 @@ public class BBSStrategy extends CommandAction{
 			else{
 				Log.log(this, Level.FINER, "{0}: Have crystal to give - NO", this.getClass());
 				Log.log(this, Level.FINER, "{0}: Missing amount of crystal: {1}", this.getClass(), 
-						buildCommand.getMissingCrystalForFirsItem());
+						buildCommand.getMissingCrystalForFirsItem() - getAgent().getOwnedMinerals());
 				if(unitsDetachedFromBuildCommand){
 					getAgent().detachSubordinateAgents(scvs, buildCommand);
 				}

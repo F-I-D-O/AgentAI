@@ -60,10 +60,13 @@ public abstract class Agent {
 
     public final void run() {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
-		acceptCommand();
+		acceptCommands();
 		routine();
-        if (chosenAction == null) {
-            chosenAction = chooseAction();
+		Action newAction = chooseAction();
+		
+		// if chosen action changed, save it to chosenAction property
+        if (chosenAction == null || !chosenAction.equals(newAction)) {
+            chosenAction = newAction;
         }
         if (chosenAction != null) {
             Log.log(this, Level.FINE, "{0}: Chosen action: {1}", this.getClass(), chosenAction.getClass());
@@ -98,13 +101,15 @@ public abstract class Agent {
 	
 	final void setGoal(Goal goal){
 		this.goal = goal;
+		Log.log(this, Level.INFO, "{0}: new goal set: {1}", this.getClass(), goal.getClass());
 	}
 	
-	private final void acceptCommand() {
+	private final void acceptCommands() {
 		Command command;
 		while(!commandQueue.isEmpty()){
 			command = commandQueue.poll();
 			command.execute();
+			Log.log(this, Level.INFO, "{0}: command accepted: {1}", this.getClass(), command.getClass());
 		}
 	}
 }

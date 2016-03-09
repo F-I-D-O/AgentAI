@@ -14,17 +14,12 @@ import java.util.logging.Level;
 /**
  *
  * @author david_000
+ * @param <T>
  */
-public abstract class CommandAction extends Action{
+public abstract class CommandAction<T extends CommandAgent> extends Action<T>{
 
-    public CommandAction(CommandAgent agent) {
+    public CommandAction(T agent) {
         super(agent);
-    }
-
-
-    @Override
-    public CommandAgent getAgent() {
-        return (CommandAgent) agent;
     }
     
     protected void handleRequests(){
