@@ -13,6 +13,7 @@ import com.fido.dp.Building;
 import com.fido.dp.BuildingPlacer;
 import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
+import com.fido.dp.Material;
 import com.fido.dp.UAlbertaBuildingPlacer;
 import com.fido.dp.action.Action;
 import com.fido.dp.command.ConstructBuildingCommand;
@@ -110,6 +111,7 @@ public class BuildCommand extends CommandAgent{
 				buildPlan.getBuildingType().getClass());
 		SCV worker = freeWorkers.poll();
 		TilePosition buildingPlace = findPositionForBuild(buildPlan, worker);
+		giveSupply(worker, Material.MINERALS, buildPlan.getMineralsPrice());
 		new ConstructBuildingCommand(worker, this, buildPlan.getBuildingType(), buildingPlace).issueCommand();
     }
     

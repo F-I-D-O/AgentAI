@@ -84,7 +84,9 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 				Log.log(this, Level.FINER, "{0}: Missing amount of crystal: {1}", this.getClass(), 
 						buildCommand.getMissingCrystalForFirsItem() - getAgent().getOwnedMinerals());
 				if(unitsDetachedFromBuildCommand){
-					getAgent().detachSubordinateAgents(scvs, buildCommand);
+					if(!scvs.isEmpty()){
+						getAgent().detachSubordinateAgents(scvs, resourceCommand);
+					}
 				}
 				else{
 					new DeatchBack(buildCommand, this.getAgent(), SCV.class).issueCommand();
@@ -126,6 +128,15 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 
 	@Override
 	protected void init() {
+		List<SCV> scvs = agent.getSubordinateAgents(SCV.class);
+		if(!scvs.isEmpty()){           
+            for (SCV scv : scvs) {
+				
+                if(explorationCommand.getNumberOfScouts() < targetNumberOfScouts){
+                    getAgent().detachSubordinateAgent(scv, explorationCommand);
+                }
+            }
+        }
 		new HarvestCommand(resourceCommand, this.getAgent(), 1.0).issueCommand();
 		new BBSBuildCommand(buildCommand, this.getAgent()).issueCommand();
 	}

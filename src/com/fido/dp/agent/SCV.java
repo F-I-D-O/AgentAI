@@ -6,6 +6,7 @@ import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
+import com.fido.dp.Material;
 import com.fido.dp.Scout;
 import com.fido.dp.action.Action;
 import com.fido.dp.action.HarvestMineralsAction;
@@ -18,14 +19,15 @@ import java.util.logging.Level;
 
 public class SCV extends LeafAgent implements Scout {
 	
-	private boolean constructingBuilding;
+	private boolean constructionProcessInProgress;
 	
 	private UnitType constructedBuildingType;
+	private boolean constructionInProgress;
 
 	
 	
 	public boolean isConstructingBuilding() {
-		return constructingBuilding;
+		return constructionProcessInProgress;
 	}
 
 	
@@ -44,7 +46,7 @@ public class SCV extends LeafAgent implements Scout {
 		
 		if(GameAPI.getGame().canBuildHere(placeToBuildOn, buildingType)){
 			unit.build(buildingType, placeToBuildOn);
-			constructingBuilding = true;
+			constructionProcessInProgress = true;
 			constructedBuildingType = buildingType;
 		}
 		else{
@@ -67,8 +69,35 @@ public class SCV extends LeafAgent implements Scout {
 		}
 		return null;
     }
+	
+	private void onConstructionStarted(){
+		Log.log(this, Level.INFO, "{0}: onConstructionStarted", this.getClass());
+		spendSupply(Material.GAS, constructedBuildingType.gasPrice());
+		spendSupply(Material.MINERALS, constructedBuildingType.mineralPrice());
+	}
 
 //    public void commandConstuctBuilding(UnitType buildingType, TilePosition placeToBuildOn) {
 //		setCommandedAction(new ConstructBuilding(this, buildingType, placeToBuildOn));
 //    }
+
+	@Override
+	protected void routine() {
+		if(!constructionInProgress){
+			if(unit.isConstructing()){
+				onConstructionStarted();
+				constructionInProgress = true;
+			}
+		}
+		else{
+			if(!unit.isConstructing()){
+				onConstructionFinished();
+				constructionInProgress = false;
+				constructionProcessInProgress = false;
+			}
+		}
+	}
+
+	private void onConstructionFinished() {
+		
+	}
 }

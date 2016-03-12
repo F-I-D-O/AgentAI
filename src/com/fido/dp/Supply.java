@@ -14,9 +14,9 @@ import java.util.logging.Level;
  */
 public class Supply {
     
-    private Commander commander;
+    private final Commander commander;
     
-    private Material material;
+    private final Material material;
     
     private int amount;
     

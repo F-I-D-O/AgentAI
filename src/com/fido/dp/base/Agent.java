@@ -1,6 +1,9 @@
 package com.fido.dp.base;
 
+import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
+import com.fido.dp.Material;
+import com.fido.dp.Supply;
 import com.fido.dp.action.Action;
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -17,6 +20,10 @@ public abstract class Agent {
 	protected boolean assigned;
 	
 	private final Queue<Command> commandQueue;
+	
+	private final Supply minerals;
+    
+    private final Supply gas;
 	
 	
 
@@ -50,6 +57,8 @@ public abstract class Agent {
 	public Agent() {
 		assigned = false;
 		commandQueue = new ArrayDeque<>();
+		minerals = new Supply(GameAPI.getCommander(), Material.MINERALS, 0);
+		gas = new Supply(GameAPI.getCommander(), Material.GAS, 0);
 	}
 	
 	
@@ -112,4 +121,43 @@ public abstract class Agent {
 			Log.log(this, Level.INFO, "{0}: command accepted: {1}", this.getClass(), command.getClass());
 		}
 	}
+	
+	public final void receiveSupply(Supply supply){
+        if(supply.getMaterial() == Material.GAS){
+            gas.merge(supply);
+        }
+        else{
+            minerals.merge(supply);
+        }
+    }
+	
+	public int getOwnedGas(){
+        return gas.getAmount();
+    } 
+    
+    public int getOwnedMinerals(){
+        return minerals.getAmount();
+    }
+	
+	public void giveSupply(Agent receiver, Material material, int amount){
+		if(material == Material.GAS){
+			receiver.receiveSupply(gas.split(amount));
+		}
+		else{
+			receiver.receiveSupply(minerals.split(amount));
+		}
+	}
+	
+	protected final void spendSupply(Material material, int amount){
+		Supply supply;
+		if(material == Material.GAS){
+			supply = gas.split(amount);
+		}
+		else{
+			supply = minerals.split(amount);
+		}
+		supply.spend(amount);
+	}
+    
+ 
 }

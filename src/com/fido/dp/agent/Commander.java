@@ -7,6 +7,7 @@ import com.fido.dp.Supply;
 import com.fido.dp.action.Action;
 import com.fido.dp.action.BBSStrategy;
 import com.fido.dp.Material;
+import com.fido.dp.base.Agent;
 import java.util.logging.Level;
 
 public class Commander extends CommandAgent {
@@ -34,8 +35,17 @@ public class Commander extends CommandAgent {
     protected Action chooseAction() {
         return new BBSStrategy(this);
     }
+	
+	private final void reserveSupply(Supply supply){
+		if(supply.getMaterial() == Material.GAS){
+            reservedGas += supply.getAmount();
+        }
+        else{
+            reservedMinerals += supply.getAmount();
+        }
+	}
 
-    public void removeReservedSupply(Supply supply) {
+    public final void removeReservedSupply(Supply supply) {
         if(supply.getMaterial() == Material.GAS){
             reservedGas -= supply.getAmount();
         }
@@ -53,7 +63,7 @@ public class Commander extends CommandAgent {
     }
 	
 	@Override
-	public final void giveSupply(CommandAgent receiver, Material material, int amount){
+	public final void giveSupply(Agent receiver, Material material, int amount){
 		if(material == Material.GAS && getOwnedGas() < amount){
 			Log.log(this, Level.SEVERE, "Don't have enough gas - requested amount: {0}, current amount: {1}", amount, 
 					getOwnedGas());
@@ -64,7 +74,9 @@ public class Commander extends CommandAgent {
 					amount, getOwnedMinerals());
 			return;
 		}
-		receiver.receiveSupply(new Supply(this, material, amount));
+		Supply supply = new Supply(this, material, amount);
+		receiver.receiveSupply(supply);
+		reserveSupply(supply);
 	}
     
 	@Override

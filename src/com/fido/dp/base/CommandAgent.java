@@ -15,10 +15,6 @@ import java.util.logging.Level;
 public abstract class CommandAgent extends Agent {
 
     protected final ArrayList<Agent> subordinateAgents;
-    
-    private final Supply minerals;
-    
-    private final Supply gas;
 	
 	protected final Queue<Request> requests;
     
@@ -35,8 +31,6 @@ public abstract class CommandAgent extends Agent {
 	
     public CommandAgent() {
         subordinateAgents = new ArrayList<>();
-		minerals = new Supply(GameAPI.getCommander(), Material.MINERALS, 0);
-		gas = new Supply(GameAPI.getCommander(), Material.GAS, 0);
 		requests = new ArrayDeque<>();
     }
 
@@ -88,32 +82,8 @@ public abstract class CommandAgent extends Agent {
         }
         return agents;
     }
-    
-    public final void receiveSupply(Supply supply){
-        if(supply.getMaterial() == Material.GAS){
-            gas.merge(supply);
-        }
-        else{
-            minerals.merge(supply);
-        }
-    }
 	
-	public void giveSupply(CommandAgent receiver, Material material, int amount){
-		if(material == Material.GAS){
-			receiver.receiveSupply(gas.split(amount));
-		}
-		else{
-			receiver.receiveSupply(gas.split(amount));
-		}
-	}
-    
-    public int getOwnedGas(){
-        return gas.getAmount();
-    } 
-    
-    public int getOwnedMinerals(){
-        return minerals.getAmount();
-    }
+	   
 	
 	public void handleRequest(Request request){
 		requests.add(request);
