@@ -25,7 +25,7 @@ public class UAlbertaMapTools implements MapTools{
 	/**
 	 * a cache of already computed distance maps
 	 */
-	private final Map<Position,DistanceMap> allMaps;
+	private final Map<Position,UAlbertaDistanceMap> allMaps;
 	
 	/**
 	 * the map stored at TilePosition resolution, values are 0/1 for walkable or not walkable
@@ -145,7 +145,7 @@ public class UAlbertaMapTools implements MapTools{
 	 * @param distanceMap
 	 * @param position 
 	 */
-	private void computeDistance(DistanceMap distanceMap, Position position)
+	private void computeDistance(UAlbertaDistanceMap distanceMap, Position position)
 	{
 		search(distanceMap, position.getY() / 32, position.getX() / 32);
 	}
@@ -169,7 +169,7 @@ public class UAlbertaMapTools implements MapTools{
 			}
 
 			// add the map and compute it
-			allMaps.put(destination,new DistanceMap());
+			allMaps.put(destination,new UAlbertaDistanceMap());
 			computeDistance(allMaps.get(destination), destination);
 		}
 
@@ -204,7 +204,7 @@ public class UAlbertaMapTools implements MapTools{
 	 * @param startRow
 	 * @param startColumn 
 	 */
-	private void search(DistanceMap distanceMap, int startRow, int startColumn){
+	private void search(UAlbertaDistanceMap distanceMap, int startRow, int startColumn){
 		
 		// reset the internal variables
 		resetFringe();
@@ -290,8 +290,14 @@ public class UAlbertaMapTools implements MapTools{
 		}
 	}
 	
-	private boolean unexplored(DistanceMap distanceMap, int index){
-		return (index != -1) && distanceMap.getDistance(index) == -1 && map[index];
+	/**
+	 * Determines if TilePosition is unexplored by search. 
+	 * @param distanceMap UAlbertaDistanceMap object
+	 * @param index intex to distances array
+	 * @return 
+	 */
+	private boolean unexplored(UAlbertaDistanceMap distanceMap, int index){
+		return (index != -1) && distanceMap.getDistance(index) == UAlbertaDistanceMap.DISTANCE_UNEXPLORED && map[index];
 	}
 
 	/**

@@ -137,6 +137,7 @@ public class GameAPI extends DefaultBWListener {
 			
 			getGame().setLocalSpeed(10);
 			getGame().setFrameSkip(0);
+			getGame().enableFlag(1);
 
 			commander = new Commander();
 
@@ -148,6 +149,9 @@ public class GameAPI extends DefaultBWListener {
 			addAgent(new ExplorationCommand());
 			addAgent(new ResourceCommand());
 			addAgent(new BuildCommand());
+			
+//			buildingPlacer.getBuildingLocation(new Building(GameAPI.getGame().self().getStartLocation().toPosition(),
+//					UnitType.Terran_Barracks, null, false));
 			Log.log(this, Level.FINE, "OnStart END");
 		}
 		catch (Exception exception) {

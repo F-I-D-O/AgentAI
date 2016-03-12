@@ -9,7 +9,6 @@ import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.agent.BuildCommand;
 import com.fido.dp.agent.Commander;
-import com.fido.dp.base.CommandAgent;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
@@ -94,21 +93,21 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 			}
 		}
         
-        if(!scvs.isEmpty()){           
-            for (SCV scv : scvs) {
-				
-					if(buildCommand.needWorkes()){
-						getAgent().detachSubordinateAgent(scv, buildCommand);
-					}
-				
-                if(explorationCommand.getNumberOfScouts() < targetNumberOfScouts){
-                    getAgent().detachSubordinateAgent(scv, explorationCommand);
-                }
-                else{
-                    getAgent().detachSubordinateAgent(scv, resourceCommand);
-                }
-            }
-        }
+//        if(!scvs.isEmpty()){           
+//            for (SCV scv : scvs) {
+//				
+//					if(buildCommand.needWorkes()){
+//						getAgent().detachSubordinateAgent(scv, buildCommand);
+//					}
+//				
+//                if(explorationCommand.getNumberOfScouts() < targetNumberOfScouts){
+//                    getAgent().detachSubordinateAgent(scv, explorationCommand);
+//                }
+//                else{
+//                    getAgent().detachSubordinateAgent(scv, resourceCommand);
+//                }
+//            }
+//        }
         
         
     }

@@ -5,14 +5,18 @@
  */
 package com.fido.dp;
 
+import bwapi.Color;
 import bwapi.Position;
 import bwapi.Race;
 import bwapi.TilePosition;
 import bwapi.Unit;
 import bwapi.UnitType;
+import bwapi.Unitset;
 import bwta.BWTA;
 import bwta.BaseLocation;
+import static com.fido.dp.UAlbertaDistanceMap.MOVE_TO_DEFAULT;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -25,7 +29,7 @@ public class UAlbertaBuildingPlacer implements BuildingPlacer {
 	private static final int PYLON_SPACING = 3;
 	
 	
-	private ArrayList<ArrayList<Boolean>> reserveMap;
+	private boolean[][] reserveMap;
 	
 	private int boxTop;
     private int boxBottom;
@@ -33,6 +37,22 @@ public class UAlbertaBuildingPlacer implements BuildingPlacer {
     private int boxRight;
 	
 	
+	
+	public UAlbertaBuildingPlacer(){
+		boxTop = Integer.MAX_VALUE;
+		boxBottom = Integer.MIN_VALUE;
+		boxLeft = Integer.MAX_VALUE;
+		boxRight = Integer.MIN_VALUE;
+
+		reserveMap = new boolean[GameAPI.getGame().mapWidth()][GameAPI.getGame().mapHeight()];
+		
+		for (boolean[] reservedColumn : reserveMap) {
+			Arrays.fill(reservedColumn, false);
+		}
+
+		computeResourceBox();
+	}
+
 	
 	
 	@Override
@@ -98,6 +118,9 @@ public class UAlbertaBuildingPlacer implements BuildingPlacer {
 		// iterate through the list until we've found a suitable location
 		for (int i = 0; i < closestPositions.size(); ++i)
 		{
+			TilePosition position = closestPositions.get(i);
+			GameAPI.getGame().drawCircleMap(position.getX(), position.getY(), 30, Color.Red);
+			GameAPI.getGame().drawCircleMap(position.getX(), position.getY(), 50, Color.Purple);
 			if (canBuildHereWithSpace(closestPositions.get(i), building, buildDistance, horizontalOnly))
 			{
 //				double ms = t.getElapsedTimeInMilliSec();
@@ -177,7 +200,7 @@ public class UAlbertaBuildingPlacer implements BuildingPlacer {
 			{
 				if (!building.getType().isRefinery())
 				{
-					if (!buildable(building, x, y) || reserveMap.get(x).get(y) || (
+					if (!buildable(building, x, y) || reserveMap[x][y] || (
 							(building.getType() != UnitType.Protoss_Photon_Cannon) && isInResourceBox(x, y)))
 					{
 						return false;
@@ -208,7 +231,7 @@ public class UAlbertaBuildingPlacer implements BuildingPlacer {
 		{
 			for (int y = position.getY(); y < position.getY() + building.getType().tileHeight(); y++)
 			{
-				if (reserveMap.get(x).get(y))
+				if (reserveMap[x][y])
 				{
 					return false;
 				}
@@ -356,5 +379,37 @@ public class UAlbertaBuildingPlacer implements BuildingPlacer {
 		}
 
 		return closestGeyser;
+	}
+
+	private void computeResourceBox() {
+		Position start = GameAPI.getGame().self().getStartLocation().toPosition();
+//		Unitset unitsAroundNexus;
+
+		ArrayList<Unit> unitsAroundNexus = new ArrayList<>();
+
+		for (Unit unit : GameAPI.getGame().getAllUnits())
+		{
+			// if the units are less than 400 away add them if they are resources
+			if (unit.getDistance(start) < 300 && unit.getType().isMineralField())
+			{
+				unitsAroundNexus.add(unit);
+			}
+		}
+
+		for (Unit unit : unitsAroundNexus)
+		{
+			int x = unit.getPosition().getX();
+			int y = unit.getPosition().getY();
+
+			int left = x - unit.getType().dimensionLeft();
+			int right = x + unit.getType().dimensionRight() + 1;
+			int top = y - unit.getType().dimensionUp();
+			int bottom = y + unit.getType().dimensionDown() + 1;
+
+			boxTop     = top < boxTop       ? top    : boxTop;
+			boxBottom  = bottom > boxBottom ? bottom : boxBottom;
+			boxLeft    = left < boxLeft     ? left   : boxLeft;
+			boxRight   = right > boxRight   ? right  : boxRight;
+		}
 	}
 }

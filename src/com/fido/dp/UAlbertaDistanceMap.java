@@ -8,12 +8,18 @@ package com.fido.dp;
 import bwapi.Position;
 import bwapi.TilePosition;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class DistanceMap {
+public class UAlbertaDistanceMap {
+	
+	public static final int DISTANCE_UNEXPLORED = -1;
+	
+	public static final char MOVE_TO_DEFAULT = 'X';
+	
 	
 	private final int cols;
 	
@@ -25,9 +31,9 @@ public class DistanceMap {
 	
 	private final int[] distances;
 	
-	private final ArrayList<Character> moveTo;
+	private final char[] moveTo;
 	
-	private ArrayList<TilePosition> sorted;
+	private final ArrayList<TilePosition> sorted;
 
 	
 	
@@ -40,9 +46,13 @@ public class DistanceMap {
 	
 	
 	
-	public DistanceMap() {
+	public UAlbertaDistanceMap() {
 		distances = new int[GameAPI.getGame().mapWidth() * GameAPI.getGame().mapHeight()];
-		moveTo = new ArrayList<>(GameAPI.getGame().mapWidth() * GameAPI.getGame().mapHeight());
+		Arrays.fill(distances, DISTANCE_UNEXPLORED);
+		
+		moveTo = new char[GameAPI.getGame().mapWidth() * GameAPI.getGame().mapHeight()];
+		Arrays.fill(moveTo, MOVE_TO_DEFAULT);
+		
 		rows = GameAPI.getGame().mapHeight();
 		cols = GameAPI.getGame().mapWidth();
 		startRow = -1;
@@ -81,7 +91,7 @@ public class DistanceMap {
 	}
 	
 	public void setMoveTo(int index,char val) {
-		moveTo.set(index, val);
+		moveTo[index] = val;
 	}
 	
 	
