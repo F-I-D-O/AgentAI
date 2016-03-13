@@ -20,6 +20,7 @@ import com.fido.dp.command.ConstructBuildingCommand;
 import com.fido.dp.goal.BBSBuildGoal;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Queue;
 import java.util.logging.Level;
 
@@ -88,7 +89,9 @@ public class BuildCommand extends CommandAgent{
         }
         
         buildPlans.sort(null);
-        for (BuildPlan buildPlan : buildPlans) {
+		Iterator<BuildPlan> iterator = buildPlans.iterator();
+		while (iterator.hasNext()) {
+			BuildPlan buildPlan = iterator.next();
 			if(buildPlan.getGasPrice() > getOwnedGas()){
                 return BuildCommandState.MISSING_GAS;
             }
@@ -101,6 +104,7 @@ public class BuildCommand extends CommandAgent{
             }
 
             commandrBuildingConstruction(buildPlan);
+			iterator.remove();
         }
         
         return BuildCommandState.OK;

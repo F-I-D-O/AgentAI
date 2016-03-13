@@ -13,10 +13,11 @@ import com.fido.dp.base.LeafAgent;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GameAPI extends DefaultBWListener {
+public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	private static Commander commanderStatic;
 	
@@ -41,27 +42,6 @@ public class GameAPI extends DefaultBWListener {
 	public static BuildingPlacer getBuildingPlacer() {
 		return buildingPlacer;
 	}
-	
-	
-	
-	
-	
-	public static void main(String[] args) {
-        new GameAPI().run();
-    }
-	
-	
-	
-	
-
-    
-	
-	private Commander commander;
-	
-	private ArrayList<Agent> agents;
-		
-		
-		
 
     public static Mirror getMirror() {
         return mirror;
@@ -74,11 +54,39 @@ public class GameAPI extends DefaultBWListener {
         return game;
     }
 	
+	
 
+	public static void main(String[] args) {
+        new GameAPI().run();
+    }
+	
+	
+	
+	
+	private EventEngine eventEngine;
+	
+	private Commander commander;
+	
+	private ArrayList<Agent> agents;
+	
+	private HashMap<Unit,LeafAgent> leafAgentsMappedByUnit;
+	
+	private int frameCount;
+	
+	private Level logLevel;
 
+	
+	
+	public GameAPI() {
+		this.frameCount = 0;
+		agents = new ArrayList();
+		leafAgentsMappedByUnit = new HashMap<>();
+		eventEngine =  new EventEngine();
+		eventEngine.addListener(this);
+		logLevel = Level.INFO;
+	}
 
     public void run() {
-        agents = new ArrayList();
         mirror = new Mirror();
         mirror.getModule().setEventListener(this);
         mirror.startGame();
@@ -88,10 +96,24 @@ public class GameAPI extends DefaultBWListener {
     public void onUnitCreate(Unit unit) {
 		try{
 			UnitType type = unit.getType();
+			LeafAgent agent = null;
+			
+			// Construction finished event
+			if(unit.getType() == UnitType.Buildings){
+				Unit builderUnit = unit.getBuildUnit();
+				SCV builderAgent = (SCV) leafAgentsMappedByUnit.get(builderUnit);
+				builderAgent.onConstructionFinished();
+			}
+			
 			if (type.equals(UnitType.Terran_SCV)) {
-				LeafAgent agent = new SCV(unit);
+				agent = new SCV(unit);
 				commander.addsubordinateAgent(agent);
 				agents.add(agent);
+			}
+			
+			// check beacause we not handle all units creation
+			if(agent != null){
+				leafAgentsMappedByUnit.put(unit, agent);
 			}
 		}
 		catch (Exception exception) {
@@ -107,12 +129,16 @@ public class GameAPI extends DefaultBWListener {
     @Override
     public void onFrame() {
         try {
-            Log.log(this, Level.FINE, "OnFrame start");
+			frameCount++;
+            Log.log(this, Level.INFO, "OnFrame start - frame {0}", frameCount);
+			
+			eventEngine.run();
+			
             Log.log(this, Level.FINE, "Number of agents: {0}", agents.size());
             for (Agent agent : agents) {
                 agent.run();
             }
-            Log.log(this, Level.FINE, "OnFrame end");
+            Log.log(this, Level.INFO, "OnFrame end");
         } 
 		catch (Exception exception) {
             Log.log(this, Level.SEVERE, "EXCEPTION!");
@@ -131,8 +157,8 @@ public class GameAPI extends DefaultBWListener {
 			Logger rootLog = Logger.getLogger("");
 			bwta.BWTA.readMap();
 			bwta.BWTA.analyze();
-			rootLog.setLevel(Level.FINEST);
-			rootLog.getHandlers()[0].setLevel(Level.FINEST);
+			rootLog.setLevel(logLevel);
+			rootLog.getHandlers()[0].setLevel(logLevel);
 			rootLog.getHandlers()[0].setFormatter(new LogFormater());
 			
 			getGame().setLocalSpeed(10);
@@ -168,4 +194,13 @@ public class GameAPI extends DefaultBWListener {
         commander.addsubordinateAgent(agent);
         agents.add(agent);
     }
+
+	@Override
+	public void onBuildingConstructionStart(Unit building) {
+		Unit builderUnit = building.getBuildUnit();
+		SCV builderAgent = (SCV) leafAgentsMappedByUnit.get(builderUnit);
+		builderAgent.onConstructionStarted();
+	}
+	
+	
 }

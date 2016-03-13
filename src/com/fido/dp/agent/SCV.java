@@ -70,10 +70,11 @@ public class SCV extends LeafAgent implements Scout {
 		return null;
     }
 	
-	private void onConstructionStarted(){
+	public void onConstructionStarted(){
 		Log.log(this, Level.INFO, "{0}: onConstructionStarted", this.getClass());
 		spendSupply(Material.GAS, constructedBuildingType.gasPrice());
 		spendSupply(Material.MINERALS, constructedBuildingType.mineralPrice());
+		constructionInProgress = true;
 	}
 
 //    public void commandConstuctBuilding(UnitType buildingType, TilePosition placeToBuildOn) {
@@ -82,22 +83,23 @@ public class SCV extends LeafAgent implements Scout {
 
 	@Override
 	protected void routine() {
-		if(!constructionInProgress){
-			if(unit.isConstructing()){
-				onConstructionStarted();
-				constructionInProgress = true;
-			}
-		}
-		else{
-			if(!unit.isConstructing()){
-				onConstructionFinished();
-				constructionInProgress = false;
-				constructionProcessInProgress = false;
-			}
-		}
+//		if(!constructionInProgress){
+//			if(unit.isConstructing()){
+//				onConstructionStarted();
+//				
+//			}
+//		}
+//		else{
+//			if(unit.isConstructing()){
+//				onConstructionFinished();
+//			}
+//		}
 	}
 
-	private void onConstructionFinished() {
-		
+	public void onConstructionFinished() {
+		Log.log(this, Level.INFO, "{0}: onConstructionFinished", this.getClass());
+		constructionInProgress = false;
+		constructionProcessInProgress = false;
+		constructedBuildingType = null;
 	}
 }

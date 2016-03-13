@@ -15,13 +15,13 @@ import bwapi.UnitType;
  */
 public class Building {
 	
-	private Position desiredPosition;
+	private final Position desiredPosition;
 	
-	private UnitType type;
+	private final UnitType type;
 	
-	private Unit builderUnit;
+	private final Unit builderUnit;
 	
-	private boolean gasSteal;
+	private final boolean gasSteal;
 
 	
 	
