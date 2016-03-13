@@ -1,23 +1,24 @@
 package com.fido.dp.agent;
 
 import bwapi.TilePosition;
-import com.fido.dp.base.LeafAgent;
+import com.fido.dp.base.UnitAgent;
 import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.Scout;
-import com.fido.dp.action.Action;
+import com.fido.dp.base.Action;
 import com.fido.dp.action.HarvestMineralsAction;
 import com.fido.dp.action.ConstructBuilding;
 import com.fido.dp.action.ExploreBaseLocation;
 import com.fido.dp.goal.ConstructBuildingGoal;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.goal.HarvestMineralsGoal;
+import com.fido.dp.request.UnitCreationStartedInfo;
 import java.util.logging.Level;
 
-public class SCV extends LeafAgent implements Scout {
+public class SCV extends UnitAgent implements Scout {
 	
 	private boolean constructionProcessInProgress;
 	
@@ -50,7 +51,8 @@ public class SCV extends LeafAgent implements Scout {
 			constructedBuildingType = buildingType;
 		}
 		else{
-			Log.log(this, Level.SEVERE, "{0}: cannot build here! {1}", this.getClass(), placeToBuildOn);
+			Log.log(this, Level.SEVERE, "{0}: cannot build here! position: {1}, building: {2}", this.getClass(), 
+					placeToBuildOn, buildingType);
 		}
 	}
 
@@ -75,6 +77,7 @@ public class SCV extends LeafAgent implements Scout {
 		spendSupply(Material.GAS, constructedBuildingType.gasPrice());
 		spendSupply(Material.MINERALS, constructedBuildingType.mineralPrice());
 		constructionInProgress = true;
+		new UnitCreationStartedInfo(geCommandAgent(), this, constructedBuildingType).send();
 	}
 
 //    public void commandConstuctBuilding(UnitType buildingType, TilePosition placeToBuildOn) {

@@ -6,21 +6,21 @@
 package com.fido.dp.action;
 
 import bwapi.Position;
-import com.fido.dp.base.LeafAgent;
 import com.fido.dp.GameAPI;
+import com.fido.dp.agent.SCV;
 import java.util.Objects;
 
 /**
  *
  * @author david_000
  */
-public class ExploreBaseLocation extends UnitAction{
+public class ExploreBaseLocation extends UnitAction<SCV> {
     
     private boolean locationExplored;
     
     private final Position baseLocation;
 
-    public ExploreBaseLocation(LeafAgent unitAgent, Position location) {
+    public ExploreBaseLocation(SCV unitAgent, Position location) {
         super(unitAgent);
         locationExplored = false;
         baseLocation = location;
@@ -29,10 +29,10 @@ public class ExploreBaseLocation extends UnitAction{
     @Override
     public void performAction() {
         if(locationExplored){
-            runChildAction(new Move(this.getUnitAgent(), GameAPI.getGame().self().getStartLocation().toPosition()));
+            runChildAction(new Move(agent, GameAPI.getGame().self().getStartLocation().toPosition()));
         }
         else{
-            runChildAction(new Move(this.getUnitAgent(), baseLocation));
+            runChildAction(new Move(agent, baseLocation));
         }
     }
 

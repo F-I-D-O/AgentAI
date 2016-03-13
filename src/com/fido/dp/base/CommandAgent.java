@@ -1,47 +1,37 @@
 package com.fido.dp.base;
 
-import com.fido.dp.base.Agent;
-import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
-import com.fido.dp.Supply;
-import com.fido.dp.Material;
-import com.fido.dp.request.Request;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.logging.Level;
 
 public abstract class CommandAgent extends Agent {
 
     protected final ArrayList<Agent> subordinateAgents;
 	
-	protected final Queue<Request> requests;
+	
     
     
 
     public ArrayList<Agent> getSubordinateAgents() {
         return subordinateAgents;
     }
-
-	public Queue<Request> getRequests(){
-		return requests;
-	}
 	
 	
     public CommandAgent() {
         subordinateAgents = new ArrayList<>();
-		requests = new ArrayDeque<>();
     }
 
-    public void addsubordinateAgent(Agent subordinateAgent) {
+    public void addSubordinateAgent(Agent subordinateAgent) {
         subordinateAgents.add(subordinateAgent);
     }
 
     public final void detachSubordinateAgent(Agent subordinateAgent, CommandAgent newCommand) {
 		subordinateAgent.setAssigned(false);
-        newCommand.addsubordinateAgent(subordinateAgent);
+        newCommand.addSubordinateAgent(subordinateAgent);
         subordinateAgents.remove(subordinateAgent);
+		subordinateAgent.setCommandAgent(newCommand);
     }
 	
 	public final void detachSubordinateAgents(List<? extends Agent> subordinateAgents, CommandAgent newCommand) {
@@ -50,7 +40,7 @@ public abstract class CommandAgent extends Agent {
 		}
     }
 
-    public final <T> T getSubordinateAgent(Class agentClass) {
+    public final <T> T getSubordinateAgent(Class<T> agentClass) {
         for (Agent subordinateAgent : subordinateAgents) {
             if (agentClass.isInstance(subordinateAgent)) {
                 return (T) subordinateAgent;
@@ -60,14 +50,22 @@ public abstract class CommandAgent extends Agent {
         return null;
     }
 
-    public final <T> List<T> getSubordinateAgents(Class agentClass) {
+    public final <T> List<T> getSubordinateAgents(Class<T> agentClass) {
 		return getSubordinateAgents(agentClass, Integer.MAX_VALUE);
     }
 	
-	public final <T> List<T> getSubordinateAgents(Class agentClass, int count) {
+	public final <T> List<T> getSubordinateAgents(Class<T> agentClass, boolean idleOnly) {
+		return getSubordinateAgents(agentClass, Integer.MAX_VALUE, idleOnly);
+    }
+	
+	public final <T> List<T> getSubordinateAgents(Class<T> agentClass, int count) {
+		return getSubordinateAgents(agentClass, count, false);
+	}
+	
+	public final <T> List<T> getSubordinateAgents(Class<T> agentClass, int count, boolean idleOnly) {
         ArrayList<T> agents = new ArrayList();
         for (Agent subordinateAgent : subordinateAgents) {
-            if (agentClass.isInstance(subordinateAgent)) {
+            if (agentClass.isInstance(subordinateAgent) && (!idleOnly || ((UnitAgent) subordinateAgent).isIdle())) {
                 agents.add((T) subordinateAgent);
 				if(agents.size() == count){
 					break;
@@ -85,11 +83,7 @@ public abstract class CommandAgent extends Agent {
 	
 	   
 	
-	public void handleRequest(Request request){
-		requests.add(request);
-	}
 	
-//	protected void commanderSetGas(Supply gas){
-//		this.gas = gas;
-//	}
+	
+	
 }

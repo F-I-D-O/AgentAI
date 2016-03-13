@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.command;
+package com.fido.dp.order;
 
-import com.fido.dp.base.Command;
+import com.fido.dp.base.Order;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
 import java.util.List;
@@ -14,11 +14,13 @@ import java.util.List;
  *
  * @author F.I.D.O.
  */
-public class DeatchBack extends Command{
+public class DeatchBack extends Order{
 
 	private Class agentType = null;
 	
 	private int numberOfUnits = 0;
+	
+	private boolean idleOnly = false;
 
 	
 	
@@ -41,6 +43,11 @@ public class DeatchBack extends Command{
 		this.agentType = agentType;
 	}
 	
+	public DeatchBack(CommandAgent target, CommandAgent commandAgent, Class agentType, boolean idleOnly) {
+		this(target, commandAgent, agentType);
+		this.idleOnly = idleOnly;
+	}
+	
 	public DeatchBack(CommandAgent target, CommandAgent commandAgent, Class agentType, int numberOfUnits) {
 		this(target, commandAgent, agentType);
 		this.numberOfUnits = numberOfUnits;
@@ -54,7 +61,12 @@ public class DeatchBack extends Command{
 			subordinateAgents = target.getSubordinateAgents();
 		}
 		else if(numberOfUnits == 0){
-			subordinateAgents = target.getSubordinateAgents(agentType);
+			if(idleOnly){
+				subordinateAgents = target.getSubordinateAgents(agentType, idleOnly);
+			}
+			else{
+				subordinateAgents = target.getSubordinateAgents(agentType);
+			}
 		}
 		else{
 			subordinateAgents = target.getSubordinateAgents(agentType, numberOfUnits);

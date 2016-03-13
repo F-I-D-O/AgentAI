@@ -7,6 +7,7 @@ package com.fido.dp.agent;
 
 import com.fido.dp.base.CommandAgent;
 import bwapi.TilePosition;
+import bwapi.UnitType;
 import com.fido.dp.action.BBSBuild;
 import com.fido.dp.BuildPlan;
 import com.fido.dp.Building;
@@ -14,15 +15,20 @@ import com.fido.dp.BuildingPlacer;
 import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
+import com.fido.dp.Tools;
 import com.fido.dp.UAlbertaBuildingPlacer;
-import com.fido.dp.action.Action;
-import com.fido.dp.command.ConstructBuildingCommand;
+import com.fido.dp.base.Action;
+import com.fido.dp.order.ConstructBuildingOrder;
 import com.fido.dp.goal.BBSBuildGoal;
+import com.fido.dp.request.Request;
+import com.fido.dp.request.UnitCreationStartedInfo;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.logging.Level;
+import javax.tools.Tool;
 
 /**
  *
@@ -47,32 +53,23 @@ public class BuildCommand extends CommandAgent{
 	private final BuildingPlacer buildingPlacer;
 
     private int numberOfMissingWorkers;
+	
+	private final HashMap<UnitType,Integer> numberOfConstrustionStarted;
     
     
+	
 	
     public BuildCommand() {
         this.freeWorkers = new ArrayDeque<>();
         this.buildPlans = new ArrayList<>();
 		numberOfMissingWorkers = 0;
 		buildingPlacer = new UAlbertaBuildingPlacer();
+		numberOfConstrustionStarted = new HashMap<>();
     }
     
     
-    
-
-    @Override
-    protected Action chooseAction() {
-        if(getGoal() instanceof BBSBuildGoal){
-			return new BBSBuild(this);
-		}
-		return null;
-    }
-
-//    public void commandBBCBuild() {
-//        setCommandedAction(new BBSBuild(this));
-//    }
 	
-	public void addWorker(SCV worker){
+    public void addWorker(SCV worker){
 		freeWorkers.add(worker);
 		if(numberOfMissingWorkers > 0){
 			numberOfMissingWorkers--;
@@ -116,7 +113,7 @@ public class BuildCommand extends CommandAgent{
 		SCV worker = freeWorkers.poll();
 		TilePosition buildingPlace = findPositionForBuild(buildPlan, worker);
 		giveSupply(worker, Material.MINERALS, buildPlan.getMineralsPrice());
-		new ConstructBuildingCommand(worker, this, buildPlan.getBuildingType(), buildingPlace).issueCommand();
+		new ConstructBuildingOrder(worker, this, buildPlan.getBuildingType(), buildingPlace).issueCommand();
     }
     
     public BuildPlan getNextBuildPlan(){
@@ -127,11 +124,6 @@ public class BuildCommand extends CommandAgent{
     public void addBuildPlan(BuildPlan buildPlan){
         buildPlans.add(buildPlan);
     }
-	
-	private TilePosition findPositionForBuild(BuildPlan buildPlan, SCV scv) {
-		return buildingPlacer.getBuildingLocation(new Building(GameAPI.getGame().self().getStartLocation().toPosition(),
-				buildPlan.getBuildingType(), scv.getUnit(), false));
-	}
 	
 	public int getMissingCrystalForFirsItem() {
 		if(buildPlans.isEmpty()){
@@ -152,5 +144,45 @@ public class BuildCommand extends CommandAgent{
 		}
 		return cost - getOwnedMinerals();
 	}
+	
+	public int getNumberOfConstructionStarted(UnitType unitType){
+		return numberOfConstrustionStarted.containsKey(unitType) ? numberOfConstrustionStarted.get(unitType) : 0;
+	}
+
+	@Override
+	protected void handleRequest(Request request) {
+		super.handleRequest(request); 
+		if(request instanceof UnitCreationStartedInfo){
+			UnitType type = ((UnitCreationStartedInfo) request).getUnitType();
+			if(type.isBuilding()){
+				incNumberOfConstructionStarted(type);
+			}
+		}
+	}
+
+	
+	
+	
+	
+	private void incNumberOfConstructionStarted(UnitType unitType){
+		Tools.incrementMapValue(numberOfConstrustionStarted, unitType);
+	}
+	
+
+    @Override
+    protected Action chooseAction() {
+        if(getGoal() instanceof BBSBuildGoal){
+			return new BBSBuild(this);
+		}
+		return null;
+    }
+
+	
+	private TilePosition findPositionForBuild(BuildPlan buildPlan, SCV scv) {
+		return buildingPlacer.getBuildingLocation(new Building(GameAPI.getGame().self().getStartLocation().toPosition(),
+				buildPlan.getBuildingType(), scv.getUnit(), false));
+	}
+	
+	
 	
 }

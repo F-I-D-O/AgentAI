@@ -5,11 +5,13 @@ import bwapi.Game;
 import bwapi.Mirror;
 import bwapi.Unit;
 import bwapi.UnitType;
+import com.fido.dp.agent.Barracks;
 import com.fido.dp.base.Agent;
 import com.fido.dp.agent.BuildCommand;
 import com.fido.dp.agent.Commander;
 import com.fido.dp.agent.ExplorationCommand;
-import com.fido.dp.base.LeafAgent;
+import com.fido.dp.agent.ProductionCommand;
+import com.fido.dp.base.UnitAgent;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
 import java.util.ArrayList;
@@ -69,7 +71,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	private ArrayList<Agent> agents;
 	
-	private HashMap<Unit,LeafAgent> leafAgentsMappedByUnit;
+	private HashMap<Unit,UnitAgent> leafAgentsMappedByUnit;
 	
 	private int frameCount;
 	
@@ -96,23 +98,34 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     public void onUnitCreate(Unit unit) {
 		try{
 			UnitType type = unit.getType();
-			LeafAgent agent = null;
 			
-			// Construction finished event
-			if(unit.getType() == UnitType.Buildings){
+			if(type.isNeutral()){
+				return;
+			}
+			
+			UnitAgent agent = null;
+			
+			// Construction started event
+			if(type.isBuilding()){
 				Unit builderUnit = unit.getBuildUnit();
 				SCV builderAgent = (SCV) leafAgentsMappedByUnit.get(builderUnit);
-				builderAgent.onConstructionFinished();
+				
+				// units obtained on start has no event
+				if(builderAgent != null){
+					builderAgent.onConstructionStarted();
+				}
 			}
 			
 			if (type.equals(UnitType.Terran_SCV)) {
 				agent = new SCV(unit);
-				commander.addsubordinateAgent(agent);
-				agents.add(agent);
 			}
+			
+			
 			
 			// check beacause we not handle all units creation
 			if(agent != null){
+				agents.add(agent);
+				commander.addSubordinateAgent(agent);
 				leafAgentsMappedByUnit.put(unit, agent);
 			}
 		}
@@ -175,6 +188,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			addAgent(new ExplorationCommand());
 			addAgent(new ResourceCommand());
 			addAgent(new BuildCommand());
+			addAgent(new ProductionCommand());
 			
 //			buildingPlacer.getBuildingLocation(new Building(GameAPI.getGame().self().getStartLocation().toPosition(),
 //					UnitType.Terran_Barracks, null, false));
@@ -191,15 +205,31 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     }
 
     public void addAgent(Agent agent) {
-        commander.addsubordinateAgent(agent);
+        commander.addSubordinateAgent(agent);
         agents.add(agent);
     }
 
 	@Override
-	public void onBuildingConstructionStart(Unit building) {
+	public void onBuildingConstructionFinished(Unit building) {
 		Unit builderUnit = building.getBuildUnit();
 		SCV builderAgent = (SCV) leafAgentsMappedByUnit.get(builderUnit);
-		builderAgent.onConstructionStarted();
+		
+		// units obtained on start has no event
+		if(builderAgent != null){
+			builderAgent.onConstructionFinished();
+		}
+		
+		UnitAgent buildingAgent = null;
+		UnitType buildingType = building.getType();
+		
+		if (buildingType.equals(UnitType.Terran_Barracks)) {
+			buildingAgent = new Barracks(building);
+		}
+		
+		if(buildingAgent != null){
+			addAgent(buildingAgent);
+			leafAgentsMappedByUnit.put(building, buildingAgent);
+		}
 	}
 	
 	

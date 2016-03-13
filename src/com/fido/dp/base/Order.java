@@ -9,7 +9,7 @@ package com.fido.dp.base;
  *
  * @author F.I.D.O.
  */
-public abstract class Command {
+public abstract class Order {
 	
 	protected final CommandAgent commandAgent;
 	
@@ -17,7 +17,7 @@ public abstract class Command {
 
 	
 	
-	public Command(Agent target, CommandAgent commandAgent) {
+	public Order(Agent target, CommandAgent commandAgent) {
 		this.target = target;
 		this.commandAgent = commandAgent;
 	}

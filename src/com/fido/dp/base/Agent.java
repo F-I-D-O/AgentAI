@@ -4,14 +4,14 @@ import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.Supply;
-import com.fido.dp.action.Action;
+import com.fido.dp.request.Request;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.logging.Level;
 
 public abstract class Agent {
 
-//    private Action commandedAction;
+    private CommandAgent commandAgent;
 	
 	private Goal goal;
 
@@ -19,14 +19,20 @@ public abstract class Agent {
 	
 	protected boolean assigned;
 	
-	private final Queue<Command> commandQueue;
+	private final Queue<Order> commandQueue;
 	
 	private final Supply minerals;
     
     private final Supply gas;
 	
+	private int receivedMineralsTotal;
+	
+	private int receivedGasTotal;
+	
+	protected final Queue<Request> requests;
 	
 
+	
 //    public Action getCommandedAction() {
 //        return commandedAction;
 //    }
@@ -51,6 +57,22 @@ public abstract class Agent {
 	public final void setAssigned(boolean assigned) {
 		this.assigned = assigned;
 	}
+
+	public int getReceivedMineralsTotal() {
+		return receivedMineralsTotal;
+	}
+
+	public int getReceivedGasTotal() {
+		return receivedGasTotal;
+	}
+	
+	void setCommandAgent(CommandAgent commandAgent){
+		this.commandAgent = commandAgent;
+	}
+	
+	public CommandAgent geCommandAgent(){
+		return commandAgent;
+	}
 	
 	
 	
@@ -59,6 +81,9 @@ public abstract class Agent {
 		commandQueue = new ArrayDeque<>();
 		minerals = new Supply(GameAPI.getCommander(), Material.MINERALS, 0);
 		gas = new Supply(GameAPI.getCommander(), Material.GAS, 0);
+		receivedMineralsTotal = 0;
+		receivedMineralsTotal = 0;
+		requests = new ArrayDeque<>();
 	}
 	
 	
@@ -70,6 +95,7 @@ public abstract class Agent {
     public final void run() {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
 		acceptCommands();
+		handleRequests();
 		routine();
 		Action newAction = chooseAction();
 		
@@ -102,7 +128,7 @@ public abstract class Agent {
 
 	
 
-	final void addToCommandQueue(Command command) {
+	final void addToCommandQueue(Order command) {
 		commandQueue.add(command);
 	}
 
@@ -114,7 +140,7 @@ public abstract class Agent {
 	}
 	
 	private final void acceptCommands() {
-		Command command;
+		Order command;
 		while(!commandQueue.isEmpty()){
 			command = commandQueue.poll();
 			command.execute();
@@ -125,9 +151,11 @@ public abstract class Agent {
 	public final void receiveSupply(Supply supply){
         if(supply.getMaterial() == Material.GAS){
             gas.merge(supply);
+			receivedGasTotal += supply.getAmount();
         }
         else{
             minerals.merge(supply);
+			receivedMineralsTotal += supply.getAmount();
         }
     }
 	
@@ -158,6 +186,20 @@ public abstract class Agent {
 		}
 		supply.spend(amount);
 	}
+	
+	public void queRequest(Request request){
+		requests.add(request);
+	}
     
- 
+	private final void handleRequests(){
+		Request request;
+		while((request = requests.poll()) != null){
+			handleRequest(request);
+			chosenAction.handleRequest(request);
+		}
+	}
+
+	protected void handleRequest(Request request) {
+		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());
+	}
 }

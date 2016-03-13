@@ -5,15 +5,15 @@
  */
 package com.fido.dp.agent;
 
-import com.fido.dp.base.LeafAgent;
+import com.fido.dp.base.UnitAgent;
 import bwapi.Unit;
-import com.fido.dp.action.Action;
+import com.fido.dp.base.Action;
 
 /**
  *
  * @author david_000
  */
-public class Vulture extends LeafAgent {
+public class Vulture extends UnitAgent {
 
     public Vulture(Unit unit) {
         super(unit);

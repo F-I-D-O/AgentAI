@@ -5,15 +5,16 @@
  */
 package com.fido.dp.action;
 
+import com.fido.dp.base.Action;
 import bwapi.Unit;
-import com.fido.dp.base.LeafAgent;
+import com.fido.dp.base.UnitAgent;
 
 /**
  *
  * @author F.I.D.O.
  * @param <T>
  */
-public abstract class LeafAction<T extends LeafAgent> extends Action<T>{
+public abstract class LeafAction<T extends UnitAgent> extends Action<T>{
 
 	public LeafAction(T agent) {
 		super(agent);

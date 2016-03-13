@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp;
-
-import bwapi.Unit;
+package com.fido.dp.info;
 
 /**
  *
  * @author F.I.D.O.
  */
-public interface EventEngineListener {
-
-	public void onBuildingConstructionFinished(Unit building);
+public class Info {
 	
 }

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.base;
 
 import com.fido.dp.Log;
-import com.fido.dp.base.Agent;
+import com.fido.dp.request.Request;
 import java.util.logging.Level;
 
 /**
@@ -79,7 +79,9 @@ public abstract class Action <T extends Agent> {
         this.childAction.run();
     }
 
-    
+	public void handleRequest(Request request) {
+		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());
+	}
 	
 	
 }

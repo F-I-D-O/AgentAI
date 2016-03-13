@@ -26,8 +26,7 @@ public class EventEngine {
 	
 
 	public void run(){
-		createConstructionStartedEnvents();
-//		createConstructionEndedEnvents();
+		createConstructionFinishedEnvents();
 	}
 	
 	public void addListener(EventEngineListener listener){
@@ -35,19 +34,16 @@ public class EventEngine {
 	}
 	
 
-	private void createConstructionStartedEnvents() {
+	private void createConstructionFinishedEnvents() {
 		for (Unit building : GameAPI.getGame().self().getUnits()) {
-			if(building.getType().isBuilding() && building.isBeingConstructed() 
+			if(building.getType().isBuilding() && !building.isBeingConstructed() 
 					&& !constructedBuildings.contains(building)){
 				for (EventEngineListener listener : listeners) {
-					listener.onBuildingConstructionStart(building);
+					listener.onBuildingConstructionFinished(building);
 				}
 				constructedBuildings.add(building);
 			}
 		}
 	}
 
-//	private void createConstructionEndedEnvents() {
-//		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//	}
 }

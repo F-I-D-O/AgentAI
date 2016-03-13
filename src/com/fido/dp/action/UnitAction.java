@@ -1,15 +1,11 @@
 package com.fido.dp.action;
 
-import com.fido.dp.base.Agent;
-import com.fido.dp.base.LeafAgent;
+import com.fido.dp.base.Action;
+import com.fido.dp.base.UnitAgent;
 
-public abstract class UnitAction extends Action {
+public abstract class UnitAction<T extends UnitAgent> extends Action<T> {
 
-    public LeafAgent getUnitAgent() {
-        return (LeafAgent) agent;
-    }
-
-    public UnitAction(LeafAgent unitAgent) {
+    public UnitAction(T unitAgent) {
         super(unitAgent);
     }
 

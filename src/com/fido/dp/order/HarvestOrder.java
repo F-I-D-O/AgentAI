@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.command;
+package com.fido.dp.order;
 
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.agent.ResourceCommand;
-import com.fido.dp.base.GoalCommand;
+import com.fido.dp.base.GoalOrder;
 import com.fido.dp.goal.HarvestGoal;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class HarvestCommand extends GoalCommand{
+public class HarvestOrder extends GoalOrder{
 	
 	private final double mineralShare;
 
-	public HarvestCommand(ResourceCommand target, CommandAgent commandAgent, double mineralShare) {
+	public HarvestOrder(ResourceCommand target, CommandAgent commandAgent, double mineralShare) {
 		super(target, commandAgent);
 		this.mineralShare = mineralShare;
 	}

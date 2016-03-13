@@ -5,6 +5,7 @@
  */
 package com.fido.dp.request;
 
+import bwapi.UnitType;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
 
@@ -12,18 +13,22 @@ import com.fido.dp.base.CommandAgent;
  *
  * @author F.I.D.O.
  */
-public abstract class Request {
+public class UnitCreationStartedInfo extends Request{
 	
-	private final CommandAgent recipient;
-	
-	private final Agent sender;
+	private final UnitType unitType;
 
-	public Request(CommandAgent recipient, Agent sender) {
-		this.recipient = recipient;
-		this.sender = sender;
+	
+	
+	
+	public UnitType getUnitType() {
+		return unitType;
 	}
 	
-	public final void send(){
-		recipient.queRequest(this);
+	
+	
+	public UnitCreationStartedInfo(CommandAgent recipient, Agent sender, UnitType unitType) {
+		super(recipient, sender);
+		this.unitType = unitType;
 	}
+	
 }

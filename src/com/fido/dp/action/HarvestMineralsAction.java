@@ -2,19 +2,19 @@ package com.fido.dp.action;
 
 import com.fido.dp.GameAPI;
 import bwapi.Unit;
-import com.fido.dp.base.LeafAgent;
+import com.fido.dp.agent.SCV;
 
-public class HarvestMineralsAction extends UnitAction {
+public class HarvestMineralsAction extends UnitAction<SCV> {
 
-    public HarvestMineralsAction(LeafAgent unitAgent) {
+    public HarvestMineralsAction(SCV unitAgent) {
         super(unitAgent);
     }
 
     @Override
     public void performAction() {
-        if (getUnitAgent().isIdle()) {
+        if (agent.getUnit().isIdle()) {
             Unit closestMineral = null;
-            Unit unit = getUnitAgent().getUnit();
+            Unit unit = agent.getUnit();
             for (Unit neutralUnit : GameAPI.getGame().neutral().getUnits()) {
                 if (neutralUnit.getType().isMineralField()) {
                     if (closestMineral == null || unit.getDistance(neutralUnit) < unit.getDistance(closestMineral)) {

@@ -3,16 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp;
+package com.fido.dp.goal;
 
-import bwapi.Unit;
+import com.fido.dp.agent.ProductionCommand;
+import com.fido.dp.base.Goal;
 
 /**
  *
  * @author F.I.D.O.
  */
-public interface EventEngineListener {
-
-	public void onBuildingConstructionFinished(Unit building);
+public class BBSProductionGoal extends Goal{
+	
+	public BBSProductionGoal(ProductionCommand agent) {
+		super(agent);
+	}
 	
 }

@@ -9,9 +9,9 @@ package com.fido.dp.base;
  *
  * @author F.I.D.O.
  */
-public abstract class GoalCommand extends Command {
+public abstract class GoalOrder extends Order {
 
-	public GoalCommand(Agent target, CommandAgent commandAgent) {
+	public GoalOrder(Agent target, CommandAgent commandAgent) {
 		super(target, commandAgent);
 	}
 	

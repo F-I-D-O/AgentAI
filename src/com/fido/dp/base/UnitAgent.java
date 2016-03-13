@@ -2,7 +2,7 @@ package com.fido.dp.base;
 
 import bwapi.Unit;
 
-public abstract class LeafAgent extends Agent {
+public abstract class UnitAgent extends Agent {
 
     protected Unit unit;
 
@@ -14,7 +14,7 @@ public abstract class LeafAgent extends Agent {
         return unit;
     }
 
-    public LeafAgent(Unit unit) {
+    public UnitAgent(Unit unit) {
         this.unit = unit;
     }
 }

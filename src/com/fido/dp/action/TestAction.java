@@ -1,5 +1,6 @@
 package com.fido.dp.action;
 
+import com.fido.dp.base.Action;
 import com.fido.dp.Log;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
@@ -25,7 +26,7 @@ public class TestAction extends Action {
             for (Agent subordinateAgent : subordinateAgents) {
                 if (subordinateAgent instanceof SCV) {
                     Log.log(this, Level.FINE, "{0}: subordinate agent added to {1}", this.getClass(), explorationCommand.getClass());
-                    explorationCommand.addsubordinateAgent(subordinateAgent);
+                    explorationCommand.addSubordinateAgent(subordinateAgent);
                 }
             }
         }
