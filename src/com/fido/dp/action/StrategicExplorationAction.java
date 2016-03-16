@@ -49,6 +49,8 @@ public class StrategicExplorationAction<T extends ExplorationCommand> extends Co
 				for (BaseLocationInfo baseInfo : agent.getBases()) {
 					if(!baseInfo.isExpplored() && !baseInfo.isExplorationInProgress() && !baseInfo.isOurBase()){
 						target = baseInfo.getPosition(); 
+						baseInfo.setExplorationInProgress(true);
+						new ExploreBaseLocationOrder(scout, this.getAgent(), target).issueCommand();
 						break;
 					}
 				}
@@ -61,10 +63,6 @@ public class StrategicExplorationAction<T extends ExplorationCommand> extends Co
 //						break;
 //					}
 //				}
-
-				if(target != null){
-					new ExploreBaseLocationOrder(scout, this.getAgent(), target).issueCommand();
-				}
 			}
         }
     }

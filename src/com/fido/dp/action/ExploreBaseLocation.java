@@ -42,11 +42,12 @@ public class ExploreBaseLocation extends UnitAction<SCV> {
     protected void onChildActionFinish() {
 		super.onChildActionFinish();
 //        if(locationExplored){
+			new LocationExploredInfo(agent.geCommandAgent(), agent, baseLocation).send();
             finish();
 //        }
 //		else{
 //			locationExplored = true;
-//			new LocationExploredInfo(agent.geCommandAgent(), agent, baseLocation).send();
+//			
 //		}
     }
 

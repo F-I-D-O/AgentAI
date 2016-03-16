@@ -92,6 +92,7 @@ public class ExplorationCommand extends CommandAgent {
 						}
 					}
 					baseLocation.setExpplored(true);
+					baseLocation.setExplorationInProgress(false);
 				}
 				break;
 			}

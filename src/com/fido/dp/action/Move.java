@@ -38,7 +38,7 @@ public class Move extends UnitAction<UnitAgent> {
     public Move(UnitAgent unitAgent, Position target) {
         super(unitAgent);
         this.target = target;
-        maxDistanceFromTarget = 32;
+        maxDistanceFromTarget = 200;
         onMove = false;
     }
 

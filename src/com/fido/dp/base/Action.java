@@ -21,9 +21,9 @@ public abstract class Action <T extends Agent> {
 	
 	protected T agent;
     
-    protected Action parrentAction;
+    private Action parrentAction;
     
-    protected Action childAction;
+    private Action childAction;
     
 
 	public final T getAgent() {
@@ -77,6 +77,7 @@ public abstract class Action <T extends Agent> {
     protected void runChildAction(Action childAction){
         Log.log(this, Level.FINE, "{0}: Running child action: {1}", this.getClass(), childAction);
         this.childAction = childAction;
+		childAction.parrentAction = this;
         this.childAction.run();
     }
 

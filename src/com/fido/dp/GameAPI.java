@@ -15,6 +15,7 @@ import com.fido.dp.agent.ProductionCommand;
 import com.fido.dp.base.UnitAgent;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.UnitCommand;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -194,6 +195,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			addAgent(new ResourceCommand());
 			addAgent(new BuildCommand());
 			addAgent(new ProductionCommand());
+			addAgent(new UnitCommand());
 			
 //			buildingPlacer.getBuildingLocation(new Building(GameAPI.getGame().self().getStartLocation().toPosition(),
 //					UnitType.Terran_Barracks, null, false));
