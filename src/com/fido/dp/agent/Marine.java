@@ -1,0 +1,33 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.fido.dp.agent;
+
+import bwapi.Unit;
+import com.fido.dp.action.AttackMove;
+import com.fido.dp.base.Action;
+import com.fido.dp.base.UnitAgent;
+import com.fido.dp.goal.AttackMoveGoal;
+
+/**
+ *
+ * @author F.I.D.O.
+ */
+public class Marine extends UnitAgent{
+
+	public Marine(Unit unit) {
+		super(unit);
+	}
+
+	@Override
+	protected Action chooseAction() {
+		if(getGoal() instanceof AttackMoveGoal){
+			AttackMoveGoal goal = getGoal();
+			return new AttackMove(this, goal.getAttackTarget());
+		}
+		return null;
+	}
+	
+}

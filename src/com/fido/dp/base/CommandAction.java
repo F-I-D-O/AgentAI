@@ -15,6 +15,6 @@ public abstract class CommandAction<T extends CommandAgent> extends Action<T>{
     public CommandAction(T agent) {
         super(agent);
     }
+	
 
-    
 }

@@ -1,5 +1,6 @@
 package com.fido.dp.agent;
 
+import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
@@ -8,27 +9,29 @@ import com.fido.dp.base.Action;
 import com.fido.dp.action.BBSStrategy;
 import com.fido.dp.Material;
 import com.fido.dp.base.Agent;
+import com.fido.dp.info.EnemyBaseDiscovered;
+import com.fido.dp.info.Info;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 public class Commander extends CommandAgent {
-	
-//	private static Commander comander;
-	
-//	private static Commander get(){
-//		if(comander == null){
-//			comander = new Commander();
-//		}
-//		return comander;
-//	}
-	
-	
-	
-    
+	    
     private int reservedMinerals;
     
     private int reservedGas;
+	
+	private final ArrayList<BaseLocationInfo> enemyBases;
+
+	public ArrayList<BaseLocationInfo> getEnemyBases() {
+		return enemyBases;
+	}
+	
+	
+	
+	
 
     public Commander() {
+		enemyBases = new ArrayList<>();
     }
 
     @Override
@@ -89,10 +92,15 @@ public class Commander extends CommandAgent {
         return getFreeMinerals();
     }
 
-//	@Override
-//	protected void routine() {
-//		gas = 
-//	}
+	@Override
+	protected void processInfo(Info info) {
+		if(info instanceof EnemyBaseDiscovered){
+			BaseLocationInfo baseInfo = ((EnemyBaseDiscovered) info).getBaseInfo();
+			enemyBases.add(baseInfo);
+		}
+	}
+
+
 	
 	
 }

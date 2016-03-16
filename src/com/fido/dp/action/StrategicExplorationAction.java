@@ -5,14 +5,13 @@
  */
 package com.fido.dp.action;
 
+import bwapi.Position;
 import com.fido.dp.base.CommandAction;
-import bwta.BaseLocation;
-import com.fido.dp.GameAPI;
+import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.Log;
 import com.fido.dp.Scout;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.base.Agent;
-import com.fido.dp.base.CommandAgent;
 import com.fido.dp.order.ExploreBaseLocationOrder;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -34,30 +33,39 @@ public class StrategicExplorationAction<T extends ExplorationCommand> extends Co
 
     @Override
     public void performAction() {
-        Log.log(this, Level.FINE, "{0}:{1} Number of subordinate Agents: {2}", this.getClass(), getAgent().getClass(),
-                ((CommandAgent) getAgent()).getSubordinateAgents().size());
-         for (Agent subordinateAgent :  getAgent().getSubordinateAgents()) {
-             if(subordinateAgent instanceof Scout && !scouts.contains(subordinateAgent)){
-                scouts.add((Scout) subordinateAgent);
-             }
+//        Log.log(this, Level.FINE, "{0}:{1} Number of subordinate Agents: {2}", this.getClass(), getAgent().getClass(),
+//                ((CommandAgent) getAgent()).getSubordinateAgents().size());
+		for (Agent subordinateAgent :  getAgent().getSubordinateAgents()) {
+			if(subordinateAgent instanceof Scout && !scouts.contains(subordinateAgent)){
+				scouts.add((Scout) subordinateAgent);
+			}
         }
         
         Log.log(this, Level.FINE, "{0}: Number of scouts: {1}", this, scouts.size());
+		
         for (Scout scout : scouts) {
-            Log.log(this, Level.FINE, "{0}: Nearest base: {1}", this.getClass(), 
-                    bwta.BWTA.getBaseLocations());
-            BaseLocation target = null;
-            for(BaseLocation baseLocation : bwta.BWTA.getBaseLocations()) {
-                if(!baseLocation.getTilePosition().equals(GameAPI.getGame().self().getStartLocation())){
-                    target = baseLocation; 
-                    Log.log(this, Level.FINER, "Our base position: {0}", GameAPI.getGame().self().getStartLocation().toPosition());
-                    Log.log(this, Level.FINER, "Target base position: {0}", baseLocation.getPosition());
-                    break;
-                }
-            }
-            if(target != null){
-				new ExploreBaseLocationOrder(scout, this.getAgent(), target.getPosition()).issueCommand();
-            }
+			if(scout.getUnit().isIdle()){
+				Position target = null;
+				for (BaseLocationInfo baseInfo : agent.getBases()) {
+					if(!baseInfo.isExpplored() && !baseInfo.isExplorationInProgress() && !baseInfo.isOurBase()){
+						target = baseInfo.getPosition(); 
+						break;
+					}
+				}
+				
+//				for(BaseLocationInfo base : agent.getBases()) {
+//					if(!base.isExpplored() && !base.isOurBase()){
+//						target = base.getPosition(); 
+//						Log.log(this, Level.FINER, "Our base position: {0}", target);
+//						Log.log(this, Level.FINER, "Target base position: {0}", target);
+//						break;
+//					}
+//				}
+
+				if(target != null){
+					new ExploreBaseLocationOrder(scout, this.getAgent(), target).issueCommand();
+				}
+			}
         }
     }
 

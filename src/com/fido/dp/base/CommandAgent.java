@@ -1,21 +1,21 @@
 package com.fido.dp.base;
 
 import com.fido.dp.Log;
-import java.util.ArrayDeque;
+import com.fido.dp.request.Request;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
 public abstract class CommandAgent extends Agent {
 
-    protected final ArrayList<Agent> subordinateAgents;
+    private final ArrayList<Agent> subordinateAgents;
 	
 	
     
     
 
     public ArrayList<Agent> getSubordinateAgents() {
-        return subordinateAgents;
+        return (ArrayList<Agent>) subordinateAgents.clone();
     }
 	
 	
@@ -23,8 +23,9 @@ public abstract class CommandAgent extends Agent {
         subordinateAgents = new ArrayList<>();
     }
 
-    public void addSubordinateAgent(Agent subordinateAgent) {
+    public final void addSubordinateAgent(Agent subordinateAgent) {
         subordinateAgents.add(subordinateAgent);
+		onSubordinateAgentAdded(subordinateAgent);
     }
 
     public final void detachSubordinateAgent(Agent subordinateAgent, CommandAgent newCommand) {
@@ -81,8 +82,33 @@ public abstract class CommandAgent extends Agent {
         return agents;
     }
 	
-	   
+	public final int getNumberOfSubordinateAgents(){
+		return subordinateAgents.size();
+	}   
+
+	protected void onSubordinateAgentAdded(Agent subordinateAgent) {
+		Log.log(this, Level.INFO, "{0}: Subordinate agent added: {1}", this.getClass(), subordinateAgent);
+	}
 	
+	protected void handleRequest(Request request) {
+		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());
+	}
+
+	@Override
+	protected void routine() {
+		super.routine(); 
+		handleRequests();
+	}
+	
+	
+	private final void handleRequests(){
+		Request request;
+		while((request = requests.poll()) != null){
+			handleRequest(request);
+			chosenAction.handleRequest(request);
+		}
+	}
+
 	
 	
 	

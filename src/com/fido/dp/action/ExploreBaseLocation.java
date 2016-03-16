@@ -6,8 +6,10 @@
 package com.fido.dp.action;
 
 import bwapi.Position;
+import bwta.Region;
 import com.fido.dp.GameAPI;
 import com.fido.dp.agent.SCV;
+import com.fido.dp.info.LocationExploredInfo;
 import java.util.Objects;
 
 /**
@@ -38,13 +40,14 @@ public class ExploreBaseLocation extends UnitAction<SCV> {
 
     @Override
     protected void onChildActionFinish() {
-//        if(((Move)childAction).getTarget())
-        if(locationExplored){
+		super.onChildActionFinish();
+//        if(locationExplored){
             finish();
-        }
-        
-        locationExplored = true;
-        super.onChildActionFinish();
+//        }
+//		else{
+//			locationExplored = true;
+//			new LocationExploredInfo(agent.geCommandAgent(), agent, baseLocation).send();
+//		}
     }
 
     @Override
@@ -67,6 +70,20 @@ public class ExploreBaseLocation extends UnitAction<SCV> {
 		
 	}
     
+//	boolean isEnemyBuildingInRegion(Region region) {
+//		for (const auto & kv : _unitData[_enemy].getUnits()) {
+//			const UnitInfo & ui(kv.second);
+//			if (ui.type.isBuilding()) 
+//			{
+//				if (BWTA::getRegion(BWAPI::TilePosition(ui.lastPosition)) == region) 
+//				{
+//					return true;
+//				}
+//			}
+//		}
+//
+//		return false;
+//	}
     
     
 }

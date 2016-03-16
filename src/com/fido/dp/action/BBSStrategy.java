@@ -6,6 +6,7 @@
 package com.fido.dp.action;
 
 import bwapi.UnitType;
+import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.base.CommandAction;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
@@ -13,9 +14,14 @@ import com.fido.dp.agent.Barracks;
 import com.fido.dp.agent.BuildCommand;
 import com.fido.dp.agent.Commander;
 import com.fido.dp.agent.ExplorationCommand;
+import com.fido.dp.agent.Marine;
 import com.fido.dp.agent.ProductionCommand;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.UnitCommand;
+import com.fido.dp.info.EnemyBaseDiscovered;
+import com.fido.dp.info.EnemyBasesInfo;
+import com.fido.dp.info.Info;
 import com.fido.dp.order.BBSBuildOrder;
 import com.fido.dp.order.BBSProductionOrder;
 import com.fido.dp.order.DeatchBack;
@@ -44,6 +50,8 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
     private final BuildCommand buildCommand;
 	
 	private final ProductionCommand productionCommand;
+	
+	private final UnitCommand unitCommand;
     
     private final int targetNumberOfScouts;
 	
@@ -58,6 +66,7 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
         explorationCommand = agent.getSubordinateAgent(ExplorationCommand.class);
         buildCommand = agent.getSubordinateAgent(BuildCommand.class);
 		productionCommand = agent.getSubordinateAgent(ProductionCommand.class);
+		unitCommand = agent.getSubordinateAgent(UnitCommand.class);
         
         targetNumberOfScouts = 1;
 		unitsDetachedFromBuildCommand = true;
@@ -67,8 +76,11 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
     public void performAction() {
 		List<SCV> scvs = agent.getSubordinateAgents(SCV.class);
 		List<Barracks> barracks = agent.getSubordinateAgents(Barracks.class);
+		List<Marine> marines = agent.getSubordinateAgents(Marine.class);
 		
 		agent.detachSubordinateAgents(barracks, productionCommand);
+		agent.detachSubordinateAgents(marines, unitCommand);
+		
 		if(buildCommand.getNumberOfConstructionStarted(UnitType.Terran_Barracks) >= NUMBER_OF_BARRACKS
 				&& productionCommand.isMineralsMissing()){
 			if(productionCommand.getMissingMinerals() <= getAgent().getOwnedMinerals()){
@@ -136,6 +148,14 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 		new HarvestOrder(resourceCommand, this.getAgent(), 1.0).issueCommand();
 		new BBSBuildOrder(buildCommand, this.getAgent()).issueCommand();
 		new BBSProductionOrder(productionCommand, agent).issueCommand();
+	}
+	
+	@Override
+	protected void processInfo(Info info) {
+		if(info instanceof EnemyBaseDiscovered){
+			BaseLocationInfo baseInfo = ((EnemyBaseDiscovered) info).getBaseInfo();
+			new EnemyBasesInfo(unitCommand, agent, agent.getEnemyBases()).send();
+		}
 	}
 
 	private void focusOnHarvest(List<SCV> scvs) {

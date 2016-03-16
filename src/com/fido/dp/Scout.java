@@ -5,7 +5,7 @@
  */
 package com.fido.dp;
 
-import bwapi.Position;
+import bwapi.Unit;
 
 /**
  *
@@ -14,5 +14,7 @@ import bwapi.Position;
 public interface Scout {
     
 //    public void commandExploreBaseLocation(Position targetBase);
+	
+	public Unit getUnit();
     
 }

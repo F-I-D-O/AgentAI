@@ -23,6 +23,7 @@ public class SCV extends UnitAgent implements Scout {
 	private boolean constructionProcessInProgress;
 	
 	private UnitType constructedBuildingType;
+	
 	private boolean constructionInProgress;
 
 	

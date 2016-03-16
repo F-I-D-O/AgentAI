@@ -31,15 +31,6 @@ public class ProductionCommand extends CommandAgent{
 	public ProductionCommand() {
 		this.barracks = new ArrayList<>();
 	}
-
-	@Override
-	public void addSubordinateAgent(Agent subordinateAgent) {
-		super.addSubordinateAgent(subordinateAgent);
-		if(subordinateAgent instanceof Barracks){
-			barracks.add((Barracks) subordinateAgent);
-		}		
-	}
-	
 	
 
 	@Override
@@ -60,6 +51,14 @@ public class ProductionCommand extends CommandAgent{
 			missingCrystal += barracksTmp.getMissingMinerals();
 		}
 		return missingCrystal - getOwnedMinerals();
+	}
+
+	@Override
+	protected void onSubordinateAgentAdded(Agent subordinateAgent) {
+		super.onSubordinateAgentAdded(subordinateAgent); 
+		if(subordinateAgent instanceof Barracks){
+			barracks.add((Barracks) subordinateAgent);
+		}	
 	}
 	
 	

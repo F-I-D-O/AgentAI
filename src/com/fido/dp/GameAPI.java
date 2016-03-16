@@ -10,6 +10,7 @@ import com.fido.dp.base.Agent;
 import com.fido.dp.agent.BuildCommand;
 import com.fido.dp.agent.Commander;
 import com.fido.dp.agent.ExplorationCommand;
+import com.fido.dp.agent.Marine;
 import com.fido.dp.agent.ProductionCommand;
 import com.fido.dp.base.UnitAgent;
 import com.fido.dp.agent.ResourceCommand;
@@ -65,36 +66,36 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	
 	
-	private EventEngine eventEngine;
+	private final EventEngine eventEngine;
 	
 	private Commander commander;
 	
-	private ArrayList<Agent> agents;
+	private final ArrayList<Agent> agents;
 	
-	private HashMap<Unit,UnitAgent> leafAgentsMappedByUnit;
+	private final ArrayList<UnitAgent> unitAgents;
+	
+	private final HashMap<Unit,UnitAgent> unitAgentsMappedByUnit;
 	
 	private int frameCount;
 	
-	private Level logLevel;
+	private final Level logLevel;
 
 	
 	
 	public GameAPI() {
 		this.frameCount = 0;
-		agents = new ArrayList();
-		leafAgentsMappedByUnit = new HashMap<>();
+		agents = new ArrayList<>();
+		unitAgents = new ArrayList<>();
+		unitAgentsMappedByUnit = new HashMap<>();
 		eventEngine =  new EventEngine();
 		eventEngine.addListener(this);
 		logLevel = Level.INFO;
 	}
-
-    public void run() {
-        mirror = new Mirror();
-        mirror.getModule().setEventListener(this);
-        mirror.startGame();
-    }
-
-    @Override
+	
+	
+	
+	
+	@Override
     public void onUnitCreate(Unit unit) {
 		try{
 			UnitType type = unit.getType();
@@ -108,7 +109,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			// Construction started event
 			if(type.isBuilding()){
 				Unit builderUnit = unit.getBuildUnit();
-				SCV builderAgent = (SCV) leafAgentsMappedByUnit.get(builderUnit);
+				SCV builderAgent = (SCV) unitAgentsMappedByUnit.get(builderUnit);
 				
 				// units obtained on start has no event
 				if(builderAgent != null){
@@ -120,13 +121,17 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				agent = new SCV(unit);
 			}
 			
+			if (type.equals(UnitType.Terran_Marine)) {
+				agent = new Marine(unit);
+			}
+			
 			
 			
 			// check beacause we not handle all units creation
 			if(agent != null){
-				agents.add(agent);
-				commander.addSubordinateAgent(agent);
-				leafAgentsMappedByUnit.put(unit, agent);
+				addAgent(agent);
+				unitAgents.add(agent);
+				unitAgentsMappedByUnit.put(unit, agent);
 			}
 		}
 		catch (Exception exception) {
@@ -203,16 +208,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
             error.printStackTrace();
         }
     }
-
-    public void addAgent(Agent agent) {
-        commander.addSubordinateAgent(agent);
-        agents.add(agent);
-    }
-
+	
 	@Override
 	public void onBuildingConstructionFinished(Unit building) {
 		Unit builderUnit = building.getBuildUnit();
-		SCV builderAgent = (SCV) leafAgentsMappedByUnit.get(builderUnit);
+		SCV builderAgent = (SCV) unitAgentsMappedByUnit.get(builderUnit);
 		
 		// units obtained on start has no event
 		if(builderAgent != null){
@@ -228,9 +228,43 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		
 		if(buildingAgent != null){
 			addAgent(buildingAgent);
-			leafAgentsMappedByUnit.put(building, buildingAgent);
+			unitAgentsMappedByUnit.put(building, buildingAgent);
 		}
 	}
+
+	@Override
+	public void onUnitDiscover(Unit unit) {
+		
+		// we are only interested in enemz units
+		if(unit.getPlayer().isEnemy(getGame().self())){
+			UnitType type = unit.getType();
+			
+			// buildings
+			if(type.isBuilding()){
+				for (UnitAgent agent : unitAgents) {
+					if(agent.canSeeUnit(unit)){
+						agent.onEnemyBuildingDiscoverd(unit);
+					}
+				}
+			}
+		}
+	}
+	
+	
+
+	
+    public void run() {
+        mirror = new Mirror();
+        mirror.getModule().setEventListener(this);
+        mirror.startGame();
+    }
+
+    public void addAgent(Agent agent) {
+        commander.addSubordinateAgent(agent);
+        agents.add(agent);
+    }
+
+	
 	
 	
 }

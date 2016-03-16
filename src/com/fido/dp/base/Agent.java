@@ -4,6 +4,7 @@ import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.Supply;
+import com.fido.dp.info.Info;
 import com.fido.dp.request.Request;
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -30,6 +31,8 @@ public abstract class Agent {
 	private int receivedGasTotal;
 	
 	protected final Queue<Request> requests;
+	
+	protected final Queue<Info> infoQue;
 	
 
 	
@@ -84,18 +87,16 @@ public abstract class Agent {
 		receivedMineralsTotal = 0;
 		receivedMineralsTotal = 0;
 		requests = new ArrayDeque<>();
+		infoQue = new ArrayDeque<>();
 	}
 	
 	
-
-//    public void start() {
-//        System.out.println("Agent started: " + getClass());
-//    }
+	
 
     public final void run() {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
 		acceptCommands();
-		handleRequests();
+		processInfoQue();
 		routine();
 		Action newAction = chooseAction();
 		
@@ -110,8 +111,6 @@ public abstract class Agent {
         Log.log(this, Level.FINE, "{0}: Agent run ended", this.getClass());
     }
 
-    protected abstract Action chooseAction();
-
     public final void onActionFinish() {
         Log.log(this, Level.FINE, "Action finished: {0}", chosenAction);
 //        run(); not needet, because frame rate is high enough
@@ -122,31 +121,6 @@ public abstract class Agent {
         run();
     }
 	
-	protected void routine() {
-		
-	}
-
-	
-
-	final void addToCommandQueue(Order command) {
-		commandQueue.add(command);
-	}
-
-	
-	
-	final void setGoal(Goal goal){
-		this.goal = goal;
-		Log.log(this, Level.INFO, "{0}: new goal set: {1}", this.getClass(), goal.getClass());
-	}
-	
-	private final void acceptCommands() {
-		Order command;
-		while(!commandQueue.isEmpty()){
-			command = commandQueue.poll();
-			command.execute();
-			Log.log(this, Level.INFO, "{0}: command accepted: {1}", this.getClass(), command.getClass());
-		}
-	}
 	
 	public final void receiveSupply(Supply supply){
         if(supply.getMaterial() == Material.GAS){
@@ -176,6 +150,21 @@ public abstract class Agent {
 		}
 	}
 	
+	public void queRequest(Request request){
+		requests.add(request);
+	}
+	
+	public final void queInfo(Info info) {
+		infoQue.add(info);
+	}
+	
+	
+	protected abstract Action chooseAction();
+	
+	protected void routine() {
+		
+	}
+
 	protected final void spendSupply(Material material, int amount){
 		Supply supply;
 		if(material == Material.GAS){
@@ -187,19 +176,40 @@ public abstract class Agent {
 		supply.spend(amount);
 	}
 	
-	public void queRequest(Request request){
-		requests.add(request);
+	
+
+	
+	protected void processInfo(Info info) {
+		Log.log(this, Level.FINE, "{0}: info received: {1}", this.getClass(), info.getClass());
 	}
-    
-	private final void handleRequests(){
-		Request request;
-		while((request = requests.poll()) != null){
-			handleRequest(request);
-			chosenAction.handleRequest(request);
+	
+	final void addToCommandQueue(Order command) {
+		commandQueue.add(command);
+	}
+	
+	final void setGoal(Goal goal){
+		this.goal = goal;
+		Log.log(this, Level.INFO, "{0}: new goal set: {1}", this.getClass(), goal.getClass());
+	}
+	
+	private final void acceptCommands() {
+		Order command;
+		while(!commandQueue.isEmpty()){
+			command = commandQueue.poll();
+			command.execute();
+			Log.log(this, Level.INFO, "{0}: command accepted: {1}", this.getClass(), command.getClass());
+		}
+	}
+	
+	private final void processInfoQue(){
+		Info info;
+		while((info = infoQue.poll()) != null){
+			processInfo(info);
+			chosenAction.processInfo(info);
 		}
 	}
 
-	protected void handleRequest(Request request) {
-		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());
-	}
+
+
+
 }

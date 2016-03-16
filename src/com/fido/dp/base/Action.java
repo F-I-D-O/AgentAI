@@ -6,6 +6,7 @@
 package com.fido.dp.base;
 
 import com.fido.dp.Log;
+import com.fido.dp.info.Info;
 import com.fido.dp.request.Request;
 import java.util.logging.Level;
 
@@ -70,7 +71,7 @@ public abstract class Action <T extends Agent> {
     protected void onChildActionFinish() {
         Log.log(this, Level.FINE, "{0}: Child action finished: {1}", this.getClass(), childAction);
         childAction = null;
-        performAction();
+//        performAction(); not needet, because frame rate is high enough
     }
     
     protected void runChildAction(Action childAction){
@@ -81,6 +82,10 @@ public abstract class Action <T extends Agent> {
 
 	public void handleRequest(Request request) {
 		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());
+	}
+
+	protected void processInfo(Info info) {
+		Log.log(this, Level.FINE, "{0}: info received: {1}", this.getClass(), info.getClass());
 	}
 	
 	

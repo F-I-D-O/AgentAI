@@ -5,18 +5,52 @@
  */
 package com.fido.dp.agent;
 
+import com.fido.dp.BaseLocationInfo;
+import com.fido.dp.action.BBSAttack;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Action;
+import com.fido.dp.goal.BBSAttackGoal;
+import com.fido.dp.info.EnemyBasesInfo;
+import com.fido.dp.info.Info;
+import java.util.ArrayList;
 
 /**
  *
  * @author david_000
  */
 public class UnitCommand extends CommandAgent {
+	
+	private ArrayList<BaseLocationInfo> enemyBases;
+
+	
+	
+	public ArrayList<BaseLocationInfo> getEnemyBases() {
+		return enemyBases;
+	}
+	
+	
+
+	public UnitCommand() {
+		this.enemyBases = new ArrayList<>();
+	}
+	
+	
 
     @Override
     protected Action chooseAction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(getGoal() instanceof BBSAttackGoal){
+			return new BBSAttack(this);
+		}
+		return null;
     }
+
+	@Override
+	protected void processInfo(Info info) {
+		if(info instanceof EnemyBasesInfo){
+			enemyBases = ((EnemyBasesInfo) info).getEnemyBases();
+		}
+	}
+	
+	
     
 }
