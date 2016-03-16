@@ -36,7 +36,8 @@ public abstract class UnitAgent extends Agent {
 		}
 		
 		int distance = unit.getPosition().getApproxDistance(otherUnit.getPosition());
-		return unit.getType().sightRange() >= distance;
+//		return unit.getType().sightRange() >= distance;
+		return 400 >= distance;
 	}
 
 	public void onEnemyBuildingDiscoverd(Unit unit) {
