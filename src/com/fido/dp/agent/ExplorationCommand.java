@@ -5,6 +5,7 @@
  */
 package com.fido.dp.agent;
 
+import bwapi.Position;
 import bwapi.Unit;
 import bwta.BWTA;
 import com.fido.dp.UnitInfo;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
  */
 public class ExplorationCommand extends CommandAgent {
 	
-	private final ArrayList<BaseLocationInfo> bases;
+	private final ArrayList<BaseLocationInfo> baseLocations;
 	
 	private final ArrayList<UnitInfo> enemyUnits;
 	
@@ -37,18 +38,18 @@ public class ExplorationCommand extends CommandAgent {
 	
 	
 	
-	public ArrayList<BaseLocationInfo> getBases() {
-		return bases;
+	public ArrayList<BaseLocationInfo> getBaseLocations() {
+		return baseLocations;
 	}
 	
 	
 	
 
 	public ExplorationCommand() {
-		bases = new ArrayList<>();
-		for(BaseLocation baseLocation : bwta.BWTA.getBaseLocations()) {
+		baseLocations = new ArrayList<>();
+		for(BaseLocation baseLocation : bwta.BWTA.getStartLocations()) {
 			boolean isOurBase = baseLocation.getTilePosition().equals(GameAPI.getGame().self().getStartLocation());
-			bases.add(new BaseLocationInfo(baseLocation, isOurBase));
+			baseLocations.add(new BaseLocationInfo(baseLocation, isOurBase));
 		}
 		
 		enemyUnits = new ArrayList<>();
@@ -78,10 +79,12 @@ public class ExplorationCommand extends CommandAgent {
 	protected void processInfo(Info info) {
 		if(info instanceof LocationExploredInfo){
 			Region baseRegion = BWTA.getRegion(((LocationExploredInfo) info).getBaseLocation());
+			Position basePosition = ((LocationExploredInfo) info).getBaseLocation();
 			
 			// find what base it is
-			for (BaseLocationInfo baseLocation : bases) {
-				if(BWTA.getRegion(baseLocation.getPosition()).equals(baseRegion)){
+			for (BaseLocationInfo baseLocation : baseLocations) {
+//				if(BWTA.getRegion(baseLocation.getPosition()).equals(baseRegion)){
+				if(baseLocation.getPosition().equals(basePosition)){
 					
 					// determine if it is enemy base
 					for (UnitInfo unitInfo : enemyUnits) {
@@ -93,8 +96,8 @@ public class ExplorationCommand extends CommandAgent {
 					}
 					baseLocation.setExpplored(true);
 					baseLocation.setExplorationInProgress(false);
+					break;
 				}
-				break;
 			}
 			
 		}

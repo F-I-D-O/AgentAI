@@ -46,7 +46,7 @@ public class StrategicExplorationAction<T extends ExplorationCommand> extends Co
         for (Scout scout : scouts) {
 			if(scout.getUnit().isIdle()){
 				Position target = null;
-				for (BaseLocationInfo baseInfo : agent.getBases()) {
+				for (BaseLocationInfo baseInfo : agent.getBaseLocations()) {
 					if(!baseInfo.isExpplored() && !baseInfo.isExplorationInProgress() && !baseInfo.isOurBase()){
 						target = baseInfo.getPosition(); 
 						baseInfo.setExplorationInProgress(true);

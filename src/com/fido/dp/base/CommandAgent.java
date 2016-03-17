@@ -25,6 +25,7 @@ public abstract class CommandAgent extends Agent {
 
     public final void addSubordinateAgent(Agent subordinateAgent) {
         subordinateAgents.add(subordinateAgent);
+		subordinateAgent.setCommandAgent(this);
 		onSubordinateAgentAdded(subordinateAgent);
     }
 
@@ -32,7 +33,6 @@ public abstract class CommandAgent extends Agent {
 		subordinateAgent.setAssigned(false);
         newCommand.addSubordinateAgent(subordinateAgent);
         subordinateAgents.remove(subordinateAgent);
-		subordinateAgent.setCommandAgent(newCommand);
     }
 	
 	public final void detachSubordinateAgents(List<? extends Agent> subordinateAgents, CommandAgent newCommand) {

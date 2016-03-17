@@ -26,7 +26,7 @@ public class TestAction extends Action {
             for (Agent subordinateAgent : subordinateAgents) {
                 if (subordinateAgent instanceof SCV) {
                     Log.log(this, Level.FINE, "{0}: subordinate agent added to {1}", this.getClass(), explorationCommand.getClass());
-                    explorationCommand.addSubordinateAgent(subordinateAgent);
+//                    explorationCommand.addSubordinateAgent(subordinateAgent);
                 }
             }
         }
