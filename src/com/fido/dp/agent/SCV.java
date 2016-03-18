@@ -12,6 +12,7 @@ import com.fido.dp.base.Action;
 import com.fido.dp.action.HarvestMineralsAction;
 import com.fido.dp.action.ConstructBuilding;
 import com.fido.dp.action.ExploreBaseLocation;
+import com.fido.dp.base.Goal;
 import com.fido.dp.goal.ConstructBuildingGoal;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.goal.HarvestMineralsGoal;
@@ -105,5 +106,10 @@ public class SCV extends UnitAgent implements Scout {
 		constructionInProgress = false;
 		constructionProcessInProgress = false;
 		constructedBuildingType = null;
+	}
+
+	@Override
+	protected Goal getDefaultGoal() {
+		return new HarvestMineralsGoal(this);
 	}
 }

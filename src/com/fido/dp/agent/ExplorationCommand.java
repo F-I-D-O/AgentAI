@@ -16,6 +16,7 @@ import com.fido.dp.GameAPI;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Action;
 import com.fido.dp.action.StrategicExplorationAction;
+import com.fido.dp.base.Goal;
 import com.fido.dp.info.EnemyBaseDiscovered;
 import com.fido.dp.info.Info;
 import com.fido.dp.info.EnemyBuildingDiscovered;
@@ -112,6 +113,11 @@ public class ExplorationCommand extends CommandAgent {
 	
 	private void addEnemyBuilding(UnitInfo building){
 		enemyUnits.add(building);
+		
+	}
+
+	@Override
+	protected Goal getDefaultGoal() {
 		
 	}
 	

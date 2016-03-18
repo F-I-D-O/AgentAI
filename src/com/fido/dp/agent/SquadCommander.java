@@ -8,6 +8,7 @@ package com.fido.dp.agent;
 import com.fido.dp.action.SquadAttackMove;
 import com.fido.dp.base.Action;
 import com.fido.dp.base.CommandAgent;
+import com.fido.dp.base.Goal;
 import com.fido.dp.goal.SquadAttackMoveGoal;
 
 /**
@@ -23,6 +24,11 @@ public class SquadCommander extends CommandAgent {
 			return new SquadAttackMove(this, goal.getAttackTarget());
 		}
 		return null;
+	}
+
+	@Override
+	protected Goal getDefaultGoal() {
+		
 	}
 	
 }

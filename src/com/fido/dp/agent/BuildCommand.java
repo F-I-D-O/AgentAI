@@ -18,6 +18,7 @@ import com.fido.dp.Material;
 import com.fido.dp.Tools;
 import com.fido.dp.UAlbertaBuildingPlacer;
 import com.fido.dp.base.Action;
+import com.fido.dp.base.Goal;
 import com.fido.dp.order.ConstructBuildingOrder;
 import com.fido.dp.goal.BBSBuildGoal;
 import com.fido.dp.request.Request;
@@ -28,7 +29,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.logging.Level;
-import javax.tools.Tool;
 
 /**
  *
@@ -149,6 +149,7 @@ public class BuildCommand extends CommandAgent{
 		return numberOfConstrustionStarted.containsKey(unitType) ? numberOfConstrustionStarted.get(unitType) : 0;
 	}
 
+	
 	@Override
 	protected void handleRequest(Request request) {
 		super.handleRequest(request); 
@@ -160,8 +161,10 @@ public class BuildCommand extends CommandAgent{
 		}
 	}
 
-	
-	
+	@Override
+	protected Goal getDefaultGoal() {
+		return  new BBSBuildGoal(this);
+	}	
 	
 	
 	private void incNumberOfConstructionStarted(UnitType unitType){

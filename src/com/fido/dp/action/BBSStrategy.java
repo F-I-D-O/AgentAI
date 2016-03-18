@@ -22,6 +22,7 @@ import com.fido.dp.agent.UnitCommand;
 import com.fido.dp.info.EnemyBaseDiscovered;
 import com.fido.dp.info.EnemyBasesInfo;
 import com.fido.dp.info.Info;
+import com.fido.dp.order.BBSAttackOrder;
 import com.fido.dp.order.BBSBuildOrder;
 import com.fido.dp.order.BBSProductionOrder;
 import com.fido.dp.order.DeatchBack;
@@ -148,6 +149,7 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 		new HarvestOrder(resourceCommand, this.getAgent(), 1.0).issueCommand();
 		new BBSBuildOrder(buildCommand, this.getAgent()).issueCommand();
 		new BBSProductionOrder(productionCommand, agent).issueCommand();
+		new BBSAttackOrder(unitCommand, agent).issueCommand();
 	}
 	
 	@Override

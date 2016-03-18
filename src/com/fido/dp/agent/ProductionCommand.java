@@ -9,6 +9,7 @@ import com.fido.dp.base.Action;
 import com.fido.dp.action.BBSProduction;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
+import com.fido.dp.base.Goal;
 import com.fido.dp.goal.BBSProductionGoal;
 import java.util.ArrayList;
 
@@ -59,6 +60,11 @@ public class ProductionCommand extends CommandAgent{
 		if(subordinateAgent instanceof Barracks){
 			barracks.add((Barracks) subordinateAgent);
 		}	
+	}
+
+	@Override
+	protected Goal getDefaultGoal() {
+		return new BBSProductionGoal(this);
 	}
 	
 	

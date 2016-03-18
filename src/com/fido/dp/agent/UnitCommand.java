@@ -9,6 +9,7 @@ import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.action.BBSAttack;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Action;
+import com.fido.dp.base.Goal;
 import com.fido.dp.goal.BBSAttackGoal;
 import com.fido.dp.info.EnemyBasesInfo;
 import com.fido.dp.info.Info;
@@ -49,6 +50,11 @@ public class UnitCommand extends CommandAgent {
 		if(info instanceof EnemyBasesInfo){
 			enemyBases = ((EnemyBasesInfo) info).getEnemyBases();
 		}
+	}
+
+	@Override
+	protected Goal getDefaultGoal() {
+		return new BBSAttackGoal(this);
 	}
 	
 	

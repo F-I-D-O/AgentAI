@@ -9,6 +9,7 @@ import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.base.Action;
 import com.fido.dp.action.AutomaticProduction;
+import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
 import com.fido.dp.goal.AutomaticProductionGoal;
 
@@ -72,6 +73,11 @@ public class Barracks extends UnitAgent{
 		if(!unit.isTraining() && automaticProductionUnitType.mineralPrice() <= getOwnedMinerals()){
 			train(automaticProductionUnitType);
 		}
+	}
+
+	@Override
+	protected Goal getDefaultGoal() {
+		return new AutomaticProductionGoal(this);
 	}
 	
 }

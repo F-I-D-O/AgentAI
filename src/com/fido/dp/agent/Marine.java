@@ -5,9 +5,11 @@
  */
 package com.fido.dp.agent;
 
+import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.action.AttackMove;
 import com.fido.dp.base.Action;
+import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
 import com.fido.dp.goal.AttackMoveGoal;
 
@@ -28,6 +30,11 @@ public class Marine extends UnitAgent{
 			return new AttackMove(this, goal.getAttackTarget());
 		}
 		return null;
+	}
+
+	@Override
+	protected Goal getDefaultGoal() {
+		
 	}
 	
 }

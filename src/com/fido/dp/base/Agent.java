@@ -3,6 +3,7 @@ package com.fido.dp.base;
 import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
+import com.fido.dp.NoActionChosenException;
 import com.fido.dp.Supply;
 import com.fido.dp.info.Info;
 import com.fido.dp.request.Request;
@@ -88,12 +89,13 @@ public abstract class Agent {
 		receivedMineralsTotal = 0;
 		requests = new ArrayDeque<>();
 		infoQue = new ArrayDeque<>();
+		goal = getDefaultGoal();
 	}
 	
 	
 	
 
-    public final void run() {
+    public final void run() throws Exception {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
 		acceptCommands();
 		processInfoQue();
@@ -104,10 +106,13 @@ public abstract class Agent {
         if (chosenAction == null || !chosenAction.equals(newAction)) {
             chosenAction = newAction;
         }
-        if (chosenAction != null) {
-            Log.log(this, Level.FINE, "{0}: Chosen action: {1}", this.getClass(), chosenAction.getClass());
-            chosenAction.run();
+        if (chosenAction == null) {
+            throw new NoActionChosenException(this.getClass(), goal, commandAgent.getClass());
         }
+		
+		Log.log(this, Level.FINE, "{0}: Chosen action: {1}", this.getClass(), chosenAction.getClass());
+		chosenAction.run();
+		
         Log.log(this, Level.FINE, "{0}: Agent run ended", this.getClass());
     }
 
@@ -118,7 +123,7 @@ public abstract class Agent {
 
     public final void onActionFailed(String reason) {
         Log.log(this, Level.WARNING, "Action {0} failed: {1}", chosenAction, reason);
-        run();
+//        run();
     }
 	
 	
@@ -176,12 +181,12 @@ public abstract class Agent {
 		supply.spend(amount);
 	}
 	
-	
-
-	
 	protected void processInfo(Info info) {
 		Log.log(this, Level.FINE, "{0}: info received: {1}", this.getClass(), info.getClass());
 	}
+	
+	protected abstract Goal getDefaultGoal();
+	
 	
 	final void addToCommandQueue(Order command) {
 		commandQueue.add(command);
