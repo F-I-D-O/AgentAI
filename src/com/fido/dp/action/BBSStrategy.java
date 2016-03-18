@@ -27,6 +27,7 @@ import com.fido.dp.order.BBSBuildOrder;
 import com.fido.dp.order.BBSProductionOrder;
 import com.fido.dp.order.DeatchBack;
 import com.fido.dp.order.HarvestOrder;
+import com.fido.dp.order.StrategicExplorationOrder;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -150,6 +151,7 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 		new BBSBuildOrder(buildCommand, this.getAgent()).issueCommand();
 		new BBSProductionOrder(productionCommand, agent).issueCommand();
 		new BBSAttackOrder(unitCommand, agent).issueCommand();
+		new StrategicExplorationOrder(explorationCommand, agent).issueCommand();
 	}
 	
 	@Override

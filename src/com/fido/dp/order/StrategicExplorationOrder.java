@@ -8,6 +8,7 @@ package com.fido.dp.order;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.GoalOrder;
+import com.fido.dp.goal.StrategicExplorationGoal;
 
 /**
  *
@@ -21,7 +22,7 @@ public class StrategicExplorationOrder extends GoalOrder{
 
 	@Override
 	protected void execute() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		setGoal(new StrategicExplorationGoal(getTarget()));
 	}
 	
 }

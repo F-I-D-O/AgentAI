@@ -9,6 +9,8 @@ import com.fido.dp.base.Action;
 import com.fido.dp.action.BBSStrategy;
 import com.fido.dp.Material;
 import com.fido.dp.base.Agent;
+import com.fido.dp.base.Goal;
+import com.fido.dp.goal.BBSStrategyGoal;
 import com.fido.dp.info.EnemyBaseDiscovered;
 import com.fido.dp.info.Info;
 import java.util.ArrayList;
@@ -36,7 +38,10 @@ public class Commander extends CommandAgent {
 
     @Override
     protected Action chooseAction() {
-        return new BBSStrategy(this);
+		if(getGoal() instanceof  BBSStrategyGoal){
+			return new BBSStrategy(this);
+		}
+		return null;
     }
 	
 	private final void reserveSupply(Supply supply){
@@ -98,6 +103,11 @@ public class Commander extends CommandAgent {
 			BaseLocationInfo baseInfo = ((EnemyBaseDiscovered) info).getBaseInfo();
 			enemyBases.add(baseInfo);
 		}
+	}
+
+	@Override
+	protected Goal getDefaultGoal() {
+		return new BBSStrategyGoal(this);
 	}
 
 

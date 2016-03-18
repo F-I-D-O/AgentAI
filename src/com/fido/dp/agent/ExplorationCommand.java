@@ -17,6 +17,7 @@ import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Action;
 import com.fido.dp.action.StrategicExplorationAction;
 import com.fido.dp.base.Goal;
+import com.fido.dp.goal.StrategicExplorationGoal;
 import com.fido.dp.info.EnemyBaseDiscovered;
 import com.fido.dp.info.Info;
 import com.fido.dp.info.EnemyBuildingDiscovered;
@@ -61,7 +62,10 @@ public class ExplorationCommand extends CommandAgent {
 
     @Override
     protected Action chooseAction() {
-        return new StrategicExplorationAction(this);
+		if(getGoal() instanceof StrategicExplorationGoal){
+			return new StrategicExplorationAction(this);
+		}
+		return null;
     }
     
     public int getNumberOfScouts(){
@@ -118,7 +122,7 @@ public class ExplorationCommand extends CommandAgent {
 
 	@Override
 	protected Goal getDefaultGoal() {
-		
+		return new StrategicExplorationGoal(this);
 	}
 	
 	

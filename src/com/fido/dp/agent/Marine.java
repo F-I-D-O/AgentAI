@@ -5,13 +5,14 @@
  */
 package com.fido.dp.agent;
 
-import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.action.AttackMove;
+import com.fido.dp.action.Wait;
 import com.fido.dp.base.Action;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
 import com.fido.dp.goal.AttackMoveGoal;
+import com.fido.dp.goal.WaitGoal;
 
 /**
  *
@@ -29,12 +30,15 @@ public class Marine extends UnitAgent{
 			AttackMoveGoal goal = getGoal();
 			return new AttackMove(this, goal.getAttackTarget());
 		}
+		if(getGoal() instanceof WaitGoal){
+			return new Wait(this);
+		}
 		return null;
 	}
 
 	@Override
 	protected Goal getDefaultGoal() {
-		
+		return new WaitGoal(this);
 	}
 	
 }
