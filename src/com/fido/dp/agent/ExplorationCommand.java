@@ -12,7 +12,7 @@ import com.fido.dp.UnitInfo;
 import bwta.BaseLocation;
 import bwta.Region;
 import com.fido.dp.BaseLocationInfo;
-import com.fido.dp.GameAPI;
+import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Action;
 import com.fido.dp.action.StrategicExplorationAction;
@@ -122,7 +122,7 @@ public class ExplorationCommand extends CommandAgent {
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new StrategicExplorationGoal(this);
+		return new StrategicExplorationGoal(this, null);
 	}
 	
 	

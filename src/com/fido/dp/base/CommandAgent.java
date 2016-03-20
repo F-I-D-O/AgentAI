@@ -2,14 +2,19 @@ package com.fido.dp.base;
 
 import com.fido.dp.Log;
 import com.fido.dp.request.Request;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.logging.Level;
 
 public abstract class CommandAgent extends Agent {
 
     private final ArrayList<Agent> subordinateAgents;
 	
+	protected final Queue<Request> requests;
+	
+	private final Queue<Order> completedOrdersQueue;
 	
     
     
@@ -21,9 +26,11 @@ public abstract class CommandAgent extends Agent {
 	
     public CommandAgent() {
         subordinateAgents = new ArrayList<>();
+		requests = new ArrayDeque<>();
+		completedOrdersQueue = new ArrayDeque<>();
     }
 
-    public final void addSubordinateAgent(Agent subordinateAgent) {
+    final void addSubordinateAgent(Agent subordinateAgent) {
         subordinateAgents.add(subordinateAgent);
 		subordinateAgent.setCommandAgent(this);
 		onSubordinateAgentAdded(subordinateAgent);
@@ -85,6 +92,10 @@ public abstract class CommandAgent extends Agent {
 	public final int getNumberOfSubordinateAgents(){
 		return subordinateAgents.size();
 	}   
+	
+	public void queRequest(Request request){
+		requests.add(request);
+	}
 
 	protected void onSubordinateAgentAdded(Agent subordinateAgent) {
 		Log.log(this, Level.INFO, "{0}: Subordinate agent added: {1}", this.getClass(), subordinateAgent);
@@ -92,6 +103,10 @@ public abstract class CommandAgent extends Agent {
 	
 	protected void handleRequest(Request request) {
 		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());
+	}
+	
+	protected void handleCompletedOrder(Order order) {
+		Log.log(this, Level.FINE, "{0}: order completed: {1}", this.getClass(), order.getClass());
 	}
 
 	@Override
@@ -105,8 +120,22 @@ public abstract class CommandAgent extends Agent {
 		Request request;
 		while((request = requests.poll()) != null){
 			handleRequest(request);
-			chosenAction.handleRequest(request);
+			((CommandAction) chosenAction).handleRequest(request);
 		}
+	}
+	
+	
+	
+	private final void handleCompletedOrders(){
+		Order order;
+		while((order = completedOrdersQueue.poll()) != null){
+			handleCompletedOrder(order);
+			((CommandAction) chosenAction).handleCompletedOrder(order);
+		}
+	}
+
+	final void reportOrderCompleted(Order order) {
+		completedOrdersQueue.add(order);
 	}
 
 	

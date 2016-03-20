@@ -54,7 +54,7 @@ public class UnitCommand extends CommandAgent {
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new BBSAttackGoal(this);
+		return new BBSAttackGoal(this, null);
 	}
 	
 	

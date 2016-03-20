@@ -11,6 +11,7 @@ import com.fido.dp.agent.Marine;
 import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.agent.UnitCommand;
 import com.fido.dp.base.CommandAction;
+import com.fido.dp.base.GameAPI;
 import com.fido.dp.order.SquadAttackMoveOrder;
 import java.util.List;
 
@@ -50,7 +51,8 @@ public class BBSAttack extends CommandAction<UnitCommand>{
 	@Override
 	protected void init() {
 		squadCommander = new SquadCommander();
-		agent.addSubordinateAgent(squadCommander);
+		GameAPI.addAgent(squadCommander, agent);
+//		agent.addSubordinateAgent(squadCommander);
 	}
 	
 }

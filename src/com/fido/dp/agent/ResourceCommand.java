@@ -30,6 +30,6 @@ public class ResourceCommand extends CommandAgent{
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new HarvestGoal(this, MINERAL_SHARE_MINERALS_ONLY);
+		return new HarvestGoal(this, null, MINERAL_SHARE_MINERALS_ONLY);
 	}
 }

@@ -8,6 +8,7 @@ package com.fido.dp.goal;
 import bwapi.Position;
 import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.base.Goal;
+import com.fido.dp.base.GoalOrder;
 
 /**
  *
@@ -17,13 +18,18 @@ public class SquadAttackMoveGoal extends Goal{
 	
 	private final Position attackTarget;
 	
-	public SquadAttackMoveGoal(SquadCommander agent, Position attackTarget) {
-		super(agent);
+	public SquadAttackMoveGoal(SquadCommander agent, GoalOrder order, Position attackTarget) {
+		super(agent, order);
 		this.attackTarget = attackTarget;
 	}
 
 	public Position getAttackTarget() {
 		return attackTarget;
+	}
+
+	@Override
+	public boolean isCompleted() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 	
 }

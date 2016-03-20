@@ -1,6 +1,6 @@
 package com.fido.dp.action;
 
-import com.fido.dp.GameAPI;
+import com.fido.dp.base.GameAPI;
 import bwapi.Unit;
 import com.fido.dp.agent.SCV;
 

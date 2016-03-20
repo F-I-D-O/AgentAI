@@ -7,6 +7,7 @@ package com.fido.dp.goal;
 
 import com.fido.dp.agent.SCV;
 import com.fido.dp.base.Goal;
+import com.fido.dp.base.GoalOrder;
 
 /**
  *
@@ -14,8 +15,13 @@ import com.fido.dp.base.Goal;
  */
 public class HarvestMineralsGoal extends Goal{
 	
-	public HarvestMineralsGoal(SCV agent) {
-		super(agent);
+	public HarvestMineralsGoal(SCV agent, GoalOrder order) {
+		super(agent, order);
+	}
+
+	@Override
+	public boolean isCompleted() {
+		return false;
 	}
 	
 }

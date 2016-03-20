@@ -1,10 +1,18 @@
-package com.fido.dp;
+package com.fido.dp.base;
 
 import bwapi.DefaultBWListener;
 import bwapi.Game;
 import bwapi.Mirror;
 import bwapi.Unit;
 import bwapi.UnitType;
+import com.fido.dp.BuildingPlacer;
+import com.fido.dp.EventEngine;
+import com.fido.dp.EventEngineListener;
+import com.fido.dp.Log;
+import com.fido.dp.LogFormater;
+import com.fido.dp.MapTools;
+import com.fido.dp.UAlbertaBuildingPlacer;
+import com.fido.dp.UAlbertaMapTools;
 import com.fido.dp.agent.Barracks;
 import com.fido.dp.base.Agent;
 import com.fido.dp.agent.BuildCommand;
@@ -16,6 +24,7 @@ import com.fido.dp.base.UnitAgent;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
 import com.fido.dp.agent.UnitCommand;
+import com.fido.dp.base.CommandAgent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -32,6 +41,8 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	private static Mirror mirror;
 
     private static Game game;
+	
+	private static GameAPI gameAPI;
 	
 	
 	
@@ -51,18 +62,25 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         return mirror;
     }
 
+	
+	
+	
     public static Game getGame() {
         if (game == null) {
             game = mirror.getGame();
         }
         return game;
     }
-	
-	
 
 	public static void main(String[] args) {
-        new GameAPI().run();
+		gameAPI = new GameAPI();
+        gameAPI.run();
     }
+	
+	public static void addAgent(Agent agent, CommandAgent commandAgent){
+		commandAgent.addSubordinateAgent(agent);
+        gameAPI.agents.add(agent);
+	}
 	
 	
 	
@@ -262,8 +280,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     }
 
     public void addAgent(Agent agent) {
-        commander.addSubordinateAgent(agent);
-        agents.add(agent);
+		addAgent(agent, commander);
     }
 
 	

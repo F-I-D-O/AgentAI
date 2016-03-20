@@ -7,6 +7,7 @@ package com.fido.dp.goal;
 
 import com.fido.dp.agent.Barracks;
 import com.fido.dp.base.Goal;
+import com.fido.dp.base.GoalOrder;
 
 /**
  *
@@ -14,8 +15,13 @@ import com.fido.dp.base.Goal;
  */
 public class AutomaticProductionGoal extends Goal{
 	
-	public AutomaticProductionGoal(Barracks agent) {
-		super(agent);
+	public AutomaticProductionGoal(Barracks agent,  GoalOrder order) {
+		super(agent, order);
+	}
+
+	@Override
+	public boolean isCompleted() {
+		return false;
 	}
 	
 }

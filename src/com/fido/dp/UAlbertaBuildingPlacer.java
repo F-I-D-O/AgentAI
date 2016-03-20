@@ -5,6 +5,7 @@
  */
 package com.fido.dp;
 
+import com.fido.dp.base.GameAPI;
 import bwapi.Color;
 import bwapi.Position;
 import bwapi.Race;

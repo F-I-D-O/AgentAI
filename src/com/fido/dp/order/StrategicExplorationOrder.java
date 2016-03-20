@@ -22,7 +22,7 @@ public class StrategicExplorationOrder extends GoalOrder{
 
 	@Override
 	protected void execute() {
-		setGoal(new StrategicExplorationGoal(getTarget()));
+		setGoal(new StrategicExplorationGoal(getTarget(), this));
 	}
 	
 }

@@ -22,7 +22,7 @@ public class AutomaticProductionOrder extends GoalOrder{
 
 	@Override
 	protected void execute() {
-		setGoal(new AutomaticProductionGoal(getTarget()));
+		setGoal(new AutomaticProductionGoal(getTarget(), this));
 	}
 	
 }

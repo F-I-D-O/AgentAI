@@ -9,6 +9,7 @@ import bwapi.Position;
 import com.fido.dp.Scout;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.Goal;
+import com.fido.dp.base.GoalOrder;
 
 /**
  *
@@ -17,6 +18,8 @@ import com.fido.dp.base.Goal;
 public class ExploreBaseLocationGoal extends Goal {
 	
 	private final Position baseLocation;
+	
+	private boolean locationExplored;
 
 	
 	
@@ -26,9 +29,20 @@ public class ExploreBaseLocationGoal extends Goal {
 	
 	
 	
-	public ExploreBaseLocationGoal(Scout agent, Position baseLocation) {
-		super((Agent) agent);
+	public ExploreBaseLocationGoal(Scout agent, GoalOrder order, Position baseLocation) {
+		super((Agent) agent, order);
 		this.baseLocation = baseLocation;
+		locationExplored = false;
+	}
+
+	@Override
+	public boolean isCompleted() {
+		return locationExplored;
 	}
 	
+	public void setLocationExplored(Position baseLocation){
+		if(this.baseLocation.equals(baseLocation)){
+			locationExplored = true;
+		}
+	}
 }

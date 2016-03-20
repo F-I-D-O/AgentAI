@@ -22,7 +22,7 @@ public class BBSProductionOrder extends GoalOrder {
 
 	@Override
 	protected void execute() {
-		setGoal(new BBSProductionGoal(getTarget()));
+		setGoal(new BBSProductionGoal(getTarget(), this));
 	}
 	
 }

@@ -53,6 +53,9 @@ public class StrategicExplorationAction<T extends ExplorationCommand> extends Co
 						new ExploreBaseLocationOrder(scout, this.getAgent(), target).issueCommand();
 						break;
 					}
+					
+					// if there are no unexplored bases
+					return;
 				}
 				
 //				for(BaseLocationInfo base : agent.getBases()) {

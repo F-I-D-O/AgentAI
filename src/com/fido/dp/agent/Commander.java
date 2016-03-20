@@ -2,7 +2,7 @@ package com.fido.dp.agent;
 
 import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.base.CommandAgent;
-import com.fido.dp.GameAPI;
+import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Supply;
 import com.fido.dp.base.Action;
@@ -107,7 +107,7 @@ public class Commander extends CommandAgent {
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new BBSStrategyGoal(this);
+		return new BBSStrategyGoal(this, null);
 	}
 
 

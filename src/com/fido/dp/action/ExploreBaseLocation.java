@@ -7,8 +7,9 @@ package com.fido.dp.action;
 
 import bwapi.Position;
 import bwta.Region;
-import com.fido.dp.GameAPI;
+import com.fido.dp.base.GameAPI;
 import com.fido.dp.agent.SCV;
+import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.info.LocationExploredInfo;
 import java.util.Objects;
 
@@ -42,6 +43,9 @@ public class ExploreBaseLocation extends UnitAction<SCV> {
     protected void onChildActionFinish() {
 		super.onChildActionFinish();
 //        if(locationExplored){
+			if(agent.getGoal() instanceof ExploreBaseLocationGoal){
+				((ExploreBaseLocationGoal) agent.getGoal()).setLocationExplored(baseLocation);
+			}
 			new LocationExploredInfo(agent.geCommandAgent(), agent, baseLocation).send();
             finish();
 //        }

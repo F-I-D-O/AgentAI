@@ -77,7 +77,7 @@ public class Barracks extends UnitAgent{
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new AutomaticProductionGoal(this);
+		return new AutomaticProductionGoal(this, null);
 	}
 	
 }

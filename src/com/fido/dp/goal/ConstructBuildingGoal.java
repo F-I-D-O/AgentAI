@@ -9,6 +9,7 @@ import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.agent.SCV;
 import com.fido.dp.base.Goal;
+import com.fido.dp.base.GoalOrder;
 
 /**
  *
@@ -32,10 +33,15 @@ public class ConstructBuildingGoal extends Goal {
 
 	
 	
-	public ConstructBuildingGoal(SCV agent, UnitType buildingType, TilePosition placeToBuildOn) {
-		super(agent);
+	public ConstructBuildingGoal(SCV agent, GoalOrder order, UnitType buildingType, TilePosition placeToBuildOn) {
+		super(agent, order);
 		this.buildingType = buildingType;
 		this.placeToBuildOn = placeToBuildOn;
+	}
+
+	@Override
+	public boolean isCompleted() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 	
 }

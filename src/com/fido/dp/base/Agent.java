@@ -1,6 +1,5 @@
 package com.fido.dp.base;
 
-import com.fido.dp.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.NoActionChosenException;
@@ -30,8 +29,6 @@ public abstract class Agent {
 	private int receivedMineralsTotal;
 	
 	private int receivedGasTotal;
-	
-	protected final Queue<Request> requests;
 	
 	protected final Queue<Info> infoQue;
 	
@@ -87,7 +84,6 @@ public abstract class Agent {
 		gas = new Supply(GameAPI.getCommander(), Material.GAS, 0);
 		receivedMineralsTotal = 0;
 		receivedMineralsTotal = 0;
-		requests = new ArrayDeque<>();
 		infoQue = new ArrayDeque<>();
 		goal = getDefaultGoal();
 	}
@@ -101,6 +97,13 @@ public abstract class Agent {
 		processInfoQue();
 		routine();
 		Action newAction = chooseAction();
+		
+		if(goal.isCompleted()){
+			if(goal.isOrdered()){
+				goal.reportCompleted();
+			}
+			goal = getDefaultGoal();
+		}
 		
 		// if chosen action changed, save it to chosenAction property
         if (chosenAction == null || !chosenAction.equals(newAction)) {
@@ -153,10 +156,6 @@ public abstract class Agent {
 		else{
 			receiver.receiveSupply(minerals.split(amount));
 		}
-	}
-	
-	public void queRequest(Request request){
-		requests.add(request);
 	}
 	
 	public final void queInfo(Info info) {

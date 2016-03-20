@@ -27,7 +27,7 @@ public class ExploreBaseLocationOrder extends GoalOrder{
 
 	@Override
 	protected void execute() {
-		setGoal(new ExploreBaseLocationGoal(getTarget(), baseLocation));
+		setGoal(new ExploreBaseLocationGoal(getTarget(), this, baseLocation));
 	}	
 	
 	

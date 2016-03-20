@@ -30,6 +30,9 @@ public abstract class Order {
 		target.addToCommandQueue(this);
 	}
 	
+	public void reportCompleted(){
+		commandAgent.reportOrderCompleted(this);
+	}
 	
 	protected <T> T getTarget(){
 		return (T) target;

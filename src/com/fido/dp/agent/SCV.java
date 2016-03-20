@@ -4,7 +4,7 @@ import bwapi.TilePosition;
 import com.fido.dp.base.UnitAgent;
 import bwapi.Unit;
 import bwapi.UnitType;
-import com.fido.dp.GameAPI;
+import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.Scout;
@@ -110,6 +110,6 @@ public class SCV extends UnitAgent implements Scout {
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new HarvestMineralsGoal(this);
+		return new HarvestMineralsGoal(this, null);
 	}
 }

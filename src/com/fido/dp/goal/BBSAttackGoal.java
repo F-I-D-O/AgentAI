@@ -7,6 +7,7 @@ package com.fido.dp.goal;
 
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.Goal;
+import com.fido.dp.base.GoalOrder;
 
 /**
  *
@@ -14,8 +15,13 @@ import com.fido.dp.base.Goal;
  */
 public class BBSAttackGoal extends Goal{
 	
-	public BBSAttackGoal(Agent agent) {
-		super(agent);
+	public BBSAttackGoal(Agent agent, GoalOrder order) {
+		super(agent, order);
+	}
+
+	@Override
+	public boolean isCompleted() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 	
 }

@@ -31,7 +31,7 @@ public class ConstructBuildingOrder extends GoalOrder{
 
 	@Override
 	protected void execute() {
-		setGoal(new ConstructBuildingGoal(getTarget(), buildingType, placeToBuildOn));
+		setGoal(new ConstructBuildingGoal(getTarget(), this, buildingType, placeToBuildOn));
 	}
 	
 }

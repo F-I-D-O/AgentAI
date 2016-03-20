@@ -81,10 +81,6 @@ public abstract class Action <T extends Agent> {
         this.childAction.run();
     }
 
-	public void handleRequest(Request request) {
-		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());
-	}
-
 	protected void processInfo(Info info) {
 		Log.log(this, Level.FINE, "{0}: info received: {1}", this.getClass(), info.getClass());
 	}

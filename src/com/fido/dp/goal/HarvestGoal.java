@@ -7,6 +7,7 @@ package com.fido.dp.goal;
 
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.base.Goal;
+import com.fido.dp.base.GoalOrder;
 
 /**
  *
@@ -22,9 +23,14 @@ public class HarvestGoal extends Goal{
 	
 	
 	
-	public HarvestGoal(ResourceCommand agent, double mineralShare) {
-		super(agent);
+	public HarvestGoal(ResourceCommand agent, GoalOrder order, double mineralShare) {
+		super(agent, order);
 		this.mineralShare = mineralShare;
+	}
+
+	@Override
+	public boolean isCompleted() {
+		return false;
 	}
 	
 }

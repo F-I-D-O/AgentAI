@@ -38,7 +38,7 @@ public class Marine extends UnitAgent{
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new WaitGoal(this);
+		return new WaitGoal(this, null);
 	}
 	
 }

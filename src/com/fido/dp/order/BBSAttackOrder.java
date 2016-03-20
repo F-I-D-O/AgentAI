@@ -22,7 +22,7 @@ public class BBSAttackOrder extends GoalOrder{
 
 	@Override
 	protected void execute() {
-		setGoal(new BBSAttackGoal(getTarget()));
+		setGoal(new BBSAttackGoal(getTarget(), this));
 	}
 	
 }

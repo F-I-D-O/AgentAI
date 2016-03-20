@@ -33,7 +33,7 @@ public class SquadCommander extends CommandAgent {
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new WaitGoal(this);
+		return new WaitGoal(this, null);
 	}
 	
 }

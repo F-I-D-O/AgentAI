@@ -25,7 +25,7 @@ public class HarvestOrder extends GoalOrder{
 
 	@Override
 	protected void execute() {
-		setGoal(new HarvestGoal(getTarget(), mineralShare));
+		setGoal(new HarvestGoal(getTarget(), this, mineralShare));
 	}
 	
 }

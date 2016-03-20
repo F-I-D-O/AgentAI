@@ -26,7 +26,7 @@ public class SquadAttackMoveOrder extends GoalOrder{
 
 	@Override
 	protected void execute() {
-		setGoal(new SquadAttackMoveGoal(getTarget(), attackTarget));
+		setGoal(new SquadAttackMoveGoal(getTarget(), this, attackTarget));
 	}
 	
 }

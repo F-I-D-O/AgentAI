@@ -12,7 +12,7 @@ import com.fido.dp.action.BBSBuild;
 import com.fido.dp.BuildPlan;
 import com.fido.dp.Building;
 import com.fido.dp.BuildingPlacer;
-import com.fido.dp.GameAPI;
+import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.Tools;
@@ -163,7 +163,7 @@ public class BuildCommand extends CommandAgent{
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return  new BBSBuildGoal(this);
+		return  new BBSBuildGoal(this, null);
 	}	
 	
 	

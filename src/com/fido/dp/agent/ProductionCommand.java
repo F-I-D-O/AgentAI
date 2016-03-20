@@ -64,7 +64,7 @@ public class ProductionCommand extends CommandAgent{
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new BBSProductionGoal(this);
+		return new BBSProductionGoal(this, null);
 	}
 	
 	
