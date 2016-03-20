@@ -17,11 +17,13 @@ import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Action;
 import com.fido.dp.action.StrategicExplorationAction;
 import com.fido.dp.base.Goal;
+import com.fido.dp.base.Order;
 import com.fido.dp.goal.StrategicExplorationGoal;
 import com.fido.dp.info.EnemyBaseDiscovered;
 import com.fido.dp.info.Info;
 import com.fido.dp.info.EnemyBuildingDiscovered;
 import com.fido.dp.info.LocationExploredInfo;
+import com.fido.dp.order.ExploreBaseLocationOrder;
 import com.fido.dp.request.Request;
 import java.util.ArrayList;
 
@@ -75,16 +77,47 @@ public class ExplorationCommand extends CommandAgent {
 	@Override
 	protected void handleRequest(Request request) {
 		super.handleRequest(request); 
-		
-		
-		
 	}
 
 	@Override
 	protected void processInfo(Info info) {
 		if(info instanceof LocationExploredInfo){
-			Region baseRegion = BWTA.getRegion(((LocationExploredInfo) info).getBaseLocation());
-			Position basePosition = ((LocationExploredInfo) info).getBaseLocation();
+//			Region baseRegion = BWTA.getRegion(((LocationExploredInfo) info).getBaseLocation());
+//			Position basePosition = ((LocationExploredInfo) info).getBaseLocation();
+//			
+//			// find what base it is
+//			for (BaseLocationInfo baseLocation : baseLocations) {
+////				if(BWTA.getRegion(baseLocation.getPosition()).equals(baseRegion)){
+//				if(baseLocation.getPosition().equals(basePosition)){
+//					
+//					// determine if it is enemy base
+//					for (UnitInfo unitInfo : enemyUnits) {
+//						if(BWTA.getRegion(unitInfo.getPosition()).equals(baseRegion)){
+//							baseLocation.setIsEnemyBase(true);
+//							new EnemyBaseDiscovered(geCommandAgent(), this, baseLocation).send();
+//							break;
+//						}
+//					}
+//					baseLocation.setExpplored(true);
+//					baseLocation.setExplorationInProgress(false);
+//					break;
+//				}
+//			}
+			
+		}
+		else if(info instanceof EnemyBuildingDiscovered){
+			EnemyBuildingDiscovered enemyBuildingDiscoveredRequest = (EnemyBuildingDiscovered) info;
+			Unit unit = enemyBuildingDiscoveredRequest.getBuilding();
+			addEnemyBuilding(new UnitInfo(unit, unit.getPosition()));
+		}
+	}
+
+	@Override
+	protected void handleCompletedOrder(Order order) {
+		if(order instanceof ExploreBaseLocationOrder){
+			ExploreBaseLocationOrder exploreBaseLocationOrder = (ExploreBaseLocationOrder) order;
+			Region baseRegion = BWTA.getRegion(exploreBaseLocationOrder.getBaseLocation());
+			Position basePosition = exploreBaseLocationOrder.getBaseLocation();
 			
 			// find what base it is
 			for (BaseLocationInfo baseLocation : baseLocations) {
@@ -104,12 +137,6 @@ public class ExplorationCommand extends CommandAgent {
 					break;
 				}
 			}
-			
-		}
-		else if(info instanceof EnemyBuildingDiscovered){
-			EnemyBuildingDiscovered enemyBuildingDiscoveredRequest = (EnemyBuildingDiscovered) info;
-			Unit unit = enemyBuildingDiscoveredRequest.getBuilding();
-			addEnemyBuilding(new UnitInfo(unit, unit.getPosition()));
 		}
 	}
 	

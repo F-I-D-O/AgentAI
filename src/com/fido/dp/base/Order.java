@@ -26,8 +26,9 @@ public abstract class Order {
 	
 	protected abstract void execute();
 	
-	public final void issueCommand(){
+	public final void issueOrder(){
 		target.addToCommandQueue(this);
+		commandAgent.addUncompletedOrder(this);
 	}
 	
 	public void reportCompleted(){

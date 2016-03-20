@@ -20,6 +20,8 @@ public class ConstructBuildingGoal extends Goal {
 	private final UnitType buildingType;
 	
 	private final TilePosition placeToBuildOn;
+	
+	private boolean buildingConstructionFinished;
 
 	
 	
@@ -31,6 +33,11 @@ public class ConstructBuildingGoal extends Goal {
 		return placeToBuildOn;
 	}
 
+	public void setBuildingConstructionFinished(boolean buildingConstructionFinished) {
+		this.buildingConstructionFinished = buildingConstructionFinished;
+	}
+
+	
 	
 	
 	public ConstructBuildingGoal(SCV agent, GoalOrder order, UnitType buildingType, TilePosition placeToBuildOn) {
@@ -41,7 +48,7 @@ public class ConstructBuildingGoal extends Goal {
 
 	@Override
 	public boolean isCompleted() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return buildingConstructionFinished;
 	}
 	
 }

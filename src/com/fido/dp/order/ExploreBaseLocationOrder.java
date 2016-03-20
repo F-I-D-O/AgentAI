@@ -20,6 +20,12 @@ public class ExploreBaseLocationOrder extends GoalOrder{
 	
 	private final Position baseLocation;
 
+	public Position getBaseLocation() {
+		return baseLocation;
+	}
+	
+	
+
 	public ExploreBaseLocationOrder(Scout target, CommandAgent commandAgent, Position baseLocation) {
 		super((Agent) target, commandAgent);
 		this.baseLocation = baseLocation;

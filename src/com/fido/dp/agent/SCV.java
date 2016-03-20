@@ -1,5 +1,6 @@
 package com.fido.dp.agent;
 
+import bwapi.Position;
 import bwapi.TilePosition;
 import com.fido.dp.base.UnitAgent;
 import bwapi.Unit;
@@ -12,10 +13,12 @@ import com.fido.dp.base.Action;
 import com.fido.dp.action.HarvestMineralsAction;
 import com.fido.dp.action.ConstructBuilding;
 import com.fido.dp.action.ExploreBaseLocation;
+import com.fido.dp.action.Move;
 import com.fido.dp.base.Goal;
 import com.fido.dp.goal.ConstructBuildingGoal;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.goal.HarvestMineralsGoal;
+import com.fido.dp.goal.MoveGoal;
 import com.fido.dp.request.UnitCreationStartedInfo;
 import java.util.logging.Level;
 
@@ -71,6 +74,10 @@ public class SCV extends UnitAgent implements Scout {
 			ConstructBuildingGoal goal = getGoal();
 			return new ConstructBuilding(this, goal.getBuildingType(), goal.getPlaceToBuildOn());
 		}
+		else if(getGoal() instanceof MoveGoal){
+			MoveGoal goal = getGoal();
+			return new Move(this, goal.getTargetPosition());
+		}
 		return null;
     }
 	
@@ -106,6 +113,9 @@ public class SCV extends UnitAgent implements Scout {
 		constructionInProgress = false;
 		constructionProcessInProgress = false;
 		constructedBuildingType = null;
+		if(getGoal() instanceof ConstructBuildingGoal){
+			((ConstructBuildingGoal) getGoal()).setBuildingConstructionFinished(true);
+		}
 	}
 
 	@Override

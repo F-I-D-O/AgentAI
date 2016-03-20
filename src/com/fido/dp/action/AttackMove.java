@@ -8,6 +8,7 @@ package com.fido.dp.action;
 import bwapi.Position;
 import com.fido.dp.base.Action;
 import com.fido.dp.base.UnitAgent;
+import java.util.Objects;
 
 /**
  *
@@ -16,6 +17,8 @@ import com.fido.dp.base.UnitAgent;
 public class AttackMove extends Action<UnitAgent>{
 	
 	private final Position target;
+	
+	int counter = 0;
 
 	public AttackMove(UnitAgent agent, Position target) {
 		super(agent);
@@ -24,12 +27,43 @@ public class AttackMove extends Action<UnitAgent>{
 
 	@Override
 	protected void performAction() {
+//		counter++;
+//		if(agent.getUnit().canMove()){
+//			boolean ok = agent.getUnit().move(new Position(0, 0));
+//		}
+//		boolean ok3 = agent.getUnit().canMove();
+//		boolean ok = agent.getUnit().move(new Position(0, 0));
+//		boolean ok2 = ok;
 		
 	}
 
 	@Override
 	protected void init() {
 		agent.getUnit().attack(target);
+////		agent.getUnit().move(target);
+//		boolean ok3 = agent.getUnit().canMove();
+////		boolean ok = agent.getUnit().move(new Position(0, 0));
+//		boolean ok2 = ok3;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final AttackMove other = (AttackMove) obj;
+		if (!Objects.equals(this.target, other.target)) {
+			return false;
+		}
+		return true;
+	}
+	
+	
 	
 }

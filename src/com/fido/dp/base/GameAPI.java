@@ -14,17 +14,14 @@ import com.fido.dp.MapTools;
 import com.fido.dp.UAlbertaBuildingPlacer;
 import com.fido.dp.UAlbertaMapTools;
 import com.fido.dp.agent.Barracks;
-import com.fido.dp.base.Agent;
 import com.fido.dp.agent.BuildCommand;
 import com.fido.dp.agent.Commander;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.agent.Marine;
 import com.fido.dp.agent.ProductionCommand;
-import com.fido.dp.base.UnitAgent;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
 import com.fido.dp.agent.UnitCommand;
-import com.fido.dp.base.CommandAgent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -122,9 +119,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			if(type.isNeutral()){
 				return;
 			}
-			
-			UnitAgent agent = null;
-			
+//			
+//			UnitAgent agent = null;
+//			
 			// Construction started event
 			if(type.isBuilding()){
 				Unit builderUnit = unit.getBuildUnit();
@@ -135,12 +132,63 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 					builderAgent.onConstructionStarted();
 				}
 			}
+//			
+//			if (type.equals(UnitType.Terran_SCV)) {
+//				agent = new SCV(unit);
+//			}
+//			
+//			if (type.equals(UnitType.Terran_Marine)) {
+//				boolean test = unit.isCompleted();
+//				agent = new Marine(unit);
+//			}
+//			
+//			
+//			
+//			// check beacause we not handle all units creation
+//			if(agent != null){
+//				addAgent(agent);
+//				unitAgents.add(agent);
+//				unitAgentsMappedByUnit.put(unit, agent);
+//			}
+		}
+		catch (Exception exception) {
+            Log.log(this, Level.SEVERE, "EXCEPTION!");
+            exception.printStackTrace();
+        } 
+		catch (Error error) {
+            Log.log(this, Level.SEVERE, "ERROR!");
+            error.printStackTrace();
+        }
+    }
+
+	@Override
+	public void onUnitComplete(Unit unit) {
+		try{
+			UnitType type = unit.getType();
+			
+			if(type.isNeutral()){
+				return;
+			}
+			
+			UnitAgent agent = null;
+			
+//			// Construction started event
+//			if(type.isBuilding()){
+//				Unit builderUnit = unit.getBuildUnit();
+//				SCV builderAgent = (SCV) unitAgentsMappedByUnit.get(builderUnit);
+//				
+//				// units obtained on start has no event
+//				if(builderAgent != null){
+//					builderAgent.onConstructionStarted();
+//				}
+//			}
 			
 			if (type.equals(UnitType.Terran_SCV)) {
 				agent = new SCV(unit);
 			}
 			
 			if (type.equals(UnitType.Terran_Marine)) {
+				boolean test = unit.isCompleted();
 				agent = new Marine(unit);
 			}
 			
@@ -161,7 +209,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
             Log.log(this, Level.SEVERE, "ERROR!");
             error.printStackTrace();
         }
-    }
+	}
+	
+	
 
     @Override
     public void onFrame() {
@@ -172,7 +222,8 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			eventEngine.run();
 			
             Log.log(this, Level.FINE, "Number of agents: {0}", agents.size());
-            for (Agent agent : agents) {
+			
+            for (Agent agent : (ArrayList<Agent>) agents.clone()) {
                 agent.run();
             }
             Log.log(this, Level.INFO, "OnFrame end");
@@ -198,7 +249,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			rootLog.getHandlers()[0].setLevel(logLevel);
 			rootLog.getHandlers()[0].setFormatter(new LogFormater());
 			
-			getGame().setLocalSpeed(10);
+			getGame().setLocalSpeed(30);
 			getGame().setFrameSkip(0);
 			getGame().enableFlag(1);
 

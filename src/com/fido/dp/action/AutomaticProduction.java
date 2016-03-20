@@ -7,6 +7,7 @@ package com.fido.dp.action;
 
 import bwapi.UnitType;
 import com.fido.dp.agent.Barracks;
+import java.util.Objects;
 
 /**
  *
@@ -29,6 +30,24 @@ public class AutomaticProduction extends UnitAction<Barracks>{
 	@Override
 	protected void init() {
 		agent.setAutomaticProductionUnitType(unitType);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final AutomaticProduction other = (AutomaticProduction) obj;
+		if (!Objects.equals(this.unitType, other.unitType)) {
+			return false;
+		}
+		return true;
 	}
 	
 }

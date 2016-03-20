@@ -12,7 +12,10 @@ import com.fido.dp.Log;
 import com.fido.dp.Scout;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.base.Agent;
+import com.fido.dp.base.GameAPI;
+import com.fido.dp.base.UnitAgent;
 import com.fido.dp.order.ExploreBaseLocationOrder;
+import com.fido.dp.order.MoveOrder;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -44,18 +47,20 @@ public class StrategicExplorationAction<T extends ExplorationCommand> extends Co
         Log.log(this, Level.FINE, "{0}: Number of scouts: {1}", this, scouts.size());
 		
         for (Scout scout : scouts) {
-			if(scout.getUnit().isIdle()){
+			if(!agent.isSubordinateAgentOccupied((Agent) scout)){
 				Position target = null;
 				for (BaseLocationInfo baseInfo : agent.getBaseLocations()) {
 					if(!baseInfo.isExpplored() && !baseInfo.isExplorationInProgress() && !baseInfo.isOurBase()){
 						target = baseInfo.getPosition(); 
 						baseInfo.setExplorationInProgress(true);
-						new ExploreBaseLocationOrder(scout, this.getAgent(), target).issueCommand();
+						new ExploreBaseLocationOrder(scout, this.getAgent(), target).issueOrder();
 						break;
 					}
-					
-					// if there are no unexplored bases
-					return;
+				}
+				
+				// if there are no unexplored bases
+				if(target == null){
+					new MoveOrder((UnitAgent) scout, agent, GameAPI.getGame().self().getStartLocation().toPosition()).issueOrder();
 				}
 				
 //				for(BaseLocationInfo base : agent.getBases()) {

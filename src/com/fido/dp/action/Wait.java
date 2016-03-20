@@ -19,6 +19,15 @@ public class Wait extends Action<Agent>{
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return this == obj || obj instanceof Wait;
+	}
+	
+	
+	
+	
+
+	@Override
 	protected void performAction() {
 		
 	}
@@ -27,5 +36,9 @@ public class Wait extends Action<Agent>{
 	protected void init() {
 		
 	}
+
+	
+	
+	
 	
 }

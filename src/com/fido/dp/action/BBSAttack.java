@@ -14,6 +14,7 @@ import com.fido.dp.base.CommandAction;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.order.SquadAttackMoveOrder;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -33,6 +34,23 @@ public class BBSAttack extends CommandAction<UnitCommand>{
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final BBSAttack other = (BBSAttack) obj;
+		return true;
+	}
+	
+	
+
+	@Override
 	protected void performAction() {
 		List<Marine> marines = agent.getSubordinateAgents(Marine.class);
 		agent.detachSubordinateAgents(marines, squadCommander);
@@ -43,7 +61,7 @@ public class BBSAttack extends CommandAction<UnitCommand>{
 		}
 		
 		if(!attackOrdered && enemyBaseLocation != null){
-			new SquadAttackMoveOrder(squadCommander, agent, enemyBaseLocation).issueCommand();
+			new SquadAttackMoveOrder(squadCommander, agent, enemyBaseLocation).issueOrder();
 			attackOrdered = true;
 		}
 	}

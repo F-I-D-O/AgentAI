@@ -23,10 +23,17 @@ public class BBSProduction extends CommandAction<ProductionCommand>{
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return this == obj || obj instanceof BBSProduction;
+	}
+	
+	
+
+	@Override
 	protected void performAction() {
 		for (Barracks barracks : agent.getBarracks()) {
 			if(!(barracks.getGoal() instanceof AutomaticProductionGoal)){
-				new AutomaticProductionOrder(barracks, agent).issueCommand();
+				new AutomaticProductionOrder(barracks, agent).issueOrder();
 			}
 			if(barracks.isMineralsMissing() && barracks.getMissingMinerals() <= agent.getOwnedMinerals()){
 				agent.giveSupply(barracks, Material.MINERALS, barracks.getMissingMinerals());

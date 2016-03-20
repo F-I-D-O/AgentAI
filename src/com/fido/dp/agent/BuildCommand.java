@@ -113,7 +113,7 @@ public class BuildCommand extends CommandAgent{
 		SCV worker = freeWorkers.poll();
 		TilePosition buildingPlace = findPositionForBuild(buildPlan, worker);
 		giveSupply(worker, Material.MINERALS, buildPlan.getMineralsPrice());
-		new ConstructBuildingOrder(worker, this, buildPlan.getBuildingType(), buildingPlace).issueCommand();
+		new ConstructBuildingOrder(worker, this, buildPlan.getBuildingType(), buildingPlace).issueOrder();
     }
     
     public BuildPlan getNextBuildPlan(){

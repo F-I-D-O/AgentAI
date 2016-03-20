@@ -8,6 +8,7 @@ package com.fido.dp.action;
 import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.agent.SCV;
+import java.util.Objects;
 
 /**
  *
@@ -24,6 +25,34 @@ public class ConstructBuilding extends LeafAction<SCV>{
 		this.buildingType = buildingType;
 		this.placeToBuildOn = placeToBuildOn;
 	}
+
+	
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final ConstructBuilding other = (ConstructBuilding) obj;
+		if (!Objects.equals(this.buildingType, other.buildingType)) {
+			return false;
+		}
+		if (!Objects.equals(this.placeToBuildOn, other.placeToBuildOn)) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
+	
 
 	@Override
 	protected void init() {

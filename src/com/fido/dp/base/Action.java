@@ -7,7 +7,6 @@ package com.fido.dp.base;
 
 import com.fido.dp.Log;
 import com.fido.dp.info.Info;
-import com.fido.dp.request.Request;
 import java.util.logging.Level;
 
 /**
@@ -36,10 +35,7 @@ public abstract class Action <T extends Agent> {
 	
 	
 
-	protected abstract void performAction();
-	
-	protected abstract void init();
-    
+	   
     public final void run(){
         Log.log(this, Level.FINE, "{0}: run() START", this.getClass());
         if(childAction != null){
@@ -54,7 +50,16 @@ public abstract class Action <T extends Agent> {
         }
         Log.log(this, Level.FINE, "{0}: run() END", this.getClass());
     }
+
+	@Override
+	public abstract boolean equals(Object obj);
+	
+	
     
+	protected abstract void performAction();
+	
+	protected abstract void init();
+	
     protected final void finish(){
         if(parrentAction != null){
             parrentAction.onChildActionFinish();
@@ -75,9 +80,13 @@ public abstract class Action <T extends Agent> {
     }
     
     protected void runChildAction(Action childAction){
+		if(!childAction.equals(this.childAction)){
+			Log.log(this, Level.FINE, "{0}: Child action replaced. Old: {1}, new: {2}", this.getClass(), 
+					this.childAction, childAction.getClass());
+			this.childAction = childAction;
+			childAction.parrentAction = this;
+		}
         Log.log(this, Level.FINE, "{0}: Running child action: {1}", this.getClass(), childAction);
-        this.childAction = childAction;
-		childAction.parrentAction = this;
         this.childAction.run();
     }
 

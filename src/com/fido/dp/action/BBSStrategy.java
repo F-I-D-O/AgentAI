@@ -57,7 +57,7 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
     
     private final int targetNumberOfScouts;
 	
-	private boolean unitsDetachedFromBuildCommand;
+//	private boolean unitsDetachedFromBuildCommand;
 	
 	
 
@@ -71,11 +71,19 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 		unitCommand = agent.getSubordinateAgent(UnitCommand.class);
         
         targetNumberOfScouts = 1;
-		unitsDetachedFromBuildCommand = true;
+//		unitsDetachedFromBuildCommand = true;
     }
 
     @Override
     public void performAction() {
+		new DeatchBack(buildCommand, this.getAgent(), SCV.class, true).issueOrder();
+		
+		SCV scv;
+		while((scv = agent.getSubordinateAgent(SCV.class)) != null 
+				&& explorationCommand.getNumberOfScouts() < targetNumberOfScouts){
+			getAgent().detachSubordinateAgent(scv, explorationCommand);
+		}
+		
 		List<SCV> scvs = agent.getSubordinateAgents(SCV.class);
 		List<Barracks> barracks = agent.getSubordinateAgents(Barracks.class);
 		List<Marine> marines = agent.getSubordinateAgents(Marine.class);
@@ -99,12 +107,12 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 					Log.log(this, Level.FINER, "{0}: Need workers - YES", this.getClass());
 					if(scvs.isEmpty()){
 						Log.log(this, Level.FINER, "{0}: Have workers - NO", this.getClass());
-						new DeatchBack(resourceCommand, agent, SCV.class, 1).issueCommand();
+						new DeatchBack(resourceCommand, agent, SCV.class, 1).issueOrder();
 					}
 					else {
 						Log.log(this, Level.FINER, "{0}: Have workers - YES", this.getClass());
 						getAgent().detachSubordinateAgent(scvs.get(0), buildCommand);
-						unitsDetachedFromBuildCommand = false;
+//						unitsDetachedFromBuildCommand = false;
 					}
 				}	
 				else {
@@ -147,11 +155,11 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
                 }
             }
         }
-		new HarvestOrder(resourceCommand, this.getAgent(), 1.0).issueCommand();
-		new BBSBuildOrder(buildCommand, this.getAgent()).issueCommand();
-		new BBSProductionOrder(productionCommand, agent).issueCommand();
-		new BBSAttackOrder(unitCommand, agent).issueCommand();
-		new StrategicExplorationOrder(explorationCommand, agent).issueCommand();
+		new HarvestOrder(resourceCommand, this.getAgent(), 1.0).issueOrder();
+		new BBSBuildOrder(buildCommand, this.getAgent()).issueOrder();
+		new BBSProductionOrder(productionCommand, agent).issueOrder();
+		new BBSAttackOrder(unitCommand, agent).issueOrder();
+		new StrategicExplorationOrder(explorationCommand, agent).issueOrder();
 	}
 	
 	@Override
@@ -166,15 +174,15 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 		Log.log(this, Level.FINER, "{0}: Have crystal to give - NO", this.getClass());
 		Log.log(this, Level.FINER, "{0}: Missing amount of crystal: {1}", this.getClass(), 
 				buildCommand.getMissingCrystalForFirsItem() - getAgent().getOwnedMinerals());
-		if(unitsDetachedFromBuildCommand){
+//		if(unitsDetachedFromBuildCommand){
 			if(!scvs.isEmpty()){
 				getAgent().detachSubordinateAgents(scvs, resourceCommand);
 			}
-		}
-		else{
-			new DeatchBack(buildCommand, this.getAgent(), SCV.class, true).issueCommand();
-			unitsDetachedFromBuildCommand = true;
-		}
+//		}
+//		else{
+//			
+////			unitsDetachedFromBuildCommand = true;
+//		}
 	}
 	
 	

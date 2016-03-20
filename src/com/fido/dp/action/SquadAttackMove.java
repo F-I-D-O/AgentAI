@@ -12,6 +12,7 @@ import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.base.CommandAction;
 import com.fido.dp.order.AttackMoveOrder;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -26,13 +27,35 @@ public class SquadAttackMove extends CommandAction<SquadCommander>{
 		this.attackTarget = attackTarget;
 	}
 
+	
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final SquadAttackMove other = (SquadAttackMove) obj;
+		if (!Objects.equals(this.attackTarget, other.attackTarget)) {
+			return false;
+		}
+		return true;
+	}
+
+	
 	@Override
 	protected void performAction() {
 		List<Marine> marines = agent.getSubordinateAgents(Marine.class);
 		Unit unit;
 		for (Marine marine : marines) {
 			if(marine.isIdle()){
-				new AttackMoveOrder(marine, agent, attackTarget).issueCommand();
+				new AttackMoveOrder(marine, agent, attackTarget).issueOrder();
 			}
 		}
 	}
