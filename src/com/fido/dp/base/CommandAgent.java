@@ -1,7 +1,6 @@
 package com.fido.dp.base;
 
 import com.fido.dp.Log;
-import com.fido.dp.info.Info;
 import com.fido.dp.request.Request;
 import java.util.ArrayDeque;
 import java.util.ArrayList;

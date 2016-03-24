@@ -54,6 +54,10 @@ public abstract class Action <T extends Agent> {
 	@Override
 	public abstract boolean equals(Object obj);
 	
+	public void initialize(Goal goal){
+		throw new UnsupportedOperationException("method initialize() was not implemented in action " + this.getClass());
+	}
+	
 	
     
 	protected abstract void performAction();

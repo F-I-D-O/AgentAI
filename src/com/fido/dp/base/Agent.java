@@ -1,11 +1,13 @@
 package com.fido.dp.base;
 
+import com.fido.dp.DecisionMap;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.NoActionChosenException;
 import com.fido.dp.Supply;
 import com.fido.dp.info.Info;
 import java.util.ArrayDeque;
+import java.util.HashMap;
 import java.util.Queue;
 import java.util.logging.Level;
 
@@ -29,21 +31,15 @@ public abstract class Agent {
 	
 	private int receivedGasTotal;
 	
+	private final HashMap<Goal,DecisionMap> reasoningMap;
+	
 	protected final Queue<Info> infoQue;
 	
-
+	protected boolean reasoningOn;
 	
-//    public Action getCommandedAction() {
-//        return commandedAction;
-//    }
-
-//    protected final void setCommandedAction(Action commandedAction) {
-//        if (!commandedAction.equals(this.commandedAction)) {
-//            this.commandedAction = commandedAction;
-//            Log.log(this, Level.FINE, " {0}: Commanded action: {1}", this.getClass(), commandedAction.getClass());
-//        }
-//    }
 	
+	
+
 	
 
 	public final <T extends Goal> T getGoal() {
@@ -74,6 +70,10 @@ public abstract class Agent {
 		return commandAgent;
 	}
 	
+	protected final void addToReasoningMap(Goal goal, DecisionMap map){
+		reasoningMap.put(goal, map);
+	}
+	
 	
 	
 	public Agent() {
@@ -85,6 +85,8 @@ public abstract class Agent {
 		receivedMineralsTotal = 0;
 		infoQue = new ArrayDeque<>();
 		goal = getDefaultGoal();
+		reasoningOn = false;
+		reasoningMap = new HashMap<>();
 	}
 	
 	
@@ -95,7 +97,14 @@ public abstract class Agent {
 		acceptCommands();
 		processInfoQue();
 		routine();
-		Action newAction = chooseAction();
+		
+		Action newAction;
+		if(reasoningOn){
+			newAction = decide();
+		}
+		else{
+			newAction = chooseAction();
+		}
 		
 		if(goal.isCompleted()){
 			if(goal.isOrdered()){
@@ -210,6 +219,10 @@ public abstract class Agent {
 			processInfo(info);
 			chosenAction.processInfo(info);
 		}
+	}
+
+	protected Action decide() {
+		return reasoningMap.get(goal).chooseAction(goal);
 	}
 
 

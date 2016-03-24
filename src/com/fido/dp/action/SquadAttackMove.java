@@ -10,6 +10,7 @@ import bwapi.Unit;
 import com.fido.dp.agent.Marine;
 import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.base.CommandAction;
+import com.fido.dp.base.Goal;
 import com.fido.dp.order.AttackMoveOrder;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +21,7 @@ import java.util.Objects;
  */
 public class SquadAttackMove extends CommandAction<SquadCommander>{
 	
-	private final Position attackTarget;
+	protected final Position attackTarget;
 
 	public SquadAttackMove(SquadCommander agent, Position attackTarget) {
 		super(agent);
@@ -48,6 +49,12 @@ public class SquadAttackMove extends CommandAction<SquadCommander>{
 		return true;
 	}
 
+	@Override
+	public void initialize(Goal goal) {
+		
+	}
+
+	
 	
 	@Override
 	protected void performAction() {
