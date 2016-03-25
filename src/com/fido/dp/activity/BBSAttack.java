@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
 import bwapi.Position;
 import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.agent.Marine;
 import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.agent.UnitCommand;
-import com.fido.dp.base.CommandAction;
+import com.fido.dp.base.CommandActivity;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.Goal;
 import com.fido.dp.order.SquadAttackMoveOrder;
@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author F.I.D.O.
  */
-public class BBSAttack extends CommandAction<UnitCommand,Goal>{
+public class BBSAttack extends CommandActivity<UnitCommand,Goal>{
 	
 	private SquadCommander squadCommander;
 	

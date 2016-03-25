@@ -7,10 +7,10 @@ package com.fido.dp.agent;
 
 import bwapi.Position;
 import com.fido.dp.DecisionMap;
-import com.fido.dp.action.ASAPSquadAttackMove;
-import com.fido.dp.action.NormalSquadAttackMove;
-import com.fido.dp.action.Wait;
-import com.fido.dp.base.Action;
+import com.fido.dp.activity.ASAPSquadAttackMove;
+import com.fido.dp.activity.NormalSquadAttackMove;
+import com.fido.dp.activity.Wait;
+import com.fido.dp.base.Activity;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Goal;
 import com.fido.dp.goal.SquadAttackMoveGoal;
@@ -27,7 +27,7 @@ public class SquadCommander extends CommandAgent {
 		reasoningOn = true;
 		
 		SquadAttackMoveGoal squadAttackMoveGoal = new SquadAttackMoveGoal(null, null, Position.None);
-		TreeMap<Double,Action> actionMap = new TreeMap<>();
+		TreeMap<Double,Activity> actionMap = new TreeMap<>();
 		actionMap.put(0.2, new ASAPSquadAttackMove(this, Position.None));
 		actionMap.put(1.0, new NormalSquadAttackMove(this, Position.None));
 		addToReasoningMap(squadAttackMoveGoal.getClass(), new DecisionMap(squadAttackMoveGoal, actionMap));
@@ -41,7 +41,7 @@ public class SquadCommander extends CommandAgent {
 	
 
 	@Override
-	protected Action chooseAction() {
+	protected Activity chooseAction() {
 		if(getGoal() instanceof SquadAttackMoveGoal){
 			SquadAttackMoveGoal goal = getGoal();
 			return new ASAPSquadAttackMove(this, goal.getAttackTarget());

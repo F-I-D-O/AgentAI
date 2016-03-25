@@ -5,7 +5,7 @@
  */
 package com.fido.dp;
 
-import com.fido.dp.base.Action;
+import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 import java.util.TreeMap;
 
@@ -16,18 +16,18 @@ import java.util.TreeMap;
 public class DecisionMap {
 	private final Goal goal;
 	
-	private final TreeMap<Double,Action> probabilities;
+	private final TreeMap<Double,Activity> probabilities;
 
-	public DecisionMap(Goal goal, TreeMap<Double, Action> probabilities) {
+	public DecisionMap(Goal goal, TreeMap<Double, Activity> probabilities) {
 		this.goal = goal;
 		this.probabilities = probabilities;
 	}
 	
 	
 	
-	public Action chooseAction(){
+	public Activity chooseAction(){
 		double rand = Math.random();
-//		Action chosenAction = probabilities.get(rand);
+//		Activity chosenAction = probabilities.get(rand);
 		return probabilities.higherEntry(rand).getValue();
 	}
 	

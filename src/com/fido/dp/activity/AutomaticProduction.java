@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
+import com.fido.dp.base.UnitActivity;
 import bwapi.UnitType;
 import com.fido.dp.agent.Barracks;
 import com.fido.dp.base.Goal;
@@ -14,7 +15,7 @@ import java.util.Objects;
  *
  * @author F.I.D.O.
  */
-public class AutomaticProduction extends UnitAction<Barracks,Goal>{
+public class AutomaticProduction extends UnitActivity<Barracks,Goal>{
 	
 	UnitType unitType;
 

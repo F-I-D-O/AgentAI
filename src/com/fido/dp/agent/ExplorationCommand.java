@@ -14,8 +14,8 @@ import bwta.Region;
 import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.CommandAgent;
-import com.fido.dp.base.Action;
-import com.fido.dp.action.StrategicExplorationAction;
+import com.fido.dp.base.Activity;
+import com.fido.dp.activity.StrategicExploration;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.Order;
 import com.fido.dp.goal.StrategicExplorationGoal;
@@ -63,9 +63,9 @@ public class ExplorationCommand extends CommandAgent {
 	
 
     @Override
-    protected Action chooseAction() {
+    protected Activity chooseAction() {
 		if(getGoal() instanceof StrategicExplorationGoal){
-			return new StrategicExplorationAction(this);
+			return new StrategicExploration(this);
 		}
 		return null;
     }

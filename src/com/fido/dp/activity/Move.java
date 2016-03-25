@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
+import com.fido.dp.base.UnitActivity;
 import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.Log;
@@ -17,7 +18,7 @@ import java.util.logging.Level;
  *
  * @author david_000
  */
-public class Move extends UnitAction<UnitAgent,Goal> {
+public class Move extends UnitActivity<UnitAgent,Goal> {
 	
 	public static final int DEFAULT_MAX_DISTANCE_FROM_TARGET = 200;
     

@@ -6,9 +6,9 @@
 package com.fido.dp.agent;
 
 import com.fido.dp.BaseLocationInfo;
-import com.fido.dp.action.BBSAttack;
+import com.fido.dp.activity.BBSAttack;
 import com.fido.dp.base.CommandAgent;
-import com.fido.dp.base.Action;
+import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.goal.BBSAttackGoal;
 import com.fido.dp.info.EnemyBasesInfo;
@@ -38,7 +38,7 @@ public class UnitCommand extends CommandAgent {
 	
 
     @Override
-    protected Action chooseAction() {
+    protected Activity chooseAction() {
         if(getGoal() instanceof BBSAttackGoal){
 			return new BBSAttack(this);
 		}

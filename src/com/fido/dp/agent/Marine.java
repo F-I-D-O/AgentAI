@@ -6,9 +6,9 @@
 package com.fido.dp.agent;
 
 import bwapi.Unit;
-import com.fido.dp.action.AttackMove;
-import com.fido.dp.action.Wait;
-import com.fido.dp.base.Action;
+import com.fido.dp.activity.AttackMove;
+import com.fido.dp.activity.Wait;
+import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
 import com.fido.dp.goal.AttackMoveGoal;
@@ -25,7 +25,7 @@ public class Marine extends UnitAgent{
 	}
 
 	@Override
-	protected Action chooseAction() {
+	protected Activity chooseAction() {
 		if(getGoal() instanceof AttackMoveGoal){
 			AttackMoveGoal goal = getGoal();
 			return new AttackMove(this, goal.getAttackTarget());

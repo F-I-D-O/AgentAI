@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
 import bwapi.Position;
-import com.fido.dp.base.CommandAction;
+import com.fido.dp.base.CommandActivity;
 import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.Log;
 import com.fido.dp.Scout;
@@ -25,11 +25,11 @@ import java.util.logging.Level;
  * @author david_000
  * @param <A>
  */
-public class StrategicExplorationAction<A extends ExplorationCommand> extends CommandAction<A,Goal> {
+public class StrategicExploration<A extends ExplorationCommand> extends CommandActivity<A,Goal> {
     
     private final ArrayList<Scout> scouts;
 
-    public StrategicExplorationAction(A agent) {
+    public StrategicExploration(A agent) {
         super(agent);
         scouts = new ArrayList<>();
        
@@ -76,7 +76,7 @@ public class StrategicExplorationAction<A extends ExplorationCommand> extends Co
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final StrategicExplorationAction other = (StrategicExplorationAction) obj;
+        final StrategicExploration other = (StrategicExploration) obj;
         return true;
     }
 

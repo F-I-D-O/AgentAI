@@ -7,8 +7,8 @@ package com.fido.dp.agent;
 
 import bwapi.Unit;
 import bwapi.UnitType;
-import com.fido.dp.base.Action;
-import com.fido.dp.action.AutomaticProduction;
+import com.fido.dp.base.Activity;
+import com.fido.dp.activity.AutomaticProduction;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
 import com.fido.dp.goal.AutomaticProductionGoal;
@@ -45,7 +45,7 @@ public class Barracks extends UnitAgent{
 	}
 
 	@Override
-	protected Action chooseAction() {
+	protected Activity chooseAction() {
 		if(getGoal() instanceof AutomaticProductionGoal){
 			return new AutomaticProduction(this, UnitType.Terran_Marine);
 		}

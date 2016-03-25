@@ -142,7 +142,7 @@ public abstract class CommandAgent extends Agent {
 		Request request;
 		while((request = requests.poll()) != null){
 			handleRequest(request);
-			((CommandAction) chosenAction).handleRequest(request);
+			((CommandActivity) chosenAction).handleRequest(request);
 		}
 	}
 
@@ -150,7 +150,7 @@ public abstract class CommandAgent extends Agent {
 		Order order;
 		while((order = completedOrdersQueue.poll()) != null){
 			handleCompletedOrder(order);
-			((CommandAction) chosenAction).handleCompletedOrder(order);
+			((CommandActivity) chosenAction).handleCompletedOrder(order);
 			uncompletedOrders.remove(order);
 		}
 	}

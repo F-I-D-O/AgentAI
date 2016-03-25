@@ -8,7 +8,7 @@ package com.fido.dp.agent;
 import com.fido.dp.base.CommandAgent;
 import bwapi.TilePosition;
 import bwapi.UnitType;
-import com.fido.dp.action.BBSBuild;
+import com.fido.dp.activity.BBSBuild;
 import com.fido.dp.BuildPlan;
 import com.fido.dp.Building;
 import com.fido.dp.BuildingPlacer;
@@ -17,7 +17,7 @@ import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.Tools;
 import com.fido.dp.UAlbertaBuildingPlacer;
-import com.fido.dp.base.Action;
+import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.order.ConstructBuildingOrder;
 import com.fido.dp.goal.BBSBuildGoal;
@@ -173,7 +173,7 @@ public class BuildCommand extends CommandAgent{
 	
 
     @Override
-    protected Action chooseAction() {
+    protected Activity chooseAction() {
         if(getGoal() instanceof BBSBuildGoal){
 			return new BBSBuild(this);
 		}

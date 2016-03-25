@@ -1,13 +1,14 @@
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
+import com.fido.dp.base.UnitActivity;
 import com.fido.dp.base.GameAPI;
 import bwapi.Unit;
 import com.fido.dp.agent.SCV;
 import com.fido.dp.base.Goal;
 
-public class HarvestMineralsAction extends UnitAction<SCV,Goal> {
+public class HarvestMinerals extends UnitActivity<SCV,Goal> {
 
-    public HarvestMineralsAction(SCV unitAgent) {
+    public HarvestMinerals(SCV unitAgent) {
         super(unitAgent);
     }
 
@@ -37,7 +38,7 @@ public class HarvestMineralsAction extends UnitAction<SCV,Goal> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final HarvestMineralsAction other = (HarvestMineralsAction) obj;
+        final HarvestMinerals other = (HarvestMinerals) obj;
         return true;
     }
 

@@ -1,6 +1,6 @@
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
-import com.fido.dp.base.Action;
+import com.fido.dp.base.Activity;
 import com.fido.dp.Log;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
@@ -9,7 +9,7 @@ import com.fido.dp.agent.SCV;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-public class TestAction extends Action {
+public class TestAction extends Activity {
 
     private ExplorationCommand explorationCommand;
 

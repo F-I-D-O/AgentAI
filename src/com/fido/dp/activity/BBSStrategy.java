@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
 import bwapi.UnitType;
 import com.fido.dp.BaseLocationInfo;
-import com.fido.dp.base.CommandAction;
+import com.fido.dp.base.CommandActivity;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.agent.Barracks;
@@ -37,7 +37,7 @@ import java.util.logging.Level;
  * @author david_000
  * @param <A>
  */
-public class BBSStrategy<A extends Commander> extends CommandAction<A,Goal>{
+public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 	
 	private static final int MINERALS_FOR_BUILDING_CONSTRUCTION = 400;
 	

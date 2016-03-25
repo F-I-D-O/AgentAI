@@ -17,7 +17,7 @@ public abstract class Agent {
 	
 	private Goal goal;
 
-    protected Action chosenAction;
+    protected Activity chosenAction;
 	
 	protected boolean assigned;
 	
@@ -101,7 +101,7 @@ public abstract class Agent {
 		processInfoQue();
 		routine();
 		
-		Action newAction;
+		Activity newAction;
 		if(goalChanged){
 			if(reasoningOn){
 				newAction = decide();
@@ -179,7 +179,7 @@ public abstract class Agent {
 	}
 	
 	
-	protected abstract Action chooseAction();
+	protected abstract Activity chooseAction();
 	
 	protected void routine() {
 		
@@ -230,8 +230,8 @@ public abstract class Agent {
 		}
 	}
 
-	protected Action decide() {
-		Action chosenAction = reasoningMap.get(goal.getClass()).chooseAction();
+	protected Activity decide() {
+		Activity chosenAction = reasoningMap.get(goal.getClass()).chooseAction();
 		chosenAction.initialize(goal);
 		return chosenAction;
 	}

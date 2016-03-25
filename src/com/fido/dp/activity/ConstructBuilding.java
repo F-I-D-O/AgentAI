@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
 import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.agent.SCV;
 import com.fido.dp.base.Goal;
+import com.fido.dp.base.UnitActivity;
 import java.util.Objects;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class ConstructBuilding extends LeafAction<SCV,Goal>{
+public class ConstructBuilding extends UnitActivity<SCV,Goal>{
 	
 	private final UnitType buildingType;
 	

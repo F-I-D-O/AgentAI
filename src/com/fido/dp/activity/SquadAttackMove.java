@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
 import bwapi.Position;
 import com.fido.dp.agent.SquadCommander;
-import com.fido.dp.base.CommandAction;
+import com.fido.dp.base.CommandActivity;
 import com.fido.dp.goal.SquadAttackMoveGoal;
 import java.util.Objects;
 
@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @author F.I.D.O.
  */
-public abstract class SquadAttackMove extends CommandAction<SquadCommander,SquadAttackMoveGoal>{
+public abstract class SquadAttackMove extends CommandActivity<SquadCommander,SquadAttackMoveGoal>{
 	
 	protected Position attackTarget;
 

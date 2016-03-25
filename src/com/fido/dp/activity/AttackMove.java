@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
 import bwapi.Position;
-import com.fido.dp.base.Action;
+import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
 import java.util.Objects;
@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @author F.I.D.O.
  */
-public class AttackMove extends Action<UnitAgent,Goal>{
+public class AttackMove extends Activity<UnitAgent,Goal>{
 	
 	private final Position target;
 	

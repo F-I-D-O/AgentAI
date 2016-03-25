@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
-import com.fido.dp.base.CommandAction;
+import com.fido.dp.base.CommandActivity;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
 import com.fido.dp.base.Goal;
@@ -19,7 +19,7 @@ import java.util.Objects;
  * @author david_000
  * @param <A>
  */
-public class ManageHarvest<A extends ResourceCommand> extends CommandAction<A,Goal>{
+public class ManageHarvest<A extends ResourceCommand> extends CommandActivity<A,Goal>{
 	
 	private final double mineralShare;
 

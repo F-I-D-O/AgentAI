@@ -5,8 +5,8 @@ import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Supply;
-import com.fido.dp.base.Action;
-import com.fido.dp.action.BBSStrategy;
+import com.fido.dp.base.Activity;
+import com.fido.dp.activity.BBSStrategy;
 import com.fido.dp.Material;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.Goal;
@@ -37,7 +37,7 @@ public class Commander extends CommandAgent {
     }
 
     @Override
-    protected Action chooseAction() {
+    protected Activity chooseAction() {
 		if(getGoal() instanceof  BBSStrategyGoal){
 			return new BBSStrategy(this);
 		}

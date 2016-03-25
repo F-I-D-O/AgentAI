@@ -7,7 +7,7 @@ package com.fido.dp.agent;
 
 import com.fido.dp.base.UnitAgent;
 import bwapi.Unit;
-import com.fido.dp.base.Action;
+import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 
 /**
@@ -21,7 +21,7 @@ public class Vulture extends UnitAgent {
     }
 
     @Override
-    protected Action chooseAction() {
+    protected Activity chooseAction() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

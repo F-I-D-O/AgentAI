@@ -9,11 +9,11 @@ import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.Scout;
-import com.fido.dp.base.Action;
-import com.fido.dp.action.HarvestMineralsAction;
-import com.fido.dp.action.ConstructBuilding;
-import com.fido.dp.action.ExploreBaseLocation;
-import com.fido.dp.action.Move;
+import com.fido.dp.base.Activity;
+import com.fido.dp.activity.HarvestMinerals;
+import com.fido.dp.activity.ConstructBuilding;
+import com.fido.dp.activity.ExploreBaseLocation;
+import com.fido.dp.activity.Move;
 import com.fido.dp.base.Goal;
 import com.fido.dp.goal.ConstructBuildingGoal;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
@@ -71,13 +71,13 @@ public class SCV extends UnitAgent implements Scout {
 	
 
     @Override
-    protected Action chooseAction() {
+    protected Activity chooseAction() {
         if(getGoal() instanceof ExploreBaseLocationGoal){
 			ExploreBaseLocationGoal goal = getGoal();
 			return new ExploreBaseLocation(this, goal.getBaseLocation());
 		}
 		else if(getGoal() instanceof HarvestMineralsGoal){
-			return new HarvestMineralsAction(this);
+			return new HarvestMinerals(this);
 		}
 		else if(getGoal() instanceof ConstructBuildingGoal){
 			ConstructBuildingGoal goal = getGoal();

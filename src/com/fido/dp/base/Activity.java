@@ -15,22 +15,22 @@ import java.util.logging.Level;
  * @param <A>
  * @param <G>
  */
-public abstract class Action <A extends Agent,G extends Goal> {
+public abstract class Activity <A extends Agent,G extends Goal> {
     
     private boolean isInitialized;
 	
 	protected A agent;
     
-    private Action parrentAction;
+    private Activity parrentAction;
     
-    private Action childAction;
+    private Activity childAction;
     
 
 	public final A getAgent() {
 		return (A) agent;
 	}
 
-	public Action(A agent) {
+	public Activity(A agent) {
 		this.agent = agent;
 	}
 	
@@ -84,7 +84,7 @@ public abstract class Action <A extends Agent,G extends Goal> {
 //        performAction(); not needet, because frame rate is high enough
     }
     
-    protected void runChildAction(Action childAction){
+    protected void runChildAction(Activity childAction){
 		if(!childAction.equals(this.childAction)){
 			Log.log(this, Level.FINE, "{0}: Child action replaced. Old: {1}, new: {2}", this.getClass(), 
 					this.childAction, childAction.getClass());

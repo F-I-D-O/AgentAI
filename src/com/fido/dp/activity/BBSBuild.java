@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
-import com.fido.dp.base.CommandAction;
+import com.fido.dp.base.CommandActivity;
 import bwapi.UnitType;
 import com.fido.dp.BuildPlan;
 import com.fido.dp.Log;
@@ -19,7 +19,7 @@ import java.util.logging.Level;
  * @author david_000
  * @param <A>
  */
-public class BBSBuild<A extends BuildCommand> extends CommandAction<A,Goal> {
+public class BBSBuild<A extends BuildCommand> extends CommandActivity<A,Goal> {
     
     
 

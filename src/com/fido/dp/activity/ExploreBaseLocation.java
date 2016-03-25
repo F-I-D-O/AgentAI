@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.action;
+package com.fido.dp.activity;
 
+import com.fido.dp.base.UnitActivity;
 import bwapi.Position;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.agent.SCV;
@@ -17,7 +18,7 @@ import java.util.Objects;
  *
  * @author david_000
  */
-public class ExploreBaseLocation extends UnitAction<SCV,Goal> {
+public class ExploreBaseLocation extends UnitActivity<SCV,Goal> {
     
     private boolean locationExplored;
     
