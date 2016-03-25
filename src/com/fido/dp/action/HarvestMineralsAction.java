@@ -3,8 +3,9 @@ package com.fido.dp.action;
 import com.fido.dp.base.GameAPI;
 import bwapi.Unit;
 import com.fido.dp.agent.SCV;
+import com.fido.dp.base.Goal;
 
-public class HarvestMineralsAction extends UnitAction<SCV> {
+public class HarvestMineralsAction extends UnitAction<SCV,Goal> {
 
     public HarvestMineralsAction(SCV unitAgent) {
         super(unitAgent);

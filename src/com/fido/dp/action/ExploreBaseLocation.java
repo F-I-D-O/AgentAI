@@ -6,9 +6,9 @@
 package com.fido.dp.action;
 
 import bwapi.Position;
-import bwta.Region;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.agent.SCV;
+import com.fido.dp.base.Goal;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.info.LocationExploredInfo;
 import java.util.Objects;
@@ -17,7 +17,7 @@ import java.util.Objects;
  *
  * @author david_000
  */
-public class ExploreBaseLocation extends UnitAction<SCV> {
+public class ExploreBaseLocation extends UnitAction<SCV,Goal> {
     
     private boolean locationExplored;
     

@@ -9,6 +9,7 @@ import com.fido.dp.Material;
 import com.fido.dp.agent.Barracks;
 import com.fido.dp.base.CommandAction;
 import com.fido.dp.agent.ProductionCommand;
+import com.fido.dp.base.Goal;
 import com.fido.dp.goal.AutomaticProductionGoal;
 import com.fido.dp.order.AutomaticProductionOrder;
 
@@ -16,7 +17,7 @@ import com.fido.dp.order.AutomaticProductionOrder;
  *
  * @author F.I.D.O.
  */
-public class BBSProduction extends CommandAction<ProductionCommand>{
+public class BBSProduction extends CommandAction<ProductionCommand,Goal>{
 
 	public BBSProduction(ProductionCommand agent) {
 		super(agent);

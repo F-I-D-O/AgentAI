@@ -19,6 +19,7 @@ import com.fido.dp.agent.ProductionCommand;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
 import com.fido.dp.agent.UnitCommand;
+import com.fido.dp.base.Goal;
 import com.fido.dp.info.EnemyBaseDiscovered;
 import com.fido.dp.info.EnemyBasesInfo;
 import com.fido.dp.info.Info;
@@ -34,9 +35,9 @@ import java.util.logging.Level;
 /**
  *
  * @author david_000
- * @param <T>
+ * @param <A>
  */
-public class BBSStrategy<T extends Commander> extends CommandAction<T>{
+public class BBSStrategy<A extends Commander> extends CommandAction<A,Goal>{
 	
 	private static final int MINERALS_FOR_BUILDING_CONSTRUCTION = 400;
 	
@@ -61,7 +62,7 @@ public class BBSStrategy<T extends Commander> extends CommandAction<T>{
 	
 	
 
-    public BBSStrategy(T agent) {
+    public BBSStrategy(A agent) {
         super(agent);
         
         resourceCommand = agent.getSubordinateAgent(ResourceCommand.class);

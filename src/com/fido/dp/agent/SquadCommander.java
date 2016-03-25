@@ -7,14 +7,15 @@ package com.fido.dp.agent;
 
 import bwapi.Position;
 import com.fido.dp.DecisionMap;
-import com.fido.dp.action.SquadAttackMove;
+import com.fido.dp.action.ASAPSquadAttackMove;
+import com.fido.dp.action.NormalSquadAttackMove;
 import com.fido.dp.action.Wait;
 import com.fido.dp.base.Action;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Goal;
 import com.fido.dp.goal.SquadAttackMoveGoal;
 import com.fido.dp.goal.WaitGoal;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  *
@@ -24,10 +25,17 @@ public class SquadCommander extends CommandAgent {
 
 	public SquadCommander() {
 		reasoningOn = true;
-		Goal goal = new SquadAttackMoveGoal(null, null, Position.None);
-		HashMap<Double,Action> map = new HashMap<>();
-		map.put(0.7, new SquadAttackMove(this, Position.None));
-		addToReasoningMap(goal, new DecisionMap(goal, map));
+		
+		SquadAttackMoveGoal squadAttackMoveGoal = new SquadAttackMoveGoal(null, null, Position.None);
+		TreeMap<Double,Action> actionMap = new TreeMap<>();
+		actionMap.put(0.2, new ASAPSquadAttackMove(this, Position.None));
+		actionMap.put(1.0, new NormalSquadAttackMove(this, Position.None));
+		addToReasoningMap(squadAttackMoveGoal.getClass(), new DecisionMap(squadAttackMoveGoal, actionMap));
+		
+		WaitGoal waitGoal = new WaitGoal(null, null);
+		actionMap = new TreeMap<>();
+		actionMap.put(1.0, new Wait(this));
+		addToReasoningMap(waitGoal.getClass(), new DecisionMap(waitGoal, actionMap));
 	}
 	
 	
@@ -36,7 +44,7 @@ public class SquadCommander extends CommandAgent {
 	protected Action chooseAction() {
 		if(getGoal() instanceof SquadAttackMoveGoal){
 			SquadAttackMoveGoal goal = getGoal();
-			return new SquadAttackMove(this, goal.getAttackTarget());
+			return new ASAPSquadAttackMove(this, goal.getAttackTarget());
 		}
 		if(getGoal() instanceof WaitGoal){
 			return new Wait(this);

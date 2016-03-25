@@ -13,6 +13,7 @@ import com.fido.dp.Scout;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.GameAPI;
+import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
 import com.fido.dp.order.ExploreBaseLocationOrder;
 import com.fido.dp.order.MoveOrder;
@@ -22,13 +23,13 @@ import java.util.logging.Level;
 /**
  *
  * @author david_000
- * @param <T>
+ * @param <A>
  */
-public class StrategicExplorationAction<T extends ExplorationCommand> extends CommandAction<T> {
+public class StrategicExplorationAction<A extends ExplorationCommand> extends CommandAction<A,Goal> {
     
     private final ArrayList<Scout> scouts;
 
-    public StrategicExplorationAction(T agent) {
+    public StrategicExplorationAction(A agent) {
         super(agent);
         scouts = new ArrayList<>();
        
@@ -59,18 +60,10 @@ public class StrategicExplorationAction<T extends ExplorationCommand> extends Co
 				}
 				
 				// if there are no unexplored bases
-				if(target == null){
-					new MoveOrder((UnitAgent) scout, agent, GameAPI.getGame().self().getStartLocation().toPosition()).issueOrder();
+				if(target == null && scout.getPosition().getDistance(GameAPI.getStartBasePosition()) 
+						> Move.DEFAULT_MAX_DISTANCE_FROM_TARGET){
+					new MoveOrder((UnitAgent) scout, agent, GameAPI.getStartBasePosition()).issueOrder();
 				}
-				
-//				for(BaseLocationInfo base : agent.getBases()) {
-//					if(!base.isExpplored() && !base.isOurBase()){
-//						target = base.getPosition(); 
-//						Log.log(this, Level.FINER, "Our base position: {0}", target);
-//						Log.log(this, Level.FINER, "Target base position: {0}", target);
-//						break;
-//					}
-//				}
 			}
         }
     }

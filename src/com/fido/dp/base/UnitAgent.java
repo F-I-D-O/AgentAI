@@ -7,7 +7,7 @@ import java.util.logging.Level;
 
 public abstract class UnitAgent extends Agent {
 
-    protected Unit unit;
+    protected final Unit unit;
 
 	
 	

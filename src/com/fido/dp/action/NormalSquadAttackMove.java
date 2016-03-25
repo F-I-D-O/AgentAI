@@ -6,7 +6,6 @@
 package com.fido.dp.action;
 
 import bwapi.Position;
-import bwapi.Unit;
 import com.fido.dp.agent.Marine;
 import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.order.AttackMoveOrder;
@@ -16,25 +15,31 @@ import java.util.List;
  *
  * @author F.I.D.O.
  */
-public class ASAPSquadAttackMove extends SquadAttackMove{
+public class NormalSquadAttackMove extends SquadAttackMove{
 	
-	public ASAPSquadAttackMove(SquadCommander agent, Position attackTarget) {
+	private static final int DEFAULT_MIN_SQUAD_SIZE = 4;
+	
+	private int minSquadSize;
+
+	public NormalSquadAttackMove(SquadCommander agent, Position attackTarget) {
 		super(agent, attackTarget);
 	}
+	
 	
 	@Override
 	protected void performAction() {
 		List<Marine> marines = agent.getSubordinateAgents(Marine.class);
-		Unit unit;
-		for (Marine marine : marines) {
-			if(marine.isIdle()){
-				new AttackMoveOrder(marine, agent, attackTarget).issueOrder();
+		if(marines.size() >= minSquadSize){
+			for (Marine marine : marines) {
+				if(marine.isIdle()){
+					new AttackMoveOrder(marine, agent, attackTarget).issueOrder();
+				}
 			}
 		}
 	}
 
 	@Override
 	protected void init() {
-		
+		minSquadSize = DEFAULT_MIN_SQUAD_SIZE;
 	}
 }

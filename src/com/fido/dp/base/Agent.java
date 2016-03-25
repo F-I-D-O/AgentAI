@@ -31,11 +31,13 @@ public abstract class Agent {
 	
 	private int receivedGasTotal;
 	
-	private final HashMap<Goal,DecisionMap> reasoningMap;
+	private final HashMap<Class<? extends Goal>,DecisionMap> reasoningMap;
 	
 	protected final Queue<Info> infoQue;
 	
 	protected boolean reasoningOn;
+	
+	private boolean goalChanged;
 	
 	
 	
@@ -70,8 +72,8 @@ public abstract class Agent {
 		return commandAgent;
 	}
 	
-	protected final void addToReasoningMap(Goal goal, DecisionMap map){
-		reasoningMap.put(goal, map);
+	protected final void addToReasoningMap(Class<? extends Goal> goalClass, DecisionMap map){
+		reasoningMap.put(goalClass, map);
 	}
 	
 	
@@ -87,6 +89,7 @@ public abstract class Agent {
 		goal = getDefaultGoal();
 		reasoningOn = false;
 		reasoningMap = new HashMap<>();
+		goalChanged = true;
 	}
 	
 	
@@ -99,11 +102,19 @@ public abstract class Agent {
 		routine();
 		
 		Action newAction;
-		if(reasoningOn){
-			newAction = decide();
-		}
-		else{
-			newAction = chooseAction();
+		if(goalChanged){
+			if(reasoningOn){
+				newAction = decide();
+			}
+			else{
+				newAction = chooseAction();
+			}
+			goalChanged = false;
+			
+			// if chosen action changed, save it to chosenAction property
+			if (chosenAction == null || !chosenAction.equals(newAction)) {
+				chosenAction = newAction;
+			}
 		}
 		
 		if(goal.isCompleted()){
@@ -111,12 +122,9 @@ public abstract class Agent {
 				goal.reportCompleted();
 			}
 			goal = getDefaultGoal();
+			goalChanged = true;
 		}
 		
-		// if chosen action changed, save it to chosenAction property
-        if (chosenAction == null || !chosenAction.equals(newAction)) {
-            chosenAction = newAction;
-        }
         if (chosenAction == null) {
             throw new NoActionChosenException(this.getClass(), goal, commandAgent.getClass());
         }
@@ -201,6 +209,7 @@ public abstract class Agent {
 	
 	final void setGoal(Goal goal){
 		this.goal = goal;
+		goalChanged = true;
 		Log.log(this, Level.INFO, "{0}: new goal set: {1}", this.getClass(), goal.getClass());
 	}
 	
@@ -222,7 +231,9 @@ public abstract class Agent {
 	}
 
 	protected Action decide() {
-		return reasoningMap.get(goal).chooseAction(goal);
+		Action chosenAction = reasoningMap.get(goal.getClass()).chooseAction();
+		chosenAction.initialize(goal);
+		return chosenAction;
 	}
 
 

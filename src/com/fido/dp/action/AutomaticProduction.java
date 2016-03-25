@@ -7,13 +7,14 @@ package com.fido.dp.action;
 
 import bwapi.UnitType;
 import com.fido.dp.agent.Barracks;
+import com.fido.dp.base.Goal;
 import java.util.Objects;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class AutomaticProduction extends UnitAction<Barracks>{
+public class AutomaticProduction extends UnitAction<Barracks,Goal>{
 	
 	UnitType unitType;
 

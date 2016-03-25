@@ -11,18 +11,19 @@ import com.fido.dp.BuildPlan;
 import com.fido.dp.Log;
 import com.fido.dp.agent.BuildCommand;
 import com.fido.dp.agent.SCV;
+import com.fido.dp.base.Goal;
 import java.util.logging.Level;
 
 /**
  *
  * @author david_000
- * @param <T>
+ * @param <A>
  */
-public class BBSBuild<T extends BuildCommand> extends CommandAction<T> {
+public class BBSBuild<A extends BuildCommand> extends CommandAction<A,Goal> {
     
     
 
-    public BBSBuild(T agent) {
+    public BBSBuild(A agent) {
         super(agent);
     }
 

@@ -12,24 +12,25 @@ import java.util.logging.Level;
 /**
  *
  * @author F.I.D.O.
- * @param <T>
+ * @param <A>
+ * @param <G>
  */
-public abstract class Action <T extends Agent> {
+public abstract class Action <A extends Agent,G extends Goal> {
     
     private boolean isInitialized;
 	
-	protected T agent;
+	protected A agent;
     
     private Action parrentAction;
     
     private Action childAction;
     
 
-	public final T getAgent() {
-		return (T) agent;
+	public final A getAgent() {
+		return (A) agent;
 	}
 
-	public Action(T agent) {
+	public Action(A agent) {
 		this.agent = agent;
 	}
 	
@@ -54,7 +55,7 @@ public abstract class Action <T extends Agent> {
 	@Override
 	public abstract boolean equals(Object obj);
 	
-	public void initialize(Goal goal){
+	public void initialize(G goal){
 		throw new UnsupportedOperationException("method initialize() was not implemented in action " + this.getClass());
 	}
 	

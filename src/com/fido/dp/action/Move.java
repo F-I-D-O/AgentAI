@@ -8,6 +8,7 @@ package com.fido.dp.action;
 import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.Log;
+import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -16,7 +17,9 @@ import java.util.logging.Level;
  *
  * @author david_000
  */
-public class Move extends UnitAction<UnitAgent> {
+public class Move extends UnitAction<UnitAgent,Goal> {
+	
+	public static final int DEFAULT_MAX_DISTANCE_FROM_TARGET = 200;
     
     private final Position target;
     
@@ -38,7 +41,7 @@ public class Move extends UnitAction<UnitAgent> {
     public Move(UnitAgent unitAgent, Position target) {
         super(unitAgent);
         this.target = target;
-        maxDistanceFromTarget = 200;
+        maxDistanceFromTarget = DEFAULT_MAX_DISTANCE_FROM_TARGET;
         onMove = false;
     }
 

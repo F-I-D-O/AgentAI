@@ -13,8 +13,9 @@ import java.util.logging.Level;
  *
  * @author david_000
  * @param <T>
+ * @param <G>
  */
-public abstract class CommandAction<T extends CommandAgent> extends Action<T>{
+public abstract class CommandAction<T extends CommandAgent,G extends Goal> extends Action<T,G>{
 
     public CommandAction(T agent) {
         super(agent);

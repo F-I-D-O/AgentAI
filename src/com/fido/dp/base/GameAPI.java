@@ -3,6 +3,7 @@ package com.fido.dp.base;
 import bwapi.DefaultBWListener;
 import bwapi.Game;
 import bwapi.Mirror;
+import bwapi.Position;
 import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.BuildingPlacer;
@@ -79,7 +80,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         gameAPI.agents.add(agent);
 	}
 	
-	
+	public static Position getStartBasePosition(){
+		return getGame().self().getStartLocation().toPosition();
+	}
 	
 	
 	private final EventEngine eventEngine;
@@ -249,7 +252,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			rootLog.getHandlers()[0].setLevel(logLevel);
 			rootLog.getHandlers()[0].setFormatter(new LogFormater());
 			
-			getGame().setLocalSpeed(30);
+			getGame().setLocalSpeed(10);
 			getGame().setFrameSkip(0);
 			getGame().enableFlag(1);
 
@@ -334,7 +337,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		addAgent(agent, commander);
     }
 
-	
+
 	
 	
 }

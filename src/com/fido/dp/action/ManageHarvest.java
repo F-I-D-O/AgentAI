@@ -8,6 +8,7 @@ package com.fido.dp.action;
 import com.fido.dp.base.CommandAction;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.SCV;
+import com.fido.dp.base.Goal;
 import com.fido.dp.order.HarvestMineralsOrder;
 import com.fido.dp.goal.HarvestMineralsGoal;
 import java.util.List;
@@ -16,13 +17,13 @@ import java.util.Objects;
 /**
  *
  * @author david_000
- * @param <T>
+ * @param <A>
  */
-public class ManageHarvest<T extends ResourceCommand> extends CommandAction<T>{
+public class ManageHarvest<A extends ResourceCommand> extends CommandAction<A,Goal>{
 	
 	private final double mineralShare;
 
-    public ManageHarvest(T agent, double mineralShare) {
+    public ManageHarvest(A agent, double mineralShare) {
         super(agent);
         this.mineralShare = mineralShare;
     }

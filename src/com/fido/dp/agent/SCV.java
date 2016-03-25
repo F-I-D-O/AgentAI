@@ -39,10 +39,12 @@ public class SCV extends UnitAgent implements Scout {
 	
 	
 
-
     public SCV(Unit unit) {
         super(unit);
     }
+	
+	
+	
 
 	public void build(UnitType buildingType, TilePosition placeToBuildOn){
 		if(placeToBuildOn == null){
@@ -60,6 +62,13 @@ public class SCV extends UnitAgent implements Scout {
 					placeToBuildOn, buildingType);
 		}
 	}
+
+	@Override
+	public Position getPosition() {
+		return unit.getPosition();
+	}
+	
+	
 
     @Override
     protected Action chooseAction() {

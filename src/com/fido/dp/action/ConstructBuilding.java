@@ -8,13 +8,14 @@ package com.fido.dp.action;
 import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.agent.SCV;
+import com.fido.dp.base.Goal;
 import java.util.Objects;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class ConstructBuilding extends LeafAction<SCV>{
+public class ConstructBuilding extends LeafAction<SCV,Goal>{
 	
 	private final UnitType buildingType;
 	

@@ -7,12 +7,13 @@ package com.fido.dp.action;
 
 import com.fido.dp.base.Action;
 import com.fido.dp.base.Agent;
+import com.fido.dp.base.Goal;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class Wait extends Action<Agent>{
+public class Wait extends Action<Agent,Goal>{
 
 	public Wait(Agent agent) {
 		super(agent);
@@ -34,6 +35,11 @@ public class Wait extends Action<Agent>{
 
 	@Override
 	protected void init() {
+		
+	}
+
+	@Override
+	public void initialize(Goal goal) {
 		
 	}
 

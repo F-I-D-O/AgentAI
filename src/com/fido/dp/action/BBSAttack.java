@@ -12,15 +12,15 @@ import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.agent.UnitCommand;
 import com.fido.dp.base.CommandAction;
 import com.fido.dp.base.GameAPI;
+import com.fido.dp.base.Goal;
 import com.fido.dp.order.SquadAttackMoveOrder;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class BBSAttack extends CommandAction<UnitCommand>{
+public class BBSAttack extends CommandAction<UnitCommand,Goal>{
 	
 	private SquadCommander squadCommander;
 	

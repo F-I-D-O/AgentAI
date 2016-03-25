@@ -6,22 +6,18 @@
 package com.fido.dp.action;
 
 import bwapi.Position;
-import bwapi.Unit;
-import com.fido.dp.agent.Marine;
 import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.base.CommandAction;
-import com.fido.dp.base.Goal;
-import com.fido.dp.order.AttackMoveOrder;
-import java.util.List;
+import com.fido.dp.goal.SquadAttackMoveGoal;
 import java.util.Objects;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class SquadAttackMove extends CommandAction<SquadCommander>{
+public abstract class SquadAttackMove extends CommandAction<SquadCommander,SquadAttackMoveGoal>{
 	
-	protected final Position attackTarget;
+	protected Position attackTarget;
 
 	public SquadAttackMove(SquadCommander agent, Position attackTarget) {
 		super(agent);
@@ -50,26 +46,10 @@ public class SquadAttackMove extends CommandAction<SquadCommander>{
 	}
 
 	@Override
-	public void initialize(Goal goal) {
-		
+	public void initialize(SquadAttackMoveGoal goal) {
+		this.attackTarget = goal.getAttackTarget();
 	}
 
 	
-	
-	@Override
-	protected void performAction() {
-		List<Marine> marines = agent.getSubordinateAgents(Marine.class);
-		Unit unit;
-		for (Marine marine : marines) {
-			if(marine.isIdle()){
-				new AttackMoveOrder(marine, agent, attackTarget).issueOrder();
-			}
-		}
-	}
-
-	@Override
-	protected void init() {
-		
-	}
 	
 }
