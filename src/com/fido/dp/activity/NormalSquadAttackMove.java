@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class NormalSquadAttackMove extends SquadAttackMove{
 	
-	private static final int DEFAULT_MIN_SQUAD_SIZE = 4;
+	private static final int DEFAULT_MIN_SQUAD_SIZE = 10;
 	
 	private int minSquadSize;
 

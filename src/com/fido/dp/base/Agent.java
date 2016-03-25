@@ -1,10 +1,11 @@
 package com.fido.dp.base;
 
-import com.fido.dp.DecisionMap;
+import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.NoActionChosenException;
 import com.fido.dp.Supply;
+import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.info.Info;
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -31,7 +32,9 @@ public abstract class Agent {
 	
 	private int receivedGasTotal;
 	
-	private final HashMap<Class<? extends Goal>,DecisionMap> reasoningMap;
+	private final HashMap<DecisionTablesMapKey,DecisionTable> decisionTablesMap;
+	
+	protected DecisionTablesMapKey referenceKey;
 	
 	protected final Queue<Info> infoQue;
 	
@@ -72,8 +75,8 @@ public abstract class Agent {
 		return commandAgent;
 	}
 	
-	protected final void addToReasoningMap(Class<? extends Goal> goalClass, DecisionMap map){
-		reasoningMap.put(goalClass, map);
+	protected final void addToDecisionTablesMap(DecisionTablesMapKey key, DecisionTable map){
+		decisionTablesMap.put(key, map);
 	}
 	
 	
@@ -88,7 +91,7 @@ public abstract class Agent {
 		infoQue = new ArrayDeque<>();
 		goal = getDefaultGoal();
 		reasoningOn = false;
-		reasoningMap = new HashMap<>();
+		decisionTablesMap = new HashMap<>();
 		goalChanged = true;
 	}
 	
@@ -231,7 +234,8 @@ public abstract class Agent {
 	}
 
 	protected Activity decide() {
-		Activity chosenAction = reasoningMap.get(goal.getClass()).chooseAction();
+		DecisionTablesMapKey key = DecisionTablesMapKey.createKeyBasedOnCurrentState(this, referenceKey);
+		Activity chosenAction = decisionTablesMap.get(key).chooseAction();
 		chosenAction.initialize(goal);
 		return chosenAction;
 	}

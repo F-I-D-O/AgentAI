@@ -3,23 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp;
+package com.fido.dp.decisionMaking;
 
 import com.fido.dp.base.Activity;
-import com.fido.dp.base.Goal;
 import java.util.TreeMap;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class DecisionMap {
-	private final Goal goal;
+public class DecisionTable {
 	
 	private final TreeMap<Double,Activity> probabilities;
 
-	public DecisionMap(Goal goal, TreeMap<Double, Activity> probabilities) {
-		this.goal = goal;
+	public DecisionTable(TreeMap<Double, Activity> probabilities) {
 		this.probabilities = probabilities;
 	}
 	

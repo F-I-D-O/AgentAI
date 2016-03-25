@@ -6,13 +6,15 @@
 package com.fido.dp.agent;
 
 import bwapi.Position;
-import com.fido.dp.DecisionMap;
+import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.activity.ASAPSquadAttackMove;
 import com.fido.dp.activity.NormalSquadAttackMove;
 import com.fido.dp.activity.Wait;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Goal;
+import com.fido.dp.decisionMaking.DecisionTablesMapKey;
+import com.fido.dp.decisionMaking.GoalParameter;
 import com.fido.dp.goal.SquadAttackMoveGoal;
 import com.fido.dp.goal.WaitGoal;
 import java.util.TreeMap;
@@ -26,16 +28,20 @@ public class SquadCommander extends CommandAgent {
 	public SquadCommander() {
 		reasoningOn = true;
 		
-		SquadAttackMoveGoal squadAttackMoveGoal = new SquadAttackMoveGoal(null, null, Position.None);
 		TreeMap<Double,Activity> actionMap = new TreeMap<>();
 		actionMap.put(0.2, new ASAPSquadAttackMove(this, Position.None));
 		actionMap.put(1.0, new NormalSquadAttackMove(this, Position.None));
-		addToReasoningMap(squadAttackMoveGoal.getClass(), new DecisionMap(squadAttackMoveGoal, actionMap));
+		DecisionTablesMapKey key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(SquadAttackMoveGoal.class));
+		addToDecisionTablesMap(key, new DecisionTable(actionMap));
 		
-		WaitGoal waitGoal = new WaitGoal(null, null);
 		actionMap = new TreeMap<>();
 		actionMap.put(1.0, new Wait(this));
-		addToReasoningMap(waitGoal.getClass(), new DecisionMap(waitGoal, actionMap));
+		key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(WaitGoal.class));
+		addToDecisionTablesMap(key, new DecisionTable(actionMap));
+		
+		referenceKey = key;
 	}
 	
 	
