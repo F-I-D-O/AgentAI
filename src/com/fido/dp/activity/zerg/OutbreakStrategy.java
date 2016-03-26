@@ -6,7 +6,6 @@
 package com.fido.dp.activity.zerg;
 
 import com.fido.dp.agent.unit.Drone;
-import com.fido.dp.agent.FullCommander;
 import com.fido.dp.agent.ZergCommander;
 import com.fido.dp.agent.unit.Larva;
 import com.fido.dp.base.CommandActivity;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>{
 	
-	private final int targetNumberOfScouts;
+	private int targetNumberOfScouts;
 
 	public OutbreakStrategy(ZergCommander agent) {
 		super(agent);
@@ -33,7 +32,7 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>{
 
 	@Override
 	public void initialize(Goal goal) {
-		
+		targetNumberOfScouts = 1;
 	}
 	
 	

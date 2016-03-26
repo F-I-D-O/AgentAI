@@ -6,15 +6,18 @@
 package com.fido.dp.agent;
 
 import bwapi.Race;
+import com.fido.dp.activity.protoss.DefaultProtossStrategy;
 import com.fido.dp.activity.terran.BBSStrategy;
 import com.fido.dp.activity.zerg.OutbreakStrategy;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
+import com.fido.dp.base.Goal;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
 import com.fido.dp.decisionMaking.RaceParameter;
 import com.fido.dp.goal.BBSStrategyGoal;
+import com.fido.dp.goal.DefaultProtossStrategyGoal;
 import java.util.TreeMap;
 
 /**
@@ -56,9 +59,18 @@ public class FullCommander extends Commander{
 		key.addParameter(new GoalParameter(BBSStrategyGoal.class));
 		addToDecisionTablesMap(key, new DecisionTable(actionMap));
 		
+		actionMap = new TreeMap<>();
+		actionMap.put(1.0, new DefaultProtossStrategy(this));
+		key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(DefaultProtossStrategyGoal.class));
+		addToDecisionTablesMap(key, new DecisionTable(actionMap));
+		
 		referenceKey = key;
 	}
 	
-	
-	
+	@Override
+	protected Goal getDefaultGoal() {
+		return (GameAPI.getGame().self().getRace().equals(Race.Terran) ? new BBSStrategyGoal(this, null)
+				: new DefaultProtossStrategyGoal(this, null));
+	}
 }

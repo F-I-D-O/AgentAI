@@ -56,7 +56,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 	
 	private final UnitCommand unitCommand;
     
-    private final int targetNumberOfScouts;
+    private int targetNumberOfScouts;
 	
 //	private boolean unitsDetachedFromBuildCommand;
 	
@@ -145,6 +145,13 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
         final BBSStrategy other = (BBSStrategy) obj;
         return true;
     }
+
+	@Override
+	public void initialize(Goal goal) {
+		targetNumberOfScouts = 1;
+	}
+	
+	
 
 	@Override
 	protected void init() {

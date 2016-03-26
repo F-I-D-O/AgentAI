@@ -29,6 +29,7 @@ import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.agent.UnitCommand;
 import com.fido.dp.agent.ZergCommander;
+import com.fido.dp.agent.unit.Probe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -207,6 +208,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			}
 			if(type.equals(UnitType.Zerg_Drone)){
 				agent = new Drone(unit);
+			}
+			if(type.equals(UnitType.Protoss_Probe)){
+				agent = new Probe(unit);
 			}
 			
 			

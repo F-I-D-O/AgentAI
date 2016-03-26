@@ -7,9 +7,7 @@ package com.fido.dp.agent.unit;
 
 import bwapi.Unit;
 import com.fido.dp.activity.HarvestMinerals;
-import com.fido.dp.activity.Wait;
 import com.fido.dp.base.Activity;
-import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
