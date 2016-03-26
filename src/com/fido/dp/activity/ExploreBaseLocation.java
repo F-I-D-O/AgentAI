@@ -8,7 +8,7 @@ package com.fido.dp.activity;
 import com.fido.dp.base.UnitActivity;
 import bwapi.Position;
 import com.fido.dp.base.GameAPI;
-import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.base.Goal;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.info.LocationExploredInfo;
@@ -47,7 +47,7 @@ public class ExploreBaseLocation extends UnitActivity<SCV,Goal> {
 			if(agent.getGoal() instanceof ExploreBaseLocationGoal){
 				((ExploreBaseLocationGoal) agent.getGoal()).setLocationExplored(baseLocation);
 			}
-			new LocationExploredInfo(agent.geCommandAgent(), agent, baseLocation).send();
+			new LocationExploredInfo(agent.getCommandAgent(), agent, baseLocation).send();
             finish();
 //        }
 //		else{

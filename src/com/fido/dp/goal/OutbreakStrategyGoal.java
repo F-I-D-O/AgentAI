@@ -5,7 +5,7 @@
  */
 package com.fido.dp.goal;
 
-import com.fido.dp.agent.unit.Barracks;
+import com.fido.dp.agent.ZergCommander;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.GoalOrder;
 
@@ -13,9 +13,9 @@ import com.fido.dp.base.GoalOrder;
  *
  * @author F.I.D.O.
  */
-public class AutomaticProductionGoal extends Goal{
-	
-	public AutomaticProductionGoal(Barracks agent,  GoalOrder order) {
+public class OutbreakStrategyGoal extends Goal{
+
+	public OutbreakStrategyGoal(ZergCommander agent, GoalOrder order) {
 		super(agent, order);
 	}
 

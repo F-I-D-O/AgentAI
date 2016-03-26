@@ -5,10 +5,11 @@
  */
 package com.fido.dp.agent;
 
+import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.base.CommandAgent;
 import bwapi.TilePosition;
 import bwapi.UnitType;
-import com.fido.dp.activity.BBSBuild;
+import com.fido.dp.activity.terran.BBSBuild;
 import com.fido.dp.BuildPlan;
 import com.fido.dp.Building;
 import com.fido.dp.BuildingPlacer;

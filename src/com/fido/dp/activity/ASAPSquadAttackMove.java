@@ -7,7 +7,7 @@ package com.fido.dp.activity;
 
 import bwapi.Position;
 import bwapi.Unit;
-import com.fido.dp.agent.Marine;
+import com.fido.dp.agent.unit.Marine;
 import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.order.AttackMoveOrder;
 import java.util.List;

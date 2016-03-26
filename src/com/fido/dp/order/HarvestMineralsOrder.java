@@ -6,7 +6,7 @@
 package com.fido.dp.order;
 
 import com.fido.dp.base.CommandAgent;
-import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.base.GoalOrder;
 import com.fido.dp.goal.HarvestMineralsGoal;
 

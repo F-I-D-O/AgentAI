@@ -94,7 +94,7 @@ public class ExplorationCommand extends CommandAgent {
 //					for (UnitInfo unitInfo : enemyUnits) {
 //						if(BWTA.getRegion(unitInfo.getPosition()).equals(baseRegion)){
 //							baseLocation.setIsEnemyBase(true);
-//							new EnemyBaseDiscovered(geCommandAgent(), this, baseLocation).send();
+//							new EnemyBaseDiscovered(getCommandAgent(), this, baseLocation).send();
 //							break;
 //						}
 //					}
@@ -128,7 +128,7 @@ public class ExplorationCommand extends CommandAgent {
 					for (UnitInfo unitInfo : enemyUnits) {
 						if(BWTA.getRegion(unitInfo.getPosition()).equals(baseRegion)){
 							baseLocation.setIsEnemyBase(true);
-							new EnemyBaseDiscovered(geCommandAgent(), this, baseLocation).send();
+							new EnemyBaseDiscovered(getCommandAgent(), this, baseLocation).send();
 							break;
 						}
 					}

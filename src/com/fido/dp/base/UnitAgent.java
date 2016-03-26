@@ -42,6 +42,6 @@ public abstract class UnitAgent extends Agent {
 
 	public void onEnemyBuildingDiscoverd(Unit unit) {
 		Log.log(this, Level.INFO, "{0}: enemy building discovered: {1}", this.getClass(), unit);
-		new EnemyBuildingDiscovered(geCommandAgent(), this, unit).send();
+		new EnemyBuildingDiscovered(getCommandAgent(), this, unit).send();
 	}
 }

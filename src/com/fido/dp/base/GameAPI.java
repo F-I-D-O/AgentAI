@@ -4,6 +4,7 @@ import bwapi.DefaultBWListener;
 import bwapi.Game;
 import bwapi.Mirror;
 import bwapi.Position;
+import bwapi.Race;
 import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.BuildingPlacer;
@@ -12,17 +13,22 @@ import com.fido.dp.EventEngineListener;
 import com.fido.dp.Log;
 import com.fido.dp.LogFormater;
 import com.fido.dp.MapTools;
+import com.fido.dp.MorphableUnit;
+import com.fido.dp.NonImplementedMorphException;
 import com.fido.dp.UAlbertaBuildingPlacer;
 import com.fido.dp.UAlbertaMapTools;
-import com.fido.dp.agent.Barracks;
+import com.fido.dp.agent.unit.Barracks;
 import com.fido.dp.agent.BuildCommand;
 import com.fido.dp.agent.Commander;
-import com.fido.dp.agent.ExplorationCommand;
-import com.fido.dp.agent.Marine;
+import com.fido.dp.agent.unit.Drone;
+import com.fido.dp.agent.FullCommander;
+import com.fido.dp.agent.unit.Larva;
+import com.fido.dp.agent.unit.Marine;
 import com.fido.dp.agent.ProductionCommand;
 import com.fido.dp.agent.ResourceCommand;
-import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.agent.UnitCommand;
+import com.fido.dp.agent.ZergCommander;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -78,6 +84,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	public static void addAgent(Agent agent, CommandAgent commandAgent){
 		commandAgent.addSubordinateAgent(agent);
         gameAPI.agents.add(agent);
+		if(agent instanceof UnitAgent){
+			UnitAgent unitAgent = (UnitAgent) agent;
+			gameAPI.getUnitAgents().add(unitAgent);
+			gameAPI.getUnitAgentsMappedByUnit().put(unitAgent.getUnit(), unitAgent);
+		}
 	}
 	
 	public static Position getStartBasePosition(){
@@ -99,6 +110,16 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	private final Level logLevel;
 
+	private ArrayList<UnitAgent> getUnitAgents() {
+		return unitAgents;
+	}
+
+	private HashMap<Unit, UnitAgent> getUnitAgentsMappedByUnit() {
+		return unitAgentsMappedByUnit;
+	}
+
+	
+	
 	
 	
 	public GameAPI() {
@@ -175,24 +196,17 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			
 			UnitAgent agent = null;
 			
-//			// Construction started event
-//			if(type.isBuilding()){
-//				Unit builderUnit = unit.getBuildUnit();
-//				SCV builderAgent = (SCV) unitAgentsMappedByUnit.get(builderUnit);
-//				
-//				// units obtained on start has no event
-//				if(builderAgent != null){
-//					builderAgent.onConstructionStarted();
-//				}
-//			}
-			
-			if (type.equals(UnitType.Terran_SCV)) {
+			if(type.equals(UnitType.Terran_SCV)) {
 				agent = new SCV(unit);
 			}
-			
-			if (type.equals(UnitType.Terran_Marine)) {
-				boolean test = unit.isCompleted();
+			if(type.equals(UnitType.Terran_Marine)) {
 				agent = new Marine(unit);
+			}
+			if(type.equals(UnitType.Zerg_Larva)){
+				agent = new Larva(unit);
+			}
+			if(type.equals(UnitType.Zerg_Drone)){
+				agent = new Drone(unit);
 			}
 			
 			
@@ -200,8 +214,55 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			// check beacause we not handle all units creation
 			if(agent != null){
 				addAgent(agent);
-				unitAgents.add(agent);
-				unitAgentsMappedByUnit.put(unit, agent);
+			}
+		}
+		catch (Exception exception) {
+            Log.log(this, Level.SEVERE, "EXCEPTION!");
+            exception.printStackTrace();
+        } 
+		catch (Error error) {
+            Log.log(this, Level.SEVERE, "ERROR!");
+            error.printStackTrace();
+        }
+	}
+
+	@Override
+	public void onUnitMorph(Unit unit) {
+		try{
+			UnitType type = unit.getType();
+
+			if(type.isNeutral()){
+				return;
+			}
+
+			// we skip the egg stadium
+			if(type.equals(UnitType.Zerg_Egg)){
+				return;
+			}
+
+			MorphableUnit formerUnitAgent = (MorphableUnit) unitAgentsMappedByUnit.get(unit);
+
+			// units obtained on start has no event
+			if(formerUnitAgent != null){
+
+				UnitAgent agent = null;
+
+				if(type.equals(UnitType.Zerg_Drone)){
+					agent = new Drone(unit);
+				}
+
+				if(agent == null){
+					throw new NonImplementedMorphException(formerUnitAgent, type);
+				}
+
+				//onMorphFinished event
+				formerUnitAgent.onMorphFinished();
+				removeAgent(unit);
+
+				// check beacause we not handle all units creation
+				if(agent != null){
+					addAgent(agent);
+				}
 			}
 		}
 		catch (Exception exception) {
@@ -256,14 +317,20 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			getGame().setFrameSkip(0);
 			getGame().enableFlag(1);
 
-			commander = new Commander();
+//			commander = new Commander();
+			if(game.self().getRace() == Race.Zerg){
+				commander = new ZergCommander();
+			}
+			else{
+				commander = new FullCommander();
+			}
 
 			commanderStatic = commander;
 			mapTools = new UAlbertaMapTools();
 			buildingPlacer = new UAlbertaBuildingPlacer();
 
 			agents.add(commander);
-			addAgent(new ExplorationCommand());
+//			addAgent(new ExplorationCommand());
 			addAgent(new ResourceCommand());
 			addAgent(new BuildCommand());
 			addAgent(new ProductionCommand());
@@ -302,7 +369,6 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		
 		if(buildingAgent != null){
 			addAgent(buildingAgent);
-			unitAgentsMappedByUnit.put(building, buildingAgent);
 		}
 	}
 
@@ -336,6 +402,17 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     public void addAgent(Agent agent) {
 		addAgent(agent, commander);
     }
+
+	private void removeAgent(Unit unit) {
+		UnitAgent agent = unitAgentsMappedByUnit.remove(unit);
+		
+		// if the agent has been in the map
+		if(agent != null){
+			unitAgents.remove(agent);
+			agent.getCommandAgent().removeSubordinateAgent(agent);
+			gameAPI.agents.remove(agent);
+		}
+	}
 
 
 	

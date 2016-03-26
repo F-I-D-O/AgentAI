@@ -6,7 +6,7 @@
 package com.fido.dp.agent;
 
 import com.fido.dp.BaseLocationInfo;
-import com.fido.dp.activity.BBSAttack;
+import com.fido.dp.activity.terran.BBSAttack;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;

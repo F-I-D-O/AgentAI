@@ -7,7 +7,7 @@ package com.fido.dp.activity;
 
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.agent.ResourceCommand;
-import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.base.Goal;
 import com.fido.dp.order.HarvestMineralsOrder;
 import com.fido.dp.goal.HarvestMineralsGoal;

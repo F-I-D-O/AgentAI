@@ -5,7 +5,7 @@
  */
 package com.fido.dp.goal;
 
-import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.GoalOrder;
 
@@ -15,7 +15,7 @@ import com.fido.dp.base.GoalOrder;
  */
 public class HarvestMineralsGoal extends Goal{
 	
-	public HarvestMineralsGoal(SCV agent, GoalOrder order) {
+	public HarvestMineralsGoal(Worker agent, GoalOrder order) {
 		super(agent, order);
 	}
 

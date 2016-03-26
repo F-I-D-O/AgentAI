@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.activity;
+package com.fido.dp.activity.terran;
 
 import com.fido.dp.Material;
-import com.fido.dp.agent.Barracks;
+import com.fido.dp.agent.unit.Barracks;
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.agent.ProductionCommand;
 import com.fido.dp.base.Goal;

@@ -5,24 +5,27 @@
  */
 package com.fido.dp.order;
 
-import com.fido.dp.agent.unit.Barracks;
+import com.fido.dp.agent.unit.Larva;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.GoalOrder;
-import com.fido.dp.goal.AutomaticProductionGoal;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class AutomaticProductionOrder extends GoalOrder{
+public class LarvaMorph extends GoalOrder{
+	
+	private final Larva.MorphOption morphOption;
 
-	public AutomaticProductionOrder(Barracks target, CommandAgent commandAgent) {
+	public LarvaMorph(Larva target, CommandAgent commandAgent, Larva.MorphOption morphOption) {
 		super(target, commandAgent);
+		this.morphOption = morphOption;
 	}
 
 	@Override
 	protected void execute() {
-		setGoal(new AutomaticProductionGoal(getTarget(), this));
+		Larva larva = getTarget();
+		larva.Morph(morphOption);
 	}
 	
 }

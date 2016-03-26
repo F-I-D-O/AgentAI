@@ -155,4 +155,8 @@ public abstract class CommandAgent extends Agent {
 		}
 	}
 
+	void removeSubordinateAgent(UnitAgent agent) {
+		subordinateAgents.remove(agent);
+	}
+
 }

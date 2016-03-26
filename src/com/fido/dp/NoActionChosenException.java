@@ -31,7 +31,5 @@ public class NoActionChosenException extends Exception{
 		return "No action has been chosen! Agent class: " + agentClass + ", goal: " + goal + ", Command Agent class: "
 				+ commandAgentClass;
 	}
-	
-	
-	
+
 }

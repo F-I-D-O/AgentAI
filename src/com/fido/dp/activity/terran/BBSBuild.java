@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.activity;
+package com.fido.dp.activity.terran;
 
 import com.fido.dp.base.CommandActivity;
 import bwapi.UnitType;
 import com.fido.dp.BuildPlan;
 import com.fido.dp.Log;
 import com.fido.dp.agent.BuildCommand;
-import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.base.Goal;
 import java.util.logging.Level;
 

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.activity;
+package com.fido.dp.activity.terran;
 
 import bwapi.Position;
 import com.fido.dp.BaseLocationInfo;
-import com.fido.dp.agent.Marine;
+import com.fido.dp.agent.unit.Marine;
 import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.agent.UnitCommand;
 import com.fido.dp.base.CommandActivity;
@@ -70,7 +70,6 @@ public class BBSAttack extends CommandActivity<UnitCommand,Goal>{
 	protected void init() {
 		squadCommander = new SquadCommander();
 		GameAPI.addAgent(squadCommander, agent);
-//		agent.addSubordinateAgent(squadCommander);
 	}
 	
 }

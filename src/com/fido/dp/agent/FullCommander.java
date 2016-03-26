@@ -1,0 +1,64 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.fido.dp.agent;
+
+import bwapi.Race;
+import com.fido.dp.activity.terran.BBSStrategy;
+import com.fido.dp.activity.zerg.OutbreakStrategy;
+import com.fido.dp.base.Activity;
+import com.fido.dp.base.GameAPI;
+import com.fido.dp.decisionMaking.DecisionTable;
+import com.fido.dp.decisionMaking.DecisionTablesMapKey;
+import com.fido.dp.decisionMaking.GoalParameter;
+import com.fido.dp.decisionMaking.RaceParameter;
+import com.fido.dp.goal.BBSStrategyGoal;
+import java.util.TreeMap;
+
+/**
+ *
+ * @author F.I.D.O.
+ */
+public class FullCommander extends Commander{
+	
+	public final ExplorationCommand explorationCommand;
+	
+	public final ResourceCommand resourceCommand;
+	
+	
+	
+
+	public FullCommander() {
+		explorationCommand = new ExplorationCommand();
+		GameAPI.addAgent(explorationCommand, this);
+		resourceCommand = new ResourceCommand();
+		GameAPI.addAgent(resourceCommand, this);
+		
+		reasoningOn = true;
+		
+//		TreeMap<Double,Activity> actionMap = new TreeMap<>();
+//		actionMap.put(1.0, new BBSStrategy(this));
+//		DecisionTablesMapKey key =  new DecisionTablesMapKey();
+//		key.addParameter(new RaceParameter(Race.Terran));
+//		addToDecisionTablesMap(key, new DecisionTable(actionMap));
+		
+//		actionMap = new TreeMap<>();
+//		actionMap.put(1.0, new OutbreakStrategy(this));
+//		key =  new DecisionTablesMapKey();
+//		key.addParameter(new RaceParameter(Race.Zerg));
+//		addToDecisionTablesMap(key, new DecisionTable(actionMap));
+
+		TreeMap<Double,Activity> actionMap = new TreeMap<>();
+		actionMap.put(1.0, new BBSStrategy(this));
+		DecisionTablesMapKey key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(BBSStrategyGoal.class));
+		addToDecisionTablesMap(key, new DecisionTable(actionMap));
+		
+		referenceKey = key;
+	}
+	
+	
+	
+}

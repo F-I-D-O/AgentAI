@@ -5,8 +5,9 @@
  */
 package com.fido.dp.agent;
 
+import com.fido.dp.agent.unit.Barracks;
 import com.fido.dp.base.Activity;
-import com.fido.dp.activity.BBSProduction;
+import com.fido.dp.activity.terran.BBSProduction;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Goal;

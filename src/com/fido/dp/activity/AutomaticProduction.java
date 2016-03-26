@@ -7,7 +7,7 @@ package com.fido.dp.activity;
 
 import com.fido.dp.base.UnitActivity;
 import bwapi.UnitType;
-import com.fido.dp.agent.Barracks;
+import com.fido.dp.agent.unit.Barracks;
 import com.fido.dp.base.Goal;
 import java.util.Objects;
 

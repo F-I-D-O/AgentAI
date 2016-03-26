@@ -1,4 +1,4 @@
-package com.fido.dp.agent;
+package com.fido.dp.agent.unit;
 
 import bwapi.Position;
 import bwapi.TilePosition;
@@ -22,7 +22,7 @@ import com.fido.dp.goal.MoveGoal;
 import com.fido.dp.request.UnitCreationStartedInfo;
 import java.util.logging.Level;
 
-public class SCV extends UnitAgent implements Scout {
+public class SCV extends Worker implements Scout {
 	
 	private boolean constructionProcessInProgress;
 	
@@ -95,7 +95,7 @@ public class SCV extends UnitAgent implements Scout {
 		spendSupply(Material.GAS, constructedBuildingType.gasPrice());
 		spendSupply(Material.MINERALS, constructedBuildingType.mineralPrice());
 		constructionInProgress = true;
-		new UnitCreationStartedInfo(geCommandAgent(), this, constructedBuildingType).send();
+		new UnitCreationStartedInfo(getCommandAgent(), this, constructedBuildingType).send();
 	}
 
 //    public void commandConstuctBuilding(UnitType buildingType, TilePosition placeToBuildOn) {

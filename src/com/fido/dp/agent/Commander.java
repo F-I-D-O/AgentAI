@@ -6,7 +6,7 @@ import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Supply;
 import com.fido.dp.base.Activity;
-import com.fido.dp.activity.BBSStrategy;
+import com.fido.dp.activity.terran.BBSStrategy;
 import com.fido.dp.Material;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.Goal;

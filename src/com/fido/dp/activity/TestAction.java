@@ -5,7 +5,7 @@ import com.fido.dp.Log;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.agent.ExplorationCommand;
-import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.unit.SCV;
 import java.util.ArrayList;
 import java.util.logging.Level;
 

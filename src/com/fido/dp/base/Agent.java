@@ -71,7 +71,7 @@ public abstract class Agent {
 		this.commandAgent = commandAgent;
 	}
 	
-	public CommandAgent geCommandAgent(){
+	public CommandAgent getCommandAgent(){
 		return commandAgent;
 	}
 	

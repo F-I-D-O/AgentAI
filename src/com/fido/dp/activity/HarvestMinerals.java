@@ -3,12 +3,12 @@ package com.fido.dp.activity;
 import com.fido.dp.base.UnitActivity;
 import com.fido.dp.base.GameAPI;
 import bwapi.Unit;
-import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Goal;
 
-public class HarvestMinerals extends UnitActivity<SCV,Goal> {
+public class HarvestMinerals<A extends Worker,G extends Goal> extends UnitActivity<A,G> {
 
-    public HarvestMinerals(SCV unitAgent) {
+    public HarvestMinerals(A unitAgent) {
         super(unitAgent);
     }
 
@@ -41,6 +41,13 @@ public class HarvestMinerals extends UnitActivity<SCV,Goal> {
         final HarvestMinerals other = (HarvestMinerals) obj;
         return true;
     }
+
+	@Override
+	public void initialize(G goal) {
+		
+	}
+	
+	
 
 	@Override
 	protected void init() {

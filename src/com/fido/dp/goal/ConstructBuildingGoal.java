@@ -7,7 +7,7 @@ package com.fido.dp.goal;
 
 import bwapi.TilePosition;
 import bwapi.UnitType;
-import com.fido.dp.agent.SCV;
+import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.GoalOrder;
 
