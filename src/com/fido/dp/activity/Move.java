@@ -9,8 +9,8 @@ import com.fido.dp.base.UnitActivity;
 import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.Log;
-import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
+import com.fido.dp.goal.MoveGoal;
 import java.util.Objects;
 import java.util.logging.Level;
 
@@ -18,11 +18,11 @@ import java.util.logging.Level;
  *
  * @author david_000
  */
-public class Move extends UnitActivity<UnitAgent,Goal> {
+public class Move extends UnitActivity<UnitAgent,MoveGoal> {
 	
 	public static final int DEFAULT_MAX_DISTANCE_FROM_TARGET = 200;
     
-    private final Position target;
+    private Position target;
     
     private final double maxDistanceFromTarget;
     
@@ -86,6 +86,13 @@ public class Move extends UnitActivity<UnitAgent,Goal> {
         }
         return true;
     }
+
+	@Override
+	public void initialize(MoveGoal goal) {
+		this.target = goal.getTargetPosition();
+	}
+	
+	
 
 	@Override
 	protected void init() {

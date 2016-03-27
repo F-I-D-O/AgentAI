@@ -8,6 +8,7 @@ import com.fido.dp.Supply;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.info.Info;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -41,6 +42,10 @@ public abstract class Agent {
 	protected boolean reasoningOn;
 	
 	private boolean goalChanged;
+	
+	private boolean initialized;
+	
+	private final ArrayList<Request> sendRequests;
 	
 	
 	
@@ -93,6 +98,8 @@ public abstract class Agent {
 		reasoningOn = false;
 		decisionTablesMap = new HashMap<>();
 		goalChanged = true;
+		initialized = false;
+		sendRequests = new ArrayList<>();
 	}
 	
 	
@@ -100,6 +107,11 @@ public abstract class Agent {
 
     public final void run() throws Exception {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
+		if(!initialized){
+			initialize();
+			initialized = true;
+		}
+		
 		acceptCommands();
 		processInfoQue();
 		routine();
@@ -138,7 +150,7 @@ public abstract class Agent {
         Log.log(this, Level.FINE, "{0}: Agent run ended", this.getClass());
     }
 
-    public final void onActionFinish() {
+    public final void onActivityFinish(Activity activity) {
         Log.log(this, Level.FINE, "Action finished: {0}", chosenAction);
 //        run(); not needet, because frame rate is high enough
     }
@@ -179,6 +191,33 @@ public abstract class Agent {
 	
 	public final void queInfo(Info info) {
 		infoQue.add(info);
+	}
+	
+	public int getMissingMinerals(int neededAmount){
+		int difference = neededAmount - getOwnedMinerals();
+		return difference > 0 ? difference : 0;
+	}
+	
+	public int getMissingGas(int neededAmount){
+		int difference = neededAmount - getOwnedGas();
+		return difference > 0 ? difference : 0;
+	}
+	
+	public boolean requestSended(Request request){
+		return sendRequests.contains(request);
+	}
+	
+	void addSendedRequest(Request request){
+		sendRequests.add(request);
+	}
+
+	public Agent(Queue<Order> commandQueue, Supply minerals, Supply gas, HashMap<DecisionTablesMapKey, DecisionTable> decisionTablesMap, Queue<Info> infoQue, ArrayList<Request> sendRequests) {
+		this.commandQueue = commandQueue;
+		this.minerals = minerals;
+		this.gas = gas;
+		this.decisionTablesMap = decisionTablesMap;
+		this.infoQue = infoQue;
+		this.sendRequests = sendRequests;
 	}
 	
 	
@@ -238,6 +277,10 @@ public abstract class Agent {
 		Activity chosenAction = decisionTablesMap.get(key).chooseAction();
 		chosenAction.initialize(goal);
 		return chosenAction;
+	}
+
+	protected void initialize() {
+		
 	}
 
 

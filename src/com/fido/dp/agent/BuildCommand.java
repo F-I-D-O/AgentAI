@@ -5,7 +5,8 @@
  */
 package com.fido.dp.agent;
 
-import com.fido.dp.agent.unit.SCV;
+import com.fido.dp.info.ExpansionInfo;
+import bwapi.Position;
 import com.fido.dp.base.CommandAgent;
 import bwapi.TilePosition;
 import bwapi.UnitType;
@@ -18,12 +19,14 @@ import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.Tools;
 import com.fido.dp.UAlbertaBuildingPlacer;
+import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.order.ConstructBuildingOrder;
 import com.fido.dp.goal.BBSBuildGoal;
-import com.fido.dp.request.Request;
-import com.fido.dp.request.UnitCreationStartedInfo;
+import com.fido.dp.info.Info;
+import com.fido.dp.base.Request;
+import com.fido.dp.info.UnitCreationStartedInfo;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +50,7 @@ public class BuildCommand extends CommandAgent{
     
     
 	
-    private final Queue<SCV> freeWorkers;
+    private final Queue<Worker> freeWorkers;
     
     private final ArrayList<BuildPlan> buildPlans;
 	
@@ -57,20 +60,21 @@ public class BuildCommand extends CommandAgent{
 	
 	private final HashMap<UnitType,Integer> numberOfConstrustionStarted;
     
-    
+
 	
 	
     public BuildCommand() {
-        this.freeWorkers = new ArrayDeque<>();
+        freeWorkers = new ArrayDeque<>();
         this.buildPlans = new ArrayList<>();
 		numberOfMissingWorkers = 0;
-		buildingPlacer = new UAlbertaBuildingPlacer();
+//		buildingPlacer = new UAlbertaBuildingPlacer();
+		buildingPlacer = GameAPI.getBuildingPlacer();
 		numberOfConstrustionStarted = new HashMap<>();
     }
     
     
 	
-    public void addWorker(SCV worker){
+    private void addWorker(Worker worker){
 		freeWorkers.add(worker);
 		if(numberOfMissingWorkers > 0){
 			numberOfMissingWorkers--;
@@ -101,20 +105,26 @@ public class BuildCommand extends CommandAgent{
                 return BuildCommandState.MISSING_WORKERS;
             }
 
-            commandrBuildingConstruction(buildPlan);
+            commandBuildingConstruction(buildPlan);
 			iterator.remove();
         }
         
         return BuildCommandState.OK;
     }
 
-    public void commandrBuildingConstruction(BuildPlan buildPlan){        
+    public void commandBuildingConstruction(BuildPlan buildPlan){        
 		Log.log(this, Level.INFO, "{0}: Building construction commanded: {1}", this.getClass(), 
 				buildPlan.getBuildingType().getClass());
-		SCV worker = freeWorkers.poll();
-		TilePosition buildingPlace = findPositionForBuild(buildPlan, worker);
-		giveSupply(worker, Material.MINERALS, buildPlan.getMineralsPrice());
-		new ConstructBuildingOrder(worker, this, buildPlan.getBuildingType(), buildingPlace).issueOrder();
+		Worker worker = freeWorkers.poll();
+		commandBuildingConstruction(buildPlan.getBuildingType(), worker);
+    }
+	
+	public void commandBuildingConstruction(UnitType buildingType, Worker worker){        
+		Log.log(this, Level.INFO, "{0}: Building construction commanded: {1}", this.getClass(), 
+				buildingType.getClass());
+		TilePosition buildingPlace = findPositionForBuild(buildingType, worker);
+		giveSupply(worker, Material.MINERALS, buildingType.mineralPrice());
+		new ConstructBuildingOrder(worker, this, buildingType, buildingPlace).issueOrder();
     }
     
     public BuildPlan getNextBuildPlan(){
@@ -149,7 +159,24 @@ public class BuildCommand extends CommandAgent{
 	public int getNumberOfConstructionStarted(UnitType unitType){
 		return numberOfConstrustionStarted.containsKey(unitType) ? numberOfConstrustionStarted.get(unitType) : 0;
 	}
+	
+	public Worker getWorker(){
+		Worker worker = freeWorkers.poll();
+		worker.setAssigned(false);
+		return worker;
+	}
+	
+	public int getNumberOfFreeWorkers(){
+		return freeWorkers.size();
+	}
 
+	@Override
+	protected void processInfo(Info info) {
+		
+	}
+
+	
+	
 	
 	@Override
 	protected void handleRequest(Request request) {
@@ -166,6 +193,19 @@ public class BuildCommand extends CommandAgent{
 	protected Goal getDefaultGoal() {
 		return  new BBSBuildGoal(this, null);
 	}	
+
+	@Override
+	protected void routine() {
+		super.routine(); 
+		for (Worker worker : getSubordinateAgents(Worker.class)) {
+			if(!worker.IsAssigned()){
+				addWorker(worker);
+				worker.setAssigned(true);
+			}
+		}
+	}
+	
+	
 	
 	
 	private void incNumberOfConstructionStarted(UnitType unitType){
@@ -182,9 +222,13 @@ public class BuildCommand extends CommandAgent{
     }
 
 	
-	private TilePosition findPositionForBuild(BuildPlan buildPlan, SCV scv) {
+	private TilePosition findPositionForBuild(BuildPlan buildPlan, Worker worker) {
+		return findPositionForBuild(buildPlan.getBuildingType(), worker);
+	}
+	
+	private TilePosition findPositionForBuild(UnitType buildingType, Worker worker) {
 		return buildingPlacer.getBuildingLocation(new Building(GameAPI.getGame().self().getStartLocation().toPosition(),
-				buildPlan.getBuildingType(), scv.getUnit(), false));
+				buildingType, worker.getUnit(), false));
 	}
 	
 	

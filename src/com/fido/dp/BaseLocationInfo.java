@@ -23,6 +23,8 @@ public class BaseLocationInfo {
 	private final boolean isOurBase;
 	
 	private boolean isEnemyBase;
+	
+	private boolean chosenForExpansion;
 
 	
 	
@@ -53,6 +55,14 @@ public class BaseLocationInfo {
 	public void setExplorationInProgress(boolean explorationInProgress) {
 		this.explorationInProgress = explorationInProgress;
 	}
+
+	public boolean isChosenForExpansion() {
+		return chosenForExpansion;
+	}
+
+	public void setChosenForExpansion(boolean chosenForExpansion) {
+		this.chosenForExpansion = chosenForExpansion;
+	}
 	
 	
 	
@@ -62,12 +72,17 @@ public class BaseLocationInfo {
 	public BaseLocationInfo(BaseLocation baseLocation, boolean isOurBase) {
 		this.baseLocation = baseLocation;
 		this.isOurBase = isOurBase;
-		this.explored = false;
+		explored = false;
+		chosenForExpansion = false;
 	}
 	
 	
 	
 	public Position getPosition(){
 		return baseLocation.getPosition();
+	}
+	
+	public boolean isStartLocation(){
+		return baseLocation.isStartLocation();
 	}
 }

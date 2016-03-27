@@ -6,7 +6,6 @@
 package com.fido.dp.base;
 
 import com.fido.dp.Log;
-import com.fido.dp.request.Request;
 import java.util.logging.Level;
 
 /**
@@ -21,11 +20,11 @@ public abstract class CommandActivity<T extends CommandAgent,G extends Goal> ext
         super(agent);
     }
 	
-	public void handleRequest(Request request) {
+	protected void handleRequest(Request request) {
 		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());
 	}
 
-	void handleCompletedOrder(Order order) {
+	protected void handleCompletedOrder(Order order) {
 		Log.log(this, Level.FINE, "{0}: order completed: {1}", this.getClass(), order.getClass());
 	}
 

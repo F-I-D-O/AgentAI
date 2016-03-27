@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.request;
+package com.fido.dp.info;
 
 import bwapi.UnitType;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
+import com.fido.dp.base.Request;
 
 /**
  *

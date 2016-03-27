@@ -8,7 +8,7 @@ package com.fido.dp.order;
 import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.base.CommandAgent;
-import com.fido.dp.agent.unit.SCV;
+import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.GoalOrder;
 import com.fido.dp.goal.ConstructBuildingGoal;
 
@@ -22,7 +22,7 @@ public class ConstructBuildingOrder extends GoalOrder{
 	
 	private final TilePosition placeToBuildOn;
 
-	public ConstructBuildingOrder(SCV target, CommandAgent commandAgent, UnitType buildingType, 
+	public ConstructBuildingOrder(Worker target, CommandAgent commandAgent, UnitType buildingType, 
 			TilePosition placeToBuildOn) {
 		super(target, commandAgent);
 		this.buildingType = buildingType;

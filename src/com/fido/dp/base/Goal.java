@@ -14,6 +14,17 @@ public abstract class Goal {
 	protected final Agent agent;
 	
 	private final GoalOrder order;
+	
+	protected boolean completed;
+
+	
+	
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+	
+	
+	
 
 	public Goal(Agent agent, GoalOrder order) {
 		this.agent = agent;

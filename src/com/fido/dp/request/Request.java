@@ -3,10 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp.request;
-
-import com.fido.dp.base.Agent;
-import com.fido.dp.base.CommandAgent;
+package com.fido.dp.base;
 
 /**
  *
@@ -18,6 +15,15 @@ public abstract class Request {
 	
 	private final Agent sender;
 
+	
+	
+	
+	public Agent getSender() {
+		return sender;
+	}
+	
+	
+
 	public Request(CommandAgent recipient, Agent sender) {
 		this.recipient = recipient;
 		this.sender = sender;
@@ -25,5 +31,6 @@ public abstract class Request {
 	
 	public final void send(){
 		recipient.queRequest(this);
+		sender.addSendedRequest(this);
 	}
 }

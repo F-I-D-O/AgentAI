@@ -67,10 +67,11 @@ public abstract class Activity <A extends Agent,G extends Goal> {
 	
     protected final void finish(){
         if(parrentAction != null){
-            parrentAction.onChildActionFinish();
+            parrentAction.onChildActivityFinish(this);
+			parrentAction.childAction = null;
         }
         else{
-            agent.onActionFinish();
+            agent.onActivityFinish(this);
         }
     }
     
@@ -78,13 +79,13 @@ public abstract class Activity <A extends Agent,G extends Goal> {
         agent.onActionFailed(reason);
     }
 
-    protected void onChildActionFinish() {
+    protected void onChildActivityFinish(Activity activity) {
         Log.log(this, Level.FINE, "{0}: Child action finished: {1}", this.getClass(), childAction);
-        childAction = null;
+
 //        performAction(); not needet, because frame rate is high enough
     }
     
-    protected void runChildAction(Activity childAction){
+    protected void runChildActivity(Activity childAction){
 		if(!childAction.equals(this.childAction)){
 			Log.log(this, Level.FINE, "{0}: Child action replaced. Old: {1}, new: {2}", this.getClass(), 
 					this.childAction, childAction.getClass());

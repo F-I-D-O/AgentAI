@@ -51,7 +51,8 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
 			if(!agent.isSubordinateAgentOccupied((Agent) scout)){
 				Position target = null;
 				for (BaseLocationInfo baseInfo : agent.getBaseLocations()) {
-					if(!baseInfo.isExpplored() && !baseInfo.isExplorationInProgress() && !baseInfo.isOurBase()){
+					if(baseInfo.isStartLocation() && !baseInfo.isExpplored() && !baseInfo.isExplorationInProgress() 
+							&& !baseInfo.isOurBase()){
 						target = baseInfo.getPosition(); 
 						baseInfo.setExplorationInProgress(true);
 						new ExploreBaseLocationOrder(scout, this.getAgent(), target).issueOrder();

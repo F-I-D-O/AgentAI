@@ -12,6 +12,7 @@ import com.fido.dp.UnitInfo;
 import bwta.BaseLocation;
 import bwta.Region;
 import com.fido.dp.BaseLocationInfo;
+import com.fido.dp.Log;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Activity;
@@ -24,8 +25,11 @@ import com.fido.dp.info.Info;
 import com.fido.dp.info.EnemyBuildingDiscovered;
 import com.fido.dp.info.LocationExploredInfo;
 import com.fido.dp.order.ExploreBaseLocationOrder;
-import com.fido.dp.request.Request;
+import com.fido.dp.base.Request;
+import com.fido.dp.info.ExpansionInfo;
+import com.fido.dp.request.ExpansionInfoRequest;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  *
@@ -51,7 +55,7 @@ public class ExplorationCommand extends CommandAgent {
 
 	public ExplorationCommand() {
 		baseLocations = new ArrayList<>();
-		for(BaseLocation baseLocation : bwta.BWTA.getStartLocations()) {
+		for(BaseLocation baseLocation : bwta.BWTA.getBaseLocations()) {
 			boolean isOurBase = baseLocation.getTilePosition().equals(GameAPI.getGame().self().getStartLocation());
 			baseLocations.add(new BaseLocationInfo(baseLocation, isOurBase));
 		}
@@ -77,6 +81,9 @@ public class ExplorationCommand extends CommandAgent {
 	@Override
 	protected void handleRequest(Request request) {
 		super.handleRequest(request); 
+		if(request instanceof ExpansionInfoRequest){
+			new ExpansionInfo(request.getSender(), this, getBestPositionToExpand()).send();
+		}
 	}
 
 	@Override
@@ -150,6 +157,17 @@ public class ExplorationCommand extends CommandAgent {
 	@Override
 	protected Goal getDefaultGoal() {
 		return new StrategicExplorationGoal(this, null);
+	}
+
+	private Position getBestPositionToExpand() {
+		for (BaseLocationInfo baseLocationInfo : baseLocations) {
+			if(!baseLocationInfo.isStartLocation() && !baseLocationInfo.isChosenForExpansion()){
+				baseLocationInfo.setChosenForExpansion(true);
+				return baseLocationInfo.getPosition();
+			}
+		}
+		Log.log(this, Level.WARNING, "{0}: no base to expand!", this.getClass());
+		return null;
 	}
 	
 	

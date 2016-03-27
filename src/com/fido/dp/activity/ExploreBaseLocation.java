@@ -7,9 +7,11 @@ package com.fido.dp.activity;
 
 import com.fido.dp.base.UnitActivity;
 import bwapi.Position;
+import com.fido.dp.Scout;
+import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
-import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.base.Goal;
+import com.fido.dp.base.UnitAgent;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.info.LocationExploredInfo;
 import java.util.Objects;
@@ -17,14 +19,15 @@ import java.util.Objects;
 /**
  *
  * @author david_000
+ * @param <A>
  */
-public class ExploreBaseLocation extends UnitActivity<SCV,Goal> {
+public class ExploreBaseLocation<A extends UnitAgent & Scout> extends UnitActivity<A,ExploreBaseLocationGoal> {
     
     private boolean locationExplored;
     
-    private final Position baseLocation;
+    private Position baseLocation;
 
-    public ExploreBaseLocation(SCV unitAgent, Position location) {
+    public ExploreBaseLocation(A unitAgent, Position location) {
         super(unitAgent);
         locationExplored = false;
         baseLocation = location;
@@ -33,16 +36,16 @@ public class ExploreBaseLocation extends UnitActivity<SCV,Goal> {
     @Override
     public void performAction() {
         if(locationExplored){
-            runChildAction(new Move(agent, GameAPI.getGame().self().getStartLocation().toPosition()));
+            runChildActivity(new Move(agent, GameAPI.getGame().self().getStartLocation().toPosition()));
         }
         else{
-            runChildAction(new Move(agent, baseLocation));
+            runChildActivity(new Move(agent, baseLocation));
         }
     }
 
     @Override
-    protected void onChildActionFinish() {
-		super.onChildActionFinish();
+    protected void onChildActivityFinish(Activity activity) {
+		super.onChildActivityFinish(activity);
 //        if(locationExplored){
 			if(agent.getGoal() instanceof ExploreBaseLocationGoal){
 				((ExploreBaseLocationGoal) agent.getGoal()).setLocationExplored(baseLocation);
@@ -70,6 +73,13 @@ public class ExploreBaseLocation extends UnitActivity<SCV,Goal> {
         }
         return true;
     }
+
+	@Override
+	public void initialize(ExploreBaseLocationGoal goal) {
+		locationExplored = false;
+		baseLocation = goal.getBaseLocation();
+	}
+	
 
 	@Override
 	protected void init() {

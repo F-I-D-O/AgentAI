@@ -5,8 +5,7 @@
  */
 package com.fido.dp.agent;
 
-import bwapi.Race;
-import com.fido.dp.activity.terran.BBSStrategy;
+
 import com.fido.dp.activity.zerg.OutbreakStrategy;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
@@ -25,10 +24,14 @@ public class ZergCommander extends FullCommander{
 	
 	public final LarvaCommand larvaCommand;
 	
+	public final ExpansionCommand expansionCommand;
 	
 	public ZergCommander() {
 		larvaCommand = new LarvaCommand();
 		GameAPI.addAgent(larvaCommand, this);
+		
+		expansionCommand = new ExpansionCommand();
+		GameAPI.addAgent(expansionCommand, this);
 		
 		reasoningOn = true;
 		

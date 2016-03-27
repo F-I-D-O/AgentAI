@@ -1,7 +1,6 @@
 package com.fido.dp.base;
 
 import com.fido.dp.Log;
-import com.fido.dp.request.Request;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +103,7 @@ public abstract class CommandAgent extends Agent {
 	
 
 	protected void onSubordinateAgentAdded(Agent subordinateAgent) {
-		Log.log(this, Level.INFO, "{0}: Subordinate agent added: {1}", this.getClass(), subordinateAgent);
+		Log.log(this, Level.INFO, "{0}: Subordinate agent added: {1}", this.getClass(), subordinateAgent.getClass());
 	}
 	
 	protected void handleRequest(Request request) {
@@ -140,7 +139,9 @@ public abstract class CommandAgent extends Agent {
 	
 	private void handleRequests(){
 		Request request;
-		while((request = requests.poll()) != null){
+		int requestCount = requests.size();
+		for (int i = 0; i < requestCount; i++) {
+			request = requests.poll();
 			handleRequest(request);
 			((CommandActivity) chosenAction).handleRequest(request);
 		}

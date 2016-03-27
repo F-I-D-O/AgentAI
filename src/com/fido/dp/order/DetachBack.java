@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author F.I.D.O.
  */
-public class DeatchBack extends Order{
+public class DetachBack extends Order{
 
 	private Class agentType = null;
 	
@@ -34,21 +34,21 @@ public class DeatchBack extends Order{
 	
 	
 	
-	public DeatchBack(CommandAgent target, CommandAgent commandAgent) {
+	public DetachBack(CommandAgent target, CommandAgent commandAgent) {
 		super(target, commandAgent);
 	}
 	
-	public DeatchBack(CommandAgent target, CommandAgent commandAgent, Class agentType) {
+	public DetachBack(CommandAgent target, CommandAgent commandAgent, Class agentType) {
 		super(target, commandAgent);
 		this.agentType = agentType;
 	}
 	
-	public DeatchBack(CommandAgent target, CommandAgent commandAgent, Class agentType, boolean idleOnly) {
+	public DetachBack(CommandAgent target, CommandAgent commandAgent, Class agentType, boolean idleOnly) {
 		this(target, commandAgent, agentType);
 		this.idleOnly = idleOnly;
 	}
 	
-	public DeatchBack(CommandAgent target, CommandAgent commandAgent, Class agentType, int numberOfUnits) {
+	public DetachBack(CommandAgent target, CommandAgent commandAgent, Class agentType, int numberOfUnits) {
 		this(target, commandAgent, agentType);
 		this.numberOfUnits = numberOfUnits;
 	}

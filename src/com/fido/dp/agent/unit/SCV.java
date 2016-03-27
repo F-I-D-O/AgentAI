@@ -1,11 +1,8 @@
 package com.fido.dp.agent.unit;
 
 import bwapi.Position;
-import bwapi.TilePosition;
-import com.fido.dp.base.UnitAgent;
 import bwapi.Unit;
 import bwapi.UnitType;
-import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Material;
 import com.fido.dp.Scout;
@@ -19,49 +16,14 @@ import com.fido.dp.goal.ConstructBuildingGoal;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.goal.HarvestMineralsGoal;
 import com.fido.dp.goal.MoveGoal;
-import com.fido.dp.request.UnitCreationStartedInfo;
+import com.fido.dp.info.UnitCreationStartedInfo;
 import java.util.logging.Level;
 
-public class SCV extends Worker implements Scout {
-	
-	private boolean constructionProcessInProgress;
-	
-	private UnitType constructedBuildingType;
-	
-	private boolean constructionInProgress;
-
-	
-	
-	public boolean isConstructingBuilding() {
-		return constructionProcessInProgress;
-	}
-
-	
-	
+public class SCV extends ArtificialWorker implements Scout {
 
     public SCV(Unit unit) {
         super(unit);
     }
-	
-	
-	
-
-	public void build(UnitType buildingType, TilePosition placeToBuildOn){
-		if(placeToBuildOn == null){
-			Log.log(this, Level.SEVERE, "{0}: place to build on is null!", this.getClass());
-			return;
-		}
-		
-		if(GameAPI.getGame().canBuildHere(placeToBuildOn, buildingType)){
-			unit.build(buildingType, placeToBuildOn);
-			constructionProcessInProgress = true;
-			constructedBuildingType = buildingType;
-		}
-		else{
-			Log.log(this, Level.SEVERE, "{0}: cannot build here! position: {1}, building: {2}", this.getClass(), 
-					placeToBuildOn, buildingType);
-		}
-	}
 
 	@Override
 	public Position getPosition() {
@@ -90,13 +52,7 @@ public class SCV extends Worker implements Scout {
 		return null;
     }
 	
-	public void onConstructionStarted(){
-		Log.log(this, Level.INFO, "{0}: onConstructionStarted", this.getClass());
-		spendSupply(Material.GAS, constructedBuildingType.gasPrice());
-		spendSupply(Material.MINERALS, constructedBuildingType.mineralPrice());
-		constructionInProgress = true;
-		new UnitCreationStartedInfo(getCommandAgent(), this, constructedBuildingType).send();
-	}
+
 
 //    public void commandConstuctBuilding(UnitType buildingType, TilePosition placeToBuildOn) {
 //		setCommandedAction(new ConstructBuilding(this, buildingType, placeToBuildOn));
@@ -117,15 +73,7 @@ public class SCV extends Worker implements Scout {
 //		}
 	}
 
-	public void onConstructionFinished() {
-		Log.log(this, Level.INFO, "{0}: onConstructionFinished", this.getClass());
-		constructionInProgress = false;
-		constructionProcessInProgress = false;
-		constructedBuildingType = null;
-		if(getGoal() instanceof ConstructBuildingGoal){
-			((ConstructBuildingGoal) getGoal()).setBuildingConstructionFinished(true);
-		}
-	}
+
 
 	@Override
 	protected Goal getDefaultGoal() {

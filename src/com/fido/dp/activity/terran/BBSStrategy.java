@@ -26,7 +26,7 @@ import com.fido.dp.info.Info;
 import com.fido.dp.order.BBSAttackOrder;
 import com.fido.dp.order.BBSBuildOrder;
 import com.fido.dp.order.BBSProductionOrder;
-import com.fido.dp.order.DeatchBack;
+import com.fido.dp.order.DetachBack;
 import com.fido.dp.order.HarvestOrder;
 import com.fido.dp.order.StrategicExplorationOrder;
 import java.util.List;
@@ -77,7 +77,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 
     @Override
     public void performAction() {
-		new DeatchBack(buildCommand, this.getAgent(), SCV.class, true).issueOrder();
+		new DetachBack(buildCommand, this.getAgent(), SCV.class, true).issueOrder();
 		
 		SCV scv;
 		while((scv = agent.getSubordinateAgent(SCV.class)) != null 
@@ -108,7 +108,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 					Log.log(this, Level.FINER, "{0}: Need workers - YES", this.getClass());
 					if(scvs.isEmpty()){
 						Log.log(this, Level.FINER, "{0}: Have workers - NO", this.getClass());
-						new DeatchBack(resourceCommand, agent, SCV.class, 1).issueOrder();
+						new DetachBack(resourceCommand, agent, SCV.class, 1).issueOrder();
 					}
 					else {
 						Log.log(this, Level.FINER, "{0}: Have workers - YES", this.getClass());

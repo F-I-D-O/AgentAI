@@ -25,10 +25,10 @@ import com.fido.dp.agent.FullCommander;
 import com.fido.dp.agent.unit.Larva;
 import com.fido.dp.agent.unit.Marine;
 import com.fido.dp.agent.ProductionCommand;
-import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.agent.UnitCommand;
 import com.fido.dp.agent.ZergCommander;
+import com.fido.dp.agent.unit.Hatchery;
 import com.fido.dp.agent.unit.Probe;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -254,6 +254,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				if(type.equals(UnitType.Zerg_Drone)){
 					agent = new Drone(unit);
 				}
+				if(type.equals(UnitType.Zerg_Hatchery)){
+					agent = new Hatchery(unit);
+				}
 
 				if(agent == null){
 					throw new NonImplementedMorphException(formerUnitAgent, type);
@@ -320,6 +323,10 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			getGame().setLocalSpeed(10);
 			getGame().setFrameSkip(0);
 			getGame().enableFlag(1);
+			
+			// tools
+			mapTools = new UAlbertaMapTools();
+			buildingPlacer = new UAlbertaBuildingPlacer();
 
 //			commander = new Commander();
 			if(game.self().getRace() == Race.Zerg){
@@ -330,13 +337,12 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			}
 
 			commanderStatic = commander;
-			mapTools = new UAlbertaMapTools();
-			buildingPlacer = new UAlbertaBuildingPlacer();
+			
 
 			agents.add(commander);
 //			addAgent(new ExplorationCommand());
-			addAgent(new ResourceCommand());
-			addAgent(new BuildCommand());
+//			addAgent(new ResourceCommand());
+//			addAgent(new BuildCommand());
 			addAgent(new ProductionCommand());
 			addAgent(new UnitCommand());
 			

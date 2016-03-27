@@ -38,12 +38,12 @@ public class BBSBuild<A extends BuildCommand> extends CommandActivity<A,Goal> {
 
     @Override
     public void performAction() {
-		for (SCV scv : getAgent().<SCV>getSubordinateAgents(SCV.class)) {
-			if(!scv.IsAssigned()){
-				getAgent().addWorker(scv);
-				scv.setAssigned(true);
-			}
-		}
+//		for (SCV scv : getAgent().<SCV>getSubordinateAgents(SCV.class)) {
+//			if(!scv.IsAssigned()){
+//				getAgent().addWorker(scv);
+//				scv.setAssigned(true);
+//			}
+//		}
 		
         switch(getAgent().automaticBuild()){
             case MISSING_GAS:

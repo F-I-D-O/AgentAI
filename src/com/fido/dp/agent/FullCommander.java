@@ -8,14 +8,12 @@ package com.fido.dp.agent;
 import bwapi.Race;
 import com.fido.dp.activity.protoss.DefaultProtossStrategy;
 import com.fido.dp.activity.terran.BBSStrategy;
-import com.fido.dp.activity.zerg.OutbreakStrategy;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.Goal;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
-import com.fido.dp.decisionMaking.RaceParameter;
 import com.fido.dp.goal.BBSStrategyGoal;
 import com.fido.dp.goal.DefaultProtossStrategyGoal;
 import java.util.TreeMap;
@@ -26,9 +24,29 @@ import java.util.TreeMap;
  */
 public class FullCommander extends Commander{
 	
+	private static FullCommander fullCommander;
+	
+	public static FullCommander get(){
+		return fullCommander;
+	}
+	
+	
+	
+	
+	
 	public final ExplorationCommand explorationCommand;
 	
 	public final ResourceCommand resourceCommand;
+
+	public final BuildCommand buildCommand;
+	
+	
+	
+	public ExplorationCommand getExplorationCommand() {
+		return explorationCommand;
+	}
+	
+	
 	
 	
 	
@@ -37,6 +55,8 @@ public class FullCommander extends Commander{
 		explorationCommand = new ExplorationCommand();
 		GameAPI.addAgent(explorationCommand, this);
 		resourceCommand = new ResourceCommand();
+		GameAPI.addAgent(resourceCommand, this);
+		buildCommand = new BuildCommand();
 		GameAPI.addAgent(resourceCommand, this);
 		
 		reasoningOn = true;
@@ -66,6 +86,8 @@ public class FullCommander extends Commander{
 		addToDecisionTablesMap(key, new DecisionTable(actionMap));
 		
 		referenceKey = key;
+		
+		fullCommander = this;
 	}
 	
 	@Override
@@ -73,4 +95,11 @@ public class FullCommander extends Commander{
 		return (GameAPI.getGame().self().getRace().equals(Race.Terran) ? new BBSStrategyGoal(this, null)
 				: new DefaultProtossStrategyGoal(this, null));
 	}
+
+	@Override
+	protected void initialize() {
+		
+	}
+	
+	
 }

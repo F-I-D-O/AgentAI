@@ -5,9 +5,13 @@
  */
 package com.fido.dp.activity;
 
+import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.UnitType;
-import com.fido.dp.agent.unit.SCV;
+import com.fido.dp.agent.unit.ArtificialWorker;
+import com.fido.dp.agent.unit.Drone;
+import com.fido.dp.agent.unit.Worker;
+import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitActivity;
 import java.util.Objects;
@@ -16,13 +20,13 @@ import java.util.Objects;
  *
  * @author F.I.D.O.
  */
-public class ConstructBuilding extends UnitActivity<SCV,Goal>{
+public class ConstructBuilding extends UnitActivity<Worker,Goal>{
 	
 	private final UnitType buildingType;
 	
 	private final TilePosition placeToBuildOn;
 
-	public ConstructBuilding(SCV agent, UnitType buildingType, TilePosition placeToBuildOn) {
+	public ConstructBuilding(Worker agent, UnitType buildingType, TilePosition placeToBuildOn) {
 		super(agent);
 		this.buildingType = buildingType;
 		this.placeToBuildOn = placeToBuildOn;
@@ -58,13 +62,27 @@ public class ConstructBuilding extends UnitActivity<SCV,Goal>{
 
 	@Override
 	protected void init() {
-		agent.build(buildingType, placeToBuildOn);
+//		if(agent instanceof ArtificialWorker){
+			agent.build(buildingType, placeToBuildOn);
+//		}
+//		// for zerg
+//		else{
+//			runChildActivity(new Move(agent, placeToBuildOn.toPosition()));
+//		}
 	}
 
 	@Override
 	protected void performAction() {
 		
 	}
+
+	@Override
+	protected void onChildActivityFinish(Activity activity) {
+		super.onChildActivityFinish(activity);
+//		((Drone) agent).morph(buildingType);
+	}
+	
+	
 	
 	
 	
