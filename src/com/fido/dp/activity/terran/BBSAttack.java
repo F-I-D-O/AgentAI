@@ -52,8 +52,8 @@ public class BBSAttack extends CommandActivity<UnitCommand,Goal>{
 
 	@Override
 	protected void performAction() {
-		List<Marine> marines = agent.getSubordinateAgents(Marine.class);
-		agent.detachSubordinateAgents(marines, squadCommander);
+		List<Marine> marines = agent.getCommandedAgents(Marine.class);
+		agent.detachCommandedAgents(marines, squadCommander);
 		
 		for (BaseLocationInfo baseInfo : agent.getEnemyBases()) {
 			enemyBaseLocation = baseInfo.getPosition();

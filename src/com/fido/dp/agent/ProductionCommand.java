@@ -56,8 +56,8 @@ public class ProductionCommand extends CommandAgent{
 	}
 
 	@Override
-	protected void onSubordinateAgentAdded(Agent subordinateAgent) {
-		super.onSubordinateAgentAdded(subordinateAgent); 
+	protected void onCommandedAgentAdded(Agent subordinateAgent) {
+		super.onCommandedAgentAdded(subordinateAgent); 
 		if(subordinateAgent instanceof Barracks){
 			barracks.add((Barracks) subordinateAgent);
 		}	

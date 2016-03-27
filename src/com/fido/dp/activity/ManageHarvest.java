@@ -30,7 +30,7 @@ public class ManageHarvest<A extends ResourceCommand> extends CommandActivity<A,
 
     @Override
     public void performAction() {
-		List<SCV> scvs = getAgent().getSubordinateAgents(SCV.class);
+		List<SCV> scvs = getAgent().getCommandedAgents(SCV.class);
         for (SCV scv : scvs) {
 			if(!(scv.getGoal() instanceof HarvestMineralsGoal)){
 				new HarvestMineralsOrder(scv, this.getAgent()).issueOrder();

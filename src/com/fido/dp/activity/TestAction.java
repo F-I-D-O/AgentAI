@@ -21,19 +21,19 @@ public class TestAction extends Activity {
     public void performAction() {
         if (explorationCommand == null) {
             getExplorationCommand();
-            ArrayList<Agent> subordinateAgents = ((CommandAgent) agent).getSubordinateAgents();
+            ArrayList<Agent> subordinateAgents = ((CommandAgent) agent).getCommandedAgents();
             System.out.println("Number of subordinate agents: " + subordinateAgents.size());
             for (Agent subordinateAgent : subordinateAgents) {
                 if (subordinateAgent instanceof SCV) {
                     Log.log(this, Level.FINE, "{0}: subordinate agent added to {1}", this.getClass(), explorationCommand.getClass());
-//                    explorationCommand.addSubordinateAgent(subordinateAgent);
+//                    explorationCommand.addCommandedAgent(subordinateAgent);
                 }
             }
         }
     }
 
     private void getExplorationCommand() {
-        ArrayList<Agent> subordinateAgents = ((CommandAgent) agent).getSubordinateAgents();
+        ArrayList<Agent> subordinateAgents = ((CommandAgent) agent).getCommandedAgents();
         for (Agent subordinateAgent : subordinateAgents) {
             Log.log(this, Level.FINE, "{0}: agent: {1}", this, subordinateAgent.getClass());
             if (subordinateAgent instanceof ExplorationCommand) {

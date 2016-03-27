@@ -10,7 +10,7 @@ import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.Building;
 import com.fido.dp.BuildingPlacer;
-import com.fido.dp.Material;
+import com.fido.dp.ResourceType;
 import com.fido.dp.activity.AutomaticExpansion;
 import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Activity;
@@ -89,7 +89,7 @@ public class ExpansionCommand extends CommandAgent
 	@Override
 	protected void routine() {
 		super.routine(); 
-		for (Worker worker : getSubordinateAgents(Worker.class)) {
+		for (Worker worker : getCommandedAgents(Worker.class)) {
 			if(!worker.IsAssigned()){
 				addWorker(worker);
 				worker.setAssigned(true);
@@ -122,8 +122,8 @@ public class ExpansionCommand extends CommandAgent
 			MaterialRequest materialRequest = (MaterialRequest) request;
 			if(materialRequest.getMineralAmount() <= getOwnedMinerals() 
 					&& materialRequest.getGasAmount() <= getOwnedGas()){
-				giveSupply(materialRequest.getSender(), Material.MINERALS, materialRequest.getMineralAmount());
-				giveSupply(materialRequest.getSender(), Material.GAS, materialRequest.getGasAmount());
+				giveSupply(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
+				giveSupply(materialRequest.getSender(), ResourceType.GAS, materialRequest.getGasAmount());
 			}
 			else {
 				if(!materialRequest.isProcessed()){

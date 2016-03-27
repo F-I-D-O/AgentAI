@@ -6,7 +6,7 @@
 package com.fido.dp.request;
 
 import com.fido.dp.base.Request;
-import com.fido.dp.Material;
+import com.fido.dp.ResourceType;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
 

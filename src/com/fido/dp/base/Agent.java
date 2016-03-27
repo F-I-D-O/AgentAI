@@ -2,9 +2,9 @@ package com.fido.dp.base;
 
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.Log;
-import com.fido.dp.Material;
+import com.fido.dp.ResourceType;
 import com.fido.dp.NoActionChosenException;
-import com.fido.dp.Supply;
+import com.fido.dp.Resource;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.info.Info;
 import java.util.ArrayDeque;
@@ -25,9 +25,11 @@ public abstract class Agent {
 	
 	private final Queue<Order> commandQueue;
 	
-	private final Supply minerals;
+	private final Resource minerals;
     
-    private final Supply gas;
+    private final Resource gas;
+	
+	private final Resource supply;
 	
 	private int receivedMineralsTotal;
 	
@@ -89,8 +91,9 @@ public abstract class Agent {
 	public Agent() {
 		assigned = false;
 		commandQueue = new ArrayDeque<>();
-		minerals = new Supply(GameAPI.getCommander(), Material.MINERALS, 0);
-		gas = new Supply(GameAPI.getCommander(), Material.GAS, 0);
+		minerals = new Resource(GameAPI.getCommander(), ResourceType.MINERALS, 0);
+		gas = new Resource(GameAPI.getCommander(), ResourceType.GAS, 0);
+		supply = new Resource(GameAPI.getCommander(), ResourceType.SUPPLY, 0);
 		receivedMineralsTotal = 0;
 		receivedMineralsTotal = 0;
 		infoQue = new ArrayDeque<>();
@@ -161,15 +164,20 @@ public abstract class Agent {
     }
 	
 	
-	public final void receiveSupply(Supply supply){
-        if(supply.getMaterial() == Material.GAS){
-            gas.merge(supply);
-			receivedGasTotal += supply.getAmount();
-        }
-        else{
-            minerals.merge(supply);
-			receivedMineralsTotal += supply.getAmount();
-        }
+	public final void receiveResource(Resource resource){
+		switch(resource.getResourceType()){
+			case GAS:
+				gas.merge(resource);
+				receivedGasTotal += resource.getAmount();
+				break;
+			case MINERALS:
+				minerals.merge(resource);
+				receivedMineralsTotal += resource.getAmount();
+				break;
+			case SUPPLY:
+				supply.merge(resource);
+				break;
+		}
     }
 	
 	public int getOwnedGas(){
@@ -180,12 +188,16 @@ public abstract class Agent {
         return minerals.getAmount();
     }
 	
-	public void giveSupply(Agent receiver, Material material, int amount){
-		if(material == Material.GAS){
-			receiver.receiveSupply(gas.split(amount));
+	public int getOwnedSupply(){
+        return supply.getAmount();
+    }
+	
+	public void giveSupply(Agent receiver, ResourceType material, int amount){
+		if(material == ResourceType.GAS){
+			receiver.receiveResource(gas.split(amount));
 		}
 		else{
-			receiver.receiveSupply(minerals.split(amount));
+			receiver.receiveResource(minerals.split(amount));
 		}
 	}
 	
@@ -211,14 +223,14 @@ public abstract class Agent {
 		sendRequests.add(request);
 	}
 
-	public Agent(Queue<Order> commandQueue, Supply minerals, Supply gas, HashMap<DecisionTablesMapKey, DecisionTable> decisionTablesMap, Queue<Info> infoQue, ArrayList<Request> sendRequests) {
-		this.commandQueue = commandQueue;
-		this.minerals = minerals;
-		this.gas = gas;
-		this.decisionTablesMap = decisionTablesMap;
-		this.infoQue = infoQue;
-		this.sendRequests = sendRequests;
-	}
+//	public Agent(Queue<Order> commandQueue, Resource minerals, Resource gas, HashMap<DecisionTablesMapKey, DecisionTable> decisionTablesMap, Queue<Info> infoQue, ArrayList<Request> sendRequests) {
+//		this.commandQueue = commandQueue;
+//		this.minerals = minerals;
+//		this.gas = gas;
+//		this.decisionTablesMap = decisionTablesMap;
+//		this.infoQue = infoQue;
+//		this.sendRequests = sendRequests;
+//	}
 	
 	
 	protected abstract Activity chooseAction();
@@ -227,15 +239,20 @@ public abstract class Agent {
 		
 	}
 
-	protected final void spendSupply(Material material, int amount){
-		Supply supply;
-		if(material == Material.GAS){
-			supply = gas.split(amount);
+	protected final void spendSupply(ResourceType material, int amount){
+		Resource resource = null;
+		switch(material){
+			case GAS:
+				resource = gas.split(amount);
+				break;
+			case MINERALS:
+				resource = minerals.split(amount);
+				break;
+			case SUPPLY:
+				resource = supply.split(amount);
+				break;
 		}
-		else{
-			supply = minerals.split(amount);
-		}
-		supply.spend(amount);
+		resource.spend(amount);
 	}
 	
 	protected void processInfo(Info info) {

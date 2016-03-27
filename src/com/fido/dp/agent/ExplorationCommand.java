@@ -75,7 +75,7 @@ public class ExplorationCommand extends CommandAgent {
     }
     
     public int getNumberOfScouts(){
-        return getNumberOfSubordinateAgents();
+        return getNumberOfCommandedAgents();
     }
 
 	@Override

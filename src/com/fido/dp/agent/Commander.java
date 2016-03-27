@@ -4,10 +4,10 @@ import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
-import com.fido.dp.Supply;
+import com.fido.dp.Resource;
 import com.fido.dp.base.Activity;
 import com.fido.dp.activity.terran.BBSStrategy;
-import com.fido.dp.Material;
+import com.fido.dp.ResourceType;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.Goal;
 import com.fido.dp.goal.BBSStrategyGoal;
@@ -21,6 +21,8 @@ public class Commander extends CommandAgent {
     private int reservedMinerals;
     
     private int reservedGas;
+	
+	private int reservedSupply;
 	
 	private final ArrayList<BaseLocationInfo> enemyBases;
 
@@ -44,22 +46,32 @@ public class Commander extends CommandAgent {
 		return null;
     }
 	
-	private final void reserveSupply(Supply supply){
-		if(supply.getMaterial() == Material.GAS){
-            reservedGas += supply.getAmount();
-        }
-        else{
-            reservedMinerals += supply.getAmount();
-        }
+	private void reserveResource(Resource resource){
+		switch(resource.getResourceType()){
+			case GAS:
+				reservedGas += resource.getAmount();
+				break;
+			case MINERALS:
+				reservedMinerals += resource.getAmount();
+				break;
+			case SUPPLY:
+				reservedSupply += resource.getAmount();
+				break;
+		}
 	}
 
-    public final void removeReservedSupply(Supply supply) {
-        if(supply.getMaterial() == Material.GAS){
-            reservedGas -= supply.getAmount();
-        }
-        else{
-            reservedMinerals -= supply.getAmount();
-        }
+    public final void removeReservedResource(Resource resource) {
+		switch(resource.getResourceType()){
+			case GAS:
+				reservedGas -= resource.getAmount();
+				break;
+			case MINERALS:
+				reservedMinerals -= resource.getAmount();
+				break;
+			case SUPPLY:
+				reservedSupply -= resource.getAmount();
+				break;
+		}
     }
     
     public int getFreeGas(){
@@ -70,9 +82,13 @@ public class Commander extends CommandAgent {
         return GameAPI.getGame().self().minerals() - reservedMinerals;
     }
 	
+	public int getFreeSupply(){
+		return GameAPI.getGame().self().supplyTotal() - GameAPI.getGame().self().supplyUsed() - reservedSupply;
+	}
+	
 	@Override
-	public final void giveSupply(Agent receiver, Material material, int amount){
-		if(material == Material.GAS && getOwnedGas() < amount){
+	public final void giveSupply(Agent receiver, ResourceType material, int amount){
+		if(material == ResourceType.GAS && getOwnedGas() < amount){
 			Log.log(this, Level.SEVERE, "Don't have enough gas - requested amount: {0}, current amount: {1}", amount, 
 					getOwnedGas());
 			return;
@@ -82,9 +98,9 @@ public class Commander extends CommandAgent {
 					amount, getOwnedMinerals());
 			return;
 		}
-		Supply supply = new Supply(this, material, amount);
-		receiver.receiveSupply(supply);
-		reserveSupply(supply);
+		Resource supply = new Resource(this, material, amount);
+		receiver.receiveResource(supply);
+		reserveResource(supply);
 	}
     
 	@Override

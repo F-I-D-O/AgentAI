@@ -28,7 +28,7 @@ public class NormalSquadAttackMove extends SquadAttackMove{
 	
 	@Override
 	protected void performAction() {
-		List<Marine> marines = agent.getSubordinateAgents(Marine.class);
+		List<Marine> marines = agent.getCommandedAgents(Marine.class);
 		if(marines.size() >= minSquadSize){
 			for (Marine marine : marines) {
 				if(marine.isIdle()){

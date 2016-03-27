@@ -9,7 +9,8 @@ package com.fido.dp;
  *
  * @author david_000
  */
-public enum Material {
+public enum ResourceType {
     MINERALS, 
-    GAS
+    GAS,
+	SUPPLY
 }

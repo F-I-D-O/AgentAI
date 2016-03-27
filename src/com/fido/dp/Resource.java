@@ -12,19 +12,19 @@ import java.util.logging.Level;
  *
  * @author david_000
  */
-public class Supply {
+public class Resource {
     
     private final Commander commander;
     
-    private final Material material;
+    private final ResourceType resourceType;
     
     private int amount;
     
     
     
 
-    public Material getMaterial() {
-        return material;
+    public ResourceType getResourceType() {
+        return resourceType;
     }
 
     public int getAmount() {
@@ -34,25 +34,25 @@ public class Supply {
     
     
     
-    public Supply(Commander commander, Material material, int amount) {
+    public Resource(Commander commander, ResourceType resourceType, int amount) {
         this.commander = commander;
-        this.material = material;
+        this.resourceType = resourceType;
         this.amount = amount;
     }
     
     
     
     
-    public void merge(Supply supply){
-        if(material != supply.getMaterial()){
-            Log.log(this, Level.SEVERE, "Canot merge {0} to {1}", supply.getMaterial(), material);
+    public void merge(Resource supply){
+        if(resourceType != supply.getResourceType()){
+            Log.log(this, Level.SEVERE, "Canot merge {0} to {1}", supply.getResourceType(), resourceType);
         }
         else{
             amount += supply.getAmount();
         }
     }
     
-    public Supply split(int amount){
+    public Resource split(int amount){
         if(amount > this.amount){
             Log.log(this, Level.SEVERE, "Don't have enough supply to split - requested amount: {0}, current amount: {1}",
                     amount, this.amount);
@@ -60,11 +60,11 @@ public class Supply {
         }
         
         this.amount -= amount;
-        return new Supply(commander, material, amount);
+        return new Resource(commander, resourceType, amount);
     }
     
     public void spend(int amount){
-        commander.removeReservedSupply(this);
+        commander.removeReservedResource(this);
     }
     
 }

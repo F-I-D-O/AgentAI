@@ -9,6 +9,7 @@ import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.Log;
 import com.fido.dp.MorphableUnit;
+import com.fido.dp.ResourceType;
 import com.fido.dp.activity.Wait;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
@@ -58,8 +59,11 @@ public class Larva extends UnitAgent implements MorphableUnit{
 	
 	
 	
-	public void Morph(MorphOption morphOption){
+	public void morph(MorphOption morphOption){
 		Log.log(this, Level.INFO, "{0}: morphing into: {1}", this.getClass(), morphOption.unitType);
+		spendSupply(ResourceType.MINERALS, morphOption.unitType.mineralPrice());
+		spendSupply(ResourceType.GAS, morphOption.unitType.gasPrice());
+		spendSupply(ResourceType.SUPPLY, morphOption.unitType.supplyRequired());
 		unit.morph(morphOption.unitType);
 	}
 	

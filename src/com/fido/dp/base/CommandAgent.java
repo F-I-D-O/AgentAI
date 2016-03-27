@@ -1,6 +1,7 @@
 package com.fido.dp.base;
 
 import com.fido.dp.Log;
+import com.fido.dp.SubordinateAgentsInfo;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,9 @@ import java.util.logging.Level;
 
 public abstract class CommandAgent extends Agent {
 
-    private final ArrayList<Agent> subordinateAgents;
+    private final ArrayList<Agent> commandedAgents;
+	
+	private final SubordinateAgentsInfo subordinateAgentsInfo;
 	
 	protected final Queue<Request> requests;
 	
@@ -19,32 +22,44 @@ public abstract class CommandAgent extends Agent {
 	
     
 
-    public ArrayList<Agent> getSubordinateAgents() {
-        return (ArrayList<Agent>) subordinateAgents.clone();
+    public ArrayList<Agent> getCommandedAgents() {
+        return (ArrayList<Agent>) commandedAgents.clone();
     }
 	
 	
+	
+	
     public CommandAgent() {
-        subordinateAgents = new ArrayList<>();
+        commandedAgents = new ArrayList<>();
+		subordinateAgentsInfo = new SubordinateAgentsInfo(this);
 		requests = new ArrayDeque<>();
 		completedOrdersQueue = new ArrayDeque<>();
 		uncompletedOrders = new ArrayList<>();
     }
 
-    public final void detachSubordinateAgent(Agent subordinateAgent, CommandAgent newCommand) {
+	
+	
+	
+    public final void detachCommandedAgent(Agent subordinateAgent, CommandAgent newCommand) {
 		subordinateAgent.setAssigned(false);
-        newCommand.addSubordinateAgent(subordinateAgent);
-        subordinateAgents.remove(subordinateAgent);
+        newCommand.addCommandedAgent(subordinateAgent);
+        commandedAgents.remove(subordinateAgent);
+		if(getCommandAgent() == newCommand){
+			subordinateAgentsInfo.onSubordinateAgentDetachedBack(subordinateAgent);
+		}
+		else{
+			subordinateAgentsInfo.onSubordinateAgentDetached(subordinateAgent, newCommand);
+		}
     }
 	
-	public final void detachSubordinateAgents(List<? extends Agent> subordinateAgents, CommandAgent newCommand) {
+	public final void detachCommandedAgents(List<? extends Agent> subordinateAgents, CommandAgent newCommand) {
 		for (Agent subordinateAgent : subordinateAgents) {
-			detachSubordinateAgent(subordinateAgent, newCommand);
+			detachCommandedAgent(subordinateAgent, newCommand);
 		}
     }
 
-    public final <T> T getSubordinateAgent(Class<T> agentClass) {
-        for (Agent subordinateAgent : subordinateAgents) {
+    public final <T> T detachCommandedAgents(Class<T> agentClass) {
+        for (Agent subordinateAgent : commandedAgents) {
             if (agentClass.isInstance(subordinateAgent)) {
                 return (T) subordinateAgent;
             }
@@ -53,21 +68,21 @@ public abstract class CommandAgent extends Agent {
         return null;
     }
 
-    public final <T> List<T> getSubordinateAgents(Class<T> agentClass) {
-		return getSubordinateAgents(agentClass, Integer.MAX_VALUE);
+    public final <T> List<T> getCommandedAgents(Class<T> agentClass) {
+		return CommandAgent.this.getCommandedAgents(agentClass, Integer.MAX_VALUE);
     }
 	
-	public final <T> List<T> getSubordinateAgents(Class<T> agentClass, boolean idleOnly) {
-		return getSubordinateAgents(agentClass, Integer.MAX_VALUE, idleOnly);
+	public final <T> List<T> getCommandedAgents(Class<T> agentClass, boolean idleOnly) {
+		return getCommandedAgents(agentClass, Integer.MAX_VALUE, idleOnly);
     }
 	
-	public final <T> List<T> getSubordinateAgents(Class<T> agentClass, int count) {
-		return getSubordinateAgents(agentClass, count, false);
+	public final <T> List<T> getCommandedAgents(Class<T> agentClass, int count) {
+		return getCommandedAgents(agentClass, count, false);
 	}
 	
-	public final <T> List<T> getSubordinateAgents(Class<T> agentClass, int count, boolean idleOnly) {
+	public final <T> List<T> getCommandedAgents(Class<T> agentClass, int count, boolean idleOnly) {
         ArrayList<T> agents = new ArrayList();
-        for (Agent subordinateAgent : subordinateAgents) {
+        for (Agent subordinateAgent : commandedAgents) {
             if (agentClass.isInstance(subordinateAgent) && (!idleOnly || ((UnitAgent) subordinateAgent).isIdle())) {
                 agents.add((T) subordinateAgent);
 				if(agents.size() == count){
@@ -84,15 +99,15 @@ public abstract class CommandAgent extends Agent {
         return agents;
     }
 	
-	public final int getNumberOfSubordinateAgents(){
-		return subordinateAgents.size();
+	public final int getNumberOfCommandedAgents(){
+		return commandedAgents.size();
 	}   
 	
 	public void queRequest(Request request){
 		requests.add(request);
 	}	
 	
-	public final boolean isSubordinateAgentOccupied(Agent agent){
+	public final boolean isCommandedAgentOccupied(Agent agent){
 		for (Order order : uncompletedOrders) {
 			if(order.getTarget().equals(agent)){
 				return true;
@@ -101,8 +116,12 @@ public abstract class CommandAgent extends Agent {
 		return false;
 	}
 	
+	public int getSubordinateAgentsDetachedTo(CommandAgent commandAgent, Class<? extends Agent> agentClass){
+		return subordinateAgentsInfo.getSubordinateAgentsDetachedTo(commandAgent, agentClass);
+	}
+	
 
-	protected void onSubordinateAgentAdded(Agent subordinateAgent) {
+	protected void onCommandedAgentAdded(Agent subordinateAgent) {
 		Log.log(this, Level.INFO, "{0}: Subordinate agent added: {1}", this.getClass(), subordinateAgent.getClass());
 	}
 	
@@ -126,10 +145,11 @@ public abstract class CommandAgent extends Agent {
 		uncompletedOrders.add(order);
 	}
 	
-    final void addSubordinateAgent(Agent subordinateAgent) {
-        subordinateAgents.add(subordinateAgent);
-		subordinateAgent.setCommandAgent(this);
-		onSubordinateAgentAdded(subordinateAgent);
+    final void addCommandedAgent(Agent commandedAgent) {
+        commandedAgents.add(commandedAgent);
+		commandedAgent.setCommandAgent(this);
+		subordinateAgentsInfo.onSubordinateAgentAdded(commandedAgent);
+		onCommandedAgentAdded(commandedAgent);
     }
 	
 	final void reportOrderCompleted(Order order) {
@@ -156,8 +176,8 @@ public abstract class CommandAgent extends Agent {
 		}
 	}
 
-	void removeSubordinateAgent(UnitAgent agent) {
-		subordinateAgents.remove(agent);
+	void removeCommandedAgent(UnitAgent agent) {
+		commandedAgents.remove(agent);
 	}
 
 }

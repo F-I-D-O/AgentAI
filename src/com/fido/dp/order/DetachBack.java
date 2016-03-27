@@ -58,20 +58,20 @@ public class DetachBack extends Order{
 		CommandAgent target = getTarget();
 		List<Agent> subordinateAgents;
 		if(agentType == null){
-			subordinateAgents = target.getSubordinateAgents();
+			subordinateAgents = target.getCommandedAgents();
 		}
 		else if(numberOfUnits == 0){
 			if(idleOnly){
-				subordinateAgents = target.getSubordinateAgents(agentType, idleOnly);
+				subordinateAgents = target.getCommandedAgents(agentType, idleOnly);
 			}
 			else{
-				subordinateAgents = target.getSubordinateAgents(agentType);
+				subordinateAgents = target.getCommandedAgents(agentType);
 			}
 		}
 		else{
-			subordinateAgents = target.getSubordinateAgents(agentType, numberOfUnits);
+			subordinateAgents = target.getCommandedAgents(agentType, numberOfUnits);
 		}
-		target.detachSubordinateAgents(subordinateAgents, commandAgent);
+		target.detachCommandedAgents(subordinateAgents, commandAgent);
 	}
 	
 }

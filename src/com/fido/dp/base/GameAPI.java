@@ -83,7 +83,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     }
 	
 	public static void addAgent(Agent agent, CommandAgent commandAgent){
-		commandAgent.addSubordinateAgent(agent);
+		commandAgent.addCommandedAgent(agent);
         gameAPI.agents.add(agent);
 		if(agent instanceof UnitAgent){
 			UnitAgent unitAgent = (UnitAgent) agent;
@@ -419,7 +419,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		// if the agent has been in the map
 		if(agent != null){
 			unitAgents.remove(agent);
-			agent.getCommandAgent().removeSubordinateAgent(agent);
+			agent.getCommandAgent().removeCommandedAgent(agent);
 			gameAPI.agents.remove(agent);
 		}
 	}

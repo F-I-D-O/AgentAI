@@ -37,10 +37,13 @@ public class DroneProduction extends CommandActivity<LarvaCommand, Goal>{
 
 	@Override
 	protected void performAction() {
-		List<Larva> larvas = agent.getSubordinateAgents(Larva.class);
+		List<Larva> larvas = agent.getCommandedAgents(Larva.class);
 		
 		for (Larva larva : larvas) {
-			new LarvaMorph(larva, agent, Larva.MorphOption.DRONE).issueOrder();
+			if(agent.getOwnedMinerals() >= larva.getUnit().getType().gasPrice() 
+					&& agent.getOwnedSupply() >= larva.getUnit().getType().supplyRequired()){
+				new LarvaMorph(larva, agent, Larva.MorphOption.DRONE).issueOrder();
+			}
 		}
 	}
 

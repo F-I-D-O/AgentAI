@@ -24,7 +24,7 @@ public class ASAPSquadAttackMove extends SquadAttackMove{
 	
 	@Override
 	protected void performAction() {
-		List<Marine> marines = agent.getSubordinateAgents(Marine.class);
+		List<Marine> marines = agent.getCommandedAgents(Marine.class);
 		Unit unit;
 		for (Marine marine : marines) {
 			if(marine.isIdle()){

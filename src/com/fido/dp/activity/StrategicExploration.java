@@ -38,8 +38,8 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
     @Override
     public void performAction() {
 //        Log.log(this, Level.FINE, "{0}:{1} Number of subordinate Agents: {2}", this.getClass(), getAgent().getClass(),
-//                ((CommandAgent) getAgent()).getSubordinateAgents().size());
-		for (Agent subordinateAgent :  getAgent().getSubordinateAgents()) {
+//                ((CommandAgent) getAgent()).getCommandedAgents().size());
+		for (Agent subordinateAgent :  getAgent().getCommandedAgents()) {
 			if(subordinateAgent instanceof Scout && !scouts.contains(subordinateAgent)){
 				scouts.add((Scout) subordinateAgent);
 			}
@@ -48,7 +48,7 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
         Log.log(this, Level.FINE, "{0}: Number of scouts: {1}", this, scouts.size());
 		
         for (Scout scout : scouts) {
-			if(!agent.isSubordinateAgentOccupied((Agent) scout)){
+			if(!agent.isCommandedAgentOccupied((Agent) scout)){
 				Position target = null;
 				for (BaseLocationInfo baseInfo : agent.getBaseLocations()) {
 					if(baseInfo.isStartLocation() && !baseInfo.isExpplored() && !baseInfo.isExplorationInProgress() 

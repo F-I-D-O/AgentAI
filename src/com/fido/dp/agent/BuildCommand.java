@@ -16,7 +16,7 @@ import com.fido.dp.Building;
 import com.fido.dp.BuildingPlacer;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
-import com.fido.dp.Material;
+import com.fido.dp.ResourceType;
 import com.fido.dp.Tools;
 import com.fido.dp.UAlbertaBuildingPlacer;
 import com.fido.dp.agent.unit.Worker;
@@ -123,7 +123,7 @@ public class BuildCommand extends CommandAgent{
 		Log.log(this, Level.INFO, "{0}: Building construction commanded: {1}", this.getClass(), 
 				buildingType.getClass());
 		TilePosition buildingPlace = findPositionForBuild(buildingType, worker);
-		giveSupply(worker, Material.MINERALS, buildingType.mineralPrice());
+		giveSupply(worker, ResourceType.MINERALS, buildingType.mineralPrice());
 		new ConstructBuildingOrder(worker, this, buildingType, buildingPlace).issueOrder();
     }
     
@@ -197,7 +197,7 @@ public class BuildCommand extends CommandAgent{
 	@Override
 	protected void routine() {
 		super.routine(); 
-		for (Worker worker : getSubordinateAgents(Worker.class)) {
+		for (Worker worker : getCommandedAgents(Worker.class)) {
 			if(!worker.IsAssigned()){
 				addWorker(worker);
 				worker.setAssigned(true);

@@ -4,7 +4,7 @@ import bwapi.Position;
 import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.Log;
-import com.fido.dp.Material;
+import com.fido.dp.ResourceType;
 import com.fido.dp.Scout;
 import com.fido.dp.base.Activity;
 import com.fido.dp.activity.HarvestMinerals;

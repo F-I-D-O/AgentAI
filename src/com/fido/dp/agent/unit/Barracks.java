@@ -7,6 +7,7 @@ package com.fido.dp.agent.unit;
 
 import bwapi.Unit;
 import bwapi.UnitType;
+import com.fido.dp.ResourceType;
 import com.fido.dp.base.Activity;
 import com.fido.dp.activity.AutomaticProduction;
 import com.fido.dp.base.Goal;
@@ -53,6 +54,9 @@ public class Barracks extends UnitAgent{
 	}
 	
 	public void train(UnitType unitType){
+		spendSupply(ResourceType.MINERALS, unitType.mineralPrice());
+		spendSupply(ResourceType.GAS, unitType.gasPrice());
+		spendSupply(ResourceType.SUPPLY, unitType.supplyRequired());
 		unit.train(unitType);
 //		trainingInProgress = true;
 	}

@@ -25,7 +25,7 @@ public class LarvaMorph extends GoalOrder{
 	@Override
 	protected void execute() {
 		Larva larva = getTarget();
-		larva.Morph(morphOption);
+		larva.morph(morphOption);
 	}
 	
 }

@@ -9,7 +9,7 @@ import bwapi.UnitType;
 import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.Log;
-import com.fido.dp.Material;
+import com.fido.dp.ResourceType;
 import com.fido.dp.agent.unit.Barracks;
 import com.fido.dp.agent.BuildCommand;
 import com.fido.dp.agent.Commander;
@@ -65,11 +65,11 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
     public BBSStrategy(A agent) {
         super(agent);
         
-        resourceCommand = agent.getSubordinateAgent(ResourceCommand.class);
-        explorationCommand = agent.getSubordinateAgent(ExplorationCommand.class);
-        buildCommand = agent.getSubordinateAgent(BuildCommand.class);
-		productionCommand = agent.getSubordinateAgent(ProductionCommand.class);
-		unitCommand = agent.getSubordinateAgent(UnitCommand.class);
+        resourceCommand = agent.detachCommandedAgents(ResourceCommand.class);
+        explorationCommand = agent.detachCommandedAgents(ExplorationCommand.class);
+        buildCommand = agent.detachCommandedAgents(BuildCommand.class);
+		productionCommand = agent.detachCommandedAgents(ProductionCommand.class);
+		unitCommand = agent.detachCommandedAgents(UnitCommand.class);
         
         targetNumberOfScouts = 1;
 //		unitsDetachedFromBuildCommand = true;
@@ -80,22 +80,22 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 		new DetachBack(buildCommand, this.getAgent(), SCV.class, true).issueOrder();
 		
 		SCV scv;
-		while((scv = agent.getSubordinateAgent(SCV.class)) != null 
+		while((scv = agent.detachCommandedAgents(SCV.class)) != null 
 				&& explorationCommand.getNumberOfScouts() < targetNumberOfScouts){
-			getAgent().detachSubordinateAgent(scv, explorationCommand);
+			getAgent().detachCommandedAgent(scv, explorationCommand);
 		}
 		
-		List<SCV> scvs = agent.getSubordinateAgents(SCV.class);
-		List<Barracks> barracks = agent.getSubordinateAgents(Barracks.class);
-		List<Marine> marines = agent.getSubordinateAgents(Marine.class);
+		List<SCV> scvs = agent.getCommandedAgents(SCV.class);
+		List<Barracks> barracks = agent.getCommandedAgents(Barracks.class);
+		List<Marine> marines = agent.getCommandedAgents(Marine.class);
 		
-		agent.detachSubordinateAgents(barracks, productionCommand);
-		agent.detachSubordinateAgents(marines, unitCommand);
+		agent.detachCommandedAgents(barracks, productionCommand);
+		agent.detachCommandedAgents(marines, unitCommand);
 		
 		if(buildCommand.getNumberOfConstructionStarted(UnitType.Terran_Barracks) >= NUMBER_OF_BARRACKS
 				&& productionCommand.isMineralsMissing()){
 			if(productionCommand.getMissingMinerals() <= getAgent().getOwnedMinerals()){
-				getAgent().giveSupply(productionCommand, Material.MINERALS, productionCommand.getMissingMinerals());
+				getAgent().giveSupply(productionCommand, ResourceType.MINERALS, productionCommand.getMissingMinerals());
 			}
 			else{
 				focusOnHarvest(scvs);
@@ -112,7 +112,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 					}
 					else {
 						Log.log(this, Level.FINER, "{0}: Have workers - YES", this.getClass());
-						getAgent().detachSubordinateAgent(scvs.get(0), buildCommand);
+						getAgent().detachCommandedAgent(scvs.get(0), buildCommand);
 //						unitsDetachedFromBuildCommand = false;
 					}
 				}	
@@ -125,7 +125,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 				Log.log(this, Level.FINEST, "{0}: Owned crystal: {1}", this.getClass(), getAgent().getOwnedMinerals());
 				if(buildCommand.getMissingCrystalForFirsItem() <= getAgent().getOwnedMinerals()){
 					Log.log(this, Level.FINER, "{0}: Have crystal to give - YES", this.getClass());
-					getAgent().giveSupply(buildCommand, Material.MINERALS, buildCommand.getMissingCrystalForFirsItem());
+					getAgent().giveSupply(buildCommand, ResourceType.MINERALS, buildCommand.getMissingCrystalForFirsItem());
 				}
 				else{
 					focusOnHarvest(scvs);
@@ -155,11 +155,11 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 
 	@Override
 	protected void init() {
-		List<SCV> scvs = agent.getSubordinateAgents(SCV.class);
+		List<SCV> scvs = agent.getCommandedAgents(SCV.class);
 		if(!scvs.isEmpty()){           
             for (SCV scv : scvs) {
                 if(explorationCommand.getNumberOfScouts() < targetNumberOfScouts){
-                    getAgent().detachSubordinateAgent(scv, explorationCommand);
+                    getAgent().detachCommandedAgent(scv, explorationCommand);
                 }
             }
         }
@@ -184,7 +184,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 				buildCommand.getMissingCrystalForFirsItem() - getAgent().getOwnedMinerals());
 //		if(unitsDetachedFromBuildCommand){
 			if(!scvs.isEmpty()){
-				getAgent().detachSubordinateAgents(scvs, resourceCommand);
+				getAgent().detachCommandedAgents(scvs, resourceCommand);
 			}
 //		}
 //		else{

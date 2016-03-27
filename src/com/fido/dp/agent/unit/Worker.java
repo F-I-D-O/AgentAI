@@ -10,7 +10,7 @@ import bwapi.TilePosition;
 import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.Log;
-import com.fido.dp.Material;
+import com.fido.dp.ResourceType;
 import com.fido.dp.Scout;
 import com.fido.dp.activity.ExploreBaseLocation;
 import com.fido.dp.activity.HarvestMinerals;
@@ -90,8 +90,9 @@ public abstract class Worker extends UnitAgent implements Scout {
 	
 	public void onConstructionStarted(){
 		Log.log(this, Level.INFO, "{0}: onConstructionStarted", this.getClass());
-		spendSupply(Material.GAS, constructedBuildingType.gasPrice());
-		spendSupply(Material.MINERALS, constructedBuildingType.mineralPrice());
+		spendSupply(ResourceType.GAS, constructedBuildingType.gasPrice());
+		spendSupply(ResourceType.MINERALS, constructedBuildingType.mineralPrice());
+//		spendSupply(ResourceType.SUPPLY, constructedBuildingType.supplyRequired());
 		constructionInProgress = true;
 		new UnitCreationStartedInfo(getCommandAgent(), this, constructedBuildingType).send();
 	}

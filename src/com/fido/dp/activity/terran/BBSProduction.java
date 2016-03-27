@@ -5,7 +5,7 @@
  */
 package com.fido.dp.activity.terran;
 
-import com.fido.dp.Material;
+import com.fido.dp.ResourceType;
 import com.fido.dp.agent.unit.Barracks;
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.agent.ProductionCommand;
@@ -37,7 +37,7 @@ public class BBSProduction extends CommandActivity<ProductionCommand,Goal>{
 				new AutomaticProductionOrder(barracks, agent).issueOrder();
 			}
 			if(barracks.isMineralsMissing() && barracks.getMissingMinerals() <= agent.getOwnedMinerals()){
-				agent.giveSupply(barracks, Material.MINERALS, barracks.getMissingMinerals());
+				agent.giveSupply(barracks, ResourceType.MINERALS, barracks.getMissingMinerals());
 			}
 		}
 	}
