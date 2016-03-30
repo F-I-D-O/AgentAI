@@ -6,7 +6,6 @@
 package com.fido.dp.request;
 
 import com.fido.dp.base.Request;
-import com.fido.dp.ResourceType;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;
 
@@ -14,12 +13,14 @@ import com.fido.dp.base.CommandAgent;
  *
  * @author F.I.D.O.
  */
-public class MaterialRequest extends Request {
+public class ResourceRequest extends Request {
 	
 	
 	private final int mineralAmount;
 	
 	private final int gasAmount;
+	
+	private final int supplyAmount;
 	
 	private boolean processed;
 
@@ -34,6 +35,12 @@ public class MaterialRequest extends Request {
 		return gasAmount;
 	}
 
+	public int getSupplyAmount() {
+		return supplyAmount;
+	}
+	
+	
+
 	public boolean isProcessed() {
 		return processed;
 	}
@@ -45,10 +52,11 @@ public class MaterialRequest extends Request {
 	
 	
 	
-	public MaterialRequest(CommandAgent recipient, Agent sender, int mineralAmount, int gasAmount) {
+	public ResourceRequest(CommandAgent recipient, Agent sender, int mineralAmount, int gasAmount, int supplyAmount) {
 		super(recipient, sender);
 		this.mineralAmount = mineralAmount;
 		this.gasAmount = gasAmount;
+		this.supplyAmount = supplyAmount;
 		processed = false;
 	}
 	

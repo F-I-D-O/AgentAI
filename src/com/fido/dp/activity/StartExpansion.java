@@ -5,13 +5,12 @@
  */
 package com.fido.dp.activity;
 
-import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Activity;
 import com.fido.dp.goal.StartExpansionGoal;
-import com.fido.dp.request.MaterialRequest;
+import com.fido.dp.request.ResourceRequest;
 import java.util.Objects;
 
 /**
@@ -74,7 +73,7 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
 			else if(!resourceRequested){
 				int missingMinerals = agent.getMissingMinerals(expansionBuildingType);
 				int missingGas = agent.getMissingGas(expansionBuildingType);
-				new MaterialRequest(agent.getCommandAgent(), agent, missingMinerals, missingGas).send();
+				new ResourceRequest(agent.getCommandAgent(), agent, missingMinerals, missingGas, 0).send();
 				resourceRequested = true;
 			}
 		}

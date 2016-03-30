@@ -23,7 +23,7 @@ import com.fido.dp.decisionMaking.GoalParameter;
 import com.fido.dp.goal.AutomaticExpansionGoal;
 import com.fido.dp.info.ExpansionInfo;
 import com.fido.dp.info.Info;
-import com.fido.dp.request.MaterialRequest;
+import com.fido.dp.request.ResourceRequest;
 import com.fido.dp.base.Request;
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -118,18 +118,18 @@ public class ExpansionCommand extends CommandAgent
 
 	@Override
 	protected void handleRequest(Request request) {
-		if(request instanceof MaterialRequest){
-			MaterialRequest materialRequest = (MaterialRequest) request;
+		if(request instanceof ResourceRequest){
+			ResourceRequest materialRequest = (ResourceRequest) request;
 			if(materialRequest.getMineralAmount() <= getOwnedMinerals() 
 					&& materialRequest.getGasAmount() <= getOwnedGas()){
-				giveSupply(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
-				giveSupply(materialRequest.getSender(), ResourceType.GAS, materialRequest.getGasAmount());
+				giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
+				giveResource(materialRequest.getSender(), ResourceType.GAS, materialRequest.getGasAmount());
 			}
 			else {
 				if(!materialRequest.isProcessed()){
 					int missingMinerals = getMissingMinerals(materialRequest.getMineralAmount());
 					int missingGas = getMissingGas( materialRequest.getGasAmount());
-					new MaterialRequest(getCommandAgent(), this, missingMinerals, missingGas).send();
+					new ResourceRequest(getCommandAgent(), this, missingMinerals, missingGas, 0).send();
 				}
 				materialRequest.setProcessed(true);
 				queRequest(materialRequest);

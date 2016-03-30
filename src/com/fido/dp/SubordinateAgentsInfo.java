@@ -58,7 +58,12 @@ public class SubordinateAgentsInfo {
 	}
 	
 	public int getSubordinateAgentsDetachedTo(CommandAgent commandAgent, Class<? extends Agent> agentClass){
-		return table.get(commandAgent).get(agentClass);
+		HashMap<Class<? extends Agent>,Integer> allAgentsPerCommandAgent = table.get(commandAgent);
+		if(allAgentsPerCommandAgent == null){
+			return 0;
+		}
+		
+		return allAgentsPerCommandAgent.get(agentClass) == null ? 0 : allAgentsPerCommandAgent.get(agentClass);
 	}
 	
 	

@@ -87,7 +87,7 @@ public class Commander extends CommandAgent {
 	}
 	
 	@Override
-	public final void giveSupply(Agent receiver, ResourceType material, int amount){
+	public final void giveResource(Agent receiver, ResourceType material, int amount){
 		if(material == ResourceType.GAS && getOwnedGas() < amount){
 			Log.log(this, Level.SEVERE, "Don't have enough gas - requested amount: {0}, current amount: {1}", amount, 
 					getOwnedGas());
@@ -98,7 +98,7 @@ public class Commander extends CommandAgent {
 					amount, getOwnedMinerals());
 			return;
 		}
-		Resource supply = new Resource(this, material, amount);
+		Resource supply = new Resource(this, this, material, amount);
 		receiver.receiveResource(supply);
 		reserveResource(supply);
 	}
@@ -112,6 +112,13 @@ public class Commander extends CommandAgent {
     public int getOwnedMinerals(){
         return getFreeMinerals();
     }
+
+	@Override
+	public int getOwnedSupply() {
+		return getFreeSupply();
+	}
+	
+	
 
 	@Override
 	protected void processInfo(Info info) {

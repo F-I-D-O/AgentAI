@@ -6,6 +6,7 @@
 package com.fido.dp;
 
 import com.fido.dp.agent.Commander;
+import com.fido.dp.base.Agent;
 import java.util.logging.Level;
 
 /**
@@ -13,6 +14,8 @@ import java.util.logging.Level;
  * @author david_000
  */
 public class Resource {
+	
+	private final Agent agent;
     
     private final Commander commander;
     
@@ -34,10 +37,11 @@ public class Resource {
     
     
     
-    public Resource(Commander commander, ResourceType resourceType, int amount) {
+    public Resource(Agent agent, Commander commander, ResourceType resourceType, int amount) {
         this.commander = commander;
         this.resourceType = resourceType;
         this.amount = amount;
+		this.agent = agent;
     }
     
     
@@ -52,15 +56,15 @@ public class Resource {
         }
     }
     
-    public Resource split(int amount){
+    public Resource split(int amount) throws ResourceDeficiencyException{
         if(amount > this.amount){
-            Log.log(this, Level.SEVERE, "Don't have enough supply to split - requested amount: {0}, current amount: {1}",
-                    amount, this.amount);
-            return null;
+//            Log.log(this, Level.SEVERE, "Don't have enough supply to split - requested amount: {0}, current amount: {1}",
+//                    amount, this.amount);
+            throw new ResourceDeficiencyException(agent, resourceType, amount, this.amount);
         }
         
         this.amount -= amount;
-        return new Resource(commander, resourceType, amount);
+        return new Resource(agent, commander, resourceType, amount);
     }
     
     public void spend(int amount){

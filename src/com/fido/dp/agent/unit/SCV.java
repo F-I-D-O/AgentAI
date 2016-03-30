@@ -2,9 +2,6 @@ package com.fido.dp.agent.unit;
 
 import bwapi.Position;
 import bwapi.Unit;
-import bwapi.UnitType;
-import com.fido.dp.Log;
-import com.fido.dp.ResourceType;
 import com.fido.dp.Scout;
 import com.fido.dp.base.Activity;
 import com.fido.dp.activity.HarvestMinerals;
@@ -16,8 +13,6 @@ import com.fido.dp.goal.ConstructBuildingGoal;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.goal.HarvestMineralsGoal;
 import com.fido.dp.goal.MoveGoal;
-import com.fido.dp.info.UnitCreationStartedInfo;
-import java.util.logging.Level;
 
 public class SCV extends ArtificialWorker implements Scout {
 

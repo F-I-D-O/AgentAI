@@ -5,6 +5,7 @@ import com.fido.dp.Log;
 import com.fido.dp.ResourceType;
 import com.fido.dp.NoActionChosenException;
 import com.fido.dp.Resource;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.info.Info;
 import java.util.ArrayDeque;
@@ -91,9 +92,9 @@ public abstract class Agent {
 	public Agent() {
 		assigned = false;
 		commandQueue = new ArrayDeque<>();
-		minerals = new Resource(GameAPI.getCommander(), ResourceType.MINERALS, 0);
-		gas = new Resource(GameAPI.getCommander(), ResourceType.GAS, 0);
-		supply = new Resource(GameAPI.getCommander(), ResourceType.SUPPLY, 0);
+		minerals = new Resource(this, GameAPI.getCommander(), ResourceType.MINERALS, 0);
+		gas = new Resource(this, GameAPI.getCommander(), ResourceType.GAS, 0);
+		supply = new Resource(this, GameAPI.getCommander(), ResourceType.SUPPLY, 0);
 		receivedMineralsTotal = 0;
 		receivedMineralsTotal = 0;
 		infoQue = new ArrayDeque<>();
@@ -192,12 +193,17 @@ public abstract class Agent {
         return supply.getAmount();
     }
 	
-	public void giveSupply(Agent receiver, ResourceType material, int amount){
-		if(material == ResourceType.GAS){
-			receiver.receiveResource(gas.split(amount));
-		}
-		else{
-			receiver.receiveResource(minerals.split(amount));
+	public void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException{
+		switch(material){
+			case GAS:
+				receiver.receiveResource(gas.split(amount));
+				break;
+			case MINERALS:
+				receiver.receiveResource(minerals.split(amount));
+				break;
+			case SUPPLY:
+				receiver.receiveResource(supply.split(amount));
+				break;
 		}
 	}
 	
@@ -239,7 +245,7 @@ public abstract class Agent {
 		
 	}
 
-	protected final void spendSupply(ResourceType material, int amount){
+	protected final void spendSupply(ResourceType material, int amount) throws ResourceDeficiencyException{
 		Resource resource = null;
 		switch(material){
 			case GAS:

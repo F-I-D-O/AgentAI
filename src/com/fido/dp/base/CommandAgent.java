@@ -1,10 +1,15 @@
 package com.fido.dp.base;
 
 import com.fido.dp.Log;
+import com.fido.dp.ResourceDeficiencyException;
+import com.fido.dp.ResourceType;
 import com.fido.dp.SubordinateAgentsInfo;
+import com.fido.dp.Tools;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
 
@@ -19,6 +24,8 @@ public abstract class CommandAgent extends Agent {
 	private final Queue<Order> completedOrdersQueue;
 	
     private final ArrayList<Order> uncompletedOrders;
+	
+	private final Map<Agent,Integer> mineralsGiven;
 	
     
 
@@ -35,6 +42,7 @@ public abstract class CommandAgent extends Agent {
 		requests = new ArrayDeque<>();
 		completedOrdersQueue = new ArrayDeque<>();
 		uncompletedOrders = new ArrayList<>();
+		mineralsGiven = new HashMap<>();
     }
 
 	
@@ -90,7 +98,7 @@ public abstract class CommandAgent extends Agent {
 				}
             }
         }
-        if (agents.isEmpty()) {
+        if (agents.isEmpty() && count > 0) {
             Log.log(this, Level.WARNING, "{0}: No subordinate agents of type: {1}", this.getClass(), agentClass);
         }
 		if (count != Integer.MAX_VALUE && agents.size() < count) {
@@ -118,6 +126,16 @@ public abstract class CommandAgent extends Agent {
 	
 	public int getSubordinateAgentsDetachedTo(CommandAgent commandAgent, Class<? extends Agent> agentClass){
 		return subordinateAgentsInfo.getSubordinateAgentsDetachedTo(commandAgent, agentClass);
+	}
+
+	@Override
+	public void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException {
+		super.giveResource(receiver, material, amount); 
+		countGivenMaterial(receiver, material, amount);
+	}
+	
+	public int getMineralsGivenTo(Agent receiver){
+		return mineralsGiven.containsKey(receiver) ? mineralsGiven.get(receiver) : 0;
 	}
 	
 
@@ -179,5 +197,13 @@ public abstract class CommandAgent extends Agent {
 	void removeCommandedAgent(UnitAgent agent) {
 		commandedAgents.remove(agent);
 	}
+	
+	private void countGivenMaterial(Agent receiver, ResourceType material, int amount){
+		switch(material){
+			case MINERALS:
+				Tools.incrementMapValue(mineralsGiven, receiver, amount);
+		}
+	}
+	
 
 }

@@ -7,6 +7,7 @@ package com.fido.dp.agent.unit;
 
 import bwapi.Unit;
 import bwapi.UnitType;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.base.Activity;
 import com.fido.dp.activity.AutomaticProduction;
@@ -53,7 +54,7 @@ public class Barracks extends UnitAgent{
 		return null;
 	}
 	
-	public void train(UnitType unitType){
+	public void train(UnitType unitType) throws ResourceDeficiencyException{
 		spendSupply(ResourceType.MINERALS, unitType.mineralPrice());
 		spendSupply(ResourceType.GAS, unitType.gasPrice());
 		spendSupply(ResourceType.SUPPLY, unitType.supplyRequired());
@@ -73,7 +74,7 @@ public class Barracks extends UnitAgent{
 		return automaticProductionUnitType == null ? 0 : automaticProductionUnitType.mineralPrice() - getOwnedMinerals();
 	}
 
-	public void automaticProduction() {
+	public void automaticProduction() throws ResourceDeficiencyException {
 		if(!unit.isTraining() && automaticProductionUnitType.mineralPrice() <= getOwnedMinerals()){
 			train(automaticProductionUnitType);
 		}

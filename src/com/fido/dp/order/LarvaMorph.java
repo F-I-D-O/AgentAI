@@ -5,9 +5,12 @@
  */
 package com.fido.dp.order;
 
+import com.fido.dp.Log;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.agent.unit.Larva;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.GoalOrder;
+import java.util.logging.Level;
 
 /**
  *
@@ -25,7 +28,15 @@ public class LarvaMorph extends GoalOrder{
 	@Override
 	protected void execute() {
 		Larva larva = getTarget();
-		larva.morph(morphOption);
+		try {
+			larva.morph(morphOption);
+		} 
+		catch (ResourceDeficiencyException ex) {
+			 Log.log(this, Level.SEVERE, "{1}: Don't have enough supply to morph - missing {1} (requested amount: {2}, "
+					 + "current amount: {3}",
+                    ex.getSpender(), ex.getResourceType(), ex.getAmount(), ex.getCurrentAmount());
+			 ex.printStackTrace();
+		}
 	}
 	
 }

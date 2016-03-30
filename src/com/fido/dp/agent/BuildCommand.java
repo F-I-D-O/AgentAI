@@ -123,7 +123,7 @@ public class BuildCommand extends CommandAgent{
 		Log.log(this, Level.INFO, "{0}: Building construction commanded: {1}", this.getClass(), 
 				buildingType.getClass());
 		TilePosition buildingPlace = findPositionForBuild(buildingType, worker);
-		giveSupply(worker, ResourceType.MINERALS, buildingType.mineralPrice());
+		giveResource(worker, ResourceType.MINERALS, buildingType.mineralPrice());
 		new ConstructBuildingOrder(worker, this, buildingType, buildingPlace).issueOrder();
     }
     

@@ -10,6 +10,7 @@ import bwapi.TilePosition;
 import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.Log;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.Scout;
 import com.fido.dp.activity.ExploreBaseLocation;
@@ -88,7 +89,7 @@ public abstract class Worker extends UnitAgent implements Scout {
 		return unit.getPosition();
 	}
 	
-	public void onConstructionStarted(){
+	public void onConstructionStarted() throws ResourceDeficiencyException{
 		Log.log(this, Level.INFO, "{0}: onConstructionStarted", this.getClass());
 		spendSupply(ResourceType.GAS, constructedBuildingType.gasPrice());
 		spendSupply(ResourceType.MINERALS, constructedBuildingType.mineralPrice());

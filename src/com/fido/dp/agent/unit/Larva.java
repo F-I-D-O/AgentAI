@@ -9,6 +9,7 @@ import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.Log;
 import com.fido.dp.MorphableUnit;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.activity.Wait;
 import com.fido.dp.base.Activity;
@@ -40,6 +41,13 @@ public class Larva extends UnitAgent implements MorphableUnit{
 		MorphOption(UnitType unitType){
 			this.unitType = unitType;
 		}
+		
+//		public int getRequiredSupply(){
+//			if(unitType.equals(UnitType.Zerg_Drone)){
+//				return 1;
+//			}
+//			return unitType.supplyRequired();
+//		}
 	}
 	
 
@@ -59,7 +67,7 @@ public class Larva extends UnitAgent implements MorphableUnit{
 	
 	
 	
-	public void morph(MorphOption morphOption){
+	public void morph(MorphOption morphOption) throws ResourceDeficiencyException{
 		Log.log(this, Level.INFO, "{0}: morphing into: {1}", this.getClass(), morphOption.unitType);
 		spendSupply(ResourceType.MINERALS, morphOption.unitType.mineralPrice());
 		spendSupply(ResourceType.GAS, morphOption.unitType.gasPrice());

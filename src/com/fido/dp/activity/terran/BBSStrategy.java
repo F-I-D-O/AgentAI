@@ -95,7 +95,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 		if(buildCommand.getNumberOfConstructionStarted(UnitType.Terran_Barracks) >= NUMBER_OF_BARRACKS
 				&& productionCommand.isMineralsMissing()){
 			if(productionCommand.getMissingMinerals() <= getAgent().getOwnedMinerals()){
-				getAgent().giveSupply(productionCommand, ResourceType.MINERALS, productionCommand.getMissingMinerals());
+				getAgent().giveResource(productionCommand, ResourceType.MINERALS, productionCommand.getMissingMinerals());
 			}
 			else{
 				focusOnHarvest(scvs);
@@ -125,7 +125,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 				Log.log(this, Level.FINEST, "{0}: Owned crystal: {1}", this.getClass(), getAgent().getOwnedMinerals());
 				if(buildCommand.getMissingCrystalForFirsItem() <= getAgent().getOwnedMinerals()){
 					Log.log(this, Level.FINER, "{0}: Have crystal to give - YES", this.getClass());
-					getAgent().giveSupply(buildCommand, ResourceType.MINERALS, buildCommand.getMissingCrystalForFirsItem());
+					getAgent().giveResource(buildCommand, ResourceType.MINERALS, buildCommand.getMissingCrystalForFirsItem());
 				}
 				else{
 					focusOnHarvest(scvs);
