@@ -7,7 +7,7 @@ package com.fido.dp.info;
 
 import bwapi.Unit;
 import com.fido.dp.base.CommandAgent;
-import com.fido.dp.base.UnitAgent;
+import com.fido.dp.base.GameAgent;
 
 /**
  *
@@ -26,7 +26,7 @@ public class EnemyBuildingDiscovered extends Info {
 	
 	
 
-	public EnemyBuildingDiscovered(CommandAgent recipient, UnitAgent sender,Unit building) {
+	public EnemyBuildingDiscovered(CommandAgent recipient, GameAgent sender,Unit building) {
 		super(recipient, sender);
 		this.building = building;
 	}

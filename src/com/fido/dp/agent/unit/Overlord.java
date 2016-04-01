@@ -9,7 +9,7 @@ import bwapi.Unit;
 import com.fido.dp.activity.Wait;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
-import com.fido.dp.base.UnitAgent;
+import com.fido.dp.base.GameAgent;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
@@ -20,7 +20,7 @@ import java.util.TreeMap;
  *
  * @author F.I.D.O.
  */
-public class Overlord extends UnitAgent{
+public class Overlord extends GameAgent{
 
 	public Overlord(Unit unit) {
 		super(unit);

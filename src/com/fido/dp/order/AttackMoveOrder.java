@@ -8,7 +8,7 @@ package com.fido.dp.order;
 import bwapi.Position;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.GoalOrder;
-import com.fido.dp.base.UnitAgent;
+import com.fido.dp.base.GameAgent;
 import com.fido.dp.goal.AttackMoveGoal;
 
 /**
@@ -19,7 +19,7 @@ public class AttackMoveOrder extends GoalOrder{
 	
 	private final Position attackTarget;
 
-	public AttackMoveOrder(UnitAgent target, CommandAgent commandAgent, Position attackTarget) {
+	public AttackMoveOrder(GameAgent target, CommandAgent commandAgent, Position attackTarget) {
 		super(target, commandAgent);
 		this.attackTarget = attackTarget;
 	}

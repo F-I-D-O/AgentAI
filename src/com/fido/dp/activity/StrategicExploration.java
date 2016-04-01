@@ -14,7 +14,7 @@ import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.Goal;
-import com.fido.dp.base.UnitAgent;
+import com.fido.dp.base.GameAgent;
 import com.fido.dp.order.ExploreBaseLocationOrder;
 import com.fido.dp.order.MoveOrder;
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
 				// if there are no unexplored bases
 				if(target == null && scout.getPosition().getDistance(GameAPI.getStartBasePosition()) 
 						> Move.DEFAULT_MAX_DISTANCE_FROM_TARGET){
-					new MoveOrder((UnitAgent) scout, agent, GameAPI.getStartBasePosition()).issueOrder();
+					new MoveOrder((GameAgent) scout, agent, GameAPI.getStartBasePosition()).issueOrder();
 				}
 			}
         }

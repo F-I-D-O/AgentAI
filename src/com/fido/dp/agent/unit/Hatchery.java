@@ -9,14 +9,14 @@ import bwapi.Unit;
 import com.fido.dp.activity.Wait;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
-import com.fido.dp.base.UnitAgent;
+import com.fido.dp.base.GameAgent;
 import com.fido.dp.goal.WaitGoal;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class Hatchery extends UnitAgent{
+public class Hatchery extends GameAgent{
 
 	public Hatchery(Unit unit) {
 		super(unit);

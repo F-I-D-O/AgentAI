@@ -91,7 +91,7 @@ public abstract class CommandAgent extends Agent {
 	public final <T> List<T> getCommandedAgents(Class<T> agentClass, int count, boolean idleOnly) {
         ArrayList<T> agents = new ArrayList();
         for (Agent subordinateAgent : commandedAgents) {
-            if (agentClass.isInstance(subordinateAgent) && (!idleOnly || ((UnitAgent) subordinateAgent).isIdle())) {
+            if (agentClass.isInstance(subordinateAgent) && (!idleOnly || ((GameAgent) subordinateAgent).isIdle())) {
                 agents.add((T) subordinateAgent);
 				if(agents.size() == count){
 					break;
@@ -194,7 +194,7 @@ public abstract class CommandAgent extends Agent {
 		}
 	}
 
-	void removeCommandedAgent(UnitAgent agent) {
+	void removeCommandedAgent(GameAgent agent) {
 		commandedAgents.remove(agent);
 	}
 	

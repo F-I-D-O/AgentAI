@@ -7,6 +7,8 @@ import bwapi.Position;
 import bwapi.Race;
 import bwapi.Unit;
 import bwapi.UnitType;
+import com.fido.dp.BWAPICommandInterface;
+import com.fido.dp.DefaultBWAPICommandInterface;
 import com.fido.dp.BuildingPlacer;
 import com.fido.dp.EventEngine;
 import com.fido.dp.EventEngineListener;
@@ -82,8 +84,8 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	public static void addAgent(Agent agent, CommandAgent commandAgent){
 		commandAgent.addCommandedAgent(agent);
         gameAPI.agents.add(agent);
-		if(agent instanceof UnitAgent){
-			UnitAgent unitAgent = (UnitAgent) agent;
+		if(agent instanceof GameAgent){
+			GameAgent unitAgent = (GameAgent) agent;
 			gameAPI.getUnitAgents().add(unitAgent);
 			gameAPI.getUnitAgentsMappedByUnit().put(unitAgent.getUnit(), unitAgent);
 		}
@@ -93,6 +95,12 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		return getGame().self().getStartLocation().toPosition();
 	}
 	
+	public static void issueCommand(GameAgent agent, bwapi.UnitCommand unitCommand){
+		gameAPI.commandInterface.issueCommand(agent, unitCommand);
+	}
+	
+	
+	
 	
 	private final EventEngine eventEngine;
 	
@@ -100,19 +108,22 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	private final ArrayList<Agent> agents;
 	
-	private final ArrayList<UnitAgent> unitAgents;
+	private final ArrayList<GameAgent> unitAgents;
 	
-	private final HashMap<Unit,UnitAgent> unitAgentsMappedByUnit;
+	private final HashMap<Unit,GameAgent> unitAgentsMappedByUnit;
 	
 	private int frameCount;
 	
 	private final Level logLevel;
 
-	private ArrayList<UnitAgent> getUnitAgents() {
+	private final BWAPICommandInterface commandInterface;
+	
+	
+	private ArrayList<GameAgent> getUnitAgents() {
 		return unitAgents;
 	}
 
-	private HashMap<Unit, UnitAgent> getUnitAgentsMappedByUnit() {
+	private HashMap<Unit, GameAgent> getUnitAgentsMappedByUnit() {
 		return unitAgentsMappedByUnit;
 	}
 
@@ -128,6 +139,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		eventEngine =  new EventEngine();
 		eventEngine.addListener(this);
 		logLevel = Level.FINE;
+		commandInterface = new DefaultBWAPICommandInterface();
 	}
 	
 	
@@ -142,7 +154,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				return;
 			}
 //			
-//			UnitAgent agent = null;
+//			GameAgent agent = null;
 //			
 			// Construction started event
 			if(type.isBuilding()){
@@ -192,7 +204,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				return;
 			}
 			
-			UnitAgent agent = null;
+			GameAgent agent = null;
 			
 			if(type.equals(UnitType.Terran_SCV)) {
 				agent = new SCV(unit);
@@ -245,7 +257,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			// units obtained on start has no event
 			if(formerUnitAgent != null){
 
-				UnitAgent agent = null;
+				GameAgent agent = null;
 
 				if(type.equals(UnitType.Zerg_Drone)){
 					agent = new Drone(unit);
@@ -282,6 +294,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         try {
 			frameCount++;
             Log.log(this, Level.INFO, "OnFrame start - frame {0}", frameCount);
+			
+			// process queued commands from units that was busz last frame 
+			commandInterface.processQueuedCommands();
 			
 			eventEngine.run();
 			
@@ -360,7 +375,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			builderAgent.onConstructionFinished();
 		}
 		
-		UnitAgent buildingAgent = null;
+		GameAgent buildingAgent = null;
 		UnitType buildingType = building.getType();
 		
 		if (buildingType.equals(UnitType.Terran_Barracks)) {
@@ -384,7 +399,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			
 			// buildings
 			if(type.isBuilding()){
-				for (UnitAgent agent : unitAgents) {
+				for (GameAgent agent : unitAgents) {
 					if(agent.canSeeUnit(unit)){
 						agent.onEnemyBuildingDiscoverd(unit);
 					}
@@ -408,7 +423,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     }
 
 	private void removeAgent(Unit unit) {
-		UnitAgent agent = unitAgentsMappedByUnit.remove(unit);
+		GameAgent agent = unitAgentsMappedByUnit.remove(unit);
 		
 		// if the agent has been in the map
 		if(agent != null){

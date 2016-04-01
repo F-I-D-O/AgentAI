@@ -14,7 +14,7 @@ import com.fido.dp.ResourceType;
 import com.fido.dp.activity.Wait;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
-import com.fido.dp.base.UnitAgent;
+import com.fido.dp.base.GameAgent;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
@@ -26,7 +26,7 @@ import java.util.logging.Level;
  *
  * @author F.I.D.O.
  */
-public class Larva extends UnitAgent implements MorphableUnit{
+public class Larva extends GameAgent implements MorphableUnit{
 
 	@Override
 	public void onMorphFinished() {

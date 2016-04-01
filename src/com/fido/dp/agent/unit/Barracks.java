@@ -6,20 +6,22 @@
 package com.fido.dp.agent.unit;
 
 import bwapi.Unit;
+import bwapi.UnitCommand;
 import bwapi.UnitType;
 import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.base.Activity;
 import com.fido.dp.activity.AutomaticProduction;
+import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.Goal;
-import com.fido.dp.base.UnitAgent;
+import com.fido.dp.base.GameAgent;
 import com.fido.dp.goal.AutomaticProductionGoal;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class Barracks extends UnitAgent{
+public class Barracks extends GameAgent{
 	
 //	private boolean trainingInProgress;
 //
@@ -58,12 +60,11 @@ public class Barracks extends UnitAgent{
 		spendSupply(ResourceType.MINERALS, unitType.mineralPrice());
 		spendSupply(ResourceType.GAS, unitType.gasPrice());
 		spendSupply(ResourceType.SUPPLY, unitType.supplyRequired());
-		unit.train(unitType);
-//		trainingInProgress = true;
+		UnitCommand moveCommand = UnitCommand.train(unit, unitType);
+		GameAPI.issueCommand(this, moveCommand);
 	}
 	
 	public void onTrainingFinished(){
-//		trainingInProgress = false;
 	}
 	
 	public boolean isMineralsMissing() {

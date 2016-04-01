@@ -160,7 +160,7 @@ public abstract class Agent {
     }
 
     public final void onActionFailed(String reason) {
-        Log.log(this, Level.WARNING, "Action {0} failed: {1}", chosenAction, reason);
+        Log.log(this, Level.SEVERE, "Action {0} failed: {1}", chosenAction, reason);
 //        run();
     }
 	

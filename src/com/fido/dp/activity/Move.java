@@ -9,7 +9,7 @@ import com.fido.dp.base.UnitActivity;
 import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.Log;
-import com.fido.dp.base.UnitAgent;
+import com.fido.dp.agent.unit.UnitAgent;
 import com.fido.dp.goal.MoveGoal;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -49,7 +49,12 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal> {
     @Override
     public void performAction() {
         Unit unit = agent.getUnit();
-        if(!onMove){
+		if(onMove){
+			if(agent.isIdle()){
+				fail("Agent stuck");
+			}
+		}
+        else{
             if(!target.isValid()){
                 fail("Invalid target");
             }
@@ -61,7 +66,8 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal> {
                     this.getAgent().getClass(), agent.getUnit().getPosition());
             Log.log(this, Level.FINE, "{0}: {1} target position: {2}", this.getAgent().getClass(), 
                     this.getAgent().getClass(), target);
-            unit.move(target);
+//            unit.move(target);
+			agent.move(target);
             
             onMove = true;
         }

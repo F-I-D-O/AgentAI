@@ -8,6 +8,7 @@ package com.fido.dp.agent.unit;
 import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.Unit;
+import bwapi.UnitCommand;
 import bwapi.UnitType;
 import com.fido.dp.Log;
 import com.fido.dp.ResourceDeficiencyException;
@@ -19,7 +20,6 @@ import com.fido.dp.activity.Move;
 import com.fido.dp.activity.StartExpansion;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
-import com.fido.dp.base.UnitAgent;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
@@ -129,7 +129,8 @@ public abstract class Worker extends UnitAgent implements Scout {
 		}
 		
 		if(GameAPI.getGame().canBuildHere(placeToBuildOn, buildingType)){
-			unit.build(buildingType, placeToBuildOn);
+			UnitCommand moveCommand = UnitCommand.build(unit, placeToBuildOn, buildingType);
+			GameAPI.issueCommand(this, moveCommand);
 			constructionProcessInProgress = true;
 			constructedBuildingType = buildingType;
 		}

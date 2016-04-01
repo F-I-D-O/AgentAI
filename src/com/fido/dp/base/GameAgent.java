@@ -5,7 +5,7 @@ import com.fido.dp.Log;
 import com.fido.dp.info.EnemyBuildingDiscovered;
 import java.util.logging.Level;
 
-public abstract class UnitAgent extends Agent {
+public abstract class GameAgent extends Agent {
 
     protected final Unit unit;
 
@@ -19,7 +19,7 @@ public abstract class UnitAgent extends Agent {
 	
 	
 
-    public UnitAgent(Unit unit) {
+    public GameAgent(Unit unit) {
         this.unit = unit;
     }
 	

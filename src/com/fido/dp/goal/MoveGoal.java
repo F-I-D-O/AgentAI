@@ -8,7 +8,7 @@ package com.fido.dp.goal;
 import bwapi.Position;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.GoalOrder;
-import com.fido.dp.base.UnitAgent;
+import com.fido.dp.base.GameAgent;
 
 /**
  *
@@ -32,14 +32,14 @@ public class MoveGoal extends Goal {
 	
 	
 
-	public MoveGoal(UnitAgent target, GoalOrder order, Position targetPosition) {
+	public MoveGoal(GameAgent target, GoalOrder order, Position targetPosition) {
 		super(target, order);
 		this.targetPosition = targetPosition;
 	}
 
 	@Override
 	public boolean isCompleted() {
-		return ((UnitAgent) agent).getUnit().getPosition().getDistance(targetPosition) <= MIN_DISTANCE_FROM_TARGET;
+		return ((GameAgent) agent).getUnit().getPosition().getDistance(targetPosition) <= MIN_DISTANCE_FROM_TARGET;
 	}
 	
 }
