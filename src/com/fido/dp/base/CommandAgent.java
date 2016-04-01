@@ -98,7 +98,7 @@ public abstract class CommandAgent extends Agent {
 				}
             }
         }
-        if (agents.isEmpty() && count > 0) {
+        if (agents.isEmpty() && count != Integer.MAX_VALUE) {
             Log.log(this, Level.WARNING, "{0}: No subordinate agents of type: {1}", this.getClass(), agentClass);
         }
 		if (count != Integer.MAX_VALUE && agents.size() < count) {

@@ -5,6 +5,7 @@
  */
 package com.fido.dp.activity.terran;
 
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.agent.unit.Barracks;
 import com.fido.dp.base.CommandActivity;
@@ -12,6 +13,8 @@ import com.fido.dp.agent.ProductionCommand;
 import com.fido.dp.base.Goal;
 import com.fido.dp.goal.AutomaticProductionGoal;
 import com.fido.dp.order.AutomaticProductionOrder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,7 +40,11 @@ public class BBSProduction extends CommandActivity<ProductionCommand,Goal>{
 				new AutomaticProductionOrder(barracks, agent).issueOrder();
 			}
 			if(barracks.isMineralsMissing() && barracks.getMissingMinerals() <= agent.getOwnedMinerals()){
-				agent.giveResource(barracks, ResourceType.MINERALS, barracks.getMissingMinerals());
+				try {
+					agent.giveResource(barracks, ResourceType.MINERALS, barracks.getMissingMinerals());
+				} catch (ResourceDeficiencyException ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 	}

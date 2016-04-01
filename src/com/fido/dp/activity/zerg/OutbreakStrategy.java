@@ -6,6 +6,7 @@
 package com.fido.dp.activity.zerg;
 
 import bwapi.UnitType;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.agent.unit.Drone;
 import com.fido.dp.agent.ZergCommander;
@@ -16,6 +17,8 @@ import com.fido.dp.base.Request;
 import com.fido.dp.order.DetachBack;
 import com.fido.dp.request.ResourceRequest;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -98,8 +101,13 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>{
 			if(request.getSender() == agent.expansionCommand){
 				if(materialRequest.getMineralAmount() <= agent.getOwnedMinerals() 
 						&& materialRequest.getGasAmount() <= agent.getOwnedGas()){
-					agent.giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
-					agent.giveResource(materialRequest.getSender(), ResourceType.GAS, materialRequest.getGasAmount());
+					try {
+						agent.giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
+						agent.giveResource(materialRequest.getSender(), ResourceType.GAS, materialRequest.getGasAmount());
+					} 
+					catch (ResourceDeficiencyException ex) {
+						ex.printStackTrace();
+					}
 				}
 				else {
 					agent.queRequest(materialRequest);
@@ -109,8 +117,13 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>{
 				if(materialRequest.getMineralAmount() <= agent.getOwnedMinerals() 
 						&& materialRequest.getSupplyAmount() <= agent.getOwnedSupply()){
 					if(agent.getMineralsGivenTo(agent.larvaCommand) < DRONE_LIMIT_PER_BASE * UnitType.Zerg_Drone.mineralPrice()){
-						agent.giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
-						agent.giveResource(materialRequest.getSender(), ResourceType.SUPPLY, materialRequest.getSupplyAmount());
+						try {
+							agent.giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
+							agent.giveResource(materialRequest.getSender(), ResourceType.SUPPLY, materialRequest.getSupplyAmount());
+						} 
+						catch (ResourceDeficiencyException ex) {
+							ex.printStackTrace();
+						}
 					}
 				}
 			}

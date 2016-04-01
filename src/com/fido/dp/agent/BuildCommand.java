@@ -5,8 +5,6 @@
  */
 package com.fido.dp.agent;
 
-import com.fido.dp.info.ExpansionInfo;
-import bwapi.Position;
 import com.fido.dp.base.CommandAgent;
 import bwapi.TilePosition;
 import bwapi.UnitType;
@@ -16,9 +14,9 @@ import com.fido.dp.Building;
 import com.fido.dp.BuildingPlacer;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.Tools;
-import com.fido.dp.UAlbertaBuildingPlacer;
 import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
@@ -85,7 +83,7 @@ public class BuildCommand extends CommandAgent{
         return numberOfMissingWorkers > 0;
     }
     
-    public BuildCommandState automaticBuild(){
+    public BuildCommandState automaticBuild() throws ResourceDeficiencyException{
         if(buildPlans.isEmpty()){
             return BuildCommandState.OK;
         }
@@ -112,14 +110,14 @@ public class BuildCommand extends CommandAgent{
         return BuildCommandState.OK;
     }
 
-    public void commandBuildingConstruction(BuildPlan buildPlan){        
+    public void commandBuildingConstruction(BuildPlan buildPlan) throws ResourceDeficiencyException{        
 		Log.log(this, Level.INFO, "{0}: Building construction commanded: {1}", this.getClass(), 
 				buildPlan.getBuildingType().getClass());
 		Worker worker = freeWorkers.poll();
 		commandBuildingConstruction(buildPlan.getBuildingType(), worker);
     }
 	
-	public void commandBuildingConstruction(UnitType buildingType, Worker worker){        
+	public void commandBuildingConstruction(UnitType buildingType, Worker worker) throws ResourceDeficiencyException{        
 		Log.log(this, Level.INFO, "{0}: Building construction commanded: {1}", this.getClass(), 
 				buildingType.getClass());
 		TilePosition buildingPlace = findPositionForBuild(buildingType, worker);

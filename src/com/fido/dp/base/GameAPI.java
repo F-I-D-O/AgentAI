@@ -11,7 +11,6 @@ import com.fido.dp.BuildingPlacer;
 import com.fido.dp.EventEngine;
 import com.fido.dp.EventEngineListener;
 import com.fido.dp.Log;
-import com.fido.dp.LogFormater;
 import com.fido.dp.MapTools;
 import com.fido.dp.MorphableUnit;
 import com.fido.dp.NonImplementedMorphException;
@@ -32,7 +31,6 @@ import com.fido.dp.agent.unit.Probe;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
@@ -129,7 +127,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		unitAgentsMappedByUnit = new HashMap<>();
 		eventEngine =  new EventEngine();
 		eventEngine.addListener(this);
-		logLevel = Level.INFO;
+		logLevel = Level.FINE;
 	}
 	
 	
@@ -190,7 +188,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		try{
 			UnitType type = unit.getType();
 			
-			if(type.isNeutral()){
+			if(type.isNeutral() || !unit.getPlayer().equals(getGame().self())){
 				return;
 			}
 			
@@ -199,19 +197,18 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			if(type.equals(UnitType.Terran_SCV)) {
 				agent = new SCV(unit);
 			}
-			if(type.equals(UnitType.Terran_Marine)) {
+			else if(type.equals(UnitType.Terran_Marine)) {
 				agent = new Marine(unit);
 			}
-			if(type.equals(UnitType.Zerg_Larva)){
+			else if(type.equals(UnitType.Zerg_Larva)){
 				agent = new Larva(unit);
 			}
-			if(type.equals(UnitType.Zerg_Drone)){
+			else if(type.equals(UnitType.Zerg_Drone)){
 				agent = new Drone(unit);
 			}
-			if(type.equals(UnitType.Protoss_Probe)){
+			else if(type.equals(UnitType.Protoss_Probe)){
 				agent = new Probe(unit);
 			}
-			
 			
 			
 			// check beacause we not handle all units creation
@@ -253,11 +250,8 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				if(type.equals(UnitType.Zerg_Drone)){
 					agent = new Drone(unit);
 				}
-				if(type.equals(UnitType.Zerg_Hatchery)){
-					agent = new Hatchery(unit);
-				}
 
-				if(agent == null){
+				if(agent == null && !type.isBuilding()){
 					throw new NonImplementedMorphException(formerUnitAgent, type);
 				}
 
@@ -312,13 +306,12 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     public void onStart() {
 		try{
 			Log.log(this, Level.FINE, "OnStart START");
-			Logger rootLog = Logger.getLogger("");
+			
+			// BWTA init
 			bwta.BWTA.readMap();
 			bwta.BWTA.analyze();
-			rootLog.setLevel(logLevel);
-			rootLog.getHandlers()[0].setLevel(logLevel);
-			rootLog.getHandlers()[0].setFormatter(new LogFormater());
-			
+
+			// game settings
 			getGame().setLocalSpeed(10);
 			getGame().setFrameSkip(0);
 			getGame().enableFlag(1);
@@ -327,6 +320,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			mapTools = new UAlbertaMapTools();
 			buildingPlacer = new UAlbertaBuildingPlacer();
 
+			// commander init
 //			commander = new Commander();
 			if(game.self().getRace() == Race.Zerg){
 				commander = new ZergCommander();
@@ -334,19 +328,16 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			else{
 				commander = new FullCommander();
 			}
-
 			commanderStatic = commander;
-			
-
 			agents.add(commander);
+			
+			// other command agents to start the game with
 //			addAgent(new ExplorationCommand());
 //			addAgent(new ResourceCommand());
 //			addAgent(new BuildCommand());
 			addAgent(new ProductionCommand());
 			addAgent(new UnitCommand());
 			
-//			buildingPlacer.getBuildingLocation(new Building(GameAPI.getGame().self().getStartLocation().toPosition(),
-//					UnitType.Terran_Barracks, null, false));
 			Log.log(this, Level.FINE, "OnStart END");
 		}
 		catch (Exception exception) {
@@ -374,6 +365,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		
 		if (buildingType.equals(UnitType.Terran_Barracks)) {
 			buildingAgent = new Barracks(building);
+		}
+		else if(buildingType.equals(UnitType.Zerg_Hatchery)){
+			buildingAgent = new Hatchery(building);
 		}
 		
 		if(buildingAgent != null){
@@ -403,6 +397,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 
 	
     public void run() {
+		Log.init(logLevel);
         mirror = new Mirror();
         mirror.getModule().setEventListener(this);
         mirror.startGame();

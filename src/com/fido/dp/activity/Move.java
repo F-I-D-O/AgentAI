@@ -53,6 +53,10 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal> {
             if(!target.isValid()){
                 fail("Invalid target");
             }
+			if(!unit.hasPath(target)){
+				fail("Unit cannot reach target");
+			}
+			
             Log.log(this, Level.FINE, "{0}: {1} On position: {2}", this.getAgent().getClass(), 
                     this.getAgent().getClass(), agent.getUnit().getPosition());
             Log.log(this, Level.FINE, "{0}: {1} target position: {2}", this.getAgent().getClass(), 

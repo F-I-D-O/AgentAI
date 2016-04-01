@@ -7,9 +7,12 @@ package com.fido.dp.activity;
 
 import com.fido.dp.base.UnitActivity;
 import bwapi.UnitType;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.agent.unit.Barracks;
 import com.fido.dp.base.Goal;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,7 +29,11 @@ public class AutomaticProduction extends UnitActivity<Barracks,Goal>{
 
 	@Override
 	protected void performAction() {
-		agent.automaticProduction();
+		try {
+			agent.automaticProduction();
+		} catch (ResourceDeficiencyException ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	@Override

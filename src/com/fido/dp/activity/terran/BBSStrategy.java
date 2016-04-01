@@ -9,6 +9,7 @@ import bwapi.UnitType;
 import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.Log;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.agent.unit.Barracks;
 import com.fido.dp.agent.BuildCommand;
@@ -31,6 +32,7 @@ import com.fido.dp.order.HarvestOrder;
 import com.fido.dp.order.StrategicExplorationOrder;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -95,7 +97,11 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 		if(buildCommand.getNumberOfConstructionStarted(UnitType.Terran_Barracks) >= NUMBER_OF_BARRACKS
 				&& productionCommand.isMineralsMissing()){
 			if(productionCommand.getMissingMinerals() <= getAgent().getOwnedMinerals()){
-				getAgent().giveResource(productionCommand, ResourceType.MINERALS, productionCommand.getMissingMinerals());
+				try {
+					getAgent().giveResource(productionCommand, ResourceType.MINERALS, productionCommand.getMissingMinerals());
+				} catch (ResourceDeficiencyException ex) {
+					ex.printStackTrace();
+				}
 			}
 			else{
 				focusOnHarvest(scvs);
@@ -125,7 +131,11 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 				Log.log(this, Level.FINEST, "{0}: Owned crystal: {1}", this.getClass(), getAgent().getOwnedMinerals());
 				if(buildCommand.getMissingCrystalForFirsItem() <= getAgent().getOwnedMinerals()){
 					Log.log(this, Level.FINER, "{0}: Have crystal to give - YES", this.getClass());
-					getAgent().giveResource(buildCommand, ResourceType.MINERALS, buildCommand.getMissingCrystalForFirsItem());
+					try {
+						getAgent().giveResource(buildCommand, ResourceType.MINERALS, buildCommand.getMissingCrystalForFirsItem());
+					} catch (ResourceDeficiencyException ex) {
+						ex.printStackTrace();
+					}
 				}
 				else{
 					focusOnHarvest(scvs);

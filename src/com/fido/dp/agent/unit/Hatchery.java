@@ -6,9 +6,11 @@
 package com.fido.dp.agent.unit;
 
 import bwapi.Unit;
+import com.fido.dp.activity.Wait;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitAgent;
+import com.fido.dp.goal.WaitGoal;
 
 /**
  *
@@ -22,12 +24,12 @@ public class Hatchery extends UnitAgent{
 
 	@Override
 	protected Activity chooseAction() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return new Wait(this);
 	}
 
 	@Override
 	protected Goal getDefaultGoal() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return new WaitGoal(this, null);
 	}
 	
 }

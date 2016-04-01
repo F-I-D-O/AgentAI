@@ -10,6 +10,7 @@ import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.Building;
 import com.fido.dp.BuildingPlacer;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.activity.AutomaticExpansion;
 import com.fido.dp.agent.unit.Worker;
@@ -28,6 +29,8 @@ import com.fido.dp.base.Request;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -122,8 +125,12 @@ public class ExpansionCommand extends CommandAgent
 			ResourceRequest materialRequest = (ResourceRequest) request;
 			if(materialRequest.getMineralAmount() <= getOwnedMinerals() 
 					&& materialRequest.getGasAmount() <= getOwnedGas()){
-				giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
-				giveResource(materialRequest.getSender(), ResourceType.GAS, materialRequest.getGasAmount());
+				try {
+					giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
+					giveResource(materialRequest.getSender(), ResourceType.GAS, materialRequest.getGasAmount());
+				} catch (ResourceDeficiencyException ex) {
+					ex.printStackTrace();
+				}
 			}
 			else {
 				if(!materialRequest.isProcessed()){

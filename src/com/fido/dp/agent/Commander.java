@@ -5,6 +5,7 @@ import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.Log;
 import com.fido.dp.Resource;
+import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.base.Activity;
 import com.fido.dp.activity.terran.BBSStrategy;
 import com.fido.dp.ResourceType;
@@ -87,16 +88,21 @@ public class Commander extends CommandAgent {
 	}
 	
 	@Override
-	public final void giveResource(Agent receiver, ResourceType material, int amount){
+	public final void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException{
 		if(material == ResourceType.GAS && getOwnedGas() < amount){
-			Log.log(this, Level.SEVERE, "Don't have enough gas - requested amount: {0}, current amount: {1}", amount, 
-					getOwnedGas());
-			return;
+//			Log.log(this, Level.SEVERE, "Don''t have enough gas - requested amount: {0}, current amount: {1}", amount, 
+//					getOwnedGas());
+//			return;
+			throw new ResourceDeficiencyException(this, ResourceType.GAS, amount, getOwnedGas());
 		}
-		else if(getOwnedMinerals() < amount){
-			Log.log(this, Level.SEVERE, "Don't have enough minerals - requested amount: {0}, current amount: {1}",
-					amount, getOwnedMinerals());
-			return;
+		else if(material == ResourceType.MINERALS && getOwnedMinerals() < amount){
+//			Log.log(this, Level.SEVERE, "Don''t have enough minerals - requested amount: {0}, current amount: {1}",
+//					amount, getOwnedMinerals());
+//			return;
+			throw new ResourceDeficiencyException(this, ResourceType.MINERALS, amount, getOwnedMinerals());
+		}
+		else if(material == ResourceType.SUPPLY && getOwnedSupply() < amount){
+			throw new ResourceDeficiencyException(this, ResourceType.SUPPLY, amount, getOwnedSupply());
 		}
 		Resource supply = new Resource(this, this, material, amount);
 		receiver.receiveResource(supply);
