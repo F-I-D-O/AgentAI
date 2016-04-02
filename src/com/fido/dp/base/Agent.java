@@ -1,5 +1,6 @@
 package com.fido.dp.base;
 
+import com.fido.dp.CannotDecideException;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.Log;
 import com.fido.dp.ResourceType;
@@ -7,7 +8,6 @@ import com.fido.dp.NoActionChosenException;
 import com.fido.dp.Resource;
 import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
-import com.fido.dp.info.Info;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,8 +117,6 @@ public abstract class Agent {
 		}
 		
 		acceptCommands();
-		processInfoQue();
-		routine();
 		
 		Activity newAction;
 		if(goalChanged){
@@ -135,6 +133,9 @@ public abstract class Agent {
 				chosenAction = newAction;
 			}
 		}
+		
+		routine();
+		processInfoQue();
 		
 		if(goal.isCompleted()){
 			if(goal.isOrdered()){
@@ -289,15 +290,21 @@ public abstract class Agent {
 	
 	private final void processInfoQue(){
 		Info info;
-		while((info = infoQue.poll()) != null){
+		int infoCount = infoQue.size();
+		for (int i = 0; i < infoCount; i++) {
+			info = infoQue.poll();
 			processInfo(info);
 			chosenAction.processInfo(info);
 		}
 	}
 
-	protected Activity decide() {
+	protected Activity decide() throws CannotDecideException {
 		DecisionTablesMapKey key = DecisionTablesMapKey.createKeyBasedOnCurrentState(this, referenceKey);
-		Activity chosenAction = decisionTablesMap.get(key).chooseAction();
+		DecisionTable decisionTable = decisionTablesMap.get(key);
+		if(decisionTable == null){
+			throw new CannotDecideException(this, key);
+		}
+		Activity chosenAction = decisionTable.chooseAction();
 		chosenAction.initialize(goal);
 		return chosenAction;
 	}

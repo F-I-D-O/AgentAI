@@ -7,6 +7,7 @@ package com.fido.dp.agent;
 
 import bwapi.Race;
 import com.fido.dp.activity.protoss.DefaultProtossStrategy;
+import com.fido.dp.activity.protoss.FormationTestStrategy;
 import com.fido.dp.activity.terran.BBSStrategy;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
@@ -59,7 +60,7 @@ public class FullCommander extends Commander{
 		buildCommand = new BuildCommand();
 		GameAPI.addAgent(resourceCommand, this);
 		
-		reasoningOn = true;
+//		reasoningOn = true;
 		
 //		TreeMap<Double,Activity> actionMap = new TreeMap<>();
 //		actionMap.put(1.0, new BBSStrategy(this));
@@ -99,6 +100,11 @@ public class FullCommander extends Commander{
 	@Override
 	protected void initialize() {
 		
+	}
+
+	@Override
+	protected Activity chooseAction() {
+		return new FormationTestStrategy(this);
 	}
 	
 	

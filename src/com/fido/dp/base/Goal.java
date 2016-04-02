@@ -13,7 +13,7 @@ public abstract class Goal {
 	
 	protected final Agent agent;
 	
-	private final GoalOrder order;
+	private GoalOrder order;
 	
 	protected boolean completed;
 
@@ -39,5 +39,9 @@ public abstract class Goal {
 
 	final boolean isOrdered() {
 		return order != null;
+	}
+	
+	final void setOrder(UniversalGoalOrder order){
+		this.order = order;
 	}
 }

@@ -22,7 +22,7 @@ import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.order.ConstructBuildingOrder;
 import com.fido.dp.goal.BBSBuildGoal;
-import com.fido.dp.info.Info;
+import com.fido.dp.base.Info;
 import com.fido.dp.base.Request;
 import com.fido.dp.info.UnitCreationStartedInfo;
 import java.util.ArrayDeque;

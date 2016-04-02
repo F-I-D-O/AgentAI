@@ -23,7 +23,7 @@ import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
 import com.fido.dp.goal.AutomaticExpansionGoal;
 import com.fido.dp.info.ExpansionInfo;
-import com.fido.dp.info.Info;
+import com.fido.dp.base.Info;
 import com.fido.dp.request.ResourceRequest;
 import com.fido.dp.base.Request;
 import java.util.ArrayDeque;

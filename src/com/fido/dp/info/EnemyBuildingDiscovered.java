@@ -5,6 +5,7 @@
  */
 package com.fido.dp.info;
 
+import com.fido.dp.base.Info;
 import bwapi.Unit;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.GameAgent;

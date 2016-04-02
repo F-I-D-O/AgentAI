@@ -23,7 +23,7 @@ import com.fido.dp.agent.UnitCommand;
 import com.fido.dp.base.Goal;
 import com.fido.dp.info.EnemyBaseDiscovered;
 import com.fido.dp.info.EnemyBasesInfo;
-import com.fido.dp.info.Info;
+import com.fido.dp.base.Info;
 import com.fido.dp.order.BBSAttackOrder;
 import com.fido.dp.order.BBSBuildOrder;
 import com.fido.dp.order.BBSProductionOrder;
@@ -32,7 +32,6 @@ import com.fido.dp.order.HarvestOrder;
 import com.fido.dp.order.StrategicExplorationOrder;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -67,11 +66,11 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
     public BBSStrategy(A agent) {
         super(agent);
         
-        resourceCommand = agent.detachCommandedAgents(ResourceCommand.class);
-        explorationCommand = agent.detachCommandedAgents(ExplorationCommand.class);
-        buildCommand = agent.detachCommandedAgents(BuildCommand.class);
-		productionCommand = agent.detachCommandedAgents(ProductionCommand.class);
-		unitCommand = agent.detachCommandedAgents(UnitCommand.class);
+        resourceCommand = agent.getCommandedAgent(ResourceCommand.class);
+        explorationCommand = agent.getCommandedAgent(ExplorationCommand.class);
+        buildCommand = agent.getCommandedAgent(BuildCommand.class);
+		productionCommand = agent.getCommandedAgent(ProductionCommand.class);
+		unitCommand = agent.getCommandedAgent(UnitCommand.class);
         
         targetNumberOfScouts = 1;
 //		unitsDetachedFromBuildCommand = true;
@@ -82,7 +81,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 		new DetachBack(buildCommand, this.getAgent(), SCV.class, true).issueOrder();
 		
 		SCV scv;
-		while((scv = agent.detachCommandedAgents(SCV.class)) != null 
+		while((scv = agent.getCommandedAgent(SCV.class)) != null 
 				&& explorationCommand.getNumberOfScouts() < targetNumberOfScouts){
 			getAgent().detachCommandedAgent(scv, explorationCommand);
 		}

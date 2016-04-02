@@ -5,6 +5,7 @@
  */
 package com.fido.dp.info;
 
+import com.fido.dp.base.Info;
 import bwapi.Position;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandAgent;

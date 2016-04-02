@@ -6,29 +6,24 @@
 package com.fido.dp.info;
 
 import com.fido.dp.base.Info;
-import com.fido.dp.BaseLocationInfo;
+import bwapi.Position;
 import com.fido.dp.base.Agent;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class EnemyBaseDiscovered extends Info{
-	
-	private final BaseLocationInfo baseInfo;
+public class PositionChosenInfo extends Info{
+	private final Position chosenPosition;
 
-	
-	
-	
-	public BaseLocationInfo getBaseInfo() {
-		return baseInfo;
+	public Position getChosenPosition() {
+		return chosenPosition;
 	}
 	
 	
-	
-	public EnemyBaseDiscovered(Agent recipient, Agent sender, BaseLocationInfo baseInfo) {
+
+	public PositionChosenInfo(Agent recipient, Agent sender, Position chosenPosition) {
 		super(recipient, sender);
-		this.baseInfo = baseInfo;
+		this.chosenPosition = chosenPosition;
 	}
-	
 }

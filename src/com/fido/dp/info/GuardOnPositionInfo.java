@@ -6,22 +6,16 @@
 package com.fido.dp.info;
 
 import com.fido.dp.base.Agent;
+import com.fido.dp.base.Info;
 
 /**
  *
  * @author F.I.D.O.
  */
-public abstract class Info {
-	private final Agent recipient;
+public class GuardOnPositionInfo extends Info {
 	
-	private final Agent sender;
-
-	public Info(Agent recipient, Agent sender) {
-		this.recipient = recipient;
-		this.sender = sender;
+	public GuardOnPositionInfo(Agent recipient, Agent sender) {
+		super(recipient, sender);
 	}
 	
-	public final void send(){
-		recipient.queInfo(this);
-	}
 }

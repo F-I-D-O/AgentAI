@@ -17,6 +17,7 @@ public abstract class Order {
 
 	
 	
+	
 	public Order(Agent target, CommandAgent commandAgent) {
 		this.target = target;
 		this.commandAgent = commandAgent;
@@ -35,7 +36,7 @@ public abstract class Order {
 		commandAgent.reportOrderCompleted(this);
 	}
 	
-	protected <T> T getTarget(){
+	public <T> T getTarget(){
 		return (T) target;
 	}
 }

@@ -10,6 +10,7 @@ import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.Log;
 import com.fido.dp.agent.unit.UnitAgent;
+import com.fido.dp.base.GameAPI;
 import com.fido.dp.goal.MoveGoal;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -24,7 +25,7 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal> {
     
     private Position target;
     
-    private final double maxDistanceFromTarget;
+    private final int maxDistanceFromTarget;
     
     private boolean onMove;
 
@@ -45,6 +46,13 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal> {
         maxDistanceFromTarget = DEFAULT_MAX_DISTANCE_FROM_TARGET;
         onMove = false;
     }
+	
+	 public Move(UnitAgent unitAgent, Position target, int maxDistanceFromTarget) {
+        super(unitAgent);
+        this.target = target;
+        this.maxDistanceFromTarget = maxDistanceFromTarget;
+        onMove = false;
+    }
 
     @Override
     public void performAction() {
@@ -52,6 +60,9 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal> {
 		if(onMove){
 			if(agent.isIdle()){
 				fail("Agent stuck");
+				if(GameAPI.getFrameCount() % (int) (Math.random() * 4 + 2) == 0){
+					onMove = false;
+				}
 			}
 		}
         else{

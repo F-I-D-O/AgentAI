@@ -50,6 +50,11 @@ public abstract class DecisionTablesMapParametr<A extends Agent,V,P extends Deci
 		
 		return this.value.equals(other.value);
 	}
+
+	@Override
+	public String toString() {
+		return getClass() + ": " + value.toString(); //To change body of generated methods, choose Tools | Templates.
+	}
 	
 	
 }

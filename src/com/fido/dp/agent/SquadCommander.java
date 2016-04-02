@@ -15,6 +15,7 @@ import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Goal;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
+import com.fido.dp.goal.ActivityGoal;
 import com.fido.dp.goal.SquadAttackMoveGoal;
 import com.fido.dp.goal.WaitGoal;
 import java.util.TreeMap;
@@ -26,7 +27,7 @@ import java.util.TreeMap;
 public class SquadCommander extends CommandAgent {
 
 	public SquadCommander() {
-		reasoningOn = true;
+//		reasoningOn = true;
 		
 		TreeMap<Double,Activity> actionMap = new TreeMap<>();
 		actionMap.put(0.2, new ASAPSquadAttackMove(this, Position.None));
@@ -52,8 +53,14 @@ public class SquadCommander extends CommandAgent {
 			SquadAttackMoveGoal goal = getGoal();
 			return new ASAPSquadAttackMove(this, goal.getAttackTarget());
 		}
-		if(getGoal() instanceof WaitGoal){
+		else if(getGoal() instanceof WaitGoal){
 			return new Wait(this);
+		}
+		
+		// to remove later
+		else if(getGoal() instanceof ActivityGoal){
+			ActivityGoal activityGoal = getGoal();
+			return activityGoal.getActivity();
 		}
 		return null;
 	}

@@ -66,7 +66,7 @@ public abstract class CommandAgent extends Agent {
 		}
     }
 
-    public final <T> T detachCommandedAgents(Class<T> agentClass) {
+    public final <T> T getCommandedAgent(Class<T> agentClass) {
         for (Agent subordinateAgent : commandedAgents) {
             if (agentClass.isInstance(subordinateAgent)) {
                 return (T) subordinateAgent;
@@ -76,19 +76,19 @@ public abstract class CommandAgent extends Agent {
         return null;
     }
 
-    public final <T> List<T> getCommandedAgents(Class<T> agentClass) {
+    public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass) {
 		return CommandAgent.this.getCommandedAgents(agentClass, Integer.MAX_VALUE);
     }
 	
-	public final <T> List<T> getCommandedAgents(Class<T> agentClass, boolean idleOnly) {
+	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, boolean idleOnly) {
 		return getCommandedAgents(agentClass, Integer.MAX_VALUE, idleOnly);
     }
 	
-	public final <T> List<T> getCommandedAgents(Class<T> agentClass, int count) {
+	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count) {
 		return getCommandedAgents(agentClass, count, false);
 	}
 	
-	public final <T> List<T> getCommandedAgents(Class<T> agentClass, int count, boolean idleOnly) {
+	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count, boolean idleOnly) {
         ArrayList<T> agents = new ArrayList();
         for (Agent subordinateAgent : commandedAgents) {
             if (agentClass.isInstance(subordinateAgent) && (!idleOnly || ((GameAgent) subordinateAgent).isIdle())) {

@@ -4,7 +4,7 @@ package com.fido.dp.info;
 import bwapi.Position;
 import com.fido.dp.agent.ExplorationCommand;
 import com.fido.dp.base.Agent;
-import com.fido.dp.info.Info;
+import com.fido.dp.base.Info;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

@@ -29,7 +29,9 @@ import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.agent.UnitCommand;
 import com.fido.dp.agent.ZergCommander;
 import com.fido.dp.agent.unit.Hatchery;
+import com.fido.dp.agent.unit.HighTemplar;
 import com.fido.dp.agent.unit.Probe;
+import com.fido.dp.agent.unit.Zealot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -97,6 +99,10 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	public static void issueCommand(GameAgent agent, bwapi.UnitCommand unitCommand){
 		gameAPI.commandInterface.issueCommand(agent, unitCommand);
+	}
+	
+	public static int getFrameCount(){
+		return gameAPI.frameCount;
 	}
 	
 	
@@ -221,6 +227,12 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			else if(type.equals(UnitType.Protoss_Probe)){
 				agent = new Probe(unit);
 			}
+			else if(type.equals(UnitType.Protoss_Zealot)){
+				agent = new Zealot(unit);
+			}
+			else if(type.equals(UnitType.Protoss_High_Templar)){
+				agent = new HighTemplar(unit);
+			}
 			
 			
 			// check beacause we not handle all units creation
@@ -327,7 +339,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			bwta.BWTA.analyze();
 
 			// game settings
-			getGame().setLocalSpeed(10);
+			getGame().setLocalSpeed(30);
 			getGame().setFrameSkip(0);
 			getGame().enableFlag(1);
 			

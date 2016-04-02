@@ -5,6 +5,7 @@
  */
 package com.fido.dp.info;
 
+import com.fido.dp.base.Info;
 import com.fido.dp.BaseLocationInfo;
 import com.fido.dp.base.Agent;
 import java.util.ArrayList;

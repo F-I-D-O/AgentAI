@@ -69,7 +69,7 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>{
 		
 		// base expansions
 		if(agent.resourceCommand.getCommandedAgents(Drone.class).size() / 4 > expandingDrones){
-			Drone drone = agent.detachCommandedAgents(Drone.class);
+			Drone drone = agent.getCommandedAgent(Drone.class);
 			if(drone == null){
 				new DetachBack(agent.resourceCommand, agent, Drone.class, 1).issueOrder();
 			}

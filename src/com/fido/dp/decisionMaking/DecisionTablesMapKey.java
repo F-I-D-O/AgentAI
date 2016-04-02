@@ -25,6 +25,10 @@ public class DecisionTablesMapKey {
 		return key;
 	}
 	
+	
+	
+	
+	
 	private final HashMap<Class<DecisionTablesMapParametr>,DecisionTablesMapParametr> keyParametrs;
 
 	public HashMap<Class<DecisionTablesMapParametr>, DecisionTablesMapParametr> getKeyParametrs() {
@@ -67,5 +71,19 @@ public class DecisionTablesMapKey {
 	public void addParameter(DecisionTablesMapParametr parametr){
 		keyParametrs.put((Class<DecisionTablesMapParametr>) parametr.getClass(), parametr);
 	}
+
+	@Override
+	public String toString() {
+		String[] content = new String[keyParametrs.size()];
+		int i = 0;
+		for (Entry<Class<DecisionTablesMapParametr>, DecisionTablesMapParametr> entry : keyParametrs.entrySet()) {
+			content[i] += entry.getValue().toString();
+			i++;
+		}
+		
+		return "{" + String.join(", ", content) + '}';
+	}
+	
+	
 
 }

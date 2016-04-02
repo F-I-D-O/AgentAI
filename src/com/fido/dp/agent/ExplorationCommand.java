@@ -21,7 +21,7 @@ import com.fido.dp.base.Goal;
 import com.fido.dp.base.Order;
 import com.fido.dp.goal.StrategicExplorationGoal;
 import com.fido.dp.info.EnemyBaseDiscovered;
-import com.fido.dp.info.Info;
+import com.fido.dp.base.Info;
 import com.fido.dp.info.EnemyBuildingDiscovered;
 import com.fido.dp.info.LocationExploredInfo;
 import com.fido.dp.order.ExploreBaseLocationOrder;

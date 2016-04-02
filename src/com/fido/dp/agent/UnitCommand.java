@@ -12,7 +12,7 @@ import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.goal.BBSAttackGoal;
 import com.fido.dp.info.EnemyBasesInfo;
-import com.fido.dp.info.Info;
+import com.fido.dp.base.Info;
 import java.util.ArrayList;
 
 /**

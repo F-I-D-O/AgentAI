@@ -6,7 +6,6 @@
 package com.fido.dp.base;
 
 import com.fido.dp.Log;
-import com.fido.dp.info.Info;
 import java.util.logging.Level;
 
 /**

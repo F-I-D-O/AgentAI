@@ -13,7 +13,7 @@ import com.fido.dp.base.Agent;
 import com.fido.dp.base.Goal;
 import com.fido.dp.goal.BBSStrategyGoal;
 import com.fido.dp.info.EnemyBaseDiscovered;
-import com.fido.dp.info.Info;
+import com.fido.dp.base.Info;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
