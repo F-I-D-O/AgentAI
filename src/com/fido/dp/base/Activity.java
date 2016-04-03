@@ -98,6 +98,10 @@ public abstract class Activity <A extends Agent,G extends Goal> {
 	protected void processInfo(Info info) {
 		Log.log(this, Level.FINE, "{0}: info received: {1}", this.getClass(), info.getClass());
 	}
+
+	protected void onCommandedAgentAdded(Agent commandedAgent) {
+		
+	}
 	
 	
 }

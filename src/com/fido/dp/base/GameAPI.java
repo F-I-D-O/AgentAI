@@ -5,6 +5,7 @@ import bwapi.Game;
 import bwapi.Mirror;
 import bwapi.Position;
 import bwapi.Race;
+import bwapi.TilePosition;
 import bwapi.Unit;
 import bwapi.UnitType;
 import com.fido.dp.BWAPICommandInterface;
@@ -12,6 +13,7 @@ import com.fido.dp.DefaultBWAPICommandInterface;
 import com.fido.dp.BuildingPlacer;
 import com.fido.dp.EventEngine;
 import com.fido.dp.EventEngineListener;
+import com.fido.dp.InvalidTilePositionException;
 import com.fido.dp.Log;
 import com.fido.dp.MapTools;
 import com.fido.dp.MorphableUnit;
@@ -30,7 +32,10 @@ import com.fido.dp.agent.UnitCommand;
 import com.fido.dp.agent.ZergCommander;
 import com.fido.dp.agent.unit.Hatchery;
 import com.fido.dp.agent.unit.HighTemplar;
+import com.fido.dp.agent.unit.Overlord;
 import com.fido.dp.agent.unit.Probe;
+import com.fido.dp.agent.unit.UnitAgent;
+import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.agent.unit.Zealot;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,12 +102,24 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		return getGame().self().getStartLocation().toPosition();
 	}
 	
-	public static void issueCommand(GameAgent agent, bwapi.UnitCommand unitCommand){
-		gameAPI.commandInterface.issueCommand(agent, unitCommand);
-	}
-	
 	public static int getFrameCount(){
 		return gameAPI.frameCount;
+	}
+	
+	public static void build(Worker worker, UnitType buildingType, TilePosition placeToBuildOn){
+		gameAPI.commandInterface.build(worker, buildingType, placeToBuildOn);
+	}
+	
+	public static void attackMove(UnitAgent agent, Position target){
+		gameAPI.commandInterface.attackMove(agent, target);
+	}
+	
+	public static void train(GameAgent agent, UnitType unitType){
+		gameAPI.commandInterface.train(agent, unitType);
+	}
+	
+	public static void move(UnitAgent agent, Position target){
+		gameAPI.commandInterface.move(agent, target);
 	}
 	
 	
@@ -274,6 +291,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				if(type.equals(UnitType.Zerg_Drone)){
 					agent = new Drone(unit);
 				}
+				else if(type.equals(UnitType.Zerg_Overlord)){
+					agent = new Overlord(unit);
+				}
 
 				if(agent == null && !type.isBuilding()){
 					throw new NonImplementedMorphException(formerUnitAgent, type);
@@ -339,9 +359,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			bwta.BWTA.analyze();
 
 			// game settings
-			getGame().setLocalSpeed(30);
+			getGame().setLocalSpeed(10);
 			getGame().setFrameSkip(0);
-			getGame().enableFlag(1);
+			getGame().enableFlag(bwapi.Flag.Enum.UserInput.getValue());
 			
 			// tools
 			mapTools = new UAlbertaMapTools();

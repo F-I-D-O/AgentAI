@@ -34,7 +34,8 @@ public class Larva extends GameAgent implements MorphableUnit{
 	}
 	
 	public enum MorphOption {
-		DRONE(UnitType.Zerg_Drone);
+		DRONE(UnitType.Zerg_Drone),
+		OVERLORD(UnitType.Zerg_Overlord);
 		
 		private final UnitType unitType;
 		

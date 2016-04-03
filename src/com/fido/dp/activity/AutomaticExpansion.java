@@ -5,7 +5,6 @@
  */
 package com.fido.dp.activity;
 
-import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.agent.ExpansionCommand;
@@ -25,12 +24,12 @@ public class AutomaticExpansion extends CommandActivity<ExpansionCommand, Automa
 	
 	private UnitType expansionBuildingType;
 	
-	private boolean expansionRequestSend;
+	private boolean expansionRequestSended;
 
 	public AutomaticExpansion(ExpansionCommand agent, UnitType expansionBuilding) {
 		super(agent);
 		this.expansionBuildingType = expansionBuilding;
-		expansionRequestSend = false;
+		expansionRequestSended = false;
 	}
 
 	@Override
@@ -41,12 +40,13 @@ public class AutomaticExpansion extends CommandActivity<ExpansionCommand, Automa
 	@Override
 	protected void performAction() {
 		Worker worker;
-		if(agent.getNextExpansionPosition() == null && !expansionRequestSend){
+		if(agent.getNextExpansionPosition() == null && !expansionRequestSended){
 			new ExpansionInfoRequest(FullCommander.get().explorationCommand, agent).send();
+			expansionRequestSended = true;
 		}
-		else if((worker = agent.getWorker()) != null){
-			TilePosition buildingPosition = agent.findPositionForBuild(expansionBuildingType, worker);
-			new StartExpansionOrder(worker, agent, expansionBuildingType, buildingPosition).issueOrder();
+		else if(agent.getNextExpansionPosition() != null && (worker = agent.getWorker()) != null){
+			agent.startExpansion(expansionBuildingType, worker);
+			expansionRequestSended = false;
 		}
 	}
 

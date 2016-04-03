@@ -10,6 +10,7 @@ import bwapi.TilePosition;
 import bwapi.Unit;
 import bwapi.UnitCommand;
 import bwapi.UnitType;
+import com.fido.dp.InvalidTilePositionException;
 import com.fido.dp.Log;
 import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
@@ -44,11 +45,17 @@ public abstract class Worker extends UnitAgent implements Scout {
 	
 	protected UnitType constructedBuildingType;
 	
+	protected boolean invalidBuildPositionFailure;
 		
 	
 	public boolean isConstructingBuilding() {
 		return constructionProcessInProgress;
 	}
+
+	public boolean isInvalidBuildPositionFailure() {
+		return invalidBuildPositionFailure;
+	}
+	
 	
 	
 	
@@ -123,21 +130,14 @@ public abstract class Worker extends UnitAgent implements Scout {
 	}
 	
 	public void build(UnitType buildingType, TilePosition placeToBuildOn){
-		if(placeToBuildOn == null){
-			Log.log(this, Level.SEVERE, "{0}: place to build on is null!", this.getClass());
-			return;
-		}
-		
-		if(GameAPI.getGame().canBuildHere(placeToBuildOn, buildingType)){
-			UnitCommand moveCommand = UnitCommand.build(unit, placeToBuildOn, buildingType);
-			GameAPI.issueCommand(this, moveCommand);
-			constructionProcessInProgress = true;
-			constructedBuildingType = buildingType;
-		}
-		else{
-			Log.log(this, Level.SEVERE, "{0}: cannot build here! position: {1}, building: {2}", this.getClass(), 
-					placeToBuildOn, buildingType);
-		}
+		invalidBuildPositionFailure = false;
+		GameAPI.build(this, buildingType, placeToBuildOn);
+		constructionProcessInProgress = true;
+		constructedBuildingType = buildingType;
+	}
+
+	public void handleInvalidBuildPosition(TilePosition targetTilePosition, Unit unit) {
+		invalidBuildPositionFailure = true;
 	}
 	
 }

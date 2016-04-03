@@ -7,8 +7,10 @@ package com.fido.dp.activity;
 
 import bwapi.TilePosition;
 import bwapi.UnitType;
+import com.fido.dp.Building;
 import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Activity;
+import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitActivity;
 import java.util.Objects;
@@ -21,7 +23,7 @@ public class ConstructBuilding extends UnitActivity<Worker,Goal>{
 	
 	private final UnitType buildingType;
 	
-	private final TilePosition placeToBuildOn;
+	private TilePosition placeToBuildOn;
 
 	public ConstructBuilding(Worker agent, UnitType buildingType, TilePosition placeToBuildOn) {
 		super(agent);
@@ -59,24 +61,23 @@ public class ConstructBuilding extends UnitActivity<Worker,Goal>{
 
 	@Override
 	protected void init() {
-//		if(agent instanceof ArtificialWorker){
-			agent.build(buildingType, placeToBuildOn);
-//		}
-//		// for zerg
-//		else{
-//			runChildActivity(new Move(agent, placeToBuildOn.toPosition()));
-//		}
+		agent.build(buildingType, placeToBuildOn);
 	}
 
 	@Override
 	protected void performAction() {
 		
+//		 if position is invalid, find nearest position
+		if(agent.isInvalidBuildPositionFailure()){
+			placeToBuildOn = GameAPI.getBuildingPlacer().getBuildingLocation(
+				new Building(placeToBuildOn.toPosition(), buildingType, agent.getUnit(), false));
+			agent.build(buildingType, placeToBuildOn);
+		}
 	}
 
 	@Override
 	protected void onChildActivityFinish(Activity activity) {
 		super.onChildActivityFinish(activity);
-//		((Drone) agent).morph(buildingType);
 	}
 	
 	

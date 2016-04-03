@@ -168,6 +168,9 @@ public abstract class CommandAgent extends Agent {
 		commandedAgent.setCommandAgent(this);
 		subordinateAgentsInfo.onSubordinateAgentAdded(commandedAgent);
 		onCommandedAgentAdded(commandedAgent);
+		if(chosenAction != null){
+			chosenAction.onCommandedAgentAdded(commandedAgent);
+		}
     }
 	
 	final void reportOrderCompleted(Order order) {

@@ -5,10 +5,13 @@
  */
 package com.fido.dp.activity;
 
+import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.UnitType;
+import com.fido.dp.Building;
 import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Activity;
+import com.fido.dp.base.GameAPI;
 import com.fido.dp.goal.StartExpansionGoal;
 import com.fido.dp.request.ResourceRequest;
 import java.util.Objects;
@@ -23,14 +26,14 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
 	
 	private boolean unitOnExpansionSite;
 	
-	private TilePosition buildigPosition;
+	private Position expansionPosition;
 	
 	private boolean resourceRequested;
 
-	public StartExpansion(Worker agent, UnitType expansionBuildingType, TilePosition buildigPosition) {
+	public StartExpansion(Worker agent, UnitType expansionBuildingType, Position expansionPosition) {
 		super(agent);
 		this.expansionBuildingType = expansionBuildingType;
-		this.buildigPosition = buildigPosition;
+		this.expansionPosition = expansionPosition;
 		unitOnExpansionSite = false;
 		resourceRequested = false;
 	}
@@ -50,7 +53,7 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
 		if (!Objects.equals(this.expansionBuildingType, other.expansionBuildingType)) {
 			return false;
 		}
-		if (!Objects.equals(this.buildigPosition, other.buildigPosition)) {
+		if (!Objects.equals(this.expansionPosition, other.expansionPosition)) {
 			return false;
 		}
 		return true;
@@ -59,7 +62,7 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
 	@Override
 	public void initialize(StartExpansionGoal goal) {
 		this.expansionBuildingType = goal.getExpansionBuildingType();
-		this.buildigPosition = goal.getBuildigPosition();
+		this.expansionPosition = goal.getExpansionPosition();
 	}
 
 	
@@ -68,6 +71,9 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
 	protected void performAction() {
 		if(unitOnExpansionSite){
 			if(agent.haveEnoughResourcersToBuild(expansionBuildingType)){
+				TilePosition buildigPosition = GameAPI.getBuildingPlacer().getBuildingLocation(
+					new Building(expansionPosition, expansionBuildingType, agent.getUnit(), false));
+				buildigPosition = new TilePosition(36, 15);
 				runChildActivity(new ConstructBuilding(agent, expansionBuildingType, buildigPosition));
 			}
 			else if(!resourceRequested){
@@ -78,7 +84,7 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
 			}
 		}
 		else{
-			runChildActivity(new Move(agent, buildigPosition.toPosition()));
+			runChildActivity(new Move(agent, expansionPosition));
 //			if(!unitOnMove && agent.getNumberOfFreeWorkers() > 0){
 //				if((expansionPosition = agent.getNextExpansionPosition()) == null){
 //					new ExpansionInfoRequest(FullCommander.get().explorationCommand, worker).send();

@@ -60,8 +60,7 @@ public class Barracks extends GameAgent{
 		spendSupply(ResourceType.MINERALS, unitType.mineralPrice());
 		spendSupply(ResourceType.GAS, unitType.gasPrice());
 		spendSupply(ResourceType.SUPPLY, unitType.supplyRequired());
-		UnitCommand moveCommand = UnitCommand.train(unit, unitType);
-		GameAPI.issueCommand(this, moveCommand);
+		GameAPI.train(this, unitType);
 	}
 	
 	public void onTrainingFinished(){

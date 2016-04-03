@@ -10,7 +10,6 @@ import com.fido.dp.activity.AttackMove;
 import com.fido.dp.activity.Wait;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Goal;
-import com.fido.dp.base.GameAgent;
 import com.fido.dp.goal.AttackMoveGoal;
 import com.fido.dp.goal.WaitGoal;
 
@@ -18,7 +17,7 @@ import com.fido.dp.goal.WaitGoal;
  *
  * @author F.I.D.O.
  */
-public class Marine extends GameAgent{
+public class Marine extends UnitAgent{
 
 	public Marine(Unit unit) {
 		super(unit);

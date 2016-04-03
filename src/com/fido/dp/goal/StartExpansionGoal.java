@@ -5,7 +5,7 @@
  */
 package com.fido.dp.goal;
 
-import bwapi.TilePosition;
+import bwapi.Position;
 import bwapi.UnitType;
 import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Goal;
@@ -19,7 +19,7 @@ public class StartExpansionGoal extends Goal{
 	
 	private final UnitType expansionBuildingType;
 
-	private final TilePosition buildigPosition;
+	private final Position expansionPosition;
 	
 	
 	
@@ -27,16 +27,16 @@ public class StartExpansionGoal extends Goal{
 		return expansionBuildingType;
 	}
 
-	public TilePosition getBuildigPosition() {
-		return buildigPosition;
+	public Position getExpansionPosition() {
+		return expansionPosition;
 	}
 	
 	
 	
 
-	public StartExpansionGoal(Worker agent, GoalOrder order, UnitType expansionBuilding, TilePosition buildigPosition) {
+	public StartExpansionGoal(Worker agent, GoalOrder order, UnitType expansionBuilding, Position expansionPosition) {
 		super(agent, order);
-		this.buildigPosition = buildigPosition;
+		this.expansionPosition = expansionPosition;
 		this.expansionBuildingType = expansionBuilding;
 	}
 

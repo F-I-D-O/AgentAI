@@ -7,11 +7,20 @@ package com.fido.dp;
 
 import bwapi.UnitCommand;
 import bwapi.Error;
+import bwapi.Position;
+import bwapi.PositionOrUnit;
+import bwapi.TilePosition;
+import bwapi.UnitCommandType;
+import bwapi.UnitType;
+import com.fido.dp.agent.unit.UnitAgent;
+import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.GameAgent;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import sun.management.resources.agent;
 
 /**
  *
@@ -29,30 +38,91 @@ public class DefaultBWAPICommandInterface implements BWAPICommandInterface{
 	}
 	
 
-	
+	@Override
+	public void build(Worker worker, UnitType buildingType, TilePosition placeToBuildOn){
+		if(placeToBuildOn == null){
+			Log.log(this, Level.SEVERE, "{0}: place to build on is null!", worker.getClass());
+			return;
+		}
+		
+		if(GameAPI.getGame().canBuildHere(placeToBuildOn, buildingType)){
+			boolean success = worker.getUnit().build(buildingType, placeToBuildOn);
+//			boolean success = worker.getUnit().issueCommand(UnitCommand.build(worker.getUnit(), placeToBuildOn, buildingType));
+			processBuild(worker, UnitCommand.build(worker.getUnit(), placeToBuildOn, buildingType));
+		}
+		else{
+			Log.log(this, Level.SEVERE, "{0}: cannot build here! position: {1}, building: {2}", worker.getClass(), 
+					placeToBuildOn, buildingType);
+		}
+	}
 	
 	@Override
-	public void issueCommand(GameAgent agent, UnitCommand unitCommand){
-		boolean success = agent.getUnit().issueCommand(unitCommand);
+	public void attackMove(UnitAgent agent, Position target){
+		UnitCommand command = UnitCommand.attack(agent.getUnit(), new PositionOrUnit(target));
+		processCommand(agent, command);
+	}
+	
+	@Override
+	public void train(GameAgent agent, UnitType unitType){
+		UnitCommand command = UnitCommand.train(agent.getUnit(), unitType);
+		processCommand(agent, command);
+	}
+	
+	@Override
+	public void move(UnitAgent agent, Position target){
+		UnitCommand command = UnitCommand.move(agent.getUnit(), target);
+		processCommand(agent, command);
+	}
+	
+	private void processBuild(Worker worker, UnitCommand unitCommand){
+		boolean success = worker.getUnit().issueCommand(unitCommand);
 		if(!success){
 			Error lastError = GameAPI.getGame().getLastError();
-			if(lastError.equals(Error.Unit_Busy)){
-				queuedCommands.add(new QueuedCommand(agent, unitCommand));
-				Log.log(this, Level.SEVERE, "{0}: Unit busy, command {1} was queued.", agent.getClass(), 
-						unitCommand.getUnitCommandType());
+			if(lastError.equals(Error.Invalid_Tile_Position)){
+				Log.log(this, Level.SEVERE, "{0}: Cannot build here. Position: {1}, building: {2}", 
+						worker.getClass(), unitCommand.getTargetTilePosition(), null);
+				worker.handleInvalidBuildPosition(unitCommand.getTargetTilePosition(), unitCommand.getUnit());
+//				try {
+//					throw new InvalidTilePositionException(agent, unitCommand.getTargetTilePosition());
+//				} catch (InvalidTilePositionException ex) {
+//					ex.printStackTrace();
+//				}
 			}
 			else{
-				Log.log(this, Level.SEVERE, "{0}: Command {1} failed. Reason: {2}", agent.getClass(), unitCommand, 
-						lastError);
+				processError(worker, unitCommand, lastError);
 			}
+		}
+	}
+	
+	private void processCommand(GameAgent agent, UnitCommand unitCommand){
+		boolean success = agent.getUnit().issueCommand(unitCommand);
+		if(!success){
+			processError(agent, unitCommand, GameAPI.getGame().getLastError());
+		}
+	}
+	
+	private void processError(GameAgent agent, UnitCommand unitCommand, Error error){
+		if(error.equals(Error.Unit_Busy)){
+			queuedCommands.add(new QueuedCommand(agent, unitCommand));
+			Log.log(this, Level.WARNING, "{0}: Unit busy, command {1} was queued.", agent.getClass(), 
+					unitCommand.getUnitCommandType());
+		}
+		else{
+			Log.log(this, Level.SEVERE, "{0}: Command {1} failed. Reason: {2}", agent.getClass(),
+					unitCommand.getUnitCommandType(), error);
 		}
 	}
 
 	@Override
 	public void processQueuedCommands() {
-		QueuedCommand queuedCommand;
-		while ((queuedCommand = queuedCommands.poll()) != null) {
-			issueCommand(queuedCommand.agent, queuedCommand.unitCommand);
+		for (int i = 0; i < queuedCommands.size(); i++) {
+			QueuedCommand queuedCommand = queuedCommands.poll();
+			if(queuedCommand.unitCommand.getUnitCommandType().equals(UnitCommandType.Build)){
+				processBuild((Worker) queuedCommand.agent, queuedCommand.unitCommand);
+			}
+			else{
+				processCommand(queuedCommand.agent, queuedCommand.unitCommand);
+			}
 		}
 	}
 

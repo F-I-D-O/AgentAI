@@ -26,11 +26,10 @@ import com.fido.dp.info.ExpansionInfo;
 import com.fido.dp.base.Info;
 import com.fido.dp.request.ResourceRequest;
 import com.fido.dp.base.Request;
+import com.fido.dp.order.StartExpansionOrder;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -73,9 +72,9 @@ public class ExpansionCommand extends CommandAgent
 	
 	public Worker getWorker(){
 		Worker worker = freeWorkers.poll();
-		if(worker != null){
-			worker.setAssigned(false);
-		}
+//		if(worker != null){
+//			worker.setAssigned(false);
+//		}
 		return worker;
 	}
 
@@ -142,6 +141,12 @@ public class ExpansionCommand extends CommandAgent
 				queRequest(materialRequest);
 			}
 		}
+	}
+
+	public void startExpansion(UnitType expansionBuildingType, Worker worker) {
+//		TilePosition buildingPosition = findPositionForBuild(expansionBuildingType, worker);
+		new StartExpansionOrder(worker, this, expansionBuildingType, nextExpansionPosition).issueOrder();
+		nextExpansionPosition = null;
 	}
 	
 	

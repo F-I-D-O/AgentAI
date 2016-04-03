@@ -11,14 +11,15 @@ import com.fido.dp.ResourceType;
 import com.fido.dp.agent.unit.Drone;
 import com.fido.dp.agent.ZergCommander;
 import com.fido.dp.agent.unit.Larva;
+import com.fido.dp.agent.unit.Overlord;
+import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.Request;
+import com.fido.dp.info.CodeMessageInfo;
 import com.fido.dp.order.DetachBack;
 import com.fido.dp.request.ResourceRequest;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -129,6 +130,14 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>{
 			}
 		}
 	}
+
+	@Override
+	protected void onCommandedAgentAdded(Agent commandedAgent) {
+		if(commandedAgent instanceof Overlord){
+			new CodeMessageInfo(CodeMessageInfo.Code.OVERLORD_MORPHED, agent.larvaCommand, agent).send();
+		}
+	}
+	
 	
 	
 }

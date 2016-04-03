@@ -5,6 +5,7 @@
  */
 package com.fido.dp.order;
 
+import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.agent.unit.Worker;
@@ -20,18 +21,28 @@ public class StartExpansionOrder extends GoalOrder{
 	
 	private final UnitType expansionBuildingType;
 
-	private final TilePosition buildigPosition;
+//	private final TilePosition buildigPosition;
+	
+	private final Position expansionPosition;
 
+//	public StartExpansionOrder(Worker target, CommandAgent commandAgent, UnitType expansionBuilding, 
+//			TilePosition buildigPosition) {
+//		super(target, commandAgent);
+//		this.buildigPosition = buildigPosition;
+//		this.expansionBuildingType = expansionBuilding;
+//	}
+	
 	public StartExpansionOrder(Worker target, CommandAgent commandAgent, UnitType expansionBuilding, 
-			TilePosition buildigPosition) {
+			Position expansionPosition) {
 		super(target, commandAgent);
-		this.buildigPosition = buildigPosition;
+		this.expansionPosition = expansionPosition;
 		this.expansionBuildingType = expansionBuilding;
 	}
 
 	@Override
 	protected void execute() {
-		setGoal(new StartExpansionGoal(getTarget(), this, expansionBuildingType, buildigPosition));
+//		setGoal(new StartExpansionGoal(getTarget(), this, expansionBuildingType, buildigPosition));
+		setGoal(new StartExpansionGoal(getTarget(), this, expansionBuildingType, expansionPosition));
 	}
 	
 }

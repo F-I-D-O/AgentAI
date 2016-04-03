@@ -25,11 +25,15 @@ public class Overlord extends GameAgent{
 	public Overlord(Unit unit) {
 		super(unit);
 		
+		reasoningOn = true;
+		
 		TreeMap<Double,Activity> actionMap = new TreeMap<>();
 		actionMap.put(1.0, new Wait(this));
 		DecisionTablesMapKey key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(WaitGoal.class));
 		addToDecisionTablesMap(key, new DecisionTable(actionMap));
+		
+		referenceKey = key;
 	}
 
 	@Override

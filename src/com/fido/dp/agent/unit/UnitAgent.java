@@ -7,7 +7,6 @@ package com.fido.dp.agent.unit;
 
 import bwapi.Position;
 import bwapi.Unit;
-import bwapi.UnitCommand;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.GameAgent;
 
@@ -22,7 +21,6 @@ public abstract class UnitAgent extends GameAgent{
 	}
 	
 	public void move(Position position){
-		UnitCommand moveCommand = UnitCommand.move(unit, position);
-		GameAPI.issueCommand(this, moveCommand);
+		GameAPI.move(this, position);
 	}
 }
