@@ -11,6 +11,8 @@ import com.fido.dp.agent.unit.Marine;
 import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.order.AttackMoveOrder;
 import java.util.List;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -37,4 +39,18 @@ public class ASAPSquadAttackMove extends SquadAttackMove{
 	protected void init() {
 		
 	}
+	
+	@Override
+	public Element getXml(Document document) {
+		Element parameter = document.createElement("ASAPSquadAttackMove");
+		
+		return parameter;
+	}
+
+	@Override
+	public String getId() {
+		return "ASAPSquadAttackMove";
+	}
+	
+	
 }

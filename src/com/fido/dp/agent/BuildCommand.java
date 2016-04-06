@@ -134,7 +134,7 @@ public class BuildCommand extends CommandAgent{
         buildPlans.add(buildPlan);
     }
 	
-	public int getMissingCrystalForFirsItem() {
+	public int getMissingMineralForFirsItem() {
 		if(buildPlans.isEmpty()){
 			return 0;
 		}

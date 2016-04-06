@@ -5,7 +5,6 @@
  */
 package com.fido.dp.activity;
 
-import bwapi.TilePosition;
 import bwapi.UnitType;
 import com.fido.dp.agent.ExpansionCommand;
 import com.fido.dp.agent.FullCommander;
@@ -13,7 +12,6 @@ import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.base.Order;
 import com.fido.dp.goal.AutomaticExpansionGoal;
-import com.fido.dp.order.StartExpansionOrder;
 import com.fido.dp.request.ExpansionInfoRequest;
 
 /**
@@ -56,7 +54,8 @@ public class AutomaticExpansion extends CommandActivity<ExpansionCommand, Automa
 	}
 
 	@Override
-	public void initialize(AutomaticExpansionGoal goal) {
+	public void initialize(ExpansionCommand agent, AutomaticExpansionGoal goal) {
+		super.initialize(agent, goal);
 		expansionBuildingType = goal.getExpansionBuildingType();
 	}
 	

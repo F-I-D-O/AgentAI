@@ -8,6 +8,8 @@ package com.fido.dp.activity;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.Goal;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -39,11 +41,21 @@ public class Wait extends Activity<Agent,Goal>{
 	}
 
 	@Override
-	public void initialize(Goal goal) {
-		
+	public void initialize(Agent agent, Goal goal) {
+		super.initialize(agent,goal);
 	}
 
-	
+	@Override
+	public Element getXml(Document document) {
+		Element parameter = document.createElement("wait");
+		
+		return parameter;
+	}
+
+	@Override
+	public String getId() {
+		return "wait";
+	}
 	
 	
 	

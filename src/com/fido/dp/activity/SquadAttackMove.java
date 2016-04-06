@@ -46,7 +46,8 @@ public abstract class SquadAttackMove extends CommandActivity<SquadCommander,Squ
 	}
 
 	@Override
-	public void initialize(SquadAttackMoveGoal goal) {
+	public void initialize(SquadCommander agent, SquadAttackMoveGoal goal) {
+		super.initialize(agent, goal);
 		this.attackTarget = goal.getAttackTarget();
 	}
 

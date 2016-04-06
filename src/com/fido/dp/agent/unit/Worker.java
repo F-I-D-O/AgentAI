@@ -8,13 +8,12 @@ package com.fido.dp.agent.unit;
 import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.Unit;
-import bwapi.UnitCommand;
 import bwapi.UnitType;
-import com.fido.dp.InvalidTilePositionException;
 import com.fido.dp.Log;
 import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.Scout;
+import com.fido.dp.activity.ConstructBuilding;
 import com.fido.dp.activity.ExploreBaseLocation;
 import com.fido.dp.activity.HarvestMinerals;
 import com.fido.dp.activity.Move;
@@ -30,6 +29,8 @@ import com.fido.dp.goal.HarvestMineralsGoal;
 import com.fido.dp.goal.MoveGoal;
 import com.fido.dp.goal.StartExpansionGoal;
 import com.fido.dp.info.UnitCreationStartedInfo;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
 
@@ -61,34 +62,6 @@ public abstract class Worker extends UnitAgent implements Scout {
 	
 	public Worker(Unit unit) {
 		super(unit);
-		
-		reasoningOn = true;
-		
-		TreeMap<Double,Activity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new HarvestMinerals(this));
-		DecisionTablesMapKey key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(HarvestMineralsGoal.class));
-		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-		
-		actionMap = new TreeMap<>();
-		actionMap.put(1.0, new ExploreBaseLocation(this, null));
-		key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(ExploreBaseLocationGoal.class));
-		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-		
-		actionMap = new TreeMap<>();
-		actionMap.put(1.0, new Move(this, null));
-		key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(MoveGoal.class));
-		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-		
-		actionMap = new TreeMap<>();
-		actionMap.put(1.0, new StartExpansion(this, null, null));
-		key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(StartExpansionGoal.class));
-		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-		
-		referenceKey = key;
 	}
 	
 	@Override
@@ -139,5 +112,44 @@ public abstract class Worker extends UnitAgent implements Scout {
 	public void handleInvalidBuildPosition(TilePosition targetTilePosition, Unit unit) {
 		invalidBuildPositionFailure = true;
 	}
+
+	@Override
+	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
+		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();
+		
+		TreeMap<Double,Activity> actionMap = new TreeMap<>();
+		actionMap.put(1.0, new HarvestMinerals(null));
+		DecisionTablesMapKey key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(HarvestMineralsGoal.class));
+		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
+		
+		actionMap = new TreeMap<>();
+		actionMap.put(1.0, new ExploreBaseLocation(null, null));
+		key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(ExploreBaseLocationGoal.class));
+		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
+		
+		actionMap = new TreeMap<>();
+		actionMap.put(1.0, new Move(null, null));
+		key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(MoveGoal.class));
+		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
+		
+		actionMap = new TreeMap<>();
+		actionMap.put(1.0, new StartExpansion(null, null, null));
+		key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(StartExpansionGoal.class));
+		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
+		
+		actionMap = new TreeMap<>();
+		actionMap.put(1.0, new ConstructBuilding(null, null, null));
+		key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(ConstructBuildingGoal.class));
+		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
+		
+		return defaultDecisionTablesMap;
+	}
+	
+	
 	
 }

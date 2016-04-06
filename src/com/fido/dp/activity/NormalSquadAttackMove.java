@@ -10,6 +10,8 @@ import com.fido.dp.agent.unit.Marine;
 import com.fido.dp.agent.SquadCommander;
 import com.fido.dp.order.AttackMoveOrder;
 import java.util.List;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -17,7 +19,7 @@ import java.util.List;
  */
 public class NormalSquadAttackMove extends SquadAttackMove{
 	
-	private static final int DEFAULT_MIN_SQUAD_SIZE = 10;
+	private static final int DEFAULT_MIN_SQUAD_SIZE = 5;
 	
 	private int minSquadSize;
 
@@ -41,5 +43,17 @@ public class NormalSquadAttackMove extends SquadAttackMove{
 	@Override
 	protected void init() {
 		minSquadSize = DEFAULT_MIN_SQUAD_SIZE;
+	}
+	
+	@Override
+	public Element getXml(Document document) {
+		Element parameter = document.createElement("normalSquadAttackMove");
+		
+		return parameter;
+	}
+	
+	@Override
+	public String getId() {
+		return "normalSquadAttackMove";
 	}
 }

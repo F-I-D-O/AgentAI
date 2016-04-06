@@ -39,9 +39,11 @@ public class BBSProduction extends CommandActivity<ProductionCommand,Goal>{
 			if(!(barracks.getGoal() instanceof AutomaticProductionGoal)){
 				new AutomaticProductionOrder(barracks, agent).issueOrder();
 			}
-			if(barracks.isMineralsMissing() && barracks.getMissingMinerals() <= agent.getOwnedMinerals()){
+			if(barracks.isMineralsMissing() && barracks.getMissingMinerals() <= agent.getOwnedMinerals()
+					&& barracks.isSupplyMissing() && barracks.getMissingSupply() <= agent.getOwnedSupply()){
 				try {
 					agent.giveResource(barracks, ResourceType.MINERALS, barracks.getMissingMinerals());
+					agent.giveResource(barracks, ResourceType.SUPPLY, barracks.getMissingSupply());
 				} catch (ResourceDeficiencyException ex) {
 					ex.printStackTrace();
 				}

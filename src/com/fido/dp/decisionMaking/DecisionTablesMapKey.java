@@ -18,7 +18,7 @@ public class DecisionTablesMapKey {
 
 	public static DecisionTablesMapKey createKeyBasedOnCurrentState(Agent agent, DecisionTablesMapKey referenceKey) {
 		DecisionTablesMapKey key = new DecisionTablesMapKey();
-		for (Entry<Class<DecisionTablesMapParametr>,DecisionTablesMapParametr> entry : 
+		for (Entry<Class<DecisionTablesMapParameter>,DecisionTablesMapParameter> entry : 
 				referenceKey.getKeyParametrs().entrySet()) {
 			key.addParameter(entry.getValue().getCurrentParameter(agent));
 		}
@@ -29,10 +29,14 @@ public class DecisionTablesMapKey {
 	
 	
 	
-	private final HashMap<Class<DecisionTablesMapParametr>,DecisionTablesMapParametr> keyParametrs;
+	private HashMap<Class<DecisionTablesMapParameter>,DecisionTablesMapParameter> keyParametrs;
 
-	public HashMap<Class<DecisionTablesMapParametr>, DecisionTablesMapParametr> getKeyParametrs() {
+	public HashMap<Class<DecisionTablesMapParameter>, DecisionTablesMapParameter> getKeyParametrs() {
 		return keyParametrs;
+	}
+
+	public void setKeyParametrs(HashMap<Class<DecisionTablesMapParameter>, DecisionTablesMapParameter> keyParametrs) {
+		this.keyParametrs = keyParametrs;
 	}
 	
 	
@@ -68,15 +72,15 @@ public class DecisionTablesMapKey {
 		return true;
 	}
 	
-	public void addParameter(DecisionTablesMapParametr parametr){
-		keyParametrs.put((Class<DecisionTablesMapParametr>) parametr.getClass(), parametr);
+	public void addParameter(DecisionTablesMapParameter parametr){
+		keyParametrs.put((Class<DecisionTablesMapParameter>) parametr.getClass(), parametr);
 	}
 
 	@Override
 	public String toString() {
 		String[] content = new String[keyParametrs.size()];
 		int i = 0;
-		for (Entry<Class<DecisionTablesMapParametr>, DecisionTablesMapParametr> entry : keyParametrs.entrySet()) {
+		for (Entry<Class<DecisionTablesMapParameter>, DecisionTablesMapParameter> entry : keyParametrs.entrySet()) {
 			content[i] += entry.getValue().toString();
 			i++;
 		}

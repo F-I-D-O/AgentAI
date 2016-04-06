@@ -6,7 +6,6 @@
 package com.fido.dp.agent.unit;
 
 import bwapi.Unit;
-import bwapi.UnitCommand;
 import bwapi.UnitType;
 import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
@@ -70,8 +69,16 @@ public class Barracks extends GameAgent{
 		return getMissingMinerals() > 0;
 	}
 	
+	public boolean isSupplyMissing() {
+		return getMissingSupply() > 0;
+	}
+	
 	public int getMissingMinerals(){
 		return automaticProductionUnitType == null ? 0 : automaticProductionUnitType.mineralPrice() - getOwnedMinerals();
+	}
+	
+	public int getMissingSupply(){
+		return automaticProductionUnitType == null ? 0 : automaticProductionUnitType.supplyRequired() - getOwnedSupply();
 	}
 
 	public void automaticProduction() throws ResourceDeficiencyException {

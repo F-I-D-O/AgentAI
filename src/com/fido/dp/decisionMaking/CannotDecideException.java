@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp;
+package com.fido.dp.decisionMaking;
 
 import com.fido.dp.base.Agent;
-import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 
 /**
  *

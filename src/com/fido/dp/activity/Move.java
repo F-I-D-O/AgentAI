@@ -109,7 +109,8 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal> {
     }
 
 	@Override
-	public void initialize(MoveGoal goal) {
+	public void initialize(UnitAgent agent, MoveGoal goal) {
+		super.initialize(agent, goal);
 		this.target = goal.getTargetPosition();
 	}
 	

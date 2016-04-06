@@ -17,6 +17,8 @@ import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
 import com.fido.dp.goal.BBSStrategyGoal;
 import com.fido.dp.goal.DefaultProtossStrategyGoal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -35,32 +37,54 @@ public class FullCommander extends Commander{
 	
 	
 	
-	public final ExplorationCommand explorationCommand;
+	public ExplorationCommand explorationCommand;
 	
-	public final ResourceCommand resourceCommand;
+	public ResourceCommand resourceCommand;
 
-	public final BuildCommand buildCommand;
+	public BuildCommand buildCommand;
 	
 	
 	
 	public ExplorationCommand getExplorationCommand() {
 		return explorationCommand;
 	}
-	
-	
-	
-	
-	
 
+	
+	
+	
 	public FullCommander() {
+		
+	}
+	
+	
+	
+	
+	@Override
+	protected Goal getDefaultGoal() {
+		return (GameAPI.getGame().self().getRace().equals(Race.Terran) ? new BBSStrategyGoal(this, null)
+				: new DefaultProtossStrategyGoal(this, null));
+	}
+
+	@Override
+	protected void initialize() {
 		explorationCommand = new ExplorationCommand();
 		GameAPI.addAgent(explorationCommand, this);
 		resourceCommand = new ResourceCommand();
 		GameAPI.addAgent(resourceCommand, this);
 		buildCommand = new BuildCommand();
-		GameAPI.addAgent(resourceCommand, this);
+		GameAPI.addAgent(buildCommand, this);
 		
-//		reasoningOn = true;
+		fullCommander = this;
+	}
+
+	@Override
+	protected Activity chooseAction() {
+		return new FormationTestStrategy(this);
+	}
+
+	@Override
+	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
+		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();
 		
 //		TreeMap<Double,Activity> actionMap = new TreeMap<>();
 //		actionMap.put(1.0, new BBSStrategy(this));
@@ -75,36 +99,18 @@ public class FullCommander extends Commander{
 //		addToDecisionTablesMap(key, new DecisionTable(actionMap));
 
 		TreeMap<Double,Activity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new BBSStrategy(this));
+		actionMap.put(1.0, new BBSStrategy(null));
 		DecisionTablesMapKey key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(BBSStrategyGoal.class));
-		addToDecisionTablesMap(key, new DecisionTable(actionMap));
+		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
 		
 		actionMap = new TreeMap<>();
-		actionMap.put(1.0, new DefaultProtossStrategy(this));
+		actionMap.put(1.0, new DefaultProtossStrategy(null));
 		key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(DefaultProtossStrategyGoal.class));
-		addToDecisionTablesMap(key, new DecisionTable(actionMap));
+		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
 		
-		referenceKey = key;
-		
-		fullCommander = this;
-	}
-	
-	@Override
-	protected Goal getDefaultGoal() {
-		return (GameAPI.getGame().self().getRace().equals(Race.Terran) ? new BBSStrategyGoal(this, null)
-				: new DefaultProtossStrategyGoal(this, null));
-	}
-
-	@Override
-	protected void initialize() {
-		
-	}
-
-	@Override
-	protected Activity chooseAction() {
-		return new FormationTestStrategy(this);
+		return defaultDecisionTablesMap;
 	}
 	
 	

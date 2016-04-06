@@ -43,8 +43,8 @@ public class HarvestMinerals<A extends Worker,G extends Goal> extends UnitActivi
     }
 
 	@Override
-	public void initialize(G goal) {
-		
+	public void initialize(A agent, G goal) {
+		super.initialize(agent, goal);
 	}
 	
 	

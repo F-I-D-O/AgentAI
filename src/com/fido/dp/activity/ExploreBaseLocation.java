@@ -74,7 +74,8 @@ public class ExploreBaseLocation<A extends UnitAgent & Scout> extends UnitActivi
     }
 
 	@Override
-	public void initialize(ExploreBaseLocationGoal goal) {
+	public void initialize(A agent, ExploreBaseLocationGoal goal) {
+		super.initialize(agent, goal);
 		locationExplored = false;
 		baseLocation = goal.getBaseLocation();
 	}

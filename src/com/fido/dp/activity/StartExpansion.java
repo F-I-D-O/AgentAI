@@ -60,7 +60,8 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
 	}
 
 	@Override
-	public void initialize(StartExpansionGoal goal) {
+	public void initialize(Worker agent, StartExpansionGoal goal) {
+		super.initialize(agent, goal);
 		this.expansionBuildingType = goal.getExpansionBuildingType();
 		this.expansionPosition = goal.getExpansionPosition();
 	}

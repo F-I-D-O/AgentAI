@@ -1,6 +1,6 @@
 package com.fido.dp.base;
 
-import com.fido.dp.CannotDecideException;
+import com.fido.dp.decisionMaking.CannotDecideException;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.Log;
 import com.fido.dp.ResourceType;
@@ -10,7 +10,7 @@ import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
 
@@ -36,7 +36,7 @@ public abstract class Agent {
 	
 	private int receivedGasTotal;
 	
-	private final HashMap<DecisionTablesMapKey,DecisionTable> decisionTablesMap;
+	private Map<DecisionTablesMapKey,DecisionTable> decisionTablesMap;
 	
 	protected DecisionTablesMapKey referenceKey;
 	
@@ -86,6 +86,13 @@ public abstract class Agent {
 	protected final void addToDecisionTablesMap(DecisionTablesMapKey key, DecisionTable map){
 		decisionTablesMap.put(key, map);
 	}
+
+	public Map<DecisionTablesMapKey, DecisionTable> getDecisionTablesMap() {
+		return decisionTablesMap;
+	}
+	
+	
+	
 	
 	
 	
@@ -98,9 +105,12 @@ public abstract class Agent {
 		receivedMineralsTotal = 0;
 		receivedMineralsTotal = 0;
 		infoQue = new ArrayDeque<>();
-		goal = getDefaultGoal();
 		reasoningOn = false;
-		decisionTablesMap = new HashMap<>();
+		if(GameAPI.isDecisionMakingOn(this)){
+			decisionTablesMap = GameAPI.getDecisionTablesMap(getClass());
+			setReferenceKey();
+			reasoningOn = true;
+		}
 		goalChanged = true;
 		initialized = false;
 		sendRequests = new ArrayList<>();
@@ -113,6 +123,7 @@ public abstract class Agent {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
 		if(!initialized){
 			initialize();
+			goal = getDefaultGoal();
 			initialized = true;
 		}
 		
@@ -148,7 +159,7 @@ public abstract class Agent {
         if (chosenAction == null) {
             throw new NoActionChosenException(this.getClass(), goal, commandAgent.getClass());
         }
-		
+		Log.log(this, Level.FINE, "{0}: Goal: {1}", this.getClass(), goal.getClass());
 		Log.log(this, Level.FINE, "{0}: Chosen action: {1}", this.getClass(), chosenAction.getClass());
 		chosenAction.run();
 		
@@ -305,12 +316,23 @@ public abstract class Agent {
 			throw new CannotDecideException(this, key);
 		}
 		Activity chosenAction = decisionTable.chooseAction();
-		chosenAction.initialize(goal);
+		chosenAction.initialize(this, goal);
 		return chosenAction;
 	}
 
 	protected void initialize() {
 		
+	}
+
+	private void setReferenceKey() {
+		for (Map.Entry<DecisionTablesMapKey, DecisionTable> entry : decisionTablesMap.entrySet()) {
+			referenceKey = entry.getKey();
+			break;
+		}
+	}
+
+	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
+		return null;
 	}
 
 

@@ -6,6 +6,8 @@
 package com.fido.dp.decisionMaking;
 
 import com.fido.dp.base.Agent;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -14,20 +16,28 @@ import com.fido.dp.base.Agent;
  * @param <V>
  * @param <P>
  */
-public abstract class DecisionTablesMapParametr<A extends Agent,V,P extends DecisionTablesMapParametr> {
+public abstract class DecisionTablesMapParameter<A extends Agent,V,P extends DecisionTablesMapParameter> {
 	
-	private final V value;
-	
-	
-	
+	private V value;
 
-	public DecisionTablesMapParametr(V value) {
+	public V getValue() {
+		return value;
+	}
+
+	public void setValue(V value) {
 		this.value = value;
 	}
 	
 	
 	
-	public abstract P getCurrentParameter(Agent agent);
+
+	public DecisionTablesMapParameter(V value) {
+		this.value = value;
+	}
+	
+	
+	
+	public abstract P getCurrentParameter(A agent);
 
 	@Override
 	public int hashCode() {
@@ -46,7 +56,7 @@ public abstract class DecisionTablesMapParametr<A extends Agent,V,P extends Deci
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final DecisionTablesMapParametr<?,?,?> other = (DecisionTablesMapParametr<?,?,?>) obj;
+		final DecisionTablesMapParameter<?,?,?> other = (DecisionTablesMapParameter<?,?,?>) obj;
 		
 		return this.value.equals(other.value);
 	}
@@ -56,5 +66,10 @@ public abstract class DecisionTablesMapParametr<A extends Agent,V,P extends Deci
 		return getClass() + ": " + value.toString(); //To change body of generated methods, choose Tools | Templates.
 	}
 	
+	public abstract Element getXml(Document document);
+	
+	public abstract P createFromXml(Element element);
+
+	public abstract String getId();
 	
 }

@@ -5,8 +5,11 @@
  */
 package com.fido.dp.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fido.dp.Log;
 import java.util.logging.Level;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -18,6 +21,7 @@ public abstract class Activity <A extends Agent,G extends Goal> {
     
     private boolean isInitialized;
 	
+	@JsonIgnore
 	protected A agent;
     
     private Activity parrentAction;
@@ -54,10 +58,13 @@ public abstract class Activity <A extends Agent,G extends Goal> {
 	@Override
 	public abstract boolean equals(Object obj);
 	
-	public void initialize(G goal){
-		throw new UnsupportedOperationException("method initialize() was not implemented in action " + this.getClass());
+	public void initialize(A agent, G goal){
+		this.agent = agent;
 	}
 	
+	public Element getXml(Document document){
+		throw new UnsupportedOperationException("method getXml(Document document) was not implemented in action " + this.getClass());
+	}
 	
     
 	protected abstract void performAction();
@@ -101,6 +108,10 @@ public abstract class Activity <A extends Agent,G extends Goal> {
 
 	protected void onCommandedAgentAdded(Agent commandedAgent) {
 		
+	}
+
+	public String getId() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 	
 	

@@ -30,7 +30,8 @@ public class DefaultProtossStrategy extends CommandActivity<FullCommander, Goal>
 	}
 	
 	@Override
-	public void initialize(Goal goal) {
+	public void initialize(FullCommander agent, Goal goal) {
+		super.initialize(agent, goal);
 		targetNumberOfScouts = 1;
 	}
 

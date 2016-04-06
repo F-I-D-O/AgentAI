@@ -20,6 +20,7 @@ import com.fido.dp.agent.ProductionCommand;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.agent.UnitCommand;
+import com.fido.dp.base.Agent;
 import com.fido.dp.base.Goal;
 import com.fido.dp.info.EnemyBaseDiscovered;
 import com.fido.dp.info.EnemyBasesInfo;
@@ -47,17 +48,17 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 	private static final int NUMBER_OF_BARRACKS = 2;
 	
     
-    private final ResourceCommand resourceCommand;
+    private ResourceCommand resourceCommand;
     
-    private final ExplorationCommand explorationCommand;
+    private ExplorationCommand explorationCommand;
     
-    private final BuildCommand buildCommand;
+    private BuildCommand buildCommand;
 	
-	private final ProductionCommand productionCommand;
+	private ProductionCommand productionCommand;
 	
-	private final UnitCommand unitCommand;
+	private UnitCommand unitCommand;
     
-    private int targetNumberOfScouts;
+    private final int targetNumberOfScouts;
 	
 //	private boolean unitsDetachedFromBuildCommand;
 	
@@ -65,13 +66,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 
     public BBSStrategy(A agent) {
         super(agent);
-        
-        resourceCommand = agent.getCommandedAgent(ResourceCommand.class);
-        explorationCommand = agent.getCommandedAgent(ExplorationCommand.class);
-        buildCommand = agent.getCommandedAgent(BuildCommand.class);
-		productionCommand = agent.getCommandedAgent(ProductionCommand.class);
-		unitCommand = agent.getCommandedAgent(UnitCommand.class);
-        
+
         targetNumberOfScouts = 1;
 //		unitsDetachedFromBuildCommand = true;
     }
@@ -95,9 +90,11 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 		
 		if(buildCommand.getNumberOfConstructionStarted(UnitType.Terran_Barracks) >= NUMBER_OF_BARRACKS
 				&& productionCommand.isMineralsMissing()){
-			if(productionCommand.getMissingMinerals() <= getAgent().getOwnedMinerals()){
+			if(productionCommand.getMissingMinerals() <= getAgent().getOwnedMinerals() 
+						&& productionCommand.getMissingSupply() <= agent.getOwnedSupply()){
 				try {
 					getAgent().giveResource(productionCommand, ResourceType.MINERALS, productionCommand.getMissingMinerals());
+					getAgent().giveResource(productionCommand, ResourceType.SUPPLY, productionCommand.getMissingSupply());
 				} catch (ResourceDeficiencyException ex) {
 					ex.printStackTrace();
 				}
@@ -107,7 +104,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 			}
 		}
 		else{
-			if(buildCommand.getMissingCrystalForFirsItem() == 0){
+			if(buildCommand.getMissingMineralForFirsItem() == 0){
 				Log.log(this, Level.FINER, "{0}: Missing crystal - NO", this.getClass());
 				if(buildCommand.needWorkes()){
 					Log.log(this, Level.FINER, "{0}: Need workers - YES", this.getClass());
@@ -128,10 +125,10 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 			else{
 				Log.log(this, Level.FINER, "{0}: Missing crystal - YES", this.getClass());
 				Log.log(this, Level.FINEST, "{0}: Owned crystal: {1}", this.getClass(), getAgent().getOwnedMinerals());
-				if(buildCommand.getMissingCrystalForFirsItem() <= getAgent().getOwnedMinerals()){
+				if(buildCommand.getMissingMineralForFirsItem() <= getAgent().getOwnedMinerals()){
 					Log.log(this, Level.FINER, "{0}: Have crystal to give - YES", this.getClass());
 					try {
-						getAgent().giveResource(buildCommand, ResourceType.MINERALS, buildCommand.getMissingCrystalForFirsItem());
+						getAgent().giveResource(buildCommand, ResourceType.MINERALS, buildCommand.getMissingMineralForFirsItem());
 					} catch (ResourceDeficiencyException ex) {
 						ex.printStackTrace();
 					}
@@ -156,14 +153,21 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
     }
 
 	@Override
-	public void initialize(Goal goal) {
-		targetNumberOfScouts = 1;
+	public void initialize(A agent, Goal goal) {
+		super.initialize(agent,goal);
+		
 	}
 	
 	
 
 	@Override
 	protected void init() {
+		resourceCommand = agent.getCommandedAgent(ResourceCommand.class);
+        explorationCommand = agent.getCommandedAgent(ExplorationCommand.class);
+        buildCommand = agent.getCommandedAgent(BuildCommand.class);
+		productionCommand = agent.getCommandedAgent(ProductionCommand.class);
+		unitCommand = agent.getCommandedAgent(UnitCommand.class);
+		
 		List<SCV> scvs = agent.getCommandedAgents(SCV.class);
 		if(!scvs.isEmpty()){           
             for (SCV scv : scvs) {
@@ -190,7 +194,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 	private void focusOnHarvest(List<SCV> scvs) {
 		Log.log(this, Level.FINER, "{0}: Have crystal to give - NO", this.getClass());
 		Log.log(this, Level.FINER, "{0}: Missing amount of crystal: {1}", this.getClass(), 
-				buildCommand.getMissingCrystalForFirsItem() - getAgent().getOwnedMinerals());
+				buildCommand.getMissingMineralForFirsItem() - getAgent().getOwnedMinerals());
 //		if(unitsDetachedFromBuildCommand){
 			if(!scvs.isEmpty()){
 				getAgent().detachCommandedAgents(scvs, resourceCommand);

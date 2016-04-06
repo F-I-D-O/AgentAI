@@ -14,7 +14,17 @@ import java.util.TreeMap;
  */
 public class DecisionTable {
 	
-	private final TreeMap<Double,Activity> probabilities;
+	private TreeMap<Double,Activity> probabilities;
+
+	public TreeMap<Double, Activity> getProbabilities() {
+		return probabilities;
+	}
+
+	public void setProbabilities(TreeMap<Double, Activity> probabilities) {
+		this.probabilities = probabilities;
+	}
+	
+	
 
 	public DecisionTable(TreeMap<Double, Activity> probabilities) {
 		this.probabilities = probabilities;

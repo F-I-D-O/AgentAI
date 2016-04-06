@@ -13,6 +13,7 @@ import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitActivity;
+import com.fido.dp.goal.ConstructBuildingGoal;
 import java.util.Objects;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Objects;
  */
 public class ConstructBuilding extends UnitActivity<Worker,Goal>{
 	
-	private final UnitType buildingType;
+	private UnitType buildingType;
 	
 	private TilePosition placeToBuildOn;
 
@@ -53,6 +54,14 @@ public class ConstructBuilding extends UnitActivity<Worker,Goal>{
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void initialize(Worker agent, Goal goal) {
+		super.initialize(agent, goal);
+		ConstructBuildingGoal constructBuildingGoal = (ConstructBuildingGoal) goal;
+		buildingType = constructBuildingGoal.getBuildingType();
+		placeToBuildOn = constructBuildingGoal.getPlaceToBuildOn();
 	}
 	
 	

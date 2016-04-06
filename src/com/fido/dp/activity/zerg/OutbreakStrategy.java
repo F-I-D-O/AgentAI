@@ -45,7 +45,8 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>{
 	}
 
 	@Override
-	public void initialize(Goal goal) {
+	public void initialize(ZergCommander agent, Goal goal) {
+		super.initialize(agent, goal);
 		targetNumberOfScouts = 1;
 	}
 	

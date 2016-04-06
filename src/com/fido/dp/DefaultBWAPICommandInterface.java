@@ -19,8 +19,6 @@ import com.fido.dp.base.GameAgent;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import sun.management.resources.agent;
 
 /**
  *
@@ -48,7 +46,7 @@ public class DefaultBWAPICommandInterface implements BWAPICommandInterface{
 		if(GameAPI.getGame().canBuildHere(placeToBuildOn, buildingType)){
 			boolean success = worker.getUnit().build(buildingType, placeToBuildOn);
 //			boolean success = worker.getUnit().issueCommand(UnitCommand.build(worker.getUnit(), placeToBuildOn, buildingType));
-			processBuild(worker, UnitCommand.build(worker.getUnit(), placeToBuildOn, buildingType));
+//			processBuild(worker, UnitCommand.build(worker.getUnit(), placeToBuildOn, buildingType));
 		}
 		else{
 			Log.log(this, Level.SEVERE, "{0}: cannot build here! position: {1}, building: {2}", worker.getClass(), 

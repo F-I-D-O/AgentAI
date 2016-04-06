@@ -38,8 +38,8 @@ public class OutbreakProduction extends CommandActivity<LarvaCommand, Goal>{
 	}
 
 	@Override
-	public void initialize(Goal goal) {
-		
+	public void initialize(LarvaCommand agent, Goal goal) {
+		super.initialize(agent, goal);
 	}
 	
 	
