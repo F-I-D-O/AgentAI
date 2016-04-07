@@ -59,7 +59,7 @@ import org.xml.sax.SAXException;
 
 public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
-	private static final int GAME_SPEED = 0;
+	private static final int GAME_SPEED = 30;
 	
 	private static Commander commanderStatic;
 	
@@ -582,22 +582,22 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	}
 
 	private void registerDecisionMakingAgentTypes() {
-		decisionModule.registerAgentClass(new FullCommander());
-		decisionModule.registerAgentClass(new SquadCommander());
+//		decisionModule.registerAgentClass(new FullCommander());
+//		decisionModule.registerAgentClass(new SquadCommander());
 	}
 
 	private void init() throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException, 
 			TransformerException, TransformerConfigurationException, XPathExpressionException {
 		registerDecisionMakingAgentTypes();
 		
-		loadDecisionsFromStorege = true;
+//		loadDecisionsFromStorege = true;
 		if(loadDecisionsFromStorege){
 			registerActivities();
 			registerDecisionParameters();
 			decisionStorageModule.loadSettings();
 		}
 		
-		learningOn = true;
+//		learningOn = true;
 		if(learningOn){
 			learningModule.processResults();		
 		}
