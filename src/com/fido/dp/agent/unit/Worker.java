@@ -20,6 +20,7 @@ import com.fido.dp.activity.Move;
 import com.fido.dp.activity.StartExpansion;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
@@ -117,32 +118,32 @@ public abstract class Worker extends UnitAgent implements Scout {
 	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
 		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();
 		
-		TreeMap<Double,Activity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new HarvestMinerals(null));
+		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
+		actionMap.put(1.0, new HarvestMinerals());
 		DecisionTablesMapKey key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(HarvestMineralsGoal.class));
 		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
 		
 		actionMap = new TreeMap<>();
-		actionMap.put(1.0, new ExploreBaseLocation(null, null));
+		actionMap.put(1.0, new ExploreBaseLocation());
 		key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(ExploreBaseLocationGoal.class));
 		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
 		
 		actionMap = new TreeMap<>();
-		actionMap.put(1.0, new Move(null, null));
+		actionMap.put(1.0, new Move());
 		key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(MoveGoal.class));
 		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
 		
 		actionMap = new TreeMap<>();
-		actionMap.put(1.0, new StartExpansion(null, null, null));
+		actionMap.put(1.0, new StartExpansion());
 		key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(StartExpansionGoal.class));
 		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
 		
 		actionMap = new TreeMap<>();
-		actionMap.put(1.0, new ConstructBuilding(null, null, null));
+		actionMap.put(1.0, new ConstructBuilding());
 		key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(ConstructBuildingGoal.class));
 		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));

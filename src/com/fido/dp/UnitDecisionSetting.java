@@ -5,6 +5,7 @@ import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,6 +21,10 @@ public class UnitDecisionSetting {
 	private Class<? extends Agent> agentClass;
 	
 	private Map<DecisionTablesMapKey,DecisionTable> decisionTablesMap;
+	
+	
+	
+	
 
 	public Class<? extends Agent> getAgentClass() {
 		return agentClass;
@@ -35,6 +40,33 @@ public class UnitDecisionSetting {
 
 	public void setDecisionTablesMap(HashMap<DecisionTablesMapKey, DecisionTable> decisionTablesMap) {
 		this.decisionTablesMap = decisionTablesMap;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final UnitDecisionSetting other = (UnitDecisionSetting) obj;
+		if (!Objects.equals(this.agentClass, other.agentClass)) {
+			return false;
+		}
+		if (!Objects.equals(this.decisionTablesMap, other.decisionTablesMap)) {
+			return false;
+		}
+		return true;
 	}
 	
 	

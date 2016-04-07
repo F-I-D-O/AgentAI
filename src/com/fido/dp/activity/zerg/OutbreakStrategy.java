@@ -16,6 +16,7 @@ import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.Request;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.info.CodeMessageInfo;
 import com.fido.dp.order.DetachBack;
 import com.fido.dp.request.ResourceRequest;
@@ -25,7 +26,8 @@ import java.util.List;
  *
  * @author F.I.D.O.
  */
-public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>{
+public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>
+		implements DecisionModuleActivity<ZergCommander, Goal, OutbreakStrategy>{
 	
 	private static final int DRONE_LIMIT_PER_BASE = 10;
 	
@@ -33,11 +35,24 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>{
 	
 	private int expandingDrones;
 
+	
+	
+	
+	public OutbreakStrategy() {
+	}
+
 	public OutbreakStrategy(ZergCommander agent) {
 		super(agent);
 		targetNumberOfScouts = 1;
 		expandingDrones = 0;
 	}
+
+	public OutbreakStrategy(ZergCommander agent, Goal goal) {
+		super(agent, goal);
+	}
+	
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -137,6 +152,11 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander, Goal>{
 		if(commandedAgent instanceof Overlord){
 			new CodeMessageInfo(CodeMessageInfo.Code.OVERLORD_MORPHED, agent.larvaCommand, agent).send();
 		}
+	}
+
+	@Override
+	public OutbreakStrategy create(ZergCommander agent, Goal goal) {
+		return new OutbreakStrategy(agent, goal);
 	}
 	
 	

@@ -6,13 +6,10 @@
 package com.fido.dp.activity;
 
 import bwapi.Position;
-import bwapi.PositionOrUnit;
-import bwapi.UnitCommand;
 import com.fido.dp.agent.unit.UnitAgent;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.Goal;
-import com.fido.dp.base.GameAgent;
 import java.util.Objects;
 
 /**

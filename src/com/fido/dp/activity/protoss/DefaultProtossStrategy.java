@@ -9,20 +9,36 @@ import com.fido.dp.agent.FullCommander;
 import com.fido.dp.agent.unit.Probe;
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.base.Goal;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import java.util.List;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class DefaultProtossStrategy extends CommandActivity<FullCommander, Goal>{
+public class DefaultProtossStrategy extends CommandActivity<FullCommander, Goal> 
+		implements DecisionModuleActivity<FullCommander, Goal, DefaultProtossStrategy>{
 	
 	private int targetNumberOfScouts;
+
+	
+	
+	
+	public DefaultProtossStrategy() {
+	}
 
 	public DefaultProtossStrategy(FullCommander agent) {
 		super(agent);
 		targetNumberOfScouts = 1;
 	}
+
+	public DefaultProtossStrategy(FullCommander agent, Goal goal) {
+		super(agent, goal);
+		targetNumberOfScouts = 1;
+	}
+	
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -53,6 +69,11 @@ public class DefaultProtossStrategy extends CommandActivity<FullCommander, Goal>
                 }
             }
         }
+	}
+
+	@Override
+	public DefaultProtossStrategy create(FullCommander agent, Goal goal) {
+		return new DefaultProtossStrategy(agent, goal);
 	}
 	
 }

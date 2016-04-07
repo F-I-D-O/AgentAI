@@ -11,6 +11,8 @@ import com.fido.dp.Scout;
 import com.fido.dp.agent.unit.UnitAgent;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
+import com.fido.dp.base.Goal;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.goal.ExploreBaseLocationGoal;
 import com.fido.dp.info.LocationExploredInfo;
 import java.util.Objects;
@@ -20,11 +22,18 @@ import java.util.Objects;
  * @author david_000
  * @param <A>
  */
-public class ExploreBaseLocation<A extends UnitAgent & Scout> extends UnitActivity<A,ExploreBaseLocationGoal> {
+public class ExploreBaseLocation<A extends UnitAgent & Scout> extends UnitActivity<A,ExploreBaseLocationGoal>
+		implements DecisionModuleActivity<A, ExploreBaseLocationGoal, ExploreBaseLocation>{
     
     private boolean locationExplored;
     
     private Position baseLocation;
+
+	
+	
+	
+	public ExploreBaseLocation() {
+	}
 
     public ExploreBaseLocation(A unitAgent, Position location) {
         super(unitAgent);
@@ -32,6 +41,13 @@ public class ExploreBaseLocation<A extends UnitAgent & Scout> extends UnitActivi
         baseLocation = location;
     }
 
+	public ExploreBaseLocation(A agent, ExploreBaseLocationGoal goal) {
+		super(agent, goal);
+	}
+
+	
+	
+	
     @Override
     public void performAction() {
         if(locationExplored){
@@ -100,6 +116,11 @@ public class ExploreBaseLocation<A extends UnitAgent & Scout> extends UnitActivi
 //
 //		return false;
 //	}
+
+	@Override
+	public ExploreBaseLocation create(A agent, ExploreBaseLocationGoal goal) {
+		return new ExploreBaseLocation(agent, goal);
+	}
     
     
 }

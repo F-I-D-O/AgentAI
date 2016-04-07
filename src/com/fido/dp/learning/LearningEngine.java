@@ -8,11 +8,12 @@ package com.fido.dp.learning;
 import com.fido.dp.GameResult;
 import com.fido.dp.UnitDecisionSetting;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author F.I.D.O.
  */
 public interface LearningEngine {
-	public ArrayList<UnitDecisionSetting> learnFromResults(ArrayList<GameResult> gameResults);
+	public List<UnitDecisionSetting> learnFromResults(ArrayList<GameResult> gameResults);
 }

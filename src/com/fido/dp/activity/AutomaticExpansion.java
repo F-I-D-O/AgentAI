@@ -11,6 +11,7 @@ import com.fido.dp.agent.FullCommander;
 import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.base.Order;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.goal.AutomaticExpansionGoal;
 import com.fido.dp.request.ExpansionInfoRequest;
 
@@ -18,17 +19,33 @@ import com.fido.dp.request.ExpansionInfoRequest;
  *
  * @author F.I.D.O.
  */
-public class AutomaticExpansion extends CommandActivity<ExpansionCommand, AutomaticExpansionGoal>{
+public class AutomaticExpansion extends CommandActivity<ExpansionCommand, AutomaticExpansionGoal> 
+		implements DecisionModuleActivity<ExpansionCommand, AutomaticExpansionGoal, AutomaticExpansion>{
 	
 	private UnitType expansionBuildingType;
 	
 	private boolean expansionRequestSended;
+
+	
+	
+	
+	public AutomaticExpansion() {
+	}
 
 	public AutomaticExpansion(ExpansionCommand agent, UnitType expansionBuilding) {
 		super(agent);
 		this.expansionBuildingType = expansionBuilding;
 		expansionRequestSended = false;
 	}
+
+	public AutomaticExpansion(ExpansionCommand agent, AutomaticExpansionGoal goal) {
+		super(agent, goal);
+		this.expansionBuildingType = goal.getExpansionBuildingType();
+		expansionRequestSended = false;
+	}
+	
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -64,6 +81,11 @@ public class AutomaticExpansion extends CommandActivity<ExpansionCommand, Automa
 	@Override
 	protected void handleCompletedOrder(Order order) {
 		
+	}
+
+	@Override
+	public AutomaticExpansion create(ExpansionCommand agent, AutomaticExpansionGoal goal) {
+		return new AutomaticExpansion(agent, goal);
 	}
 	
 	

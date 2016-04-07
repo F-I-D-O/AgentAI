@@ -5,20 +5,22 @@
  */
 package com.fido.dp.learning;
 
-import com.fido.dp.DecisionStorageModule;
+import com.fido.dp.decisionStorage.DecisionStorageModule;
 import com.fido.dp.GameResult;
 import com.fido.dp.UnitDecisionSetting;
 import com.fido.dp.agent.SquadCommander;
-import com.fido.dp.base.Activity;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.GameAPI;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.DecisionTablesMapParameter;
+import com.fido.dp.decisionStorage.StorableDecisionModuleActivity;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilder;
@@ -66,7 +68,8 @@ public class LearningModule {
 
 	public LearningModule(GameAPI gameAPI, DecisionStorageModule decisionStorageModule) {
 		this.decisionStorageModule = decisionStorageModule;
-		learningEngine = new TestEngine();
+//		learningEngine = new TestEngine();
+		learningEngine = new SimpleEngine();
 		agentClassesTrackedForLearning = new ArrayList<>();
 		agentClassesTrackedForLearning.add(SquadCommander.class);
 		this.gameAPI = gameAPI;
@@ -80,12 +83,12 @@ public class LearningModule {
 			TransformerException, TransformerConfigurationException, XPathExpressionException{
 		ArrayList<GameResult> gameResults = getResultsFromXml();
 		
-		ArrayList<UnitDecisionSetting> learntUnitDecisionSettings = learningEngine.learnFromResults(gameResults);
+		List<UnitDecisionSetting> learntUnitDecisionSettings = learningEngine.learnFromResults(gameResults);
 		
 		saveLearntSettings(learntUnitDecisionSettings);
 	}
 	
-	private void saveLearntSettings(ArrayList<UnitDecisionSetting> learntUnitDecisionSettings) throws 
+	private void saveLearntSettings(List<UnitDecisionSetting> learntUnitDecisionSettings) throws 
 			ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, 
 			TransformerException, XPathExpressionException {
 		File file = new File(LEARNED_DECISIONS_FILE);
@@ -216,10 +219,10 @@ public class LearningModule {
 
 			Element decisionTableNode = document.createElement("table");
 
-			TreeMap<Double,Activity> probabilities = decisionTablesMapValue.getProbabilities();
-			for (Map.Entry<Double, Activity> entry : probabilities.entrySet()) {
+			TreeMap<Double,DecisionModuleActivity> probabilities = decisionTablesMapValue.getProbabilities();
+			for (Map.Entry<Double, DecisionModuleActivity> entry : probabilities.entrySet()) {
 				Double probability = entry.getKey();
-				Activity activity = entry.getValue();
+				StorableDecisionModuleActivity activity = (StorableDecisionModuleActivity) entry.getValue();
 
 				Element decisionTableRowNode = document.createElement("row");
 				decisionTableRowNode.setAttribute("probability", Double.toString(probability));

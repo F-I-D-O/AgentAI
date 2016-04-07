@@ -9,6 +9,7 @@ import com.fido.dp.activity.zerg.OutbreakProduction;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Goal;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
@@ -25,8 +26,8 @@ public class LarvaCommand extends CommandAgent{
 		
 		reasoningOn = true;
 		
-		TreeMap<Double,Activity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new OutbreakProduction(this));
+		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
+		actionMap.put(1.0, new OutbreakProduction());
 		DecisionTablesMapKey key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(DroneProductionGoal.class));
 		addToDecisionTablesMap(key, new DecisionTable(actionMap));

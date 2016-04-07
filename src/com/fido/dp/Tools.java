@@ -5,6 +5,10 @@
  */
 package com.fido.dp;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +30,27 @@ public class Tools {
 		}
 	}
 	
+	public static <K,V extends Comparable> List<Map.Entry<K, V>> getSortedListFromMap(final Map<K,V> map, final boolean order){
+		List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<K, V>>()
+        {
+			@Override
+            public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2)
+            {
+                if (order)
+                {
+                    return o1.getValue().compareTo(o2.getValue());
+                }
+                else
+                {
+                    return o2.getValue().compareTo(o1.getValue());
+
+                }
+            }
+        });
+		
+		return list;
+	}
 	
 }

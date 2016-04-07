@@ -20,11 +20,11 @@ import com.fido.dp.agent.ProductionCommand;
 import com.fido.dp.agent.ResourceCommand;
 import com.fido.dp.agent.unit.SCV;
 import com.fido.dp.agent.UnitCommand;
-import com.fido.dp.base.Agent;
 import com.fido.dp.base.Goal;
 import com.fido.dp.info.EnemyBaseDiscovered;
 import com.fido.dp.info.EnemyBasesInfo;
 import com.fido.dp.base.Info;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.order.BBSAttackOrder;
 import com.fido.dp.order.BBSBuildOrder;
 import com.fido.dp.order.BBSProductionOrder;
@@ -39,7 +39,8 @@ import java.util.logging.Level;
  * @author david_000
  * @param <A>
  */
-public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
+public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal> 
+		implements DecisionModuleActivity<A,Goal,BBSStrategy>{
 	
 	private static final int MINERALS_FOR_BUILDING_CONSTRUCTION = 400;
 	
@@ -58,11 +59,12 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 	
 	private UnitCommand unitCommand;
     
-    private final int targetNumberOfScouts;
+    private int targetNumberOfScouts;
 	
 //	private boolean unitsDetachedFromBuildCommand;
 	
-	
+	public BBSStrategy() {
+	}
 
     public BBSStrategy(A agent) {
         super(agent);
@@ -70,6 +72,15 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
         targetNumberOfScouts = 1;
 //		unitsDetachedFromBuildCommand = true;
     }
+
+	public BBSStrategy(A agent, Goal goal) {
+		super(agent, goal);
+		targetNumberOfScouts = 1;
+	}
+	
+	
+	
+	
 
     @Override
     public void performAction() {
@@ -205,6 +216,13 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>{
 ////			unitsDetachedFromBuildCommand = true;
 //		}
 	}
+
+	@Override
+	public BBSStrategy create(A agent, Goal goal) {
+		return new BBSStrategy(agent, goal);
+	}
+
+
 	
 	
 

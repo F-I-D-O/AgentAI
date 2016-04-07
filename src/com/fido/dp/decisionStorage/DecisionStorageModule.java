@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fido.dp;
+package com.fido.dp.decisionStorage;
 
+import com.fido.dp.UnitDecisionSetting;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Agent;
 import com.fido.dp.decisionMaking.DecisionModule;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.DecisionTablesMapParameter;
@@ -30,7 +32,7 @@ import org.xml.sax.SAXException;
  * @author F.I.D.O.
  */
 public class DecisionStorageModule {
-	private final Map<String,Activity> registeredActivities;
+	private final Map<String,StorableDecisionModuleActivity> registeredActivities;
 	
 	private final Map<String,DecisionTablesMapParameter> registeredDecisionParameters;
 	
@@ -48,7 +50,7 @@ public class DecisionStorageModule {
 	
 	
 	
-	public void registerActivity(Activity activity){
+	public void registerActivity(StorableDecisionModuleActivity activity){
 		registeredActivities.put(activity.getId(), activity);
 	}
 	
@@ -60,7 +62,7 @@ public class DecisionStorageModule {
 		return registeredDecisionParameters.get(parameterId);
 	}
 	
-	public Activity getActivity(String activityId){
+	public DecisionModuleActivity getActivity(String activityId){
 		return registeredActivities.get(activityId);
 	}
 	
@@ -117,13 +119,13 @@ public class DecisionStorageModule {
 	}
 	
 	private DecisionTable parseDecisionTable(Element decisionTableNode) {
-		TreeMap<Double,Activity> probabilities = new TreeMap<>();
+		TreeMap<Double,DecisionModuleActivity> probabilities = new TreeMap<>();
 		for (int rowIndex = 0; rowIndex < decisionTableNode.getChildNodes().getLength(); rowIndex++) {
 			Node childNode = decisionTableNode.getChildNodes().item(rowIndex);
 			if(childNode.getNodeName().equals("row")){
 				Element rowElement = (Element) childNode;
 				double probability = Double.parseDouble(rowElement.getAttribute("probability"));
-				Activity activity = null;
+				DecisionModuleActivity activity = null;
 				for (int actionIndex = 0; actionIndex < rowElement.getChildNodes().getLength(); actionIndex++) {
 					childNode = rowElement.getChildNodes().item(actionIndex);
 					if(childNode.getNodeType() == Node.ELEMENT_NODE){

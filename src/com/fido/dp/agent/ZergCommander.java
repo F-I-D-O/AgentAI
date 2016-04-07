@@ -10,6 +10,7 @@ import com.fido.dp.activity.zerg.OutbreakStrategy;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.Goal;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.GoalParameter;
@@ -35,7 +36,7 @@ public class ZergCommander extends FullCommander{
 		
 		reasoningOn = true;
 		
-		TreeMap<Double,Activity> actionMap = new TreeMap<>();
+		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
 		actionMap.put(1.0, new OutbreakStrategy(this));
 		DecisionTablesMapKey key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(OutbreakStrategyGoal.class));

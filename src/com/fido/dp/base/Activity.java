@@ -5,7 +5,6 @@
  */
 package com.fido.dp.base;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fido.dp.Log;
 import java.util.logging.Level;
 import org.w3c.dom.Document;
@@ -17,23 +16,33 @@ import org.w3c.dom.Element;
  * @param <A>
  * @param <G>
  */
-public abstract class Activity <A extends Agent,G extends Goal> {
+public abstract class Activity<A extends Agent,G extends Goal> {
     
     private boolean isInitialized;
 	
-	@JsonIgnore
 	protected A agent;
     
-    private Activity parrentAction;
+    private Activity parrentActivity;
     
-    private Activity childAction;
+    private Activity childActivity;
     
 
 	public final A getAgent() {
 		return (A) agent;
 	}
 
+	
+	
+	public Activity() {
+		
+	}
+
+	// TODO - remove
 	public Activity(A agent) {
+		this.agent = agent;
+	}
+	
+	public Activity(A agent, G goal){
 		this.agent = agent;
 	}
 	
@@ -42,8 +51,8 @@ public abstract class Activity <A extends Agent,G extends Goal> {
 	   
     public final void run(){
         Log.log(this, Level.FINE, "{0}: run() START", this.getClass());
-        if(childAction != null){
-            childAction.run();
+        if(childActivity != null){
+            childActivity.run();
         }
         else{
             if(!isInitialized){
@@ -62,19 +71,15 @@ public abstract class Activity <A extends Agent,G extends Goal> {
 		this.agent = agent;
 	}
 	
-	public Element getXml(Document document){
-		throw new UnsupportedOperationException("method getXml(Document document) was not implemented in action " + this.getClass());
-	}
-	
     
 	protected abstract void performAction();
 	
 	protected abstract void init();
 	
     protected final void finish(){
-        if(parrentAction != null){
-            parrentAction.onChildActivityFinish(this);
-			parrentAction.childAction = null;
+        if(parrentActivity != null){
+            parrentActivity.onChildActivityFinish(this);
+			parrentActivity.childActivity = null;
         }
         else{
             agent.onActivityFinish(this);
@@ -86,20 +91,20 @@ public abstract class Activity <A extends Agent,G extends Goal> {
     }
 
     protected void onChildActivityFinish(Activity activity) {
-        Log.log(this, Level.FINE, "{0}: Child action finished: {1}", this.getClass(), childAction);
+        Log.log(this, Level.FINE, "{0}: Child action finished: {1}", this.getClass(), childActivity);
 
 //        performAction(); not needet, because frame rate is high enough
     }
     
     protected void runChildActivity(Activity childAction){
-		if(!childAction.equals(this.childAction)){
+		if(!childAction.equals(this.childActivity)){
 			Log.log(this, Level.FINE, "{0}: Child action replaced. Old: {1}, new: {2}", this.getClass(), 
-					this.childAction, childAction.getClass());
-			this.childAction = childAction;
-			childAction.parrentAction = this;
+					this.childActivity, childAction.getClass());
+			this.childActivity = childAction;
+			childAction.parrentActivity = this;
 		}
         Log.log(this, Level.FINE, "{0}: Running child action: {1}", this.getClass(), childAction);
-        this.childAction.run();
+        this.childActivity.run();
     }
 
 	protected void processInfo(Info info) {
@@ -108,10 +113,6 @@ public abstract class Activity <A extends Agent,G extends Goal> {
 
 	protected void onCommandedAgentAdded(Agent commandedAgent) {
 		
-	}
-
-	public String getId() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 	
 	

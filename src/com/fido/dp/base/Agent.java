@@ -315,9 +315,10 @@ public abstract class Agent {
 		if(decisionTable == null){
 			throw new CannotDecideException(this, key);
 		}
-		Activity chosenAction = decisionTable.chooseAction();
-		chosenAction.initialize(this, goal);
-		return chosenAction;
+//		Activity chosenAction = decisionTable.chooseAction();
+//		chosenAction.initialize(this, goal);
+//		return chosenAction;
+		return decisionTable.chooseAction().create(this, goal);
 	}
 
 	protected void initialize() {

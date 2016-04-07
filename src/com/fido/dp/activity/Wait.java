@@ -8,6 +8,7 @@ package com.fido.dp.activity;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.Agent;
 import com.fido.dp.base.Goal;
+import com.fido.dp.decisionStorage.StorableDecisionModuleActivity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -15,11 +16,20 @@ import org.w3c.dom.Element;
  *
  * @author F.I.D.O.
  */
-public class Wait extends Activity<Agent,Goal>{
+public class Wait extends Activity<Agent,Goal> implements StorableDecisionModuleActivity<Agent, Goal, Wait>{
 
+	public Wait() {
+	}
+	
 	public Wait(Agent agent) {
 		super(agent);
 	}
+
+	public Wait(Agent agent, Goal goal) {
+		super(agent, goal);
+	}
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -55,6 +65,11 @@ public class Wait extends Activity<Agent,Goal>{
 	@Override
 	public String getId() {
 		return "wait";
+	}
+
+	@Override
+	public Wait create(Agent agent, Goal goal) {
+		return new Wait(agent, goal);
 	}
 	
 	

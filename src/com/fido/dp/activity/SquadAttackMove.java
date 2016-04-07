@@ -19,6 +19,16 @@ public abstract class SquadAttackMove extends CommandActivity<SquadCommander,Squ
 	
 	protected Position attackTarget;
 
+	public SquadAttackMove() {
+	}
+
+	public SquadAttackMove(SquadCommander agent, SquadAttackMoveGoal goal) {
+		super(agent, goal);
+		this.attackTarget = goal.getAttackTarget();
+	}
+
+	
+	
 	public SquadAttackMove(SquadCommander agent, Position attackTarget) {
 		super(agent);
 		this.attackTarget = attackTarget;

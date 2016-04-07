@@ -9,6 +9,10 @@ import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.agent.unit.Marine;
 import com.fido.dp.agent.SquadCommander;
+import com.fido.dp.base.Agent;
+import com.fido.dp.base.Goal;
+import com.fido.dp.decisionStorage.StorableDecisionModuleActivity;
+import com.fido.dp.goal.SquadAttackMoveGoal;
 import com.fido.dp.order.AttackMoveOrder;
 import java.util.List;
 import org.w3c.dom.Document;
@@ -18,7 +22,17 @@ import org.w3c.dom.Element;
  *
  * @author F.I.D.O.
  */
-public class ASAPSquadAttackMove extends SquadAttackMove{
+public class ASAPSquadAttackMove extends SquadAttackMove
+		implements StorableDecisionModuleActivity<SquadCommander, SquadAttackMoveGoal, ASAPSquadAttackMove>{
+
+	public ASAPSquadAttackMove() {
+	}
+
+	public ASAPSquadAttackMove(SquadCommander agent, SquadAttackMoveGoal goal) {
+		super(agent, goal);
+	}
+	
+	
 	
 	public ASAPSquadAttackMove(SquadCommander agent, Position attackTarget) {
 		super(agent, attackTarget);
@@ -50,6 +64,11 @@ public class ASAPSquadAttackMove extends SquadAttackMove{
 	@Override
 	public String getId() {
 		return "ASAPSquadAttackMove";
+	}
+
+	@Override
+	public ASAPSquadAttackMove create(SquadCommander agent, SquadAttackMoveGoal goal) {
+		return new ASAPSquadAttackMove(agent, goal);
 	}
 	
 	

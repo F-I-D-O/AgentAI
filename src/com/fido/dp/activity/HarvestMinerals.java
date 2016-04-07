@@ -5,12 +5,24 @@ import com.fido.dp.base.GameAPI;
 import bwapi.Unit;
 import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Goal;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 
-public class HarvestMinerals<A extends Worker,G extends Goal> extends UnitActivity<A,G> {
+public class HarvestMinerals<A extends Worker,G extends Goal> extends UnitActivity<A,G> 
+		implements DecisionModuleActivity<A, G, HarvestMinerals>{
+
+	public HarvestMinerals() {
+	}
 
     public HarvestMinerals(A unitAgent) {
         super(unitAgent);
     }
+	
+	public HarvestMinerals(A agent, G goal) {
+		super(agent, goal);
+	}
+	
+	
+	
 
     @Override
     public void performAction() {
@@ -52,6 +64,11 @@ public class HarvestMinerals<A extends Worker,G extends Goal> extends UnitActivi
 	@Override
 	protected void init() {
 		
+	}
+
+	@Override
+	public HarvestMinerals create(A agent, G goal) {
+		return new HarvestMinerals(agent, goal);
 	}
 
 }

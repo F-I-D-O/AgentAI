@@ -11,7 +11,7 @@ import bwapi.UnitType;
 import com.fido.dp.BWAPICommandInterface;
 import com.fido.dp.DefaultBWAPICommandInterface;
 import com.fido.dp.BuildingPlacer;
-import com.fido.dp.DecisionStorageModule;
+import com.fido.dp.decisionStorage.DecisionStorageModule;
 import com.fido.dp.EventEngine;
 import com.fido.dp.EventEngineListener;
 import com.fido.dp.learning.LearningModule;
@@ -174,11 +174,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	private Commander commander;
 	
-	private final ArrayList<Agent> agents;
+	private ArrayList<Agent> agents;
 	
-	private final ArrayList<GameAgent> unitAgents;
+	private ArrayList<GameAgent> unitAgents;
 	
-	private final HashMap<Unit,GameAgent> unitAgentsMappedByUnit;
+	private HashMap<Unit,GameAgent> unitAgentsMappedByUnit;
 	
 	private int frameCount;
 	
@@ -212,9 +212,6 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	public GameAPI() throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException, 
 			TransformerException, TransformerConfigurationException, XPathExpressionException {
 		this.frameCount = 0;
-		agents = new ArrayList<>();
-		unitAgents = new ArrayList<>();
-		unitAgentsMappedByUnit = new HashMap<>();
 		eventEngine =  new EventEngine();
 		eventEngine.addListener(this);
 		logLevel = Level.FINE;
@@ -406,6 +403,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			// tools
 			mapTools = new UAlbertaMapTools();
 			buildingPlacer = new UAlbertaBuildingPlacer();
+			
+			// collections
+			agents = new ArrayList<>();
+			unitAgents = new ArrayList<>();
+			unitAgentsMappedByUnit = new HashMap<>();
 
 			// commander init
 //			commander = new Commander();
@@ -570,9 +572,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     }
 
 	private void registerActivities() {
-		decisionStorageModule.registerActivity(new Wait(null));
-		decisionStorageModule.registerActivity(new ASAPSquadAttackMove(null, null));
-		decisionStorageModule.registerActivity(new NormalSquadAttackMove(null, null));
+		decisionStorageModule.registerActivity(new Wait());
+		decisionStorageModule.registerActivity(new ASAPSquadAttackMove());
+		decisionStorageModule.registerActivity(new NormalSquadAttackMove());
 	}
 
 	private void registerDecisionParameters() {

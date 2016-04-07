@@ -13,6 +13,7 @@ import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.UnitActivity;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.goal.ConstructBuildingGoal;
 import java.util.Objects;
 
@@ -20,16 +21,27 @@ import java.util.Objects;
  *
  * @author F.I.D.O.
  */
-public class ConstructBuilding extends UnitActivity<Worker,Goal>{
+public class ConstructBuilding extends UnitActivity<Worker,Goal>
+		implements DecisionModuleActivity<Worker, Goal, ConstructBuilding>{
 	
 	private UnitType buildingType;
 	
 	private TilePosition placeToBuildOn;
 
+	
+	
+	
+	public ConstructBuilding() {
+	}
+
 	public ConstructBuilding(Worker agent, UnitType buildingType, TilePosition placeToBuildOn) {
 		super(agent);
 		this.buildingType = buildingType;
 		this.placeToBuildOn = placeToBuildOn;
+	}
+
+	public ConstructBuilding(Worker agent, Goal goal) {
+		super(agent, goal);
 	}
 
 	
@@ -87,6 +99,11 @@ public class ConstructBuilding extends UnitActivity<Worker,Goal>{
 	@Override
 	protected void onChildActivityFinish(Activity activity) {
 		super.onChildActivityFinish(activity);
+	}
+
+	@Override
+	public ConstructBuilding create(Worker agent, Goal goal) {
+		return new ConstructBuilding(agent, goal);
 	}
 	
 	

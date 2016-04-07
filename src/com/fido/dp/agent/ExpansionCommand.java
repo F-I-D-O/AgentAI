@@ -26,6 +26,7 @@ import com.fido.dp.info.ExpansionInfo;
 import com.fido.dp.base.Info;
 import com.fido.dp.request.ResourceRequest;
 import com.fido.dp.base.Request;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.order.StartExpansionOrder;
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -57,8 +58,8 @@ public class ExpansionCommand extends CommandAgent
 		
 		reasoningOn = true;
 		
-		TreeMap<Double,Activity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new AutomaticExpansion(this, null));
+		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
+		actionMap.put(1.0, new AutomaticExpansion());
 		DecisionTablesMapKey key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(AutomaticExpansionGoal.class));
 		addToDecisionTablesMap(key, new DecisionTable(actionMap));

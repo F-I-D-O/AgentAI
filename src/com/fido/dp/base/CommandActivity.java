@@ -14,11 +14,21 @@ import java.util.logging.Level;
  * @param <T>
  * @param <G>
  */
-public abstract class CommandActivity<T extends CommandAgent,G extends Goal> extends Activity<T,G>{
+public abstract class CommandActivity<T extends CommandAgent,G extends Goal> extends Activity<T,G> {
+
+	public CommandActivity() {
+		
+	}
 
     public CommandActivity(T agent) {
         super(agent);
     }
+
+	public CommandActivity(T agent, G goal) {
+		super(agent, goal);
+	}
+	
+	
 	
 	protected void handleRequest(Request request) {
 		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());

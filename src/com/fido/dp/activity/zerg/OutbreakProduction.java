@@ -10,10 +10,13 @@ import com.fido.dp.ResourceDeficiencyException;
 import com.fido.dp.ResourceType;
 import com.fido.dp.agent.LarvaCommand;
 import com.fido.dp.agent.unit.Larva;
+import com.fido.dp.base.Activity;
+import com.fido.dp.base.Agent;
 import com.fido.dp.base.CommandActivity;
 import com.fido.dp.base.GameAPI;
 import com.fido.dp.base.Goal;
 import com.fido.dp.base.Info;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.info.CodeMessageInfo;
 import com.fido.dp.order.LarvaMorph;
 import com.fido.dp.request.ResourceRequest;
@@ -23,15 +26,29 @@ import java.util.List;
  *
  * @author F.I.D.O.
  */
-public class OutbreakProduction extends CommandActivity<LarvaCommand, Goal>{
+public class OutbreakProduction extends CommandActivity<LarvaCommand, Goal>
+		implements DecisionModuleActivity<LarvaCommand, Goal, OutbreakProduction>{
 	
 	private boolean overlordInProduction;
+
+	
+	
+	
+	public OutbreakProduction() {
+	}
 
 	public OutbreakProduction(LarvaCommand agent) {
 		super(agent);
 		overlordInProduction = false;
 	}
 
+	public OutbreakProduction(LarvaCommand agent, Goal goal) {
+		super(agent, goal);
+	}
+
+	
+	
+	
 	@Override
 	public boolean equals(Object obj) {
 		return obj != null && obj instanceof OutbreakProduction;
@@ -117,6 +134,11 @@ public class OutbreakProduction extends CommandActivity<LarvaCommand, Goal>{
 					break;
 			}
 		}
+	}
+
+	@Override
+	public OutbreakProduction create(LarvaCommand agent, Goal goal) {
+		return new OutbreakProduction(agent, goal);
 	}
 	
 	

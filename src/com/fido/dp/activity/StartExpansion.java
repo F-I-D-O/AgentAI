@@ -12,6 +12,7 @@ import com.fido.dp.Building;
 import com.fido.dp.agent.unit.Worker;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.goal.StartExpansionGoal;
 import com.fido.dp.request.ResourceRequest;
 import java.util.Objects;
@@ -20,7 +21,8 @@ import java.util.Objects;
  *
  * @author F.I.D.O.
  */
-public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
+public class StartExpansion extends Activity<Worker, StartExpansionGoal>
+		implements DecisionModuleActivity<Worker, StartExpansionGoal, StartExpansion>{
 	
 	private UnitType expansionBuildingType;
 	
@@ -30,6 +32,12 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
 	
 	private boolean resourceRequested;
 
+	
+	
+	
+	public StartExpansion() {
+	}
+
 	public StartExpansion(Worker agent, UnitType expansionBuildingType, Position expansionPosition) {
 		super(agent);
 		this.expansionBuildingType = expansionBuildingType;
@@ -37,6 +45,13 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
 		unitOnExpansionSite = false;
 		resourceRequested = false;
 	}
+
+	public StartExpansion(Worker agent, StartExpansionGoal goal) {
+		super(agent, goal);
+	}
+	
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -118,6 +133,11 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>{
 	@Override
 	protected void init() {
 		
+	}
+
+	@Override
+	public StartExpansion create(Worker agent, StartExpansionGoal goal) {
+		return new StartExpansion(agent, goal);
 	}
 	
 	

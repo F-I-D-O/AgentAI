@@ -10,7 +10,10 @@ import bwapi.Position;
 import bwapi.Unit;
 import com.fido.dp.Log;
 import com.fido.dp.agent.unit.UnitAgent;
+import com.fido.dp.base.Activity;
 import com.fido.dp.base.GameAPI;
+import com.fido.dp.base.Goal;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
 import com.fido.dp.goal.MoveGoal;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -19,13 +22,14 @@ import java.util.logging.Level;
  *
  * @author david_000
  */
-public class Move extends UnitActivity<UnitAgent,MoveGoal> {
+public class Move extends UnitActivity<UnitAgent,MoveGoal>
+		implements DecisionModuleActivity<UnitAgent, MoveGoal, Activity>{
 	
 	public static final int DEFAULT_MAX_DISTANCE_FROM_TARGET = 200;
     
     private Position target;
     
-    private final int maxDistanceFromTarget;
+    private int maxDistanceFromTarget;
     
     private boolean onMove;
 
@@ -35,10 +39,13 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal> {
     public Position getTarget() {
         return target;
     }
-    
-    
-    
-    
+
+	
+	
+	
+	
+	public Move() {
+	}
 
     public Move(UnitAgent unitAgent, Position target) {
         super(unitAgent);
@@ -53,6 +60,13 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal> {
         this.maxDistanceFromTarget = maxDistanceFromTarget;
         onMove = false;
     }
+
+	public Move(UnitAgent agent, MoveGoal goal) {
+		super(agent, goal);
+		this.maxDistanceFromTarget = goal.getMinDistanceFromTarget();
+	}
+	 
+	 
 
     @Override
     public void performAction() {
@@ -119,6 +133,11 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal> {
 	@Override
 	protected void init() {
 		
+	}
+
+	@Override
+	public Activity create(UnitAgent agent, MoveGoal goal) {
+		return new Move(agent, goal);
 	}
     
     
