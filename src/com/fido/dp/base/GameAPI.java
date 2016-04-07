@@ -572,9 +572,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     }
 
 	private void registerActivities() {
-		decisionStorageModule.registerActivity(new Wait());
-		decisionStorageModule.registerActivity(new ASAPSquadAttackMove());
-		decisionStorageModule.registerActivity(new NormalSquadAttackMove());
+//		decisionStorageModule.registerActivity(new Wait());
+//		decisionStorageModule.registerActivity(new ASAPSquadAttackMove());
+//		decisionStorageModule.registerActivity(new NormalSquadAttackMove());
 	}
 
 	private void registerDecisionParameters() {

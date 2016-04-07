@@ -5,14 +5,23 @@
  */
 package com.fido.dp.agent;
 
+import bwapi.Position;
 import com.fido.dp.activity.ASAPSquadAttackMove;
+import com.fido.dp.activity.NormalSquadAttackMove;
 import com.fido.dp.activity.Wait;
 import com.fido.dp.base.Activity;
 import com.fido.dp.base.CommandAgent;
 import com.fido.dp.base.Goal;
+import com.fido.dp.decisionMaking.DecisionModuleActivity;
+import com.fido.dp.decisionMaking.DecisionTable;
+import com.fido.dp.decisionMaking.DecisionTablesMapKey;
+import com.fido.dp.decisionMaking.GoalParameter;
 import com.fido.dp.goal.ActivityGoal;
 import com.fido.dp.goal.SquadAttackMoveGoal;
 import com.fido.dp.goal.WaitGoal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -22,20 +31,6 @@ public class SquadCommander extends CommandAgent {
 
 	public SquadCommander() {
 		
-//		TreeMap<Double,Activity> actionMap = new TreeMap<>();
-//		actionMap.put(0.2, new ASAPSquadAttackMove(this, Position.None));
-//		actionMap.put(1.0, new NormalSquadAttackMove(this, Position.None));
-//		DecisionTablesMapKey key =  new DecisionTablesMapKey();
-//		key.addParameter(new GoalParameter(SquadAttackMoveGoal.class));
-//		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-//		
-//		actionMap = new TreeMap<>();
-//		actionMap.put(1.0, new Wait(this));
-//		key =  new DecisionTablesMapKey();
-//		key.addParameter(new GoalParameter(WaitGoal.class));
-//		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-		
-//		referenceKey = key;
 	}
 	
 	
@@ -61,6 +56,26 @@ public class SquadCommander extends CommandAgent {
 	@Override
 	protected Goal getDefaultGoal() {
 		return new WaitGoal(this, null);
+	}
+
+	@Override
+	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
+		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();
+		
+		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
+		actionMap.put(0.2, new ASAPSquadAttackMove());
+		actionMap.put(1.0, new NormalSquadAttackMove());
+		DecisionTablesMapKey key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(SquadAttackMoveGoal.class));
+		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
+		
+		actionMap = new TreeMap<>();
+		actionMap.put(1.0, new Wait());
+		key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(WaitGoal.class));
+		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
+		
+		return defaultDecisionTablesMap;
 	}
 	
 }

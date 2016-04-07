@@ -83,9 +83,10 @@ public class LearningModule {
 			TransformerException, TransformerConfigurationException, XPathExpressionException{
 		ArrayList<GameResult> gameResults = getResultsFromXml();
 		
-		List<UnitDecisionSetting> learntUnitDecisionSettings = learningEngine.learnFromResults(gameResults);
-		
-		saveLearntSettings(learntUnitDecisionSettings);
+		if(!gameResults.isEmpty()){
+			List<UnitDecisionSetting> learntUnitDecisionSettings = learningEngine.learnFromResults(gameResults);
+			saveLearntSettings(learntUnitDecisionSettings);
+		}
 	}
 	
 	private void saveLearntSettings(List<UnitDecisionSetting> learntUnitDecisionSettings) throws 
@@ -122,17 +123,20 @@ public class LearningModule {
 	
 	private ArrayList<GameResult> getResultsFromXml() throws ParserConfigurationException, SAXException, IOException, ClassNotFoundException {
 		ArrayList<GameResult> gameResults = new ArrayList<>();
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document document = documentBuilder.parse(RESULTS_FILE);
-		
-		Element resultsNode = document.getDocumentElement();
+		File file = new File(LearningModule.LEARNED_DECISIONS_FILE);
+		if(file.exists()){
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			Document document = documentBuilder.parse(RESULTS_FILE);
 
-		for (int resultIndex = 0; resultIndex < resultsNode.getChildNodes().getLength(); resultIndex++) {
-			Node childNode = resultsNode.getChildNodes().item(resultIndex);
-			if(childNode.getNodeName().equals("result")){
-				Element resultElement = (Element) childNode;
-				gameResults.add(parseResult(resultElement));
+			Element resultsNode = document.getDocumentElement();
+
+			for (int resultIndex = 0; resultIndex < resultsNode.getChildNodes().getLength(); resultIndex++) {
+				Node childNode = resultsNode.getChildNodes().item(resultIndex);
+				if(childNode.getNodeName().equals("result")){
+					Element resultElement = (Element) childNode;
+					gameResults.add(parseResult(resultElement));
+				}
 			}
 		}
 		return gameResults;

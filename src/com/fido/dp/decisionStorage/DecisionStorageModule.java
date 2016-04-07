@@ -14,6 +14,7 @@ import com.fido.dp.decisionMaking.DecisionTable;
 import com.fido.dp.decisionMaking.DecisionTablesMapKey;
 import com.fido.dp.decisionMaking.DecisionTablesMapParameter;
 import com.fido.dp.learning.LearningModule;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,23 +68,26 @@ public class DecisionStorageModule {
 	}
 	
 	public void loadSettings() throws ParserConfigurationException, SAXException, IOException, ClassNotFoundException{
-		ArrayList<UnitDecisionSetting> unitDecisionSettings = new ArrayList<>();
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document document = documentBuilder.parse(LearningModule.LEARNED_DECISIONS_FILE);
-		
-		Element decisionSettingsNode = document.getDocumentElement();
+		File file = new File(LearningModule.LEARNED_DECISIONS_FILE);
+		if(file.exists()){
+			ArrayList<UnitDecisionSetting> unitDecisionSettings = new ArrayList<>();
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			Document document = documentBuilder.parse(LearningModule.LEARNED_DECISIONS_FILE);
 
-		for (int resultIndex = 0; resultIndex < decisionSettingsNode.getChildNodes().getLength(); resultIndex++) {
-			Node childNode = decisionSettingsNode.getChildNodes().item(resultIndex);
-			if(childNode.getNodeName().equals("decisionTablesMap")){
-				Element decisionTablesMapElement = (Element) childNode;
-				unitDecisionSettings.add(parseDecisionTablesMap(decisionTablesMapElement));
+			Element decisionSettingsNode = document.getDocumentElement();
+
+			for (int resultIndex = 0; resultIndex < decisionSettingsNode.getChildNodes().getLength(); resultIndex++) {
+				Node childNode = decisionSettingsNode.getChildNodes().item(resultIndex);
+				if(childNode.getNodeName().equals("decisionTablesMap")){
+					Element decisionTablesMapElement = (Element) childNode;
+					unitDecisionSettings.add(parseDecisionTablesMap(decisionTablesMapElement));
+				}
 			}
-		}
-		
-		for (UnitDecisionSetting unitDecisionSetting : unitDecisionSettings) {
-			decisionModule.addDecisionTablesMap(unitDecisionSetting);
+
+			for (UnitDecisionSetting unitDecisionSetting : unitDecisionSettings) {
+				decisionModule.addDecisionTablesMap(unitDecisionSetting);
+			}
 		}
 	}
 	
