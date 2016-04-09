@@ -10,6 +10,7 @@ import ninja.fido.agentai.Scout;
 import ninja.fido.agentai.base.CommandAgent;
 import ninja.fido.agentai.base.Agent;
 import ninja.fido.agentai.base.GoalOrder;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentai.goal.ExploreBaseLocationGoal;
 
 /**
@@ -26,7 +27,8 @@ public class ExploreBaseLocationOrder extends GoalOrder{
 	
 	
 
-	public ExploreBaseLocationOrder(Scout target, CommandAgent commandAgent, Position baseLocation) {
+	public ExploreBaseLocationOrder(Scout target, CommandAgent commandAgent, Position baseLocation) 
+			throws ChainOfCommandViolationException {
 		super((Agent) target, commandAgent);
 		this.baseLocation = baseLocation;
 	}

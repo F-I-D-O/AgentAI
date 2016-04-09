@@ -39,21 +39,16 @@ public class BBSBuild<A extends BuildCommand> extends CommandActivity<A,Goal> {
 
     @Override
     public void performAction() {
-		try {
-			switch(getAgent().automaticBuild()){
-				case MISSING_GAS:
-					Log.log(this, Level.FINE, "{0}: Missing gas!", this.getClass());
-					break;
-				case MISSING_MINERALS:
-					Log.log(this, Level.FINE, "{0}: Missing minerals!", this.getClass());
-					break;
-				case MISSING_WORKERS:
-					Log.log(this, Level.FINE, "{0}: Missing workers!", this.getClass());
-					break;
-			}
-		} 
-		catch (ResourceDeficiencyException ex) {
-			Logger.getLogger(BBSBuild.class.getName()).log(Level.SEVERE, null, ex);
+		switch(getAgent().automaticBuild()){
+			case MISSING_GAS:
+				Log.log(this, Level.FINE, "{0}: Missing gas!", this.getClass());
+				break;
+			case MISSING_MINERALS:
+				Log.log(this, Level.FINE, "{0}: Missing minerals!", this.getClass());
+				break;
+			case MISSING_WORKERS:
+				Log.log(this, Level.FINE, "{0}: Missing workers!", this.getClass());
+				break;
 		}
     }
 

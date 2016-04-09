@@ -33,6 +33,7 @@ import ninja.fido.agentai.order.HarvestOrder;
 import ninja.fido.agentai.order.StrategicExplorationOrder;
 import java.util.List;
 import java.util.logging.Level;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -78,7 +79,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>
 	
 
     @Override
-    public void performAction() {
+    public void performAction() throws ChainOfCommandViolationException {
 		new DetachBack(buildCommand, this.getAgent(), SCV.class, true).issueOrder();
 		
 		SCV scv;
@@ -161,7 +162,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>
 	
 
 	@Override
-	protected void init() {
+	protected void init() throws ChainOfCommandViolationException {
 		resourceCommand = agent.getCommandedAgent(ResourceCommand.class);
         explorationCommand = agent.getCommandedAgent(ExplorationCommand.class);
         buildCommand = agent.getCommandedAgent(BuildCommand.class);

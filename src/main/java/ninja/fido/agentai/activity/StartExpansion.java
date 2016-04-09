@@ -16,6 +16,7 @@ import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentai.goal.StartExpansionGoal;
 import ninja.fido.agentai.request.ResourceRequest;
 import java.util.Objects;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -79,7 +80,7 @@ public class StartExpansion extends Activity<Worker, StartExpansionGoal>
 	
 
 	@Override
-	protected void performAction() {
+	protected void performAction() throws ChainOfCommandViolationException {
 		if(unitOnExpansionSite){
 			if(agent.haveEnoughResourcersToBuild(expansionBuildingType)){
 				TilePosition buildigPosition = GameAPI.getBuildingPlacer().getBuildingLocation(

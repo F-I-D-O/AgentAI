@@ -5,6 +5,8 @@
  */
 package ninja.fido.agentai.base;
 
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
+
 /**
  *
  * @author F.I.D.O.
@@ -13,7 +15,8 @@ public class UniversalGoalOrder extends GoalOrder{
 	
 	private final Goal goal;
 
-	public UniversalGoalOrder(Agent target, CommandAgent commandAgent, Goal goal) {
+	public UniversalGoalOrder(Agent target, CommandAgent commandAgent, Goal goal) 
+			throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 		this.goal = goal;
 		goal.setOrder(this);

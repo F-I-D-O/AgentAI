@@ -18,6 +18,7 @@ import ninja.fido.agentai.goal.GroupGuardGoal;
 import ninja.fido.agentai.goal.MoveGoal;
 import ninja.fido.agentai.info.GuardOnPositionInfo;
 import java.util.ArrayList;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
@@ -45,7 +46,7 @@ public class FormationTestSquadFormationIndividual extends CommandActivity<Squad
 	}
 
 	@Override
-	protected void performAction() {
+	protected void performAction() throws ChainOfCommandViolationException {
 		ArrayList<Zealot> zealots = agent.getCommandedAgents(Zealot.class);
 		HighTemplar highTemplar = agent.getCommandedAgent(HighTemplar.class);
 		

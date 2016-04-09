@@ -8,6 +8,7 @@ package ninja.fido.agentai.order;
 import ninja.fido.agentai.agent.BuildCommand;
 import ninja.fido.agentai.base.CommandAgent;
 import ninja.fido.agentai.base.GoalOrder;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentai.goal.BBSBuildGoal;
 
 /**
@@ -16,7 +17,7 @@ import ninja.fido.agentai.goal.BBSBuildGoal;
  */
 public class BBSBuildOrder extends GoalOrder {
 
-	public BBSBuildOrder(BuildCommand target, CommandAgent commandAgent) {
+	public BBSBuildOrder(BuildCommand target, CommandAgent commandAgent) throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 	}
 

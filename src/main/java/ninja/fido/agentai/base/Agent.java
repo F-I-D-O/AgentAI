@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 public abstract class Agent {
 
@@ -119,7 +120,7 @@ public abstract class Agent {
 	
 	
 
-    public final void run() throws Exception {
+    public final void run() throws CannotDecideException, NoActionChosenException, ChainOfCommandViolationException {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
 		if(!initialized){
 			initialize();

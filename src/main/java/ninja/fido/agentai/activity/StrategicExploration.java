@@ -19,6 +19,7 @@ import ninja.fido.agentai.order.ExploreBaseLocationOrder;
 import ninja.fido.agentai.order.MoveOrder;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -36,7 +37,7 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
     }
 
     @Override
-    public void performAction() {
+    public void performAction() throws ChainOfCommandViolationException {
 //        Log.log(this, Level.FINE, "{0}:{1} Number of subordinate Agents: {2}", this.getClass(), getAgent().getClass(),
 //                ((CommandAgent) getAgent()).getCommandedAgents().size());
 		for (Agent subordinateAgent :  getAgent().getCommandedAgents()) {

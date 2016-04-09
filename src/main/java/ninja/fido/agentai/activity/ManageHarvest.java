@@ -13,6 +13,7 @@ import ninja.fido.agentai.order.HarvestMineralsOrder;
 import ninja.fido.agentai.goal.HarvestMineralsGoal;
 import java.util.List;
 import java.util.Objects;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -29,7 +30,7 @@ public class ManageHarvest<A extends ResourceCommand> extends CommandActivity<A,
     }
 
     @Override
-    public void performAction() {
+    public void performAction() throws ChainOfCommandViolationException {
 		List<SCV> scvs = getAgent().getCommandedAgents(SCV.class);
         for (SCV scv : scvs) {
 			if(!(scv.getGoal() instanceof HarvestMineralsGoal)){

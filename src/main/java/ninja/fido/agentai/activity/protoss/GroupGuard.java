@@ -19,6 +19,7 @@ import ninja.fido.agentai.info.PositionChosenInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
@@ -77,7 +78,7 @@ public class GroupGuard extends UnitActivity<Zealot, GroupGuardGoal>{
 	
 
 	@Override
-	protected void performAction() {
+	protected void performAction() throws ChainOfCommandViolationException {
 		if(zealotPositions == null 
 				|| (!vip.getUnit().getPosition().equals(lastVipPosition) && GameAPI.getFrameCount() % 10 == 0)){
 			computeZealotPositions(guards, vip.getUnit().getPosition(), direction);

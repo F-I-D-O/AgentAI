@@ -11,6 +11,7 @@ import ninja.fido.agentai.agent.unit.Larva;
 import ninja.fido.agentai.base.CommandAgent;
 import ninja.fido.agentai.base.GoalOrder;
 import java.util.logging.Level;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -20,7 +21,8 @@ public class LarvaMorph extends GoalOrder{
 	
 	private final Larva.MorphOption morphOption;
 
-	public LarvaMorph(Larva target, CommandAgent commandAgent, Larva.MorphOption morphOption) {
+	public LarvaMorph(Larva target, CommandAgent commandAgent, Larva.MorphOption morphOption)
+			throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 		this.morphOption = morphOption;
 	}

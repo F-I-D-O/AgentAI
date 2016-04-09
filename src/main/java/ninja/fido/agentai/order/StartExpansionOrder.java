@@ -6,11 +6,11 @@
 package ninja.fido.agentai.order;
 
 import bwapi.Position;
-import bwapi.TilePosition;
 import bwapi.UnitType;
 import ninja.fido.agentai.agent.unit.Worker;
 import ninja.fido.agentai.base.CommandAgent;
 import ninja.fido.agentai.base.GoalOrder;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentai.goal.StartExpansionGoal;
 
 /**
@@ -33,7 +33,7 @@ public class StartExpansionOrder extends GoalOrder{
 //	}
 	
 	public StartExpansionOrder(Worker target, CommandAgent commandAgent, UnitType expansionBuilding, 
-			Position expansionPosition) {
+			Position expansionPosition) throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 		this.expansionPosition = expansionPosition;
 		this.expansionBuildingType = expansionBuilding;

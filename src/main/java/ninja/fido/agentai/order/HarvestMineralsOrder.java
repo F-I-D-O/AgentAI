@@ -8,6 +8,7 @@ package ninja.fido.agentai.order;
 import ninja.fido.agentai.base.CommandAgent;
 import ninja.fido.agentai.agent.unit.SCV;
 import ninja.fido.agentai.base.GoalOrder;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentai.goal.HarvestMineralsGoal;
 
 /**
@@ -16,7 +17,7 @@ import ninja.fido.agentai.goal.HarvestMineralsGoal;
  */
 public class HarvestMineralsOrder extends GoalOrder{
 
-	public HarvestMineralsOrder(SCV target, CommandAgent commandAgent) {
+	public HarvestMineralsOrder(SCV target, CommandAgent commandAgent) throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 	}
 

@@ -10,6 +10,7 @@ import bwapi.UnitType;
 import ninja.fido.agentai.base.CommandAgent;
 import ninja.fido.agentai.agent.unit.Worker;
 import ninja.fido.agentai.base.GoalOrder;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentai.goal.ConstructBuildingGoal;
 
 /**
@@ -23,7 +24,7 @@ public class ConstructBuildingOrder extends GoalOrder{
 	private final TilePosition placeToBuildOn;
 
 	public ConstructBuildingOrder(Worker target, CommandAgent commandAgent, UnitType buildingType, 
-			TilePosition placeToBuildOn) {
+			TilePosition placeToBuildOn) throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 		this.buildingType = buildingType;
 		this.placeToBuildOn = placeToBuildOn;

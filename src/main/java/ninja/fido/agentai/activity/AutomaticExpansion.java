@@ -13,6 +13,7 @@ import ninja.fido.agentai.agent.FullCommander;
 import ninja.fido.agentai.agent.unit.Worker;
 import ninja.fido.agentai.base.CommandActivity;
 import ninja.fido.agentai.base.Order;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentai.base.exception.CommanderNotCreatedException;
 import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentai.goal.AutomaticExpansionGoal;
@@ -56,7 +57,7 @@ public class AutomaticExpansion extends CommandActivity<ExpansionCommand, Automa
 	}
 
 	@Override
-	protected void performAction() {
+	protected void performAction() throws ChainOfCommandViolationException {
 		Worker worker;
 		if(agent.getNextExpansionPosition() == null && !expansionRequestSended){
 			try {

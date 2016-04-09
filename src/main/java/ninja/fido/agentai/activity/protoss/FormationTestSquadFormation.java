@@ -19,6 +19,7 @@ import ninja.fido.agentai.order.MoveOrder;
 import ninja.fido.agentai.base.UniversalGoalOrder;
 import java.util.ArrayList;
 import java.util.List;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
@@ -53,7 +54,7 @@ public class FormationTestSquadFormation extends CommandActivity<SquadCommander,
 	}
 
 	@Override
-	protected void performAction() {
+	protected void performAction() throws ChainOfCommandViolationException {
 		List<Zealot> zealots = agent.getCommandedAgents(Zealot.class);
 		HighTemplar highTemplar = agent.getCommandedAgent(HighTemplar.class);
 		
@@ -101,7 +102,8 @@ public class FormationTestSquadFormation extends CommandActivity<SquadCommander,
 			int i = 0;
 			for (Zealot zealot : zealots) {
 				if(!zealotsOnPosition.contains(zealot)){
-					new UniversalGoalOrder(zealot, agent, new MoveGoal(zealot, null, zealotPositions.get(i), 5)).issueOrder();
+					new UniversalGoalOrder(zealot, agent, 
+							new MoveGoal(zealot, null, zealotPositions.get(i), 5)).issueOrder();
 				}
 				GameAPI.getGame().drawCircleMap(zealotPositions.get(i), 5, Color.Blue, true);
 				i++;

@@ -9,6 +9,7 @@ import ninja.fido.agentai.base.Order;
 import ninja.fido.agentai.base.Agent;
 import ninja.fido.agentai.base.CommandAgent;
 import java.util.List;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -34,21 +35,24 @@ public class DetachBack extends Order{
 	
 	
 	
-	public DetachBack(CommandAgent target, CommandAgent commandAgent) {
+	public DetachBack(CommandAgent target, CommandAgent commandAgent) throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 	}
 	
-	public DetachBack(CommandAgent target, CommandAgent commandAgent, Class agentType) {
+	public DetachBack(CommandAgent target, CommandAgent commandAgent, Class agentType) 
+			throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 		this.agentType = agentType;
 	}
 	
-	public DetachBack(CommandAgent target, CommandAgent commandAgent, Class agentType, boolean idleOnly) {
+	public DetachBack(CommandAgent target, CommandAgent commandAgent, Class agentType, boolean idleOnly) 
+			throws ChainOfCommandViolationException {
 		this(target, commandAgent, agentType);
 		this.idleOnly = idleOnly;
 	}
 	
-	public DetachBack(CommandAgent target, CommandAgent commandAgent, Class agentType, int numberOfUnits) {
+	public DetachBack(CommandAgent target, CommandAgent commandAgent, Class agentType, int numberOfUnits) 
+			throws ChainOfCommandViolationException {
 		this(target, commandAgent, agentType);
 		this.numberOfUnits = numberOfUnits;
 	}

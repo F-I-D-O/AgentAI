@@ -8,6 +8,7 @@ package ninja.fido.agentai.order;
 import ninja.fido.agentai.base.CommandAgent;
 import ninja.fido.agentai.agent.ResourceCommand;
 import ninja.fido.agentai.base.GoalOrder;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentai.goal.HarvestGoal;
 
 /**
@@ -18,7 +19,8 @@ public class HarvestOrder extends GoalOrder{
 	
 	private final double mineralShare;
 
-	public HarvestOrder(ResourceCommand target, CommandAgent commandAgent, double mineralShare) {
+	public HarvestOrder(ResourceCommand target, CommandAgent commandAgent, double mineralShare) 
+			throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 		this.mineralShare = mineralShare;
 	}

@@ -19,6 +19,7 @@ import ninja.fido.agentai.info.CodeMessageInfo;
 import ninja.fido.agentai.order.LarvaMorph;
 import ninja.fido.agentai.request.ResourceRequest;
 import java.util.List;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -52,7 +53,7 @@ public class OutbreakProduction extends CommandActivity<LarvaCommand, Goal>
 	
 
 	@Override
-	protected void performAction() {
+	protected void performAction() throws ChainOfCommandViolationException {
 		List<Larva> larvas = agent.getCommandedAgents(Larva.class);
 		
 		UnitType unitToBuild;

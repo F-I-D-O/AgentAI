@@ -11,10 +11,9 @@ import ninja.fido.agentai.agent.unit.Barracks;
 import ninja.fido.agentai.base.CommandActivity;
 import ninja.fido.agentai.agent.ProductionCommand;
 import ninja.fido.agentai.base.Goal;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentai.goal.AutomaticProductionGoal;
 import ninja.fido.agentai.order.AutomaticProductionOrder;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -34,7 +33,7 @@ public class BBSProduction extends CommandActivity<ProductionCommand,Goal>{
 	
 
 	@Override
-	protected void performAction() {
+	protected void performAction() throws ChainOfCommandViolationException {
 		for (Barracks barracks : agent.getBarracks()) {
 			if(!(barracks.getGoal() instanceof AutomaticProductionGoal)){
 				new AutomaticProductionOrder(barracks, agent).issueOrder();

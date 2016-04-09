@@ -14,6 +14,7 @@ import ninja.fido.agentai.decisionStorage.StorableDecisionModuleActivity;
 import ninja.fido.agentai.goal.SquadAttackMoveGoal;
 import ninja.fido.agentai.order.AttackMoveOrder;
 import java.util.List;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -43,7 +44,7 @@ public class NormalSquadAttackMove extends SquadAttackMove
 	
 	
 	@Override
-	protected void performAction() {
+	protected void performAction() throws ChainOfCommandViolationException {
 		List<Marine> marines = agent.getCommandedAgents(Marine.class);
 		if(marines.size() >= minSquadSize){
 			for (Marine marine : marines) {

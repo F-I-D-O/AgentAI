@@ -14,6 +14,7 @@ import ninja.fido.agentai.base.Goal;
 import ninja.fido.agentai.goal.ActivityGoal;
 import ninja.fido.agentai.base.UniversalGoalOrder;
 import java.util.List;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -39,7 +40,7 @@ public class FormationTestStrategy extends CommandActivity<FullCommander, Goal>{
 	}
 
 	@Override
-	protected void init() {
+	protected void init() throws ChainOfCommandViolationException {
 		squadCommander = new SquadCommander();
 		GameAPI.addAgent(squadCommander, agent);
 //		new UniversalGoalOrder(squadCommander, agent, 

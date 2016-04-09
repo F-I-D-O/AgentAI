@@ -9,12 +9,11 @@ import bwapi.Position;
 import bwapi.Unit;
 import ninja.fido.agentai.agent.unit.Marine;
 import ninja.fido.agentai.agent.SquadCommander;
-import ninja.fido.agentai.base.Agent;
-import ninja.fido.agentai.base.Goal;
 import ninja.fido.agentai.decisionStorage.StorableDecisionModuleActivity;
 import ninja.fido.agentai.goal.SquadAttackMoveGoal;
 import ninja.fido.agentai.order.AttackMoveOrder;
 import java.util.List;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -39,7 +38,7 @@ public class ASAPSquadAttackMove extends SquadAttackMove
 	}
 	
 	@Override
-	protected void performAction() {
+	protected void performAction() throws ChainOfCommandViolationException {
 		List<Marine> marines = agent.getCommandedAgents(Marine.class);
 		Unit unit;
 		for (Marine marine : marines) {

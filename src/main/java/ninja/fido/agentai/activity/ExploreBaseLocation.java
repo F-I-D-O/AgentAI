@@ -15,6 +15,7 @@ import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentai.goal.ExploreBaseLocationGoal;
 import ninja.fido.agentai.info.LocationExploredInfo;
 import java.util.Objects;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -50,7 +51,7 @@ public class ExploreBaseLocation<A extends UnitAgent & Scout> extends UnitActivi
 	
 	
     @Override
-    public void performAction() {
+    public void performAction() throws ChainOfCommandViolationException {
         if(locationExplored){
             runChildActivity(new Move(agent, GameAPI.getGame().self().getStartLocation().toPosition()));
         }

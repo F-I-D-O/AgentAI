@@ -8,6 +8,7 @@ package ninja.fido.agentai.order;
 import ninja.fido.agentai.agent.ExplorationCommand;
 import ninja.fido.agentai.base.CommandAgent;
 import ninja.fido.agentai.base.GoalOrder;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentai.goal.StrategicExplorationGoal;
 
 /**
@@ -16,7 +17,8 @@ import ninja.fido.agentai.goal.StrategicExplorationGoal;
  */
 public class StrategicExplorationOrder extends GoalOrder{
 
-	public StrategicExplorationOrder(ExplorationCommand target, CommandAgent commandAgent) {
+	public StrategicExplorationOrder(ExplorationCommand target, CommandAgent commandAgent) 
+			throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 	}
 

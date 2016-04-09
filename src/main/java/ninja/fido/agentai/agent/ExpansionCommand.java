@@ -31,6 +31,7 @@ import ninja.fido.agentai.order.StartExpansionOrder;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.TreeMap;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -144,7 +145,7 @@ public class ExpansionCommand extends CommandAgent
 		}
 	}
 
-	public void startExpansion(UnitType expansionBuildingType, Worker worker) {
+	public void startExpansion(UnitType expansionBuildingType, Worker worker) throws ChainOfCommandViolationException {
 //		TilePosition buildingPosition = findPositionForBuild(expansionBuildingType, worker);
 		new StartExpansionOrder(worker, this, expansionBuildingType, nextExpansionPosition).issueOrder();
 		nextExpansionPosition = null;

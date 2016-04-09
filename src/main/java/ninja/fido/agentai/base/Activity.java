@@ -7,6 +7,7 @@ package ninja.fido.agentai.base;
 
 import ninja.fido.agentai.Log;
 import java.util.logging.Level;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -44,7 +45,7 @@ public abstract class Activity<A extends Agent,G extends Goal> {
 	
 
 	   
-    public final void run(){
+    public final void run() throws ChainOfCommandViolationException{
         Log.log(this, Level.FINE, "{0}: run() START", this.getClass());
         if(childActivity != null){
             childActivity.run();
@@ -63,9 +64,9 @@ public abstract class Activity<A extends Agent,G extends Goal> {
 	public abstract boolean equals(Object obj);
 	
     
-	protected abstract void performAction();
+	protected abstract void performAction() throws ChainOfCommandViolationException;
 	
-	protected abstract void init();
+	protected abstract void init() throws ChainOfCommandViolationException;
 	
     protected final void finish(){
         if(parrentActivity != null){
@@ -87,7 +88,7 @@ public abstract class Activity<A extends Agent,G extends Goal> {
 //        performAction(); not needet, because frame rate is high enough
     }
     
-    protected void runChildActivity(Activity childAction){
+    protected void runChildActivity(Activity childAction) throws ChainOfCommandViolationException{
 		if(!childAction.equals(this.childActivity)){
 			Log.log(this, Level.FINE, "{0}: Child action replaced. Old: {1}, new: {2}", this.getClass(), 
 					this.childActivity, childAction.getClass());

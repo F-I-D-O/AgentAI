@@ -15,6 +15,7 @@ import ninja.fido.agentai.base.GameAPI;
 import ninja.fido.agentai.base.Goal;
 import ninja.fido.agentai.order.SquadAttackMoveOrder;
 import java.util.List;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -51,7 +52,7 @@ public class BBSAttack extends CommandActivity<UnitCommand,Goal>{
 	
 
 	@Override
-	protected void performAction() {
+	protected void performAction() throws ChainOfCommandViolationException {
 		List<Marine> marines = agent.getCommandedAgents(Marine.class);
 		agent.detachCommandedAgents(marines, squadCommander);
 		

@@ -5,13 +5,15 @@
  */
 package ninja.fido.agentai.base;
 
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
+
 /**
  *
  * @author F.I.D.O.
  */
 public abstract class GoalOrder extends Order {
 
-	public GoalOrder(Agent target, CommandAgent commandAgent) {
+	public GoalOrder(Agent target, CommandAgent commandAgent) throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 	}
 	

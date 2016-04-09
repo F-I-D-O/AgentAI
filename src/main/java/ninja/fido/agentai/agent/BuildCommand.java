@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 
 /**
  *
@@ -83,7 +85,7 @@ public class BuildCommand extends CommandAgent{
         return numberOfMissingWorkers > 0;
     }
     
-    public BuildCommandState automaticBuild() throws ResourceDeficiencyException{
+    public BuildCommandState automaticBuild(){
         if(buildPlans.isEmpty()){
             return BuildCommandState.OK;
         }
@@ -103,21 +105,29 @@ public class BuildCommand extends CommandAgent{
                 return BuildCommandState.MISSING_WORKERS;
             }
 
-            commandBuildingConstruction(buildPlan);
+			try {
+				commandBuildingConstruction(buildPlan);
+			} catch (ChainOfCommandViolationException ex) {
+				ex.printStackTrace();
+			} catch (ResourceDeficiencyException ex) {
+				ex.printStackTrace();
+			}
 			iterator.remove();
         }
         
         return BuildCommandState.OK;
     }
 
-    public void commandBuildingConstruction(BuildPlan buildPlan) throws ResourceDeficiencyException{        
+    public void commandBuildingConstruction(BuildPlan buildPlan) throws ResourceDeficiencyException,
+			ChainOfCommandViolationException{        
 		Log.log(this, Level.INFO, "{0}: Building construction commanded: {1}", this.getClass(), 
 				buildPlan.getBuildingType().getClass());
 		Worker worker = freeWorkers.poll();
 		commandBuildingConstruction(buildPlan.getBuildingType(), worker);
     }
 	
-	public void commandBuildingConstruction(UnitType buildingType, Worker worker) throws ResourceDeficiencyException{        
+	public void commandBuildingConstruction(UnitType buildingType, Worker worker) 
+			throws ResourceDeficiencyException, ChainOfCommandViolationException{        
 		Log.log(this, Level.INFO, "{0}: Building construction commanded: {1}", this.getClass(), 
 				buildingType.getClass());
 		TilePosition buildingPlace = findPositionForBuild(buildingType, worker);
