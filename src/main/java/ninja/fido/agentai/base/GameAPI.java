@@ -412,10 +412,10 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			// commander init
 //			commander = new Commander();
 			if(game.self().getRace() == Race.Zerg){
-				commander = new ZergCommander();
+				commander = ZergCommander.create("Zerg");
 			}
 			else{
-				commander = new FullCommander();
+				commander = FullCommander.create("Full");
 			}
 			commanderStatic = commander;
 			agents.add(commander);
@@ -597,7 +597,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	}
 
 	private void registerDecisionMakingAgentTypes() {
-		decisionModule.registerAgentClass(new FullCommander());
+		decisionModule.registerCommanderType(FullCommander.class, FullCommander.getDefaultDecisionTablesMapStatic());
 		decisionModule.registerAgentClass(new SquadCommander());
 	}
 

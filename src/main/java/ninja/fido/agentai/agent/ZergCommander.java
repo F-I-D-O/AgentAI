@@ -7,7 +7,6 @@ package ninja.fido.agentai.agent;
 
 
 import ninja.fido.agentai.activity.zerg.OutbreakStrategy;
-import ninja.fido.agentai.base.Activity;
 import ninja.fido.agentai.base.GameAPI;
 import ninja.fido.agentai.base.Goal;
 import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
@@ -16,6 +15,8 @@ import ninja.fido.agentai.decisionMaking.DecisionTablesMapKey;
 import ninja.fido.agentai.decisionMaking.GoalParameter;
 import ninja.fido.agentai.goal.OutbreakStrategyGoal;
 import java.util.TreeMap;
+import ninja.fido.agentai.base.exception.CommanderNotCreatedException;
+import ninja.fido.agentai.base.exception.MultipleCommandersException;
 
 /**
  *
@@ -23,11 +24,30 @@ import java.util.TreeMap;
  */
 public class ZergCommander extends FullCommander{
 	
+	private static ZergCommander zergCommander;
+	
+	
+	
+	public static ZergCommander create(String name) throws MultipleCommandersException{
+		zergCommander = new ZergCommander(name);
+		return zergCommander;
+	}
+	
+	public static ZergCommander get() throws CommanderNotCreatedException{
+		if(zergCommander == null){
+			throw new CommanderNotCreatedException(ZergCommander.class);
+		}
+		return zergCommander;
+	}
+	
+	
+	
 	public final LarvaCommand larvaCommand;
 	
 	public final ExpansionCommand expansionCommand;
 	
-	public ZergCommander() {
+	protected ZergCommander(String name) throws MultipleCommandersException {
+		super(name);
 		larvaCommand = new LarvaCommand();
 		GameAPI.addAgent(larvaCommand, this);
 		

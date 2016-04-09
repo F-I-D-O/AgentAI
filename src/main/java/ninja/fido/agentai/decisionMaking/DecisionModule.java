@@ -11,19 +11,20 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import ninja.fido.agentai.agent.Commander;
 
 /**
  *
  * @author F.I.D.O.
  */
 public class DecisionModule {
-	private final Set<Class<? extends Agent>> registeredAgents;
+	private final Set<Class<? extends Agent>> registeredAgentsTypes;
 	
 	private final Map<Class<? extends Agent>,Map<DecisionTablesMapKey,DecisionTable>> decisionSettings;
 
 	public DecisionModule() {
 		decisionSettings = new HashMap<>();
-		registeredAgents = new HashSet<>();
+		registeredAgentsTypes = new HashSet<>();
 	}
 	
 		
@@ -46,14 +47,22 @@ public class DecisionModule {
 	}
 	
 	public boolean isDecisionMakingOn(Agent agent){
-		return registeredAgents.contains(agent.getClass());
+		return registeredAgentsTypes.contains(agent.getClass());
 	}
 	
 	public void registerAgentClass(Agent agent){
-		registeredAgents.add(agent.getClass());
+		registeredAgentsTypes.add(agent.getClass());
 		Map<DecisionTablesMapKey,DecisionTable> decisionTablesMap = agent.getDefaultDecisionTablesMap();
 		if(decisionTablesMap != null){
 			addDecisionTablesMap(agent.getClass(), decisionTablesMap);
+		}
+	}
+	
+	public void registerCommanderType(Class<? extends Commander> commanderClass, 
+			Map<DecisionTablesMapKey,DecisionTable> decisionTablesMap){
+		registeredAgentsTypes.add(commanderClass);
+		if(decisionTablesMap != null){
+			addDecisionTablesMap(commanderClass, decisionTablesMap);
 		}
 	}
 	

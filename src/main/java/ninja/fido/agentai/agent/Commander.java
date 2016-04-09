@@ -3,7 +3,6 @@ package ninja.fido.agentai.agent;
 import ninja.fido.agentai.BaseLocationInfo;
 import ninja.fido.agentai.base.CommandAgent;
 import ninja.fido.agentai.base.GameAPI;
-import ninja.fido.agentai.Log;
 import ninja.fido.agentai.Resource;
 import ninja.fido.agentai.ResourceDeficiencyException;
 import ninja.fido.agentai.base.Activity;
@@ -15,9 +14,28 @@ import ninja.fido.agentai.goal.BBSStrategyGoal;
 import ninja.fido.agentai.info.EnemyBaseDiscovered;
 import ninja.fido.agentai.base.Info;
 import java.util.ArrayList;
-import java.util.logging.Level;
+import ninja.fido.agentai.base.exception.CommanderNotCreatedException;
+import ninja.fido.agentai.base.exception.MultipleCommandersException;
 
 public class Commander extends CommandAgent {
+	
+	private static Class<? extends Commander> commanderClass;
+	
+	private static Commander commander;
+	
+	public static Commander create(String name) throws MultipleCommandersException{
+		commander = new Commander(name);
+		return commander;
+	}
+	
+	public static Commander get() throws CommanderNotCreatedException{
+		if(commander == null){
+			throw new CommanderNotCreatedException(Commander.class);
+		}
+		return commander;
+	}
+	
+	
 	    
     private int reservedMinerals;
     
@@ -26,6 +44,8 @@ public class Commander extends CommandAgent {
 	private int reservedSupply;
 	
 	private final ArrayList<BaseLocationInfo> enemyBases;
+	
+	private final String name;
 
 	public ArrayList<BaseLocationInfo> getEnemyBases() {
 		return enemyBases;
@@ -33,11 +53,18 @@ public class Commander extends CommandAgent {
 	
 	
 	
-	
 
-    public Commander() {
+    protected Commander(String name) throws MultipleCommandersException {
 		enemyBases = new ArrayList<>();
+		this.name = name;
+		if(commanderClass != null){
+			throw new MultipleCommandersException(commanderClass, this.getClass());
+		}
+		commanderClass = this.getClass();
     }
+	
+	
+	
 
     @Override
     protected Activity chooseAction() {

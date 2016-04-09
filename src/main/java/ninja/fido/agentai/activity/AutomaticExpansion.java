@@ -6,11 +6,14 @@
 package ninja.fido.agentai.activity;
 
 import bwapi.UnitType;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ninja.fido.agentai.agent.ExpansionCommand;
 import ninja.fido.agentai.agent.FullCommander;
 import ninja.fido.agentai.agent.unit.Worker;
 import ninja.fido.agentai.base.CommandActivity;
 import ninja.fido.agentai.base.Order;
+import ninja.fido.agentai.base.exception.CommanderNotCreatedException;
 import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentai.goal.AutomaticExpansionGoal;
 import ninja.fido.agentai.request.ExpansionInfoRequest;
@@ -56,7 +59,11 @@ public class AutomaticExpansion extends CommandActivity<ExpansionCommand, Automa
 	protected void performAction() {
 		Worker worker;
 		if(agent.getNextExpansionPosition() == null && !expansionRequestSended){
-			new ExpansionInfoRequest(FullCommander.get().explorationCommand, agent).send();
+			try {
+				new ExpansionInfoRequest(FullCommander.get().explorationCommand, agent).send();
+			} catch (CommanderNotCreatedException ex) {
+				ex.printStackTrace();
+			}
 			expansionRequestSended = true;
 		}
 		else if(agent.getNextExpansionPosition() != null && (worker = agent.getWorker()) != null){

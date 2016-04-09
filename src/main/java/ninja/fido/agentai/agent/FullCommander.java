@@ -21,6 +21,8 @@ import ninja.fido.agentai.goal.DefaultProtossStrategyGoal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import ninja.fido.agentai.base.exception.CommanderNotCreatedException;
+import ninja.fido.agentai.base.exception.MultipleCommandersException;
 
 /**
  *
@@ -30,61 +32,22 @@ public class FullCommander extends Commander{
 	
 	private static FullCommander fullCommander;
 	
-	public static FullCommander get(){
+	
+	
+	public static FullCommander create(String name) throws MultipleCommandersException{
+		fullCommander = new FullCommander(name);
 		return fullCommander;
 	}
 	
-	
-	
-	
-	
-	public ExplorationCommand explorationCommand;
-	
-	public ResourceCommand resourceCommand;
-
-	public BuildCommand buildCommand;
-	
-	
-	
-	public ExplorationCommand getExplorationCommand() {
-		return explorationCommand;
-	}
-
-	
-	
-	
-	public FullCommander() {
-		
+	public static FullCommander get() throws CommanderNotCreatedException{
+		if(fullCommander == null){
+			throw new CommanderNotCreatedException(FullCommander.class);
+		}
+		return fullCommander;
 	}
 	
-	
-	
-	
-	@Override
-	protected Goal getDefaultGoal() {
-		return (GameAPI.getGame().self().getRace().equals(Race.Terran) ? new BBSStrategyGoal(this, null)
-				: new DefaultProtossStrategyGoal(this, null));
-	}
 
-	@Override
-	protected void initialize() {
-		explorationCommand = new ExplorationCommand();
-		GameAPI.addAgent(explorationCommand, this);
-		resourceCommand = new ResourceCommand();
-		GameAPI.addAgent(resourceCommand, this);
-		buildCommand = new BuildCommand();
-		GameAPI.addAgent(buildCommand, this);
-		
-		fullCommander = this;
-	}
-
-	@Override
-	protected Activity chooseAction() {
-		return new FormationTestStrategy(this);
-	}
-
-	@Override
-	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
+	public static Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMapStatic() {
 		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();
 		
 //		TreeMap<Double,Activity> actionMap = new TreeMap<>();
@@ -113,6 +76,59 @@ public class FullCommander extends Commander{
 		
 		return defaultDecisionTablesMap;
 	}
+	
+	
+	
+	
+	
+	public ExplorationCommand explorationCommand;
+	
+	public ResourceCommand resourceCommand;
+
+	public BuildCommand buildCommand;
+
+
+	
+	
+	
+	private ExplorationCommand getExplorationCommand() {
+		return explorationCommand;
+	}
+
+	
+	
+	
+	protected FullCommander(String name) throws MultipleCommandersException {
+		super(name);
+	}
+
+	
+	
+	
+	@Override
+	protected Goal getDefaultGoal() {
+		return (GameAPI.getGame().self().getRace().equals(Race.Terran) ? new BBSStrategyGoal(this, null)
+				: new DefaultProtossStrategyGoal(this, null));
+	}
+
+	@Override
+	protected void initialize() {
+		explorationCommand = new ExplorationCommand();
+		GameAPI.addAgent(explorationCommand, this);
+		resourceCommand = new ResourceCommand();
+		GameAPI.addAgent(resourceCommand, this);
+		buildCommand = new BuildCommand();
+		GameAPI.addAgent(buildCommand, this);
+		
+		fullCommander = this;
+	}
+
+	@Override
+	protected Activity chooseAction() {
+		return new FormationTestStrategy(this);
+	}
+
+	
 	
 	
 }

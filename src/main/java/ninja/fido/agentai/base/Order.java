@@ -5,6 +5,8 @@
  */
 package ninja.fido.agentai.base;
 
+import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
+
 /**
  *
  * @author F.I.D.O.
@@ -18,7 +20,10 @@ public abstract class Order {
 	
 	
 	
-	public Order(Agent target, CommandAgent commandAgent) {
+	public Order(Agent target, CommandAgent commandAgent) throws ChainOfCommandViolationException {
+		if(!commandAgent.getCommandedAgents().contains(target)){
+			throw new ChainOfCommandViolationException(commandAgent, this, target);
+		}
 		this.target = target;
 		this.commandAgent = commandAgent;
 	}
