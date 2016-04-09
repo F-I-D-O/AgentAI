@@ -110,7 +110,7 @@ public abstract class Worker extends UnitAgent implements Scout {
 		constructedBuildingType = buildingType;
 	}
 
-	public void handleInvalidBuildPosition(TilePosition targetTilePosition, Unit unit) {
+	public void handleInvalidBuildPosition(TilePosition targetTilePosition) {
 		invalidBuildPositionFailure = true;
 	}
 

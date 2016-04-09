@@ -162,4 +162,85 @@
             </entry>
         </decisionTablesMap>
     </result>
+<result score="0" victory="false">
+        <decisionTablesMap agent="ninja.fido.agentai.agent.SquadCommander">
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentai.goal.SquadAttackMoveGoal"/>
+                </key>
+                <table>
+                    <row probability="0.2">
+                        <ASAPSquadAttackMove/>
+                    </row>
+                    <row probability="1.0">
+                        <normalSquadAttackMove/>
+                    </row>
+                </table>
+            </entry>
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentai.goal.WaitGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <wait/>
+                    </row>
+                </table>
+            </entry>
+        </decisionTablesMap>
+    </result>
+<result score="0" victory="false">
+        <decisionTablesMap agent="ninja.fido.agentai.agent.SquadCommander">
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentai.goal.SquadAttackMoveGoal"/>
+                </key>
+                <table>
+                    <row probability="0.2">
+                        <ASAPSquadAttackMove/>
+                    </row>
+                    <row probability="1.0">
+                        <normalSquadAttackMove/>
+                    </row>
+                </table>
+            </entry>
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentai.goal.WaitGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <wait/>
+                    </row>
+                </table>
+            </entry>
+        </decisionTablesMap>
+    </result>
+<result score="0" victory="false">
+        <decisionTablesMap agent="ninja.fido.agentai.agent.SquadCommander">
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentai.goal.SquadAttackMoveGoal"/>
+                </key>
+                <table>
+                    <row probability="0.2">
+                        <ASAPSquadAttackMove/>
+                    </row>
+                    <row probability="1.0">
+                        <normalSquadAttackMove/>
+                    </row>
+                </table>
+            </entry>
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentai.goal.WaitGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <wait/>
+                    </row>
+                </table>
+            </entry>
+        </decisionTablesMap>
+    </result>
 </results>
