@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentai.learning;
+package ninja.fido.agentai.modules.learning;
 
-import ninja.fido.agentai.decisionStorage.DecisionStorageModule;
+import ninja.fido.agentai.modules.decisionStorage.DecisionStorageModule;
 import ninja.fido.agentai.GameResult;
 import ninja.fido.agentai.UnitDecisionSetting;
 import ninja.fido.agentai.agent.SquadCommander;
 import ninja.fido.agentai.base.Agent;
 import ninja.fido.agentai.base.GameAPI;
-import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
-import ninja.fido.agentai.decisionMaking.DecisionTable;
-import ninja.fido.agentai.decisionMaking.DecisionTablesMapKey;
-import ninja.fido.agentai.decisionMaking.DecisionTablesMapParameter;
-import ninja.fido.agentai.decisionStorage.StorableDecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTable;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTablesMapKey;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTablesMapParameter;
+import ninja.fido.agentai.modules.decisionStorage.StorableDecisionModuleActivity;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,6 +40,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import ninja.fido.agentai.base.GameApiModule;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -49,7 +52,7 @@ import org.xml.sax.SAXException;
  *
  * @author F.I.D.O.
  */
-public class LearningModule {
+public class LearningModule implements GameApiModule{
 	
 	private static final String RESULTS_FILE = "result.json";
 	
@@ -256,6 +259,24 @@ public class LearningModule {
 		}
 	}
 
+	@Override
+	public void beforeGameStart() {
+		try {
+			processResults();
+		} catch (SAXException | IOException | ParserConfigurationException | ClassNotFoundException 
+				| TransformerException | XPathExpressionException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onGameEnd(boolean winner, int score) {
+		try {
+			saveResult(winner, score);
+		} catch (ParserConfigurationException | SAXException | IOException | TransformerException ex) {
+			ex.printStackTrace();
+		}
+	}
 	
 
 }

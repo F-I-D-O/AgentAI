@@ -5,7 +5,7 @@
  */
 package ninja.fido.agentai.base.exception;
 
-import ninja.fido.agentai.agent.Commander;
+import ninja.fido.agentai.base.Commander;
 
 /**
  *

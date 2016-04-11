@@ -5,7 +5,7 @@ import ninja.fido.agentai.base.GameAPI;
 import bwapi.Unit;
 import ninja.fido.agentai.agent.unit.Worker;
 import ninja.fido.agentai.base.Goal;
-import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModuleActivity;
 
 public class HarvestMinerals<A extends Worker,G extends Goal> extends UnitActivity<A,G> 
 		implements DecisionModuleActivity<A, G, HarvestMinerals>{

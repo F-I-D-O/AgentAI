@@ -1,13 +1,13 @@
 package ninja.fido.agentai.base;
 
-import ninja.fido.agentai.decisionMaking.CannotDecideException;
-import ninja.fido.agentai.decisionMaking.DecisionTable;
+import ninja.fido.agentai.modules.decisionMaking.CannotDecideException;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTable;
 import ninja.fido.agentai.Log;
 import ninja.fido.agentai.ResourceType;
 import ninja.fido.agentai.NoActionChosenException;
 import ninja.fido.agentai.Resource;
 import ninja.fido.agentai.ResourceDeficiencyException;
-import ninja.fido.agentai.decisionMaking.DecisionTablesMapKey;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTablesMapKey;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Map;
@@ -99,22 +99,26 @@ public abstract class Agent {
 	
 	public Agent() {
 		assigned = false;
+		reasoningOn = false;
+		goalChanged = true;
+		initialized = false;
 		commandQueue = new ArrayDeque<>();
+		infoQue = new ArrayDeque<>();
+		sendRequests = new ArrayList<>();
+		
+		// resources init
 		minerals = new Resource(this, GameAPI.getCommander(), ResourceType.MINERALS, 0);
 		gas = new Resource(this, GameAPI.getCommander(), ResourceType.GAS, 0);
 		supply = new Resource(this, GameAPI.getCommander(), ResourceType.SUPPLY, 0);
 		receivedMineralsTotal = 0;
 		receivedMineralsTotal = 0;
-		infoQue = new ArrayDeque<>();
-		reasoningOn = false;
+		
+		// decision making
 		if(GameAPI.isDecisionMakingOn(this)){
 			decisionTablesMap = GameAPI.getDecisionTablesMap(getClass());
 			setReferenceKey();
 			reasoningOn = true;
 		}
-		goalChanged = true;
-		initialized = false;
-		sendRequests = new ArrayList<>();
 	}
 	
 	

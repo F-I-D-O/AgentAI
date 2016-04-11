@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentai.decisionStorage;
+package ninja.fido.agentai.modules.decisionStorage;
 
 import ninja.fido.agentai.base.Activity;
 import ninja.fido.agentai.base.Agent;
 import ninja.fido.agentai.base.Goal;
-import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModuleActivity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

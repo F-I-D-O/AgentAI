@@ -5,7 +5,7 @@
  */
 package ninja.fido.agentai;
 
-import ninja.fido.agentai.agent.Commander;
+import ninja.fido.agentai.base.Commander;
 import ninja.fido.agentai.base.Agent;
 import java.util.logging.Level;
 

@@ -1,18 +1,12 @@
-package ninja.fido.agentai.agent;
+package ninja.fido.agentai.base;
 
 import ninja.fido.agentai.BaseLocationInfo;
-import ninja.fido.agentai.base.CommandAgent;
-import ninja.fido.agentai.base.GameAPI;
 import ninja.fido.agentai.Resource;
 import ninja.fido.agentai.ResourceDeficiencyException;
-import ninja.fido.agentai.base.Activity;
 import ninja.fido.agentai.activity.terran.BBSStrategy;
 import ninja.fido.agentai.ResourceType;
-import ninja.fido.agentai.base.Agent;
-import ninja.fido.agentai.base.Goal;
 import ninja.fido.agentai.goal.BBSStrategyGoal;
 import ninja.fido.agentai.info.EnemyBaseDiscovered;
-import ninja.fido.agentai.base.Info;
 import java.util.ArrayList;
 import ninja.fido.agentai.base.exception.CommanderNotCreatedException;
 import ninja.fido.agentai.base.exception.MultipleCommandersException;
@@ -33,6 +27,10 @@ public class Commander extends CommandAgent {
 			throw new CommanderNotCreatedException(Commander.class);
 		}
 		return commander;
+	}
+	
+	static void onEnd(){
+		commanderClass = null;
 	}
 	
 	

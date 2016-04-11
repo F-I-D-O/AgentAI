@@ -13,7 +13,7 @@ import ninja.fido.agentai.base.Activity;
 import ninja.fido.agentai.base.GameAPI;
 import ninja.fido.agentai.base.Goal;
 import ninja.fido.agentai.base.UnitActivity;
-import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentai.goal.ConstructBuildingGoal;
 import java.util.Objects;
 

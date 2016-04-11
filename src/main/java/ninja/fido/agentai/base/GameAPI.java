@@ -11,10 +11,10 @@ import bwapi.UnitType;
 import ninja.fido.agentai.bwapiCommandInterface.BWAPICommandInterface;
 import ninja.fido.agentai.bwapiCommandInterface.DefaultBWAPICommandInterface;
 import ninja.fido.agentai.BuildingPlacer;
-import ninja.fido.agentai.decisionStorage.DecisionStorageModule;
+import ninja.fido.agentai.modules.decisionStorage.DecisionStorageModule;
 import ninja.fido.agentai.EventEngine;
 import ninja.fido.agentai.EventEngineListener;
-import ninja.fido.agentai.learning.LearningModule;
+import ninja.fido.agentai.modules.learning.LearningModule;
 import ninja.fido.agentai.Log;
 import ninja.fido.agentai.MapTools;
 import ninja.fido.agentai.MorphableUnit;
@@ -25,7 +25,6 @@ import ninja.fido.agentai.activity.ASAPSquadAttackMove;
 import ninja.fido.agentai.activity.NormalSquadAttackMove;
 import ninja.fido.agentai.activity.Wait;
 import ninja.fido.agentai.agent.unit.Barracks;
-import ninja.fido.agentai.agent.Commander;
 import ninja.fido.agentai.agent.unit.Drone;
 import ninja.fido.agentai.agent.FullCommander;
 import ninja.fido.agentai.agent.unit.Larva;
@@ -42,13 +41,14 @@ import ninja.fido.agentai.agent.unit.Probe;
 import ninja.fido.agentai.agent.unit.UnitAgent;
 import ninja.fido.agentai.agent.unit.Worker;
 import ninja.fido.agentai.agent.unit.Zealot;
-import ninja.fido.agentai.decisionMaking.DecisionModule;
-import ninja.fido.agentai.decisionMaking.DecisionTable;
-import ninja.fido.agentai.decisionMaking.DecisionTablesMapKey;
-import ninja.fido.agentai.decisionMaking.GoalParameter;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModule;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTable;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTablesMapKey;
+import ninja.fido.agentai.modules.decisionMaking.GoalParameter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import javax.xml.parsers.ParserConfigurationException;
@@ -100,27 +100,6 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         }
         return game;
     }
-
-	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
-			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException {
-//		String line;
-//		ObjectMapper mapper = new ObjectMapper();
-//		try (
-//			InputStream fis = new FileInputStream("result.json");
-//			InputStreamReader isr = new InputStreamReader(fis);
-//			BufferedReader br = new BufferedReader(isr);
-//		)
-//		{
-//			while ((line = br.readLine()) != null) {
-//				GameResult gameResult = mapper.readValue(line, GameResult.class);
-//				gameResults.add(gameResult);
-//			}
-//		}
-
-
-		gameAPI = new GameAPI();
-        gameAPI.run();
-    }
 	
 	public static void addAgent(Agent agent, CommandAgent commandAgent){
 		commandAgent.addCommandedAgent(agent);
@@ -155,17 +134,40 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	public static void move(UnitAgent agent, Position target){
 		gameAPI.commandInterface.move(agent, target);
 	}
-	
-	public static boolean loadDecisionsFromStoregeOn(){
-		return gameAPI.loadDecisionsFromStorege;
-	}
+
 	
 	public static Map<DecisionTablesMapKey,DecisionTable> getDecisionTablesMap(Class<? extends Agent> agentClass){
-		return gameAPI.decisionModule.getDecisionTablesMap(agentClass);
+		DecisionModule decisionModule;
+		if((decisionModule = (DecisionModule) gameAPI.getRegisteredModule(DecisionModule.class)) == null){
+			return null;
+		}
+		return decisionModule.getDecisionTablesMap(agentClass);
 	}
 	
 	public static boolean isDecisionMakingOn(Agent agent){
-		return gameAPI.decisionModule.isDecisionMakingOn(agent);
+		DecisionModule decisionModule;
+		if((decisionModule = (DecisionModule) gameAPI.getRegisteredModule(DecisionModule.class)) == null){
+			return false;
+		}
+		return decisionModule.isDecisionMakingOn(agent);
+	}
+	
+	public GameApiModule getRegisteredModule(Class<? extends GameApiModule> moduleType){
+		for (GameApiModule module : registeredModules) {
+			if(moduleType.isInstance(module)){
+				return module;
+			}
+		}
+		return null;
+	}
+	
+	public boolean moduleRegistered(Class<? extends GameApiModule> moduleType){
+		for (GameApiModule module : registeredModules) {
+			if(moduleType.isInstance(module)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	
@@ -176,28 +178,24 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	private ArrayList<Agent> agents;
 	
-	private ArrayList<GameAgent> unitAgents;
+	private List<GameAgent> unitAgents;
 	
 	private HashMap<Unit,GameAgent> unitAgentsMappedByUnit;
 	
 	private int frameCount;
 	
 	private final Level logLevel;
+	
+	private final int gameSpeed;
+	
+	private final int frameSkip;
 
 	private final BWAPICommandInterface commandInterface;
 	
-	private final DecisionStorageModule decisionStorageModule;
-	
-	private final LearningModule learningModule;
-	
-	private boolean loadDecisionsFromStorege;
-	
-	private boolean learningOn;
-	
-	private final DecisionModule decisionModule;
+	private final List<GameApiModule> registeredModules;
 	
 	
-	private ArrayList<GameAgent> getUnitAgents() {
+	private List<GameAgent> getUnitAgents() {
 		return unitAgents;
 	}
 
@@ -205,20 +203,35 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		return unitAgentsMappedByUnit;
 	}
 
+	public Level getLogLevel() {
+		return logLevel;
+	}
+
+//	public void setLogLevel(Level logLevel) {
+//		this.logLevel = logLevel;
+//	}
+
 	
 	
 	
 	
-	public GameAPI() throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException, 
+	public GameAPI(final Level logLevel, int gameSpeed, int frameSkip) throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException, 
 			TransformerException, TransformerConfigurationException, XPathExpressionException {
-		this.frameCount = 0;
+		frameCount = 0;
+		registeredModules = new ArrayList<>();
+		this.logLevel = logLevel;
+		this.gameSpeed = gameSpeed;
+		this.frameSkip = frameSkip;
+		
+		// event engine
 		eventEngine =  new EventEngine();
 		eventEngine.addListener(this);
-		logLevel = Level.FINE;
+		
+		// command interface
 		commandInterface = new DefaultBWAPICommandInterface();
-		decisionModule = new DecisionModule();
-		decisionStorageModule = new DecisionStorageModule(decisionModule);
-		learningModule = new LearningModule(this, decisionStorageModule);
+		
+		// static access
+		gameAPI = this;
 	}
 	
 	
@@ -396,11 +409,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			bwta.BWTA.analyze();
 
 			// game settings
-			getGame().setLocalSpeed(GAME_SPEED);
-			getGame().setFrameSkip(0);
+			getGame().setLocalSpeed(gameSpeed);
+			getGame().setFrameSkip(frameSkip);
 			getGame().enableFlag(bwapi.Flag.Enum.UserInput.getValue());
 			
-			// tools
+			// mapTools
 			mapTools = new UAlbertaMapTools();
 			buildingPlacer = new UAlbertaBuildingPlacer();
 			
@@ -487,41 +500,13 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		try{
 			int score = getGame().self().getKillScore();
 			
-			learningModule.saveResult(isWinner, score);
+			//modules
+			for (GameApiModule module : registeredModules) {
+				module.onGameEnd(isWinner, score);
+			}
 			
-			
-//			XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newInstance();
-//			XMLStreamWriter writer = xMLOutputFactory.createXMLStreamWriter(new FileWriter("result.json", true));
-//			
-//			if(newFile){
-//				writer.writeStartDocument("UTF-8", "1.0");
-//				writer.writeStartElement("results");
-//			}
-//			
-//			
-//			if(newFile){
-//				writer.writeEndElement();
-//				writer.writeEndDocument();
-//			}	
-//			
-			
-			
-
-//			ObjectMapper mapper = new ObjectMapper();
-//			mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-//			File file = new File("result.json");
-//			FileWriter writer = new FileWriter("result.json", true);
-//			String jsonInString = mapper.writeValueAsString(gameResult);
-//			try {
-//				mapper.writeValue(file, gameResult);
-//				writer.append(System.getProperty("line.separator"));
-//				writer.append(jsonInString);
-//				writer.close();
-				
-//			} catch (IOException ex) {
-////				 Log.log(this, Level.SEVERE, "Cannot write to file! Path: {0}", writer.getAbsolutePath());
-//				 ex.printStackTrace();
-//			}
+			// destroy commander
+			Commander.onEnd();
 		}
 		catch (Exception exception) {
             Log.log(this, Level.SEVERE, "EXCEPTION!");
@@ -555,10 +540,19 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
     public void run() throws SAXException, XPathExpressionException, IOException, ParserConfigurationException, 
 			ClassNotFoundException, TransformerException {
+		
+		//log
 		Log.init(logLevel);
+		
+		// mirror
         mirror = new Mirror();
         mirror.getModule().setEventListener(this);
-		gameAPI.init();
+		
+		//modules
+		for (GameApiModule module : registeredModules) {
+			module.beforeGameStart();
+		}	
+		
         mirror.startGame();
     }
 
@@ -585,38 +579,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         }
         return null;
     }
-
-	private void registerActivities() {
-		decisionStorageModule.registerActivity(new Wait());
-		decisionStorageModule.registerActivity(new ASAPSquadAttackMove());
-		decisionStorageModule.registerActivity(new NormalSquadAttackMove());
-	}
-
-	private void registerDecisionParameters() {
-		decisionStorageModule.registerParameter(new GoalParameter(null));
-	}
-
-	private void registerDecisionMakingAgentTypes() {
-		decisionModule.registerCommanderType(FullCommander.class, FullCommander.getDefaultDecisionTablesMapStatic());
-		decisionModule.registerAgentClass(new SquadCommander());
-	}
-
-	private void init() throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException, 
-			TransformerException, TransformerConfigurationException, XPathExpressionException {
-		registerDecisionMakingAgentTypes();
-		
-		loadDecisionsFromStorege = true;
-		if(loadDecisionsFromStorege){
-			registerActivities();
-			registerDecisionParameters();
-			decisionStorageModule.loadSettings();
-		}
-		
-		learningOn = true;
-		if(learningOn){
-			learningModule.processResults();		
-		}
-	}
 	
+	public void registerModule(GameApiModule module){
+		registeredModules.add(module);
+	}
 	
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentai.learning;
+package ninja.fido.agentai.modules.learning;
 
 import ninja.fido.agentai.GameResult;
 import ninja.fido.agentai.Tools;

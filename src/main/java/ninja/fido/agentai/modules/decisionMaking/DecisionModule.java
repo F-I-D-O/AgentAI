@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentai.decisionMaking;
+package ninja.fido.agentai.modules.decisionMaking;
 
 import ninja.fido.agentai.UnitDecisionSetting;
 import ninja.fido.agentai.base.Agent;
@@ -11,13 +11,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import ninja.fido.agentai.agent.Commander;
+import ninja.fido.agentai.base.Commander;
+import ninja.fido.agentai.base.GameApiModule;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class DecisionModule {
+public class DecisionModule implements GameApiModule{
 	private final Set<Class<? extends Agent>> registeredAgentsTypes;
 	
 	private final Map<Class<? extends Agent>,Map<DecisionTablesMapKey,DecisionTable>> decisionSettings;
@@ -76,4 +77,17 @@ public class DecisionModule {
 			oldDecisionTablesMap.put(decisionTablesMapKey, decisionTable);
 		}
 	}
+
+	@Override
+	public void beforeGameStart() {
+
+	}
+
+	@Override
+	public void onGameEnd(boolean winner, int score) {
+		
+	}
+
+	
+	
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentai.decisionMaking;
+package ninja.fido.agentai.modules.decisionMaking;
 
 import ninja.fido.agentai.base.Agent;
 import java.util.HashMap;

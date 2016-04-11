@@ -8,7 +8,7 @@ package ninja.fido.agentai.activity;
 import ninja.fido.agentai.base.Activity;
 import ninja.fido.agentai.base.Agent;
 import ninja.fido.agentai.base.Goal;
-import ninja.fido.agentai.decisionStorage.StorableDecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionStorage.StorableDecisionModuleActivity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

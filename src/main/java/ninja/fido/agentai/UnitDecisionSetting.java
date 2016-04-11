@@ -1,8 +1,8 @@
 package ninja.fido.agentai;
 
 import ninja.fido.agentai.base.Agent;
-import ninja.fido.agentai.decisionMaking.DecisionTable;
-import ninja.fido.agentai.decisionMaking.DecisionTablesMapKey;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTable;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTablesMapKey;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

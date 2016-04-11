@@ -9,10 +9,10 @@ import ninja.fido.agentai.activity.zerg.OutbreakProduction;
 import ninja.fido.agentai.base.Activity;
 import ninja.fido.agentai.base.CommandAgent;
 import ninja.fido.agentai.base.Goal;
-import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
-import ninja.fido.agentai.decisionMaking.DecisionTable;
-import ninja.fido.agentai.decisionMaking.DecisionTablesMapKey;
-import ninja.fido.agentai.decisionMaking.GoalParameter;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTable;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTablesMapKey;
+import ninja.fido.agentai.modules.decisionMaking.GoalParameter;
 import ninja.fido.agentai.goal.DroneProductionGoal;
 import java.util.TreeMap;
 

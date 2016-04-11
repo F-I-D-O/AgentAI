@@ -15,7 +15,7 @@ import ninja.fido.agentai.base.CommandActivity;
 import ninja.fido.agentai.base.Order;
 import ninja.fido.agentai.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentai.base.exception.CommanderNotCreatedException;
-import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentai.goal.AutomaticExpansionGoal;
 import ninja.fido.agentai.request.ExpansionInfoRequest;
 

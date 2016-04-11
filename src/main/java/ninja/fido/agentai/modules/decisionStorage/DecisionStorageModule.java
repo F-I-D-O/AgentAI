@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentai.decisionStorage;
+package ninja.fido.agentai.modules.decisionStorage;
 
 import ninja.fido.agentai.UnitDecisionSetting;
-import ninja.fido.agentai.base.Activity;
 import ninja.fido.agentai.base.Agent;
-import ninja.fido.agentai.decisionMaking.DecisionModule;
-import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
-import ninja.fido.agentai.decisionMaking.DecisionTable;
-import ninja.fido.agentai.decisionMaking.DecisionTablesMapKey;
-import ninja.fido.agentai.decisionMaking.DecisionTablesMapParameter;
-import ninja.fido.agentai.learning.LearningModule;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModule;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTable;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTablesMapKey;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTablesMapParameter;
+import ninja.fido.agentai.modules.learning.LearningModule;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import ninja.fido.agentai.base.GameApiModule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
  *
  * @author F.I.D.O.
  */
-public class DecisionStorageModule {
+public class DecisionStorageModule implements GameApiModule{
 	private final Map<String,StorableDecisionModuleActivity> registeredActivities;
 	
 	private final Map<String,DecisionTablesMapParameter> registeredDecisionParameters;
@@ -67,7 +67,7 @@ public class DecisionStorageModule {
 		return registeredActivities.get(activityId);
 	}
 	
-	public void loadSettings() throws ParserConfigurationException, SAXException, IOException, ClassNotFoundException{
+	private void loadSettings() throws ParserConfigurationException, SAXException, IOException, ClassNotFoundException{
 		File file = new File(LearningModule.LEARNED_DECISIONS_FILE);
 		if(file.exists()){
 			ArrayList<UnitDecisionSetting> unitDecisionSettings = new ArrayList<>();
@@ -158,5 +158,19 @@ public class DecisionStorageModule {
 	private DecisionTablesMapParameter parseParameter(Element parameterElement) {
 		String parameterName = parameterElement.getNodeName();
 		return getParameter(parameterName).createFromXml(parameterElement);
+	}
+
+	@Override
+	public void beforeGameStart() {
+		try {
+			loadSettings();
+		} catch (ParserConfigurationException | SAXException | IOException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onGameEnd(boolean winner, int score) {
+		
 	}
 }

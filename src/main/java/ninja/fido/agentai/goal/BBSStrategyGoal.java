@@ -5,7 +5,7 @@
  */
 package ninja.fido.agentai.goal;
 
-import ninja.fido.agentai.agent.Commander;
+import ninja.fido.agentai.base.Commander;
 import ninja.fido.agentai.base.Goal;
 import ninja.fido.agentai.base.GoalOrder;
 

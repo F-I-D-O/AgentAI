@@ -11,7 +11,7 @@ import ninja.fido.agentai.Scout;
 import ninja.fido.agentai.agent.unit.UnitAgent;
 import ninja.fido.agentai.base.Activity;
 import ninja.fido.agentai.base.GameAPI;
-import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentai.goal.ExploreBaseLocationGoal;
 import ninja.fido.agentai.info.LocationExploredInfo;
 import java.util.Objects;

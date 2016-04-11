@@ -5,6 +5,7 @@
  */
 package ninja.fido.agentai.agent;
 
+import ninja.fido.agentai.base.Commander;
 import bwapi.Race;
 import ninja.fido.agentai.activity.protoss.DefaultProtossStrategy;
 import ninja.fido.agentai.activity.protoss.FormationTestStrategy;
@@ -12,10 +13,10 @@ import ninja.fido.agentai.activity.terran.BBSStrategy;
 import ninja.fido.agentai.base.Activity;
 import ninja.fido.agentai.base.GameAPI;
 import ninja.fido.agentai.base.Goal;
-import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
-import ninja.fido.agentai.decisionMaking.DecisionTable;
-import ninja.fido.agentai.decisionMaking.DecisionTablesMapKey;
-import ninja.fido.agentai.decisionMaking.GoalParameter;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTable;
+import ninja.fido.agentai.modules.decisionMaking.DecisionTablesMapKey;
+import ninja.fido.agentai.modules.decisionMaking.GoalParameter;
 import ninja.fido.agentai.goal.BBSStrategyGoal;
 import ninja.fido.agentai.goal.DefaultProtossStrategyGoal;
 import java.util.HashMap;

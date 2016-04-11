@@ -9,7 +9,7 @@ import bwapi.Position;
 import bwapi.Unit;
 import ninja.fido.agentai.agent.unit.Marine;
 import ninja.fido.agentai.agent.SquadCommander;
-import ninja.fido.agentai.decisionStorage.StorableDecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionStorage.StorableDecisionModuleActivity;
 import ninja.fido.agentai.goal.SquadAttackMoveGoal;
 import ninja.fido.agentai.order.AttackMoveOrder;
 import java.util.List;

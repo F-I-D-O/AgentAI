@@ -12,7 +12,7 @@ import ninja.fido.agentai.Building;
 import ninja.fido.agentai.agent.unit.Worker;
 import ninja.fido.agentai.base.Activity;
 import ninja.fido.agentai.base.GameAPI;
-import ninja.fido.agentai.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentai.goal.StartExpansionGoal;
 import ninja.fido.agentai.request.ResourceRequest;
 import java.util.Objects;
