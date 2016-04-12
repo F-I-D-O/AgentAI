@@ -16,7 +16,7 @@ public class DecisionTable {
 	
 	private TreeMap<Double,DecisionModuleActivity> probabilities;
 
-	public TreeMap<Double, DecisionModuleActivity> getProbabilities() {
+	public TreeMap<Double,DecisionModuleActivity> getProbabilities() {
 		return probabilities;
 	}
 

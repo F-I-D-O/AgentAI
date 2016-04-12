@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilder;
@@ -178,5 +179,13 @@ public class DecisionStorageModule implements GameApiModule{
 	@Override
 	public void onStart(int gameCount) {
 		
+	}
+
+	@Override
+	public List<Class<? extends GameApiModule>> getDependencies() {
+		List<Class<? extends GameApiModule>> dependencies = new ArrayList<>();
+		dependencies.add(DecisionModule.class);
+		
+		return dependencies;
 	}
 }

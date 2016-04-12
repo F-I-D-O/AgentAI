@@ -308,5 +308,12 @@ public class LearningModule implements GameApiModule{
 		}
 	}
 	
-
+	@Override
+	public List<Class<? extends GameApiModule>> getDependencies() {
+		List<Class<? extends GameApiModule>> dependencies = new ArrayList<>();
+		dependencies.add(DecisionModule.class);
+		dependencies.add(DecisionStorageModule.class);
+		
+		return dependencies;
+	}
 }

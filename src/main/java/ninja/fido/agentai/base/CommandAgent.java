@@ -72,7 +72,7 @@ public abstract class CommandAgent extends Agent {
                 return (T) subordinateAgent;
             }
         }
-        Log.log(this, Level.WARNING, "{0}: No subordinate agents of type: {1}", this.getClass(), agentClass);
+//        Log.log(this, Level.WARNING, "{0}: No subordinate agents of type: {1}", this.getClass(), agentClass);
         return null;
     }
 

@@ -113,7 +113,7 @@ public class FullCommander extends Commander{
 	}
 
 	@Override
-	protected void initialize() {
+	protected void init() {
 		explorationCommand = new ExplorationCommand();
 		GameAPI.addAgent(explorationCommand, this);
 		resourceCommand = new ResourceCommand();

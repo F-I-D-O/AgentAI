@@ -5,6 +5,8 @@
  */
 package ninja.fido.agentai.base;
 
+import java.util.List;
+
 /**
  *
  * @author F.I.D.O.
@@ -16,4 +18,6 @@ public interface GameApiModule {
 	public void onEnd(boolean winner, int score);
 
 	public void onStart(int gameCount);
+	
+	public List<Class<? extends GameApiModule>> getDependencies();
 }

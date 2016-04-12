@@ -48,6 +48,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
+import ninja.fido.agentai.base.exception.ModuleDependencyException;
 import org.xml.sax.SAXException;
 
 public class GameAPI extends DefaultBWListener implements EventEngineListener{
@@ -593,7 +594,22 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         return null;
     }
 	
-	public void registerModule(GameApiModule module){
+	public void registerModule(GameApiModule module) throws ModuleDependencyException{
+		List<Class<? extends GameApiModule>> dependencies = module.getDependencies();
+		if(dependencies != null){
+			for (Class<? extends GameApiModule> dependency : dependencies) {
+				boolean moduleRegistered = false;
+				for(GameApiModule registeredModule : registeredModules){
+					if(dependency.isInstance(registeredModule)){
+						moduleRegistered = true;
+						break;
+					}
+				}
+				if(!moduleRegistered){
+					throw new ModuleDependencyException(module.getClass(), dependency);
+				}
+			}
+		}
 		registeredModules.add(module);
 	}
 	

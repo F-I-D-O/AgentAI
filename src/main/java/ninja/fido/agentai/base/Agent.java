@@ -127,7 +127,7 @@ public abstract class Agent {
     public final void run() throws CannotDecideException, NoActionChosenException, ChainOfCommandViolationException {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
 		if(!initialized){
-			initialize();
+			init();
 			goal = getDefaultGoal();
 			initialized = true;
 		}
@@ -321,13 +321,13 @@ public abstract class Agent {
 			throw new CannotDecideException(this, key);
 		}
 //		Activity chosenAction = decisionTable.chooseAction();
-//		chosenAction.initialize(this, goal);
+//		chosenAction.init(this, goal);
 //		return chosenAction;
 		return decisionTable.chooseAction().create(this, goal);
 	}
 
-	protected void initialize() {
-		
+	protected void init() {
+		 
 	}
 
 	private void setReferenceKey() {

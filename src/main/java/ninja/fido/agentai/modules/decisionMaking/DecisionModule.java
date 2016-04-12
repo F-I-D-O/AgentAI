@@ -5,10 +5,12 @@
  */
 package ninja.fido.agentai.modules.decisionMaking;
 
+import java.util.ArrayList;
 import ninja.fido.agentai.UnitDecisionSetting;
 import ninja.fido.agentai.base.Agent;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import ninja.fido.agentai.base.Commander;
@@ -96,6 +98,11 @@ public class DecisionModule implements GameApiModule{
 	@Override
 	public void onStart(int gameCount) {
 		
+	}
+
+	@Override
+	public List<Class<? extends GameApiModule>> getDependencies() {
+		return null;
 	}
 
 	
