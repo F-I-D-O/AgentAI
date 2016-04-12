@@ -21,6 +21,7 @@ import ninja.fido.agentai.modules.decisionStorage.DecisionStorageModule;
 import ninja.fido.agentai.modules.learning.LearningModule;
 import ninja.fido.agentai.modules.decisionMaking.DecisionModule;
 import ninja.fido.agentai.modules.decisionMaking.GoalParameter;
+import ninja.fido.agentai.modules.learning.SquadAttackScenario;
 import org.xml.sax.SAXException;
 
 /**
@@ -45,10 +46,14 @@ public class Starter {
 		
 		decisionStorageModule.registerParameter(new GoalParameter(null));
 		
-//		LearningModule learningModule = new LearningModule(decisionStorageModule);
+//		LearningModule learningModule = new LearningModule(gameAPI, decisionModule, decisionStorageModule);
+//		learningModule.setLearningScenario(new SquadAttackScenario());
 		
 		gameAPI.registerModule(decisionModule);
-//		gameAPI.registerModule(decisionStorageModule);
+		gameAPI.registerModule(decisionStorageModule);
+//		gameAPI.registerModule(learningModule);
+		
+//		learningModule.processResults();
 		
         gameAPI.run();
     }

@@ -25,4 +25,6 @@ public interface StorableDecisionModuleActivity<A extends Agent,G extends Goal,A
 	public Element getXml(Document document);
 	
 	public String getId();
+
+	public StorableDecisionModuleActivity getFromXml(Element activityElement);
 }

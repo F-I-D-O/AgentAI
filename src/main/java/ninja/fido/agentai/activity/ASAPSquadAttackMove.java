@@ -69,6 +69,11 @@ public class ASAPSquadAttackMove extends SquadAttackMove
 	public ASAPSquadAttackMove create(SquadCommander agent, SquadAttackMoveGoal goal) {
 		return new ASAPSquadAttackMove(agent, goal);
 	}
+
+	@Override
+	public StorableDecisionModuleActivity getFromXml(Element activityElement) {
+		return new ASAPSquadAttackMove();
+	}
 	
 	
 }

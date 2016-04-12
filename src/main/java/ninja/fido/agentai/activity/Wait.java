@@ -16,6 +16,7 @@ import org.w3c.dom.Element;
  *
  * @author F.I.D.O.
  */
+
 public class Wait extends Activity<Agent,Goal> implements StorableDecisionModuleActivity<Agent, Goal, Wait>{
 
 	public Wait() {
@@ -61,6 +62,11 @@ public class Wait extends Activity<Agent,Goal> implements StorableDecisionModule
 	@Override
 	public Wait create(Agent agent, Goal goal) {
 		return new Wait(agent);
+	}
+
+	@Override
+	public StorableDecisionModuleActivity getFromXml(Element activityElement) {
+		return new Wait();
 	}
 	
 	

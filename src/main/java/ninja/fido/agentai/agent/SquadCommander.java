@@ -5,7 +5,6 @@
  */
 package ninja.fido.agentai.agent;
 
-import bwapi.Position;
 import ninja.fido.agentai.activity.ASAPSquadAttackMove;
 import ninja.fido.agentai.activity.NormalSquadAttackMove;
 import ninja.fido.agentai.activity.Wait;

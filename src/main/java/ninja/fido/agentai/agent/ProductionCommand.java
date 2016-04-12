@@ -46,6 +46,10 @@ public class ProductionCommand extends CommandAgent{
 	public boolean isMineralsMissing() {
 		return getMissingMinerals() > 0;
 	}
+	
+	public boolean isSupplyMissing() {
+		return getMissingSupply() > 0;
+	}
 
 	public int getMissingMinerals() {
 		int missingCrystal = 0;

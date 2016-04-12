@@ -96,6 +96,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal>
 		agent.detachCommandedAgents(marines, unitCommand);
 		
 		if(buildCommand.getNumberOfConstructionStarted(UnitType.Terran_Barracks) >= NUMBER_OF_BARRACKS
+				&& (!productionCommand.isSupplyMissing() || agent.getFreeSupply() > productionCommand.getMissingSupply())
 				&& productionCommand.isMineralsMissing()){
 			if(productionCommand.getMissingMinerals() <= getAgent().getOwnedMinerals() 
 						&& productionCommand.getMissingSupply() <= agent.getOwnedSupply()){

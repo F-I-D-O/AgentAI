@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,6 +39,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import ninja.fido.agentai.base.GameApiModule;
+import ninja.fido.agentai.modules.decisionMaking.DecisionModule;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -54,11 +53,12 @@ import org.xml.sax.SAXException;
  */
 public class LearningModule implements GameApiModule{
 	
-	private static final String RESULTS_FILE = "result.json";
+	private static final String RESULTS_FILE = "results.xml";
 	
 	public static final String LEARNED_DECISIONS_FILE = "leaarned.xml";
 	
 	
+	private final DecisionModule decisionModule;
 	
 	private final DecisionStorageModule decisionStorageModule;
 	
@@ -68,8 +68,24 @@ public class LearningModule implements GameApiModule{
 	
 	private final GameAPI gameAPI;
 	
+	private LearningScenario learningScenario;
 
-	public LearningModule(GameAPI gameAPI, DecisionStorageModule decisionStorageModule) {
+	
+	
+	
+	public LearningScenario getLearningScenario() {
+		return learningScenario;
+	}
+
+	public void setLearningScenario(LearningScenario learningScenario) {
+		this.learningScenario = learningScenario;
+	}
+	
+	
+	
+
+	public LearningModule(GameAPI gameAPI, DecisionModule decisionModule, DecisionStorageModule decisionStorageModule) {
+		this.decisionModule = decisionModule;
 		this.decisionStorageModule = decisionStorageModule;
 //		learningEngine = new TestEngine();
 		learningEngine = new SimpleEngine();
@@ -87,12 +103,12 @@ public class LearningModule implements GameApiModule{
 		ArrayList<GameResult> gameResults = getResultsFromXml();
 		
 		if(!gameResults.isEmpty()){
-			List<UnitDecisionSetting> learntUnitDecisionSettings = learningEngine.learnFromResults(gameResults);
-			saveLearntSettings(learntUnitDecisionSettings);
+			List<UnitDecisionSetting> learnedUnitDecisionSettings = learningEngine.learnFromResults(gameResults);
+			saveLearnedSettings(learnedUnitDecisionSettings);
 		}
 	}
 	
-	private void saveLearntSettings(List<UnitDecisionSetting> learntUnitDecisionSettings) throws 
+	private void saveLearnedSettings(List<UnitDecisionSetting> learntUnitDecisionSettings) throws 
 			ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, 
 			TransformerException, XPathExpressionException {
 		File file = new File(LEARNED_DECISIONS_FILE);
@@ -126,7 +142,7 @@ public class LearningModule implements GameApiModule{
 	
 	private ArrayList<GameResult> getResultsFromXml() throws ParserConfigurationException, SAXException, IOException, ClassNotFoundException {
 		ArrayList<GameResult> gameResults = new ArrayList<>();
-		File file = new File(LearningModule.LEARNED_DECISIONS_FILE);
+		File file = new File(RESULTS_FILE);
 		if(file.exists()){
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -166,7 +182,7 @@ public class LearningModule implements GameApiModule{
 			TransformerConfigurationException, TransformerException {
 
 		// file existence chceck
-		File file = new File("result.json");
+		File file = new File(RESULTS_FILE);
 		boolean newFile = !file.exists();
 
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -177,7 +193,7 @@ public class LearningModule implements GameApiModule{
 			document = dOMImplementation.createDocument(null, "results", null);
 		}
 		else{
-			document = documentBuilder.parse("result.json");
+			document = documentBuilder.parse(RESULTS_FILE);
 		}
 		Element resultsNode = document.getDocumentElement();
 		Element resultNode = document.createElement("result");
@@ -260,21 +276,35 @@ public class LearningModule implements GameApiModule{
 	}
 
 	@Override
-	public void beforeGameStart() {
-		try {
-			processResults();
-		} catch (SAXException | IOException | ParserConfigurationException | ClassNotFoundException 
-				| TransformerException | XPathExpressionException ex) {
-			ex.printStackTrace();
+	public void onRun() {
+		
+	}
+
+	@Override
+	public void onEnd(boolean winner, int score) {
+		if(learningScenario != null){
+			try {
+				saveResult(winner, score);
+			} catch (ParserConfigurationException | SAXException | IOException | TransformerException ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 
 	@Override
-	public void onGameEnd(boolean winner, int score) {
-		try {
-			saveResult(winner, score);
-		} catch (ParserConfigurationException | SAXException | IOException | TransformerException ex) {
-			ex.printStackTrace();
+	public void onStart(int gameCount) {
+		
+		// revrite decision tables
+		if(learningScenario != null){
+			Map<Class<? extends Agent>,Map<DecisionTablesMapKey,DecisionTable>> decisionSettings
+					= learningScenario.getDecisionSettings(gameCount);
+			for (Map.Entry<Class<? extends Agent>, Map<DecisionTablesMapKey, DecisionTable>> entry
+					: decisionSettings.entrySet()) {
+				Class<? extends Agent> key = entry.getKey();
+				Map<DecisionTablesMapKey, DecisionTable> value = entry.getValue();
+				
+				decisionModule.rewriteDecisionTablesMap(key, value);
+			}
 		}
 	}
 	

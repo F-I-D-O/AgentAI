@@ -8,20 +8,24 @@ package ninja.fido.agentai;
 import ninja.fido.agentai.base.GameAPI;
 import bwapi.Unit;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author F.I.D.O.
  */
 public class EventEngine {
-	private final ArrayList<Unit> constructedBuildings;
+	private final List<Unit> finishedBuildings;
+	
+	private final List<Unit> unfinishedBuildings;
 	
 	private final ArrayList<EventEngineListener> listeners;
 
 	
 	
 	public EventEngine() {
-		constructedBuildings = new ArrayList<>();
+		finishedBuildings = new ArrayList<>();
+		unfinishedBuildings = new ArrayList<>();
 		listeners = new ArrayList<>();
 	}
 	
@@ -38,11 +42,11 @@ public class EventEngine {
 	private void createConstructionFinishedEnvents() {
 		for (Unit building : GameAPI.getGame().self().getUnits()) {
 			if(building.getType().isBuilding() && !building.isBeingConstructed() 
-					&& !constructedBuildings.contains(building)){
+					&& !finishedBuildings.contains(building)){
 				for (EventEngineListener listener : listeners) {
 					listener.onBuildingConstructionFinished(building);
 				}
-				constructedBuildings.add(building);
+				finishedBuildings.add(building);
 			}
 		}
 	}

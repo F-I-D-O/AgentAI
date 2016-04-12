@@ -11,7 +11,9 @@ package ninja.fido.agentai.base;
  */
 public interface GameApiModule {
 	
-	public void beforeGameStart();
+	public void onRun();
 
-	public void onGameEnd(boolean winner, int score);
+	public void onEnd(boolean winner, int score);
+
+	public void onStart(int gameCount);
 }

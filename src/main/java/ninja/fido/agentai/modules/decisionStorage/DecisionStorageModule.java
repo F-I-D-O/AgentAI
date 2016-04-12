@@ -63,7 +63,7 @@ public class DecisionStorageModule implements GameApiModule{
 		return registeredDecisionParameters.get(parameterId);
 	}
 	
-	public DecisionModuleActivity getActivity(String activityId){
+	public StorableDecisionModuleActivity getActivity(String activityId){
 		return registeredActivities.get(activityId);
 	}
 	
@@ -129,12 +129,13 @@ public class DecisionStorageModule implements GameApiModule{
 			if(childNode.getNodeName().equals("row")){
 				Element rowElement = (Element) childNode;
 				double probability = Double.parseDouble(rowElement.getAttribute("probability"));
-				DecisionModuleActivity activity = null;
+				StorableDecisionModuleActivity activity = null;
 				for (int actionIndex = 0; actionIndex < rowElement.getChildNodes().getLength(); actionIndex++) {
 					childNode = rowElement.getChildNodes().item(actionIndex);
 					if(childNode.getNodeType() == Node.ELEMENT_NODE){
 						Element activityElement = (Element) childNode;
 						activity = getActivity(activityElement.getNodeName());
+						activity = activity.getFromXml(activityElement);
 					}
 				}
 				probabilities.put(probability, activity);
@@ -161,7 +162,7 @@ public class DecisionStorageModule implements GameApiModule{
 	}
 
 	@Override
-	public void beforeGameStart() {
+	public void onRun() {
 		try {
 			loadSettings();
 		} catch (ParserConfigurationException | SAXException | IOException | ClassNotFoundException ex) {
@@ -170,7 +171,12 @@ public class DecisionStorageModule implements GameApiModule{
 	}
 
 	@Override
-	public void onGameEnd(boolean winner, int score) {
+	public void onEnd(boolean winner, int score) {
+		
+	}
+
+	@Override
+	public void onStart(int gameCount) {
 		
 	}
 }

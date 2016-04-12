@@ -5,11 +5,8 @@
  */
 package ninja.fido.agentai.activity;
 
-import bwapi.Position;
 import ninja.fido.agentai.agent.unit.Marine;
 import ninja.fido.agentai.agent.SquadCommander;
-import ninja.fido.agentai.base.Activity;
-import ninja.fido.agentai.base.Agent;
 import ninja.fido.agentai.modules.decisionStorage.StorableDecisionModuleActivity;
 import ninja.fido.agentai.goal.SquadAttackMoveGoal;
 import ninja.fido.agentai.order.AttackMoveOrder;
@@ -27,20 +24,31 @@ public class NormalSquadAttackMove extends SquadAttackMove
 	
 	private static final int DEFAULT_MIN_SQUAD_SIZE = 5;
 	
-	private int minSquadSize;
-
+	private final int minSquadSize;
+	
 	public NormalSquadAttackMove() {
+		minSquadSize = DEFAULT_MIN_SQUAD_SIZE;
+	}
+
+	public NormalSquadAttackMove(int minSquadSize) {
+		this.minSquadSize = minSquadSize;
 	}
 
 	public NormalSquadAttackMove(SquadCommander agent, SquadAttackMoveGoal goal) {
 		super(agent, goal);
+		minSquadSize = DEFAULT_MIN_SQUAD_SIZE;
+	}
+	
+	public NormalSquadAttackMove(SquadCommander agent, SquadAttackMoveGoal goal, int minSquadSize) {
+		super(agent, goal);
+		this.minSquadSize = minSquadSize;
 	}
 
 	
 	
-	public NormalSquadAttackMove(SquadCommander agent, Position attackTarget) {
-		super(agent, attackTarget);
-	}
+//	public NormalSquadAttackMove(SquadCommander agent, Position attackTarget) {
+//		super(agent, attackTarget);
+//	}
 	
 	
 	@Override
@@ -57,14 +65,16 @@ public class NormalSquadAttackMove extends SquadAttackMove
 
 	@Override
 	protected void init() {
-		minSquadSize = DEFAULT_MIN_SQUAD_SIZE;
+//		minSquadSize = DEFAULT_MIN_SQUAD_SIZE;
 	}
 	
 	@Override
 	public Element getXml(Document document) {
-		Element parameter = document.createElement("normalSquadAttackMove");
+		Element activity = document.createElement("normalSquadAttackMove");
+		activity.setAttribute("minSquadSize", Integer.toString(minSquadSize));
 		
-		return parameter;
+		
+		return activity;
 	}
 	
 	@Override
@@ -74,6 +84,12 @@ public class NormalSquadAttackMove extends SquadAttackMove
 
 	@Override
 	public NormalSquadAttackMove create(SquadCommander agent, SquadAttackMoveGoal goal) {
-		return new NormalSquadAttackMove(agent, goal);
+		return new NormalSquadAttackMove(agent, goal, minSquadSize);
+	}
+
+	@Override
+	public StorableDecisionModuleActivity getFromXml(Element activityElement) {
+		int minSquadSize = Integer.parseInt(activityElement.getAttribute("minSquadSize"));
+		return new NormalSquadAttackMove(minSquadSize);
 	}
 }

@@ -11,26 +11,20 @@ import bwapi.UnitType;
 import ninja.fido.agentai.bwapiCommandInterface.BWAPICommandInterface;
 import ninja.fido.agentai.bwapiCommandInterface.DefaultBWAPICommandInterface;
 import ninja.fido.agentai.BuildingPlacer;
-import ninja.fido.agentai.modules.decisionStorage.DecisionStorageModule;
 import ninja.fido.agentai.EventEngine;
 import ninja.fido.agentai.EventEngineListener;
-import ninja.fido.agentai.modules.learning.LearningModule;
 import ninja.fido.agentai.Log;
 import ninja.fido.agentai.MapTools;
 import ninja.fido.agentai.MorphableUnit;
 import ninja.fido.agentai.NonImplementedMorphException;
 import ninja.fido.agentai.UAlbertaBuildingPlacer;
 import ninja.fido.agentai.UAlbertaMapTools;
-import ninja.fido.agentai.activity.ASAPSquadAttackMove;
-import ninja.fido.agentai.activity.NormalSquadAttackMove;
-import ninja.fido.agentai.activity.Wait;
 import ninja.fido.agentai.agent.unit.Barracks;
 import ninja.fido.agentai.agent.unit.Drone;
 import ninja.fido.agentai.agent.FullCommander;
 import ninja.fido.agentai.agent.unit.Larva;
 import ninja.fido.agentai.agent.unit.Marine;
 import ninja.fido.agentai.agent.ProductionCommand;
-import ninja.fido.agentai.agent.SquadCommander;
 import ninja.fido.agentai.agent.unit.SCV;
 import ninja.fido.agentai.agent.UnitCommand;
 import ninja.fido.agentai.agent.ZergCommander;
@@ -44,7 +38,6 @@ import ninja.fido.agentai.agent.unit.Zealot;
 import ninja.fido.agentai.modules.decisionMaking.DecisionModule;
 import ninja.fido.agentai.modules.decisionMaking.DecisionTable;
 import ninja.fido.agentai.modules.decisionMaking.DecisionTablesMapKey;
-import ninja.fido.agentai.modules.decisionMaking.GoalParameter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -184,6 +177,8 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	private int frameCount;
 	
+	private int gameCount;
+	
 	private final Level logLevel;
 	
 	private final int gameSpeed;
@@ -193,6 +188,8 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	private final BWAPICommandInterface commandInterface;
 	
 	private final List<GameApiModule> registeredModules;
+	
+	private final Map<Unit,Worker> unfinishedBuildings;
 	
 	
 	private List<GameAgent> getUnitAgents() {
@@ -217,8 +214,10 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	public GameAPI(final Level logLevel, int gameSpeed, int frameSkip) throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException, 
 			TransformerException, TransformerConfigurationException, XPathExpressionException {
-		frameCount = 0;
+		frameCount = 1;
+		gameCount = 1;
 		registeredModules = new ArrayList<>();
+		unfinishedBuildings = new HashMap<>();
 		this.logLevel = logLevel;
 		this.gameSpeed = gameSpeed;
 		this.frameSkip = frameSkip;
@@ -246,7 +245,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				return;
 			}
 
-			// Construction started event
+			// Construction started event and other
 			if(type.isBuilding()){
 				Unit builderUnit = unit.getBuildUnit();
 				SCV builderAgent = (SCV) unitAgentsMappedByUnit.get(builderUnit);
@@ -254,6 +253,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				// units obtained on start has no event
 				if(builderAgent != null){
 					builderAgent.onConstructionStarted();
+					unfinishedBuildings.put(unit, builderAgent);
 				}
 			}
 
@@ -275,6 +275,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			
 			if(type.isNeutral() || !unit.getPlayer().equals(getGame().self())){
 				return;
+			}
+			
+			// building finished
+			if(type.isBuilding()){
+				onBuildingConstructionFinished(unit);
 			}
 			
 			GameAgent agent = null;
@@ -374,20 +379,20 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     @Override
     public void onFrame() {
         try {
-			frameCount++;
-            Log.log(this, Level.INFO, "OnFrame start - frame {0}", frameCount);
+            Log.log(this, Level.INFO, "OnFrame start - game: {0}, frame: {1}", gameCount, frameCount);
 			
 			// process queued commands from units that was busz last frame 
 			commandInterface.processQueuedCommands();
 			
-			eventEngine.run();
+//			eventEngine.run();
 			
             Log.log(this, Level.FINE, "Number of agents: {0}", agents.size());
 			
             for (Agent agent : (ArrayList<Agent>) agents.clone()) {
                 agent.run();
             }
-            Log.log(this, Level.INFO, "OnFrame end");
+            Log.log(this, Level.INFO, "OnFrame end - game: {0}, frame: {1}", gameCount, frameCount);
+			frameCount++;
         } 
 		catch (Exception exception) {
             Log.log(this, Level.SEVERE, "EXCEPTION!");
@@ -440,6 +445,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			addAgent(new ProductionCommand());
 			addAgent(new UnitCommand());
 			
+			//modules
+			for (GameApiModule module : registeredModules) {
+				module.onStart(gameCount);
+			}	
+			
 			Log.log(this, Level.FINE, "OnStart END");
 		}
 		catch (Exception exception) {
@@ -454,8 +464,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	@Override
 	public void onBuildingConstructionFinished(Unit building) {
-		Unit builderUnit = building.getBuildUnit();
-		SCV builderAgent = (SCV) unitAgentsMappedByUnit.get(builderUnit);
+		Log.log(this, Level.INFO, "Building construction finished: {0}", building.getBuildType());
+
+		Worker builderAgent = unfinishedBuildings.get(building);
 		
 		// units obtained on start has no event
 		if(builderAgent != null){
@@ -502,11 +513,13 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			
 			//modules
 			for (GameApiModule module : registeredModules) {
-				module.onGameEnd(isWinner, score);
+				module.onEnd(isWinner, score);
 			}
 			
 			// destroy commander
 			Commander.onEnd();
+			
+			gameCount++;
 		}
 		catch (Exception exception) {
             Log.log(this, Level.SEVERE, "EXCEPTION!");
@@ -550,7 +563,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		
 		//modules
 		for (GameApiModule module : registeredModules) {
-			module.beforeGameStart();
+			module.onRun();
 		}	
 		
         mirror.startGame();

@@ -47,6 +47,11 @@ public class DecisionModule implements GameApiModule{
 		addDecisionTablesMap(unitDecisionSetting.getAgentClass(), unitDecisionSetting.getDecisionTablesMap());
 	}
 	
+	public void rewriteDecisionTablesMap(Class<? extends Agent> agentClass,
+			Map<DecisionTablesMapKey,DecisionTable> decisionTablesMap){
+		decisionSettings.put(agentClass, decisionTablesMap);
+	}
+	
 	public boolean isDecisionMakingOn(Agent agent){
 		return registeredAgentsTypes.contains(agent.getClass());
 	}
@@ -79,12 +84,17 @@ public class DecisionModule implements GameApiModule{
 	}
 
 	@Override
-	public void beforeGameStart() {
+	public void onRun() {
 
 	}
 
 	@Override
-	public void onGameEnd(boolean winner, int score) {
+	public void onEnd(boolean winner, int score) {
+		
+	}
+
+	@Override
+	public void onStart(int gameCount) {
 		
 	}
 
