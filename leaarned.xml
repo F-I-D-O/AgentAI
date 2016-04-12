@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<decisionSettings>
+    <decisionTablesMap agent="ninja.fido.agentai.agent.SquadCommander">
+        <entry>
+            <key>
+                <goalParameter value="ninja.fido.agentai.goal.SquadAttackMoveGoal"/>
+            </key>
+            <table>
+                <row probability="1.0">
+                    <normalSquadAttackMove minSquadSize="1"/>
+                </row>
+            </table>
+        </entry>
+        <entry>
+            <key>
+                <goalParameter value="ninja.fido.agentai.goal.WaitGoal"/>
+            </key>
+            <table>
+                <row probability="1.0">
+                    <wait/>
+                </row>
+            </table>
+        </entry>
+    </decisionTablesMap>
+</decisionSettings>
