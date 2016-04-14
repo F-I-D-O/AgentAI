@@ -3,7 +3,6 @@ package ninja.fido.agentAI.base;
 import ninja.fido.agentAI.BaseLocationInfo;
 import ninja.fido.agentAI.Resource;
 import ninja.fido.agentAI.ResourceDeficiencyException;
-import ninja.fido.agentAI.activity.terran.BBSStrategy;
 import ninja.fido.agentAI.ResourceType;
 import ninja.fido.agentAI.goal.BBSStrategyGoal;
 import ninja.fido.agentAI.info.EnemyBaseDiscovered;
@@ -66,9 +65,6 @@ public class Commander extends CommandAgent {
 
     @Override
     protected Activity chooseAction() {
-		if(getGoal() instanceof  BBSStrategyGoal){
-			return new BBSStrategy(this);
-		}
 		return null;
     }
 	

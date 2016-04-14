@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI;
+package ninja.fido.agentAI.mapTools;
 
 import bwapi.Position;
 import bwapi.TilePosition;

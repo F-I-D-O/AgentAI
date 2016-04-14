@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI;
+package ninja.fido.agentAI.mapTools;
 
+import ninja.fido.agentAI.buildingPlacer.UAlbertaDistanceMap;
 import ninja.fido.agentAI.base.GameAPI;
 import bwapi.Player;
 import bwapi.Position;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import ninja.fido.agentAI.Log;
 
 /**
  *

@@ -8,7 +8,7 @@ package ninja.fido.agentAI.activity;
 import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.UnitType;
-import ninja.fido.agentAI.Building;
+import ninja.fido.agentAI.buildingPlacer.Building;
 import ninja.fido.agentAI.agent.unit.Worker;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.GameAPI;

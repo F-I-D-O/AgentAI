@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI.activity.protoss;
+package ninja.fido.agentAI.demo.activity.protoss;
 
 import ninja.fido.agentAI.agent.FullCommander;
 import ninja.fido.agentAI.agent.unit.Probe;

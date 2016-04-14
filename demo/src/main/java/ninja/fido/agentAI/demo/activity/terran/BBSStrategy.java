@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI.activity.terran;
+package ninja.fido.agentAI.demo.activity.terran;
 
 import bwapi.UnitType;
 import ninja.fido.agentAI.BaseLocationInfo;

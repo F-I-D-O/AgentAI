@@ -7,7 +7,7 @@ package ninja.fido.agentAI.activity;
 
 import ninja.fido.agentAI.base.UnitActivity;
 import bwapi.Position;
-import ninja.fido.agentAI.Scout;
+import ninja.fido.agentAI.agent.Scout;
 import ninja.fido.agentAI.agent.unit.UnitAgent;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.GameAPI;

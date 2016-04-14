@@ -10,7 +10,7 @@ bwapi-data/
 target/
 
 # log related
-/log.txt.1
-/log.txt.1.lck
-/log.txt.lck
-/log.txt
+log.txt.1
+log.txt.1.lck
+log.txt.lck
+log.txt

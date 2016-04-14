@@ -6,7 +6,7 @@
 package ninja.fido.agentAI.order;
 
 import bwapi.Position;
-import ninja.fido.agentAI.Scout;
+import ninja.fido.agentAI.agent.Scout;
 import ninja.fido.agentAI.base.CommandAgent;
 import ninja.fido.agentAI.base.Agent;
 import ninja.fido.agentAI.base.GoalOrder;

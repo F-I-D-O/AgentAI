@@ -8,7 +8,6 @@ package ninja.fido.agentAI.agent.unit;
 import bwapi.Unit;
 import ninja.fido.agentAI.activity.Move;
 import ninja.fido.agentAI.activity.Wait;
-import ninja.fido.agentAI.activity.protoss.GroupGuard;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.GroupGuardGoal;

@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI;
+package ninja.fido.agentAI.buildingPlacer;
 
+import ninja.fido.agentAI.buildingPlacer.BuildingPlacer;
+import ninja.fido.agentAI.buildingPlacer.Building;
 import ninja.fido.agentAI.base.GameAPI;
 import bwapi.Color;
 import bwapi.Position;
@@ -15,7 +17,7 @@ import bwapi.UnitType;
 import bwapi.Unitset;
 import bwta.BWTA;
 import bwta.BaseLocation;
-import static ninja.fido.agentAI.UAlbertaDistanceMap.MOVE_TO_DEFAULT;
+import static ninja.fido.agentAI.buildingPlacer.UAlbertaDistanceMap.MOVE_TO_DEFAULT;
 import java.util.ArrayList;
 import java.util.Arrays;
 

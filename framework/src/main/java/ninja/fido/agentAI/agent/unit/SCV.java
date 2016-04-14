@@ -2,7 +2,7 @@ package ninja.fido.agentAI.agent.unit;
 
 import bwapi.Position;
 import bwapi.Unit;
-import ninja.fido.agentAI.Scout;
+import ninja.fido.agentAI.agent.Scout;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.activity.HarvestMinerals;
 import ninja.fido.agentAI.activity.ConstructBuilding;

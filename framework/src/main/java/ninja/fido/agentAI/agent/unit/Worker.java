@@ -12,7 +12,7 @@ import bwapi.UnitType;
 import ninja.fido.agentAI.Log;
 import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.ResourceType;
-import ninja.fido.agentAI.Scout;
+import ninja.fido.agentAI.agent.Scout;
 import ninja.fido.agentAI.activity.ConstructBuilding;
 import ninja.fido.agentAI.activity.ExploreBaseLocation;
 import ninja.fido.agentAI.activity.HarvestMinerals;
