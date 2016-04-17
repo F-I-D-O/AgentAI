@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI.activity.terran;
+package ninja.fido.agentAI.demo.activity.terran;
 
 import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.ResourceType;
@@ -19,8 +19,11 @@ import ninja.fido.agentAI.order.AutomaticProductionOrder;
  *
  * @author F.I.D.O.
  */
-public class BBSProduction extends CommandActivity<ProductionCommand,Goal>{
+public class BBSProduction extends CommandActivity<ProductionCommand,Goal,BBSProduction>{
 
+	public BBSProduction() {
+	}
+	
 	public BBSProduction(ProductionCommand agent) {
 		super(agent);
 	}
@@ -53,6 +56,11 @@ public class BBSProduction extends CommandActivity<ProductionCommand,Goal>{
 	@Override
 	protected void init() {
 		
+	}
+
+	@Override
+	public BBSProduction create(ProductionCommand agent, Goal goal) {
+		return new BBSProduction(agent);
 	}
 	
 }

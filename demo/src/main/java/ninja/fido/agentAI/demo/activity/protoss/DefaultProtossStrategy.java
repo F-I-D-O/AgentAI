@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author F.I.D.O.
  */
-public class DefaultProtossStrategy extends CommandActivity<FullCommander, Goal> 
+public class DefaultProtossStrategy extends CommandActivity<FullCommander, Goal, DefaultProtossStrategy> 
 		implements DecisionModuleActivity<FullCommander, Goal, DefaultProtossStrategy>{
 	
 	private int targetNumberOfScouts;

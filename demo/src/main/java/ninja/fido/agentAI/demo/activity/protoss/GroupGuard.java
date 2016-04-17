@@ -26,7 +26,7 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
  *
  * @author F.I.D.O.
  */
-public class GroupGuard extends UnitActivity<Zealot, GroupGuardGoal>{
+public class GroupGuard extends UnitActivity<Zealot,GroupGuardGoal,GroupGuard>{
 	
 	private final UnitAgent vip;
 	
@@ -48,10 +48,19 @@ public class GroupGuard extends UnitActivity<Zealot, GroupGuardGoal>{
 	
 	private int formationPosition;
 
-	public GroupGuard(Zealot unitAgent, UnitAgent vip, ArrayList<Zealot> guards) {
+	
+	
+	public GroupGuard() {
+		this.vip = null;
+		this.guards = null;
+	}
+	
+	
+
+	public GroupGuard(Zealot unitAgent, GroupGuardGoal goal) {
 		super(unitAgent);
-		this.vip = vip;
-		this.guards = guards;
+		this.vip = goal.getVip();
+		this.guards = goal.getGuards();
 		onMove = false;
 		inFormation = false;
 		chosenPositions = new ArrayList<>();
@@ -181,6 +190,11 @@ public class GroupGuard extends UnitActivity<Zealot, GroupGuardGoal>{
 		if(lastVipPosition == null || vip.getUnit().getPosition().equals(lastVipPosition)){
 			new GuardOnPositionInfo(agent.getCommandAgent(), agent).send();
 		}
+	}
+
+	@Override
+	public GroupGuard create(Zealot agent, GroupGuardGoal goal) {
+		return new GroupGuard(agent, goal);
 	}
 	
 	

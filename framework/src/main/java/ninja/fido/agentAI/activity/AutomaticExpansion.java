@@ -6,8 +6,6 @@
 package ninja.fido.agentAI.activity;
 
 import bwapi.UnitType;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ninja.fido.agentAI.agent.ExpansionCommand;
 import ninja.fido.agentAI.agent.FullCommander;
 import ninja.fido.agentAI.agent.unit.Worker;
@@ -23,7 +21,7 @@ import ninja.fido.agentAI.request.ExpansionInfoRequest;
  *
  * @author F.I.D.O.
  */
-public class AutomaticExpansion extends CommandActivity<ExpansionCommand, AutomaticExpansionGoal> 
+public class AutomaticExpansion extends CommandActivity<ExpansionCommand,AutomaticExpansionGoal,AutomaticExpansion> 
 		implements DecisionModuleActivity<ExpansionCommand, AutomaticExpansionGoal, AutomaticExpansion>{
 	
 	private UnitType expansionBuildingType;

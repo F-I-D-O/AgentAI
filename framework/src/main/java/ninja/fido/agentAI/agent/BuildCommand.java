@@ -8,7 +8,6 @@ package ninja.fido.agentAI.agent;
 import ninja.fido.agentAI.base.CommandAgent;
 import bwapi.TilePosition;
 import bwapi.UnitType;
-import ninja.fido.agentAI.activity.terran.BBSBuild;
 import ninja.fido.agentAI.BuildPlan;
 import ninja.fido.agentAI.buildingPlacer.Building;
 import ninja.fido.agentAI.buildingPlacer.BuildingPlacer;
@@ -18,7 +17,6 @@ import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.ResourceType;
 import ninja.fido.agentAI.Tools;
 import ninja.fido.agentAI.agent.unit.Worker;
-import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.order.ConstructBuildingOrder;
 import ninja.fido.agentAI.goal.BBSBuildGoal;
@@ -29,10 +27,13 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import ninja.fido.agentAI.activity.Wait;
+import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentAI.goal.WaitGoal;
 
 /**
  *
@@ -73,6 +74,16 @@ public class BuildCommand extends CommandAgent{
     }
     
     
+	
+	@Override
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
+
+		defaultActivityMap.put(WaitGoal.class, new Wait());
+
+		return defaultActivityMap;
+	}
+	
 	
     private void addWorker(Worker worker){
 		freeWorkers.add(worker);
@@ -199,7 +210,7 @@ public class BuildCommand extends CommandAgent{
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return  new BBSBuildGoal(this, null);
+		return  new WaitGoal(this, null);
 	}	
 
 	@Override
@@ -219,16 +230,6 @@ public class BuildCommand extends CommandAgent{
 	private void incNumberOfConstructionStarted(UnitType unitType){
 		Tools.incrementMapValue(numberOfConstrustionStarted, unitType);
 	}
-	
-
-    @Override
-    protected Activity chooseActivity() {
-        if(getGoal() instanceof BBSBuildGoal){
-			return new BBSBuild(this);
-		}
-		return null;
-    }
-
 	
 	private TilePosition findPositionForBuild(BuildPlan buildPlan, Worker worker) {
 		return findPositionForBuild(buildPlan.getBuildingType(), worker);

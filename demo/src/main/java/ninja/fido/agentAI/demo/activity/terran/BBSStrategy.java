@@ -40,7 +40,7 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
  * @author david_000
  * @param <A>
  */
-public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal> 
+public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal,BBSStrategy> 
 		implements DecisionModuleActivity<A,Goal,BBSStrategy>{
 	
 	private static final int MINERALS_FOR_BUILDING_CONSTRUCTION = 400;

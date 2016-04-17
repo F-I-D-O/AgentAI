@@ -3,26 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI.activity.terran;
+package ninja.fido.agentAI.demo.activity.terran;
 
 import ninja.fido.agentAI.base.CommandActivity;
 import bwapi.UnitType;
 import ninja.fido.agentAI.BuildPlan;
 import ninja.fido.agentAI.Log;
-import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.agent.BuildCommand;
 import ninja.fido.agentAI.base.Goal;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author david_000
  * @param <A>
  */
-public class BBSBuild<A extends BuildCommand> extends CommandActivity<A,Goal> {
-    
-    
+public class BBSBuild<A extends BuildCommand> extends CommandActivity<A,Goal,BBSBuild> {
+
+	public BBSBuild() {
+	}
 
     public BBSBuild(A agent) {
         super(agent);
@@ -63,5 +62,10 @@ public class BBSBuild<A extends BuildCommand> extends CommandActivity<A,Goal> {
         final BBSBuild other = (BBSBuild) obj;
         return true;
     }
+
+	@Override
+	public BBSBuild create(A agent, Goal goal) {
+		return new BBSBuild(agent);
+	}
     
 }

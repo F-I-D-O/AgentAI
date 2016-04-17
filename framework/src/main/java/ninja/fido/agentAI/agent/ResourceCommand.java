@@ -5,9 +5,11 @@
  */
 package ninja.fido.agentAI.agent;
 
-import ninja.fido.agentAI.base.CommandAgent;
-import ninja.fido.agentAI.base.Activity;
+import java.util.HashMap;
+import java.util.Map;
 import ninja.fido.agentAI.activity.ManageHarvest;
+import ninja.fido.agentAI.base.Activity;
+import ninja.fido.agentAI.base.CommandAgent;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.HarvestGoal;
 
@@ -19,17 +21,20 @@ public class ResourceCommand extends CommandAgent{
     
     public static final int MINERAL_SHARE_MINERALS_ONLY = 1;
 
-    @Override
-    protected Activity chooseActivity() {
-        if(getGoal() instanceof HarvestGoal){
-			HarvestGoal goal = getGoal();
-			return new ManageHarvest(this, goal.getMineralShare());
-		}
-		return null;
-    }
+	@Override
+	public Map<Class<? extends Goal>, Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
+		
+		defaultActivityMap.put(HarvestGoal.class, new ManageHarvest());
+		
+		return defaultActivityMap;
+	}
+	
+	
 
 	@Override
 	protected Goal getDefaultGoal() {
 		return new HarvestGoal(this, null, MINERAL_SHARE_MINERALS_ONLY);
 	}
+	
 }

@@ -21,7 +21,7 @@ import java.util.logging.Level;
  *
  * @author david_000
  */
-public class Move extends UnitActivity<UnitAgent,MoveGoal>
+public class Move extends UnitActivity<UnitAgent,MoveGoal,Move>
 		implements DecisionModuleActivity<UnitAgent, MoveGoal, Activity>{
 	
 	public static final int DEFAULT_MAX_DISTANCE_FROM_TARGET = 200;
@@ -130,7 +130,7 @@ public class Move extends UnitActivity<UnitAgent,MoveGoal>
 	}
 
 	@Override
-	public Activity create(UnitAgent agent, MoveGoal goal) {
+	public Move create(UnitAgent agent, MoveGoal goal) {
 		return new Move(agent, goal);
 	}
     

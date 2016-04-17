@@ -14,8 +14,10 @@ import java.util.Objects;
 /**
  *
  * @author F.I.D.O.
+ * @param <AC>
  */
-public abstract class SquadAttackMove extends CommandActivity<SquadCommander,SquadAttackMoveGoal>{
+public abstract class SquadAttackMove<AC extends SquadAttackMove>
+extends CommandActivity<SquadCommander,SquadAttackMoveGoal,AC>{
 	
 	protected Position attackTarget;
 

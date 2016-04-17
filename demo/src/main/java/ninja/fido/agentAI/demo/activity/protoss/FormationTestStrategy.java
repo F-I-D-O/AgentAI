@@ -5,7 +5,6 @@
  */
 package ninja.fido.agentAI.demo.activity.protoss;
 
-import ninja.fido.agentAI.demo.activity.protoss.FormationTestSquadFormationIndividual;
 import ninja.fido.agentAI.agent.FullCommander;
 import ninja.fido.agentAI.agent.SquadCommander;
 import ninja.fido.agentAI.agent.unit.UnitAgent;
@@ -21,7 +20,7 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
  *
  * @author F.I.D.O.
  */
-public class FormationTestStrategy extends CommandActivity<FullCommander, Goal>{
+public class FormationTestStrategy extends CommandActivity<FullCommander,Goal,FormationTestStrategy>{
 	
 	private SquadCommander squadCommander;
 
@@ -48,6 +47,11 @@ public class FormationTestStrategy extends CommandActivity<FullCommander, Goal>{
 //				new ActivityGoal(squadCommander, null, new FormationTestSquadFormation(squadCommander))).issueOrder();
 		new UniversalGoalOrder(squadCommander, agent, new ActivityGoal(squadCommander, null, 
 						new FormationTestSquadFormationIndividual(squadCommander))).issueOrder();
+	}
+
+	@Override
+	public FormationTestStrategy create(FullCommander agent, Goal goal) {
+		return new FormationTestStrategy(agent);
 	}
 	
 }

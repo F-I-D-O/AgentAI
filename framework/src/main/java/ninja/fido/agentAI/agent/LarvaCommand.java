@@ -5,16 +5,9 @@
  */
 package ninja.fido.agentAI.agent;
 
-import ninja.fido.agentAI.activity.zerg.OutbreakProduction;
-import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.CommandAgent;
 import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionTable;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionTablesMapKey;
-import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
 import ninja.fido.agentAI.goal.DroneProductionGoal;
-import java.util.TreeMap;
 
 /**
  *
@@ -24,23 +17,8 @@ public class LarvaCommand extends CommandAgent{
 
 	public LarvaCommand() {
 		
-		reasoningOn = true;
-		
-		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new OutbreakProduction());
-		DecisionTablesMapKey key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(DroneProductionGoal.class));
-		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-		
-		referenceKey = key;
 	}
 	
-	
-
-	@Override
-	protected Activity chooseActivity() {
-		return null;
-	}
 
 	@Override
 	protected Goal getDefaultGoal() {

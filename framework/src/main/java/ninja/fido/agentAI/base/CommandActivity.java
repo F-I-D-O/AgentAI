@@ -14,7 +14,8 @@ import java.util.logging.Level;
  * @param <T>
  * @param <G>
  */
-public abstract class CommandActivity<T extends CommandAgent,G extends Goal> extends Activity<T,G> {
+public abstract class CommandActivity<T extends CommandAgent,G extends Goal, AC extends CommandActivity> 
+		extends Activity<T,G,AC> {
 
 	public CommandActivity() {
 		

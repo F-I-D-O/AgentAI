@@ -18,7 +18,6 @@ import ninja.fido.agentAI.activity.ExploreBaseLocation;
 import ninja.fido.agentAI.activity.HarvestMinerals;
 import ninja.fido.agentAI.activity.Move;
 import ninja.fido.agentAI.activity.StartExpansion;
-import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionTable;
@@ -57,8 +56,9 @@ public abstract class Worker extends UnitAgent implements Scout {
 	public boolean isInvalidBuildPositionFailure() {
 		return invalidBuildPositionFailure;
 	}
-	
-	
+
+	public Worker() {
+	}
 	
 	
 	public Worker(Unit unit) {

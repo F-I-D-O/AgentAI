@@ -19,7 +19,7 @@ import org.w3c.dom.Element;
  *
  * @author F.I.D.O.
  */
-public class NormalSquadAttackMove extends SquadAttackMove
+public class NormalSquadAttackMove extends SquadAttackMove<NormalSquadAttackMove>
 		implements StorableDecisionModuleActivity<SquadCommander, SquadAttackMoveGoal, NormalSquadAttackMove>{
 	
 	private static final int DEFAULT_MIN_SQUAD_SIZE = 5;

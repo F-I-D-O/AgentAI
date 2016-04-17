@@ -146,6 +146,17 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		return decisionModule.isDecisionMakingOn(agent);
 	}
 	
+	public static void addSimpleDecisionMap(
+			Class<? extends Agent> agentClass, Map<Class<? extends Goal>,Activity> simpleDecisionsMap){
+		gameAPI.agentSimpleDecisions.put(agentClass, simpleDecisionsMap);
+	}
+	
+	public static Map<Class<? extends Goal>,Activity> getSimpleDecisionsMap(Class<? extends Agent> agentClass){
+		return gameAPI.agentSimpleDecisions.get(agentClass);
+	}
+	
+	
+	
 	public GameApiModule getRegisteredModule(Class<? extends GameApiModule> moduleType){
 		for (GameApiModule module : registeredModules) {
 			if(moduleType.isInstance(module)){
@@ -192,6 +203,10 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	private final Map<Unit,Worker> unfinishedBuildings;
 	
+	private final Map<Class<? extends Agent>,Map<Class<? extends Goal>,Activity>> agentSimpleDecisions;
+	
+	
+	
 	
 	private List<GameAgent> getUnitAgents() {
 		return unitAgents;
@@ -219,6 +234,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		gameCount = 1;
 		registeredModules = new ArrayList<>();
 		unfinishedBuildings = new HashMap<>();
+		agentSimpleDecisions = new HashMap<>();
 		this.logLevel = logLevel;
 		this.gameSpeed = gameSpeed;
 		this.frameSkip = frameSkip;
@@ -612,5 +628,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		}
 		registeredModules.add(module);
 	}
+	
+
 	
 }

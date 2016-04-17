@@ -11,20 +11,28 @@ import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
 import java.util.Objects;
+import ninja.fido.agentAI.goal.AttackMoveGoal;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class AttackMove extends Activity<UnitAgent,Goal>{
+public class AttackMove extends Activity<UnitAgent,AttackMoveGoal,AttackMove>{
 	
 	private final Position target;
 	
 	int counter = 0;
 
-	public AttackMove(UnitAgent agent, Position target) {
+	
+	
+	public AttackMove() {
+		this.target = null;
+	}
+	
+
+	public AttackMove(UnitAgent agent, AttackMoveGoal goal) {
 		super(agent);
-		this.target = target;
+		this.target = goal.getAttackTarget();
 	}
 
 	@Override
@@ -60,6 +68,11 @@ public class AttackMove extends Activity<UnitAgent,Goal>{
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public AttackMove create(UnitAgent agent, AttackMoveGoal goal) {
+		return new AttackMove(agent, goal);
 	}
 	
 	

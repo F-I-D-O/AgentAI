@@ -8,25 +8,32 @@ package ninja.fido.agentAI.activity;
 import ninja.fido.agentAI.base.CommandActivity;
 import ninja.fido.agentAI.agent.ResourceCommand;
 import ninja.fido.agentAI.agent.unit.SCV;
-import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.order.HarvestMineralsOrder;
 import ninja.fido.agentAI.goal.HarvestMineralsGoal;
 import java.util.List;
 import java.util.Objects;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentAI.goal.HarvestGoal;
 
 /**
  *
  * @author david_000
  * @param <A>
  */
-public class ManageHarvest<A extends ResourceCommand> extends CommandActivity<A,Goal>{
+public class ManageHarvest<A extends ResourceCommand> extends CommandActivity<A,HarvestGoal,ManageHarvest>{
 	
 	private final double mineralShare;
 
-    public ManageHarvest(A agent, double mineralShare) {
+	
+	
+	
+	public ManageHarvest() {
+		mineralShare = 0;
+	}
+
+    public ManageHarvest(A agent, HarvestGoal goal) {
         super(agent);
-        this.mineralShare = mineralShare;
+        this.mineralShare = goal.getMineralShare();
     }
 
     @Override
@@ -57,6 +64,11 @@ public class ManageHarvest<A extends ResourceCommand> extends CommandActivity<A,
 	@Override
 	protected void init() {
 		
+	}
+
+	@Override
+	public ManageHarvest create(A agent, HarvestGoal goal) {
+		return new ManageHarvest(agent, goal);
 	}
     
 }

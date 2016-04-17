@@ -7,7 +7,6 @@ package ninja.fido.agentAI.agent;
 
 import ninja.fido.agentAI.base.Commander;
 import bwapi.Race;
-import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.BBSStrategyGoal;
@@ -26,8 +25,7 @@ public class FullCommander extends Commander{
 	
 	
 	public static FullCommander create(String name) throws MultipleCommandersException{
-		fullCommander = new FullCommander(name);
-		return fullCommander;
+		return new FullCommander(name);
 	}
 	
 	public static FullCommander get() throws CommanderNotCreatedException{
@@ -59,6 +57,7 @@ public class FullCommander extends Commander{
 	
 	protected FullCommander(String name) throws MultipleCommandersException {
 		super(name);
+		fullCommander = this;
 	}
 
 	
@@ -78,16 +77,6 @@ public class FullCommander extends Commander{
 		GameAPI.addAgent(resourceCommand, this);
 		buildCommand = new BuildCommand();
 		GameAPI.addAgent(buildCommand, this);
-		
-		fullCommander = this;
 	}
-
-	@Override
-	protected Activity chooseActivity() {
-		return null;
-	}
-
-	
-	
 	
 }

@@ -15,9 +15,13 @@ public abstract class GameAgent extends Agent {
     public Unit getUnit() {
         return unit;
     }
+
 	
 	
 	
+	public GameAgent() {
+		unit = null;
+	}
 
     public GameAgent(Unit unit) {
         this.unit = unit;

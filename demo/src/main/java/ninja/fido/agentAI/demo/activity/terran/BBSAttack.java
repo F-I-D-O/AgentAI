@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI.activity.terran;
+package ninja.fido.agentAI.demo.activity.terran;
 
 import bwapi.Position;
 import ninja.fido.agentAI.BaseLocationInfo;
@@ -21,13 +21,19 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
  *
  * @author F.I.D.O.
  */
-public class BBSAttack extends CommandActivity<UnitCommand,Goal>{
+public class BBSAttack extends CommandActivity<UnitCommand,Goal,BBSAttack>{
 	
 	private SquadCommander squadCommander;
 	
 	private Position enemyBaseLocation;
 	
 	private boolean attackOrdered;
+
+	
+	
+	
+	public BBSAttack() {
+	}
 
 	public BBSAttack(UnitCommand agent) {
 		super(agent);
@@ -71,6 +77,11 @@ public class BBSAttack extends CommandActivity<UnitCommand,Goal>{
 	protected void init() {
 		squadCommander = new SquadCommander();
 		GameAPI.addAgent(squadCommander, agent);
+	}
+
+	@Override
+	public BBSAttack create(UnitCommand agent, Goal goal) {
+		return new BBSAttack(agent);
 	}
 	
 }

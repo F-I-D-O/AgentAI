@@ -6,15 +6,9 @@
 package ninja.fido.agentAI.agent;
 
 
-import ninja.fido.agentAI.activity.zerg.OutbreakStrategy;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionTable;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionTablesMapKey;
-import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
 import ninja.fido.agentAI.goal.OutbreakStrategyGoal;
-import java.util.TreeMap;
 import ninja.fido.agentAI.base.exception.CommanderNotCreatedException;
 import ninja.fido.agentAI.base.exception.MultipleCommandersException;
 
@@ -29,8 +23,7 @@ public class ZergCommander extends FullCommander{
 	
 	
 	public static ZergCommander create(String name) throws MultipleCommandersException{
-		zergCommander = new ZergCommander(name);
-		return zergCommander;
+		return new ZergCommander(name);
 	}
 	
 	public static ZergCommander get() throws CommanderNotCreatedException{
@@ -42,32 +35,29 @@ public class ZergCommander extends FullCommander{
 	
 	
 	
-	public final LarvaCommand larvaCommand;
+	public LarvaCommand larvaCommand;
 	
-	public final ExpansionCommand expansionCommand;
+	public ExpansionCommand expansionCommand;
 	
 	protected ZergCommander(String name) throws MultipleCommandersException {
 		super(name);
-		larvaCommand = new LarvaCommand();
-		GameAPI.addAgent(larvaCommand, this);
-		
-		expansionCommand = new ExpansionCommand();
-		GameAPI.addAgent(expansionCommand, this);
-		
-		reasoningOn = true;
-		
-		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new OutbreakStrategy(this));
-		DecisionTablesMapKey key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(OutbreakStrategyGoal.class));
-		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-		
-		referenceKey = key;
+		zergCommander = this;
 	}
 
 	@Override
 	protected Goal getDefaultGoal() {
 		return new OutbreakStrategyGoal(this, null);
+	}
+
+	@Override
+	protected void init() {
+		super.init();
+		
+		larvaCommand = new LarvaCommand();
+		GameAPI.addAgent(larvaCommand, this);
+		
+		expansionCommand = new ExpansionCommand();
+		GameAPI.addAgent(expansionCommand, this);
 	}
 	
 	

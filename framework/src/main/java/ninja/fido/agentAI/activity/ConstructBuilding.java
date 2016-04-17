@@ -21,7 +21,7 @@ import java.util.Objects;
  *
  * @author F.I.D.O.
  */
-public class ConstructBuilding extends UnitActivity<Worker,Goal>
+public class ConstructBuilding extends UnitActivity<Worker,Goal,ConstructBuilding>
 		implements DecisionModuleActivity<Worker, Goal, ConstructBuilding>{
 	
 	private UnitType buildingType;

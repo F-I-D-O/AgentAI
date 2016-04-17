@@ -7,6 +7,8 @@ package ninja.fido.agentAI.agent.unit;
 
 import bwapi.Unit;
 import bwapi.UnitType;
+import java.util.HashMap;
+import java.util.Map;
 import ninja.fido.agentAI.Log;
 import ninja.fido.agentAI.MorphableUnit;
 import ninja.fido.agentAI.ResourceDeficiencyException;
@@ -51,20 +53,12 @@ public class Larva extends GameAgent implements MorphableUnit{
 //			return unitType.supplyRequired();
 //		}
 	}
-	
+
+	public Larva() {
+	}
 
 	public Larva(Unit unit) {
 		super(unit);
-		
-		reasoningOn = true;
-		
-		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new Wait(this));
-		DecisionTablesMapKey key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(WaitGoal.class));
-		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-		
-		referenceKey = key;
 	}
 	
 	
@@ -88,4 +82,16 @@ public class Larva extends GameAgent implements MorphableUnit{
 		return new WaitGoal(this, null);
 	}
 	
+	@Override
+	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
+		Map<DecisionTablesMapKey,DecisionTable> decisionTablesMap = new HashMap<>();
+		
+		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
+		actionMap.put(1.0, new Wait(this));
+		DecisionTablesMapKey key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(WaitGoal.class));
+		decisionTablesMap.put(key, new DecisionTable(actionMap));
+		
+		return decisionTablesMap;
+	}
 }

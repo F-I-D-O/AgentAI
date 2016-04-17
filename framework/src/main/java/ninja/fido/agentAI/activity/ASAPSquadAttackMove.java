@@ -21,7 +21,7 @@ import org.w3c.dom.Element;
  *
  * @author F.I.D.O.
  */
-public class ASAPSquadAttackMove extends SquadAttackMove
+public class ASAPSquadAttackMove extends SquadAttackMove<ASAPSquadAttackMove>
 		implements StorableDecisionModuleActivity<SquadCommander, SquadAttackMoveGoal, ASAPSquadAttackMove>{
 
 	public ASAPSquadAttackMove() {

@@ -19,14 +19,13 @@ import java.util.logging.Level;
  */
 public class Drone extends Worker implements MorphableUnit{
 
+	public Drone() {
+	}
+
 	public Drone(Unit unit) {
 		super(unit);
 	}
-
-	@Override
-	protected Activity chooseActivity() {
-		return null;
-	}
+	
 
 	@Override
 	protected Goal getDefaultGoal() {
@@ -53,5 +52,6 @@ public class Drone extends Worker implements MorphableUnit{
 		Log.log(this, Level.INFO, "{0}: morph into {1} finished.", this.getClass(), unit.getType());
 	}
 
+	
 	
 }

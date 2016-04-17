@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI.activity.zerg;
+package ninja.fido.agentAI.demo.activity.zerg;
 
 import bwapi.UnitType;
 import ninja.fido.agentAI.ResourceDeficiencyException;
@@ -25,7 +25,7 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
  *
  * @author F.I.D.O.
  */
-public class OutbreakProduction extends CommandActivity<LarvaCommand, Goal>
+public class OutbreakProduction extends CommandActivity<LarvaCommand,Goal,OutbreakProduction>
 		implements DecisionModuleActivity<LarvaCommand, Goal, OutbreakProduction>{
 	
 	private boolean overlordInProduction;

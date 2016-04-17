@@ -25,7 +25,8 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
  *
  * @author F.I.D.O.
  */
-public class FormationTestSquadFormationIndividual extends CommandActivity<SquadCommander, Goal>{
+public class FormationTestSquadFormationIndividual 
+		extends CommandActivity<SquadCommander,Goal,FormationTestSquadFormationIndividual>{
 	
 	private ArrayList<Zealot> zealotsOnPosition;
 	
@@ -86,6 +87,11 @@ public class FormationTestSquadFormationIndividual extends CommandActivity<Squad
 		int newX = oldPosition.getX() + (int) direction.getX();
 		int newY = oldPosition.getY() + (int) direction.getY();
 		return new Position(newX, newY);
+	}
+
+	@Override
+	public FormationTestSquadFormationIndividual create(SquadCommander agent, Goal goal) {
+		return new FormationTestSquadFormationIndividual(agent);
 	}
 	
 }

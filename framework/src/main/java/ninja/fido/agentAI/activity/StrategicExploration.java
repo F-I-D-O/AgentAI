@@ -26,7 +26,7 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
  * @author david_000
  * @param <A>
  */
-public class StrategicExploration<A extends ExplorationCommand> extends CommandActivity<A,Goal> {
+public class StrategicExploration<A extends ExplorationCommand> extends CommandActivity<A,Goal,StrategicExploration> {
     
     private final ArrayList<Scout> scouts;
 
@@ -85,6 +85,11 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
 	@Override
 	protected void init() {
 		
+	}
+
+	@Override
+	public StrategicExploration create(A agent, Goal goal) {
+		return new StrategicExploration(agent);
 	}
     
     

@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentAI.base.exception.SimpleDecisionException;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 public abstract class Agent {
 
@@ -38,7 +40,7 @@ public abstract class Agent {
 	
 	private int receivedGasTotal;
 	
-	private Map<Class<? extends Goal>,? extends Activity> goalActivityMap;
+	private Map<Class<? extends Goal>,Activity> goalActivityMap;
 	
 	private Map<DecisionTablesMapKey,DecisionTable> decisionTablesMap;
 	
@@ -100,7 +102,7 @@ public abstract class Agent {
 	
 	
 	
-	public Agent() {
+	public Agent() throws EmptyDecisionTableMapException {
 		assigned = false;
 		reasoningOn = false;
 		goalChanged = true;
@@ -122,13 +124,19 @@ public abstract class Agent {
 			setReferenceKey();
 			reasoningOn = true;
 		}
-		goalActivityMap = getDefaultGoalActivityMap();
+		
+		// simple decisions
+		goalActivityMap = GameAPI.getSimpleDecisionsMap(this.getClass());
+		if(goalActivityMap == null){
+			goalActivityMap = getDefaultGoalActivityMap();
+		}
 	}
 	
 	
 	
 
-    public final void run() throws CannotDecideException, NoActionChosenException, ChainOfCommandViolationException {
+    public final void run() throws CannotDecideException, NoActionChosenException, ChainOfCommandViolationException, 
+			SimpleDecisionException {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
 		if(!initialized){
 			init();
@@ -166,7 +174,12 @@ public abstract class Agent {
 		}
 		
         if (chosenAction == null) {
-            throw new NoActionChosenException(this.getClass(), goal, commandAgent.getClass());
+			if(this instanceof Commander){
+				throw new NoActionChosenException(this.getClass(), goal, null);
+			}
+			else{
+				throw new NoActionChosenException(this.getClass(), goal, commandAgent.getClass());
+			}
         }
 		Log.log(this, Level.FINE, "{0}: Goal: {1}", this.getClass(), goal.getClass());
 		Log.log(this, Level.FINE, "{0}: Chosen action: {1}", this.getClass(), chosenAction.getClass());
@@ -260,8 +273,16 @@ public abstract class Agent {
 //	}
 	
 	
-	protected Activity chooseActivity(){
+	protected Activity chooseActivity() throws SimpleDecisionException{
 		Activity template = goalActivityMap.get(goal.getClass());
+		if(template == null){
+			if(this instanceof Commander){
+				throw new SimpleDecisionException(this.getClass(), goal, null);
+			}
+			else{
+				throw new SimpleDecisionException(this.getClass(), goal, commandAgent.getClass());
+			}
+		}
 		return template.create(this, goal);
 	}
 	
@@ -337,7 +358,10 @@ public abstract class Agent {
 		 
 	}
 
-	private void setReferenceKey() {
+	private void setReferenceKey() throws EmptyDecisionTableMapException {
+		if(decisionTablesMap.isEmpty()){
+			throw new EmptyDecisionTableMapException(this.getClass());
+		}
 		for (Map.Entry<DecisionTablesMapKey, DecisionTable> entry : decisionTablesMap.entrySet()) {
 			referenceKey = entry.getKey();
 			break;
@@ -348,7 +372,7 @@ public abstract class Agent {
 		return null;
 	}
 
-	protected Map<Class<? extends Goal>, ? extends Activity> getDefaultGoalActivityMap() {
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
 		return new HashMap<>();
 	}
 

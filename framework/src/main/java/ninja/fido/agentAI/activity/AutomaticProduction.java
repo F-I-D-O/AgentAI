@@ -11,20 +11,26 @@ import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.agent.unit.Barracks;
 import ninja.fido.agentAI.base.Goal;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import ninja.fido.agentAI.goal.AutomaticProductionGoal;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class AutomaticProduction extends UnitActivity<Barracks,Goal>{
+public class AutomaticProduction extends UnitActivity<Barracks,Goal,AutomaticProduction>{
 	
-	UnitType unitType;
+	private UnitType unitType;
+	
+	
+	
 
-	public AutomaticProduction(Barracks unitAgent, UnitType unitType) {
+	public AutomaticProduction(UnitType automaticProductionType) {
+		this.unitType = automaticProductionType;
+	}
+
+	public AutomaticProduction(Barracks unitAgent, UnitType automaticProductionType) {
 		super(unitAgent);
-		this.unitType = unitType;
+		this.unitType = automaticProductionType;
 	}
 
 	@Override
@@ -57,6 +63,11 @@ public class AutomaticProduction extends UnitActivity<Barracks,Goal>{
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public AutomaticProduction create(Barracks agent, Goal goal) {
+		return new AutomaticProduction(agent, unitType);
 	}
 	
 }

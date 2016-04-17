@@ -15,6 +15,9 @@ import ninja.fido.agentAI.base.GameAgent;
  * @author F.I.D.O.
  */
 public abstract class UnitAgent extends GameAgent{
+
+	public UnitAgent() {
+	}
 	
 	public UnitAgent(Unit unit) {
 		super(unit);

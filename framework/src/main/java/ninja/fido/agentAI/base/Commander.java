@@ -17,8 +17,7 @@ public class Commander extends CommandAgent {
 	private static Commander commander;
 	
 	public static Commander create(String name) throws MultipleCommandersException{
-		commander = new Commander(name);
-		return commander;
+		return new Commander(name);
 	}
 	
 	public static Commander get() throws CommanderNotCreatedException{
@@ -58,15 +57,9 @@ public class Commander extends CommandAgent {
 			throw new MultipleCommandersException(commanderClass, this.getClass());
 		}
 		commanderClass = this.getClass();
+		commander = this;
     }
 	
-	
-	
-
-    @Override
-    protected Activity chooseActivity() {
-		return null;
-    }
 	
 	private void reserveResource(Resource resource){
 		switch(resource.getResourceType()){

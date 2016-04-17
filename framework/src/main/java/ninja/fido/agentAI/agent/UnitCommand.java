@@ -6,14 +6,16 @@
 package ninja.fido.agentAI.agent;
 
 import ninja.fido.agentAI.BaseLocationInfo;
-import ninja.fido.agentAI.activity.terran.BBSAttack;
 import ninja.fido.agentAI.base.CommandAgent;
-import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.goal.BBSAttackGoal;
 import ninja.fido.agentAI.info.EnemyBasesInfo;
 import ninja.fido.agentAI.base.Info;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import ninja.fido.agentAI.activity.Wait;
+import ninja.fido.agentAI.base.Activity;
+import ninja.fido.agentAI.goal.WaitGoal;
 
 /**
  *
@@ -36,14 +38,16 @@ public class UnitCommand extends CommandAgent {
 	}
 	
 	
+	
+	@Override
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
 
-    @Override
-    protected Activity chooseActivity() {
-        if(getGoal() instanceof BBSAttackGoal){
-			return new BBSAttack(this);
-		}
-		return null;
-    }
+		defaultActivityMap.put(WaitGoal.class, new Wait());
+
+		return defaultActivityMap;
+	}
+	
 
 	@Override
 	protected void processInfo(Info info) {
@@ -54,7 +58,7 @@ public class UnitCommand extends CommandAgent {
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new BBSAttackGoal(this, null);
+		return new WaitGoal(this, null);
 	}
 	
 	

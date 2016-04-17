@@ -6,13 +6,15 @@
 package ninja.fido.agentAI.agent;
 
 import ninja.fido.agentAI.agent.unit.Barracks;
-import ninja.fido.agentAI.base.Activity;
-import ninja.fido.agentAI.activity.terran.BBSProduction;
 import ninja.fido.agentAI.base.Agent;
 import ninja.fido.agentAI.base.CommandAgent;
 import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.goal.BBSProductionGoal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import ninja.fido.agentAI.activity.Wait;
+import ninja.fido.agentAI.base.Activity;
+import ninja.fido.agentAI.goal.WaitGoal;
 
 /**
  *
@@ -35,13 +37,6 @@ public class ProductionCommand extends CommandAgent{
 	}
 	
 
-	@Override
-	protected Activity chooseActivity() {
-		if(getGoal() instanceof BBSProductionGoal){
-			return new BBSProduction(this);
-		}
-		return null;
-	}
 
 	public boolean isMineralsMissing() {
 		return getMissingMinerals() > 0;
@@ -66,6 +61,15 @@ public class ProductionCommand extends CommandAgent{
 		}
 		return missingSupply - getOwnedSupply();
 	}
+	
+	@Override
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
+
+		defaultActivityMap.put(WaitGoal.class, new Wait());
+
+		return defaultActivityMap;
+	}
 
 	@Override
 	protected void onCommandedAgentAdded(Agent subordinateAgent) {
@@ -77,7 +81,7 @@ public class ProductionCommand extends CommandAgent{
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new BBSProductionGoal(this, null);
+		return new WaitGoal(this, null);
 	}
 	
 	

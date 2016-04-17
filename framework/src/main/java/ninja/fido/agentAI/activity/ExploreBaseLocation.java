@@ -22,7 +22,8 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
  * @author david_000
  * @param <A>
  */
-public class ExploreBaseLocation<A extends UnitAgent & Scout> extends UnitActivity<A,ExploreBaseLocationGoal>
+public class ExploreBaseLocation<A extends UnitAgent & Scout> 
+		extends UnitActivity<A,ExploreBaseLocationGoal,ExploreBaseLocation>
 		implements DecisionModuleActivity<A, ExploreBaseLocationGoal, ExploreBaseLocation>{
     
     private boolean locationExplored;

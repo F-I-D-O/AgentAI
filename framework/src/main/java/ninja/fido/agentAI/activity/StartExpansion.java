@@ -22,7 +22,7 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
  *
  * @author F.I.D.O.
  */
-public class StartExpansion extends Activity<Worker, StartExpansionGoal>
+public class StartExpansion extends Activity<Worker,StartExpansionGoal,StartExpansion>
 		implements DecisionModuleActivity<Worker, StartExpansionGoal, StartExpansion>{
 	
 	private UnitType expansionBuildingType;

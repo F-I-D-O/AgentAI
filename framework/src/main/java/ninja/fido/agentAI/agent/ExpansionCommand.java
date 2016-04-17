@@ -29,6 +29,8 @@ import ninja.fido.agentAI.base.Request;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentAI.order.StartExpansionOrder;
 import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
@@ -56,16 +58,6 @@ public class ExpansionCommand extends CommandAgent
 	public ExpansionCommand() {
 		freeWorkers = new ArrayDeque<>();
 		buildingPlacer = GameAPI.getBuildingPlacer();
-		
-		reasoningOn = true;
-		
-		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new AutomaticExpansion());
-		DecisionTablesMapKey key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(AutomaticExpansionGoal.class));
-		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-		
-		referenceKey = key;
 	}
 	
 	public int getNumberOfFreeWorkers(){
@@ -149,6 +141,19 @@ public class ExpansionCommand extends CommandAgent
 //		TilePosition buildingPosition = findPositionForBuild(expansionBuildingType, worker);
 		new StartExpansionOrder(worker, this, expansionBuildingType, nextExpansionPosition).issueOrder();
 		nextExpansionPosition = null;
+	}
+
+	@Override
+	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
+		Map<DecisionTablesMapKey,DecisionTable> decisionTablesMap = new HashMap<>();
+		
+		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
+		actionMap.put(1.0, new AutomaticExpansion());
+		DecisionTablesMapKey key =  new DecisionTablesMapKey();
+		key.addParameter(new GoalParameter(AutomaticExpansionGoal.class));
+		decisionTablesMap.put(key, new DecisionTable(actionMap));
+		
+		return decisionTablesMap;
 	}
 	
 	
