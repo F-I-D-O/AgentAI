@@ -40,6 +40,12 @@ public class FormationTestSquadFormation extends CommandActivity<SquadCommander,
 	
 	private Vector2D direction;
 
+	
+	
+	
+	public FormationTestSquadFormation() {
+	}
+	
 	public FormationTestSquadFormation(SquadCommander agent) {
 		super(agent);
 		squadInFormation = false;

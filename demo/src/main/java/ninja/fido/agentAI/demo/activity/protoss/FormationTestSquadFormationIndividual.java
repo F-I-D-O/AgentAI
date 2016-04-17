@@ -33,8 +33,13 @@ public class FormationTestSquadFormationIndividual
 	private boolean zealotsOrdered;
 	
 	private Vector2D direction;
-	
 
+	
+	
+	
+	public FormationTestSquadFormationIndividual() {
+	}
+	
 	public FormationTestSquadFormationIndividual(SquadCommander agent) {
 		super(agent);
 		zealotsOnPosition = new ArrayList<>();

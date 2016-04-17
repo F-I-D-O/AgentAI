@@ -4,30 +4,15 @@ import ninja.fido.agentAI.BaseLocationInfo;
 import ninja.fido.agentAI.Resource;
 import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.ResourceType;
-import ninja.fido.agentAI.goal.BBSStrategyGoal;
 import ninja.fido.agentAI.info.EnemyBaseDiscovered;
 import java.util.ArrayList;
-import ninja.fido.agentAI.base.exception.CommanderNotCreatedException;
 import ninja.fido.agentAI.base.exception.MultipleCommandersException;
 
 public class Commander extends CommandAgent {
 	
 	private static Class<? extends Commander> commanderClass;
 	
-	private static Commander commander;
-	
-	public static Commander create(String name) throws MultipleCommandersException{
-		return new Commander(name);
-	}
-	
-	public static Commander get() throws CommanderNotCreatedException{
-		if(commander == null){
-			throw new CommanderNotCreatedException(Commander.class);
-		}
-		return commander;
-	}
-	
-	static void onEnd(){
+	static void onStart(){
 		commanderClass = null;
 	}
 	
@@ -41,23 +26,27 @@ public class Commander extends CommandAgent {
 	
 	private final ArrayList<BaseLocationInfo> enemyBases;
 	
-	private final String name;
+	protected final String name;
+	
+	protected final Goal initialGoal;
 
 	public ArrayList<BaseLocationInfo> getEnemyBases() {
 		return enemyBases;
 	}
 	
-	
+	protected Commander create() throws MultipleCommandersException{
+		return new Commander(name, initialGoal);
+	}
 	
 
-    protected Commander(String name) throws MultipleCommandersException {
+    public Commander(String name, Goal initialGoal) throws MultipleCommandersException {
 		enemyBases = new ArrayList<>();
 		this.name = name;
 		if(commanderClass != null){
 			throw new MultipleCommandersException(commanderClass, this.getClass());
 		}
 		commanderClass = this.getClass();
-		commander = this;
+		this.initialGoal = initialGoal;
     }
 	
 	
@@ -150,7 +139,7 @@ public class Commander extends CommandAgent {
 
 	@Override
 	protected Goal getDefaultGoal() {
-		return new BBSStrategyGoal(this, null);
+		return initialGoal;
 	}
 
 

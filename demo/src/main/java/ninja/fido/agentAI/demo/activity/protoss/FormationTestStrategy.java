@@ -11,10 +11,11 @@ import ninja.fido.agentAI.agent.unit.UnitAgent;
 import ninja.fido.agentAI.base.CommandActivity;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.goal.ActivityGoal;
 import ninja.fido.agentAI.base.UniversalGoalOrder;
 import java.util.List;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentAI.goal.FormationTestSquadFormationGoal;
+import ninja.fido.agentAI.goal.FormationTestSquadFormationIndividualGoal;
 
 /**
  *
@@ -23,6 +24,10 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 public class FormationTestStrategy extends CommandActivity<FullCommander,Goal,FormationTestStrategy>{
 	
 	private SquadCommander squadCommander;
+
+	
+	public FormationTestStrategy() {
+	}
 
 	public FormationTestStrategy(FullCommander agent) {
 		super(agent);
@@ -43,10 +48,10 @@ public class FormationTestStrategy extends CommandActivity<FullCommander,Goal,Fo
 	protected void init() throws ChainOfCommandViolationException {
 		squadCommander = new SquadCommander();
 		GameAPI.addAgent(squadCommander, agent);
+		new UniversalGoalOrder(squadCommander, agent, 
+				new FormationTestSquadFormationGoal(squadCommander, null)).issueOrder();
 //		new UniversalGoalOrder(squadCommander, agent, 
-//				new ActivityGoal(squadCommander, null, new FormationTestSquadFormation(squadCommander))).issueOrder();
-		new UniversalGoalOrder(squadCommander, agent, new ActivityGoal(squadCommander, null, 
-						new FormationTestSquadFormationIndividual(squadCommander))).issueOrder();
+//				new FormationTestSquadFormationIndividualGoal(squadCommander, null)).issueOrder();
 	}
 
 	@Override

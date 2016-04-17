@@ -23,8 +23,10 @@ import ninja.fido.agentAI.agent.unit.Drone;
 import ninja.fido.agentAI.agent.unit.Larva;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.exception.ModuleDependencyException;
+import ninja.fido.agentAI.base.exception.MultipleCommandersException;
 import ninja.fido.agentAI.demo.activity.zerg.OutbreakProduction;
 import ninja.fido.agentAI.demo.activity.zerg.OutbreakStrategy;
+import ninja.fido.agentAI.goal.BBSStrategyGoal;
 import ninja.fido.agentAI.goal.DroneProductionGoal;
 import ninja.fido.agentAI.goal.OutbreakStrategyGoal;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionModule;
@@ -41,8 +43,9 @@ import org.xml.sax.SAXException;
 public class OutbreakStarter {
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
 			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
-			ModuleDependencyException {
-		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0);
+			ModuleDependencyException, MultipleCommandersException {
+		ZergCommander commander = new ZergCommander("Outbreak Demo", new OutbreakStrategyGoal(null, null));
+		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0, commander);
 		
 		DecisionModule decisionModule = new DecisionModule();
 		

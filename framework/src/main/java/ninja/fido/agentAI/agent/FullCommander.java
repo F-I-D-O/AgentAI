@@ -20,24 +20,6 @@ import ninja.fido.agentAI.base.exception.MultipleCommandersException;
  */
 public class FullCommander extends Commander{
 	
-	private static FullCommander fullCommander;
-	
-	
-	
-	public static FullCommander create(String name) throws MultipleCommandersException{
-		return new FullCommander(name);
-	}
-	
-	public static FullCommander get() throws CommanderNotCreatedException{
-		if(fullCommander == null){
-			throw new CommanderNotCreatedException(FullCommander.class);
-		}
-		return fullCommander;
-	}	
-	
-	
-	
-	
 	public ExplorationCommand explorationCommand;
 	
 	public ResourceCommand resourceCommand;
@@ -55,18 +37,15 @@ public class FullCommander extends Commander{
 	
 	
 	
-	protected FullCommander(String name) throws MultipleCommandersException {
-		super(name);
-		fullCommander = this;
+	public FullCommander(String name, Goal initialGoal) throws MultipleCommandersException {
+		super(name, initialGoal);
 	}
 
 	
 	
-	
 	@Override
-	protected Goal getDefaultGoal() {
-		return (GameAPI.getGame().self().getRace().equals(Race.Terran) ? new BBSStrategyGoal(this, null)
-				: new DefaultProtossStrategyGoal(this, null));
+	protected FullCommander create() throws MultipleCommandersException{
+		return new FullCommander(name,initialGoal);
 	}
 
 	@Override

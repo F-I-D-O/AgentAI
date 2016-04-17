@@ -8,7 +8,6 @@ package ninja.fido.agentAI.agent;
 
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.goal.OutbreakStrategyGoal;
 import ninja.fido.agentAI.base.exception.CommanderNotCreatedException;
 import ninja.fido.agentAI.base.exception.MultipleCommandersException;
 
@@ -18,36 +17,22 @@ import ninja.fido.agentAI.base.exception.MultipleCommandersException;
  */
 public class ZergCommander extends FullCommander{
 	
-	private static ZergCommander zergCommander;
-	
-	
-	
-	public static ZergCommander create(String name) throws MultipleCommandersException{
-		return new ZergCommander(name);
-	}
-	
-	public static ZergCommander get() throws CommanderNotCreatedException{
-		if(zergCommander == null){
-			throw new CommanderNotCreatedException(ZergCommander.class);
-		}
-		return zergCommander;
-	}
-	
-	
-	
 	public LarvaCommand larvaCommand;
 	
 	public ExpansionCommand expansionCommand;
 	
-	protected ZergCommander(String name) throws MultipleCommandersException {
-		super(name);
-		zergCommander = this;
+	public ZergCommander(String name, Goal initialGoal) throws MultipleCommandersException {
+		super(name,initialGoal);
 	}
-
+	
+	
+	
+	
 	@Override
-	protected Goal getDefaultGoal() {
-		return new OutbreakStrategyGoal(this, null);
+	protected ZergCommander create() throws MultipleCommandersException{
+		return new ZergCommander(name, initialGoal);
 	}
+	
 
 	@Override
 	protected void init() {

@@ -155,6 +155,12 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		return gameAPI.agentSimpleDecisions.get(agentClass);
 	}
 	
+	public static boolean ready(){
+		return gameAPI != null;
+	}
+	
+	
+	
 	
 	
 	public GameApiModule getRegisteredModule(Class<? extends GameApiModule> moduleType){
@@ -220,15 +226,20 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		return logLevel;
 	}
 
+	
 //	public void setLogLevel(Level logLevel) {
 //		this.logLevel = logLevel;
 //	}
+
+	public void setCommander(Commander commander) {
+		this.commander = commander;
+	}
 
 	
 	
 	
 	
-	public GameAPI(final Level logLevel, int gameSpeed, int frameSkip) throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException, 
+	public GameAPI(final Level logLevel, int gameSpeed, int frameSkip, Commander commander) throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException, 
 			TransformerException, TransformerConfigurationException, XPathExpressionException {
 		frameCount = 1;
 		gameCount = 1;
@@ -238,6 +249,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		this.logLevel = logLevel;
 		this.gameSpeed = gameSpeed;
 		this.frameSkip = frameSkip;
+		
+		// commander
+		this.commander = commander;
 		
 		// event engine
 		eventEngine =  new EventEngine();
@@ -445,13 +459,15 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			unitAgentsMappedByUnit = new HashMap<>();
 
 			// commander init
+			Commander.onStart();
+			commander = commander.create();
 //			commander = new Commander();
-			if(game.self().getRace() == Race.Zerg){
-				commander = ZergCommander.create("Zerg");
-			}
-			else{
-				commander = FullCommander.create("Full");
-			}
+//			if(game.self().getRace() == Race.Zerg){
+//				commander = ZergCommander.create("Zerg");
+//			}
+//			else{
+//				commander = FullCommander.create("Full");
+//			}
 			commanderStatic = commander;
 			agents.add(commander);
 			
@@ -532,9 +548,6 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			for (GameApiModule module : registeredModules) {
 				module.onEnd(isWinner, score);
 			}
-			
-			// destroy commander
-			Commander.onEnd();
 			
 			gameCount++;
 		}

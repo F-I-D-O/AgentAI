@@ -103,6 +103,16 @@ public abstract class Agent {
 	
 	
 	public Agent() throws EmptyDecisionTableMapException {
+		if(!GameAPI.ready()){
+			commandQueue = null;
+			minerals = null;
+			gas = null;
+			supply = null;
+			infoQue = null;
+			sendRequests = null;
+			return;
+		}
+		
 		assigned = false;
 		reasoningOn = false;
 		goalChanged = true;

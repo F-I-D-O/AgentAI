@@ -8,7 +8,6 @@ package ninja.fido.agentAI.demo;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
@@ -22,16 +21,16 @@ import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.exception.ModuleDependencyException;
-import ninja.fido.agentAI.demo.activity.protoss.DefaultProtossStrategy;
+import ninja.fido.agentAI.base.exception.MultipleCommandersException;
+import ninja.fido.agentAI.demo.activity.protoss.FormationTestSquadFormation;
+import ninja.fido.agentAI.demo.activity.protoss.FormationTestSquadFormationIndividual;
+import ninja.fido.agentAI.demo.activity.protoss.FormationTestStrategy;
 import ninja.fido.agentAI.demo.activity.protoss.GroupGuard;
-import ninja.fido.agentAI.goal.DefaultProtossStrategyGoal;
+import ninja.fido.agentAI.goal.FormationTestSquadFormationGoal;
+import ninja.fido.agentAI.goal.FormationTestSquadFormationIndividualGoal;
+import ninja.fido.agentAI.goal.FormationTestStrategyGoal;
 import ninja.fido.agentAI.goal.GroupGuardGoal;
 import ninja.fido.agentAI.goal.MoveGoal;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModule;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionTable;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionTablesMapKey;
-import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
 import org.xml.sax.SAXException;
 
 /**
@@ -41,52 +40,43 @@ import org.xml.sax.SAXException;
 public class FormationDemoStarter {
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
 			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
-			ModuleDependencyException {
-		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0);
+			ModuleDependencyException, MultipleCommandersException {
+		FullCommander commander = new FullCommander("Formation Test", new FormationTestStrategyGoal(null, null));
 		
-		DecisionModule decisionModule = new DecisionModule();
-//		
-		decisionModule.registerCommanderType(FullCommander.class, getFullCommanderDefaultDecisionTablesMap());
-//		decisionModule.registerAgentClass(new SquadCommander());
+		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0, commander);
 		
-//		DecisionStorageModule decisionStorageModule = new DecisionStorageModule(decisionModule);
-//		
-//		decisionStorageModule.registerActivity(new Wait());
-//		decisionStorageModule.registerActivity(new ASAPSquadAttackMove());
-//		decisionStorageModule.registerActivity(new NormalSquadAttackMove());
-//		
-//		decisionStorageModule.registerParameter(new GoalParameter(null));
-		
-//		LearningModule learningModule = new LearningModule(gameAPI, decisionModule, decisionStorageModule);
-//		learningModule.setLearningScenario(new SquadAttackScenario());
-		
-		gameAPI.registerModule(decisionModule);
-//		gameAPI.registerModule(decisionStorageModule);
-//		gameAPI.registerModule(learningModule);
-		
-//		learningModule.processResults();
-		
-		setZealotGoalActivityMap();
+		setGoalActivityMaps();
 		
         gameAPI.run();
     }
 
-	private static void setZealotGoalActivityMap() {
+	private static void setGoalActivityMaps() {
 		Map<Class<? extends Goal>,Activity> defaultActivityMap = new Zealot().getDefaultGoalActivityMap();
 		defaultActivityMap.put(GroupGuardGoal.class, new GroupGuard());
 		defaultActivityMap.put(MoveGoal.class, new Move());
 		GameAPI.addSimpleDecisionMap(Zealot.class, defaultActivityMap);
+		
+		defaultActivityMap = new SquadCommander().getDefaultGoalActivityMap();
+		defaultActivityMap.put(FormationTestSquadFormationGoal.class, new FormationTestSquadFormation());
+		defaultActivityMap.put(
+				FormationTestSquadFormationIndividualGoal.class, new FormationTestSquadFormationIndividual());
+		defaultActivityMap.put(MoveGoal.class, new Move());
+		GameAPI.addSimpleDecisionMap(SquadCommander.class, defaultActivityMap);
+		
+		defaultActivityMap = new HashMap<>();
+		defaultActivityMap.put(FormationTestStrategyGoal.class, new FormationTestStrategy());
+		GameAPI.addSimpleDecisionMap(FullCommander.class, defaultActivityMap);
 	}
 	
-	private static Map<DecisionTablesMapKey, DecisionTable> getFullCommanderDefaultDecisionTablesMap() {
-		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();
-		
-		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new DefaultProtossStrategy());
-		DecisionTablesMapKey key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(DefaultProtossStrategyGoal.class));
-		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
-		
-		return defaultDecisionTablesMap;
-	}
+//	private static Map<DecisionTablesMapKey, DecisionTable> getFullCommanderDefaultDecisionTablesMap() {
+//		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();
+//		
+//		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
+//		actionMap.put(1.0, new DefaultProtossStrategy());
+//		DecisionTablesMapKey key =  new DecisionTablesMapKey();
+//		key.addParameter(new GoalParameter(DefaultProtossStrategyGoal.class));
+//		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
+//		
+//		return defaultDecisionTablesMap;
+//	}
 }

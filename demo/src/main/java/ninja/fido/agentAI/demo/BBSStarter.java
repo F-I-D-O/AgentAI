@@ -25,6 +25,7 @@ import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.exception.ModuleDependencyException;
+import ninja.fido.agentAI.base.exception.MultipleCommandersException;
 import ninja.fido.agentAI.demo.activity.terran.BBSAttack;
 import ninja.fido.agentAI.demo.activity.terran.BBSBuild;
 import ninja.fido.agentAI.demo.activity.terran.BBSProduction;
@@ -33,6 +34,7 @@ import ninja.fido.agentAI.goal.BBSAttackGoal;
 import ninja.fido.agentAI.goal.BBSBuildGoal;
 import ninja.fido.agentAI.goal.BBSProductionGoal;
 import ninja.fido.agentAI.goal.BBSStrategyGoal;
+import ninja.fido.agentAI.goal.FormationTestStrategyGoal;
 import ninja.fido.agentAI.goal.HarvestGoal;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionModule;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
@@ -48,8 +50,9 @@ import org.xml.sax.SAXException;
 public class BBSStarter {
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
 			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
-			ModuleDependencyException {
-		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0);
+			ModuleDependencyException, MultipleCommandersException {
+		FullCommander commander = new FullCommander("BBS Demo", new BBSStrategyGoal(null, null));
+		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0, commander);
 		
 		DecisionModule decisionModule = new DecisionModule();
 		

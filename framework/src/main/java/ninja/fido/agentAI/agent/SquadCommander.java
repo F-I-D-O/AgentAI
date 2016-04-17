@@ -15,7 +15,6 @@ import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionTable;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionTablesMapKey;
 import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
-import ninja.fido.agentAI.goal.ActivityGoal;
 import ninja.fido.agentAI.goal.SquadAttackMoveGoal;
 import ninja.fido.agentAI.goal.WaitGoal;
 import java.util.HashMap;
@@ -33,24 +32,16 @@ public class SquadCommander extends CommandAgent {
 	}
 	
 	
-
+	
 	@Override
-	protected Activity chooseActivity() {
-		if(getGoal() instanceof SquadAttackMoveGoal){
-			SquadAttackMoveGoal goal = getGoal();
-			return new ASAPSquadAttackMove(this, goal.getAttackTarget());
-		}
-		else if(getGoal() instanceof WaitGoal){
-			return new Wait(this);
-		}
-		
-		// to remove later
-		else if(getGoal() instanceof ActivityGoal){
-			ActivityGoal activityGoal = getGoal();
-			return activityGoal.getActivity();
-		}
-		return null;
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
+
+		defaultActivityMap.put(WaitGoal.class, new Wait());
+
+		return defaultActivityMap;
 	}
+
 
 	@Override
 	protected Goal getDefaultGoal() {

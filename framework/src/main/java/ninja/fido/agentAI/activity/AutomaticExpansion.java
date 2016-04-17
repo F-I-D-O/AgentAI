@@ -10,6 +10,7 @@ import ninja.fido.agentAI.agent.ExpansionCommand;
 import ninja.fido.agentAI.agent.FullCommander;
 import ninja.fido.agentAI.agent.unit.Worker;
 import ninja.fido.agentAI.base.CommandActivity;
+import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Order;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentAI.base.exception.CommanderNotCreatedException;
@@ -58,11 +59,7 @@ public class AutomaticExpansion extends CommandActivity<ExpansionCommand,Automat
 	protected void performAction() throws ChainOfCommandViolationException {
 		Worker worker;
 		if(agent.getNextExpansionPosition() == null && !expansionRequestSended){
-			try {
-				new ExpansionInfoRequest(FullCommander.get().explorationCommand, agent).send();
-			} catch (CommanderNotCreatedException ex) {
-				ex.printStackTrace();
-			}
+			new ExpansionInfoRequest(((FullCommander) GameAPI.getCommander()).explorationCommand, agent).send();
 			expansionRequestSended = true;
 		}
 		else if(agent.getNextExpansionPosition() != null && (worker = agent.getWorker()) != null){

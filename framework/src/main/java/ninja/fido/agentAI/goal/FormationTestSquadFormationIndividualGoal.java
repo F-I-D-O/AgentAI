@@ -5,7 +5,6 @@
  */
 package ninja.fido.agentAI.goal;
 
-import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Agent;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.GoalOrder;
@@ -14,24 +13,16 @@ import ninja.fido.agentAI.base.GoalOrder;
  *
  * @author F.I.D.O.
  */
-public class ActivityGoal extends Goal{
-	
-	private final Activity activity;
+public class FormationTestSquadFormationIndividualGoal extends Goal
+{
 
-	public Activity getActivity() {
-		return activity;
-	}
-	
-	
-
-	public ActivityGoal(Agent agent, GoalOrder order, Activity activity) {
+	public FormationTestSquadFormationIndividualGoal(Agent agent, GoalOrder order) {
 		super(agent, order);
-		this.activity = activity;
 	}
 
 	@Override
 	public boolean isCompleted() {
-		return completed;
+		return false;
 	}
 	
 }

@@ -38,63 +38,63 @@ import org.xml.sax.SAXException;
  * @author F.I.D.O.
  */
 public class Starter {
-	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
-			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
-			ModuleDependencyException {
-		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0);
-		
-		DecisionModule decisionModule = new DecisionModule();
-		
-		decisionModule.registerCommanderType(FullCommander.class, getFullCommanderDefaultDecisionTablesMap());
-		decisionModule.registerAgentClass(new SquadCommander());
-		
-		DecisionStorageModule decisionStorageModule = new DecisionStorageModule(decisionModule);
-		
-		decisionStorageModule.registerActivity(new Wait());
-		decisionStorageModule.registerActivity(new ASAPSquadAttackMove());
-		decisionStorageModule.registerActivity(new NormalSquadAttackMove());
-		
-		decisionStorageModule.registerParameter(new GoalParameter(null));
-		
-//		LearningModule learningModule = new LearningModule(gameAPI, decisionModule, decisionStorageModule);
-//		learningModule.setLearningScenario(new SquadAttackScenario());
-		
-		gameAPI.registerModule(decisionModule);
-		gameAPI.registerModule(decisionStorageModule);
-//		gameAPI.registerModule(learningModule);
-		
-//		learningModule.processResults();
-		
-        gameAPI.run();
-    }
-	
-	private static Map<DecisionTablesMapKey, DecisionTable> getFullCommanderDefaultDecisionTablesMap() {
-		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();
-		
-//		TreeMap<Double,Activity> actionMap = new TreeMap<>();
-//		actionMap.put(1.0, new BBSStrategy(this));
+//	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
+//			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
+//			ModuleDependencyException {
+//		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0);
+//		
+//		DecisionModule decisionModule = new DecisionModule();
+//		
+//		decisionModule.registerCommanderType(FullCommander.class, getFullCommanderDefaultDecisionTablesMap());
+//		decisionModule.registerAgentClass(new SquadCommander());
+//		
+//		DecisionStorageModule decisionStorageModule = new DecisionStorageModule(decisionModule);
+//		
+//		decisionStorageModule.registerActivity(new Wait());
+//		decisionStorageModule.registerActivity(new ASAPSquadAttackMove());
+//		decisionStorageModule.registerActivity(new NormalSquadAttackMove());
+//		
+//		decisionStorageModule.registerParameter(new GoalParameter(null));
+//		
+////		LearningModule learningModule = new LearningModule(gameAPI, decisionModule, decisionStorageModule);
+////		learningModule.setLearningScenario(new SquadAttackScenario());
+//		
+//		gameAPI.registerModule(decisionModule);
+//		gameAPI.registerModule(decisionStorageModule);
+////		gameAPI.registerModule(learningModule);
+//		
+////		learningModule.processResults();
+//		
+//        gameAPI.run();
+//    }
+//	
+//	private static Map<DecisionTablesMapKey, DecisionTable> getFullCommanderDefaultDecisionTablesMap() {
+//		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();
+//		
+////		TreeMap<Double,Activity> actionMap = new TreeMap<>();
+////		actionMap.put(1.0, new BBSStrategy(this));
+////		DecisionTablesMapKey key =  new DecisionTablesMapKey();
+////		key.addParameter(new RaceParameter(Race.Terran));
+////		addToDecisionTablesMap(key, new DecisionTable(actionMap));
+//		
+////		actionMap = new TreeMap<>();
+////		actionMap.put(1.0, new OutbreakStrategy(this));
+////		key =  new DecisionTablesMapKey();
+////		key.addParameter(new RaceParameter(Race.Zerg));
+////		addToDecisionTablesMap(key, new DecisionTable(actionMap));
+//
+//		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
+//		actionMap.put(1.0, new BBSStrategy());
 //		DecisionTablesMapKey key =  new DecisionTablesMapKey();
-//		key.addParameter(new RaceParameter(Race.Terran));
-//		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-		
+//		key.addParameter(new GoalParameter(BBSStrategyGoal.class));
+//		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
+//		
 //		actionMap = new TreeMap<>();
-//		actionMap.put(1.0, new OutbreakStrategy(this));
+//		actionMap.put(1.0, new DefaultProtossStrategy());
 //		key =  new DecisionTablesMapKey();
-//		key.addParameter(new RaceParameter(Race.Zerg));
-//		addToDecisionTablesMap(key, new DecisionTable(actionMap));
-
-		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
-		actionMap.put(1.0, new BBSStrategy());
-		DecisionTablesMapKey key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(BBSStrategyGoal.class));
-		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
-		
-		actionMap = new TreeMap<>();
-		actionMap.put(1.0, new DefaultProtossStrategy());
-		key =  new DecisionTablesMapKey();
-		key.addParameter(new GoalParameter(DefaultProtossStrategyGoal.class));
-		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
-		
-		return defaultDecisionTablesMap;
-	}
+//		key.addParameter(new GoalParameter(DefaultProtossStrategyGoal.class));
+//		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
+//		
+//		return defaultDecisionTablesMap;
+//	}
 }
