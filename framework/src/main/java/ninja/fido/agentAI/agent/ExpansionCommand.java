@@ -81,7 +81,7 @@ public class ExpansionCommand extends CommandAgent
 	}
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		return null;
 	}
 

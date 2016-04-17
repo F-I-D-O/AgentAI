@@ -20,7 +20,7 @@ public class ResourceCommand extends CommandAgent{
     public static final int MINERAL_SHARE_MINERALS_ONLY = 1;
 
     @Override
-    protected Activity chooseAction() {
+    protected Activity chooseActivity() {
         if(getGoal() instanceof HarvestGoal){
 			HarvestGoal goal = getGoal();
 			return new ManageHarvest(this, goal.getMineralShare());

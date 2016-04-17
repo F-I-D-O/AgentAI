@@ -64,7 +64,7 @@ public class Commander extends CommandAgent {
 	
 
     @Override
-    protected Activity chooseAction() {
+    protected Activity chooseActivity() {
 		return null;
     }
 	

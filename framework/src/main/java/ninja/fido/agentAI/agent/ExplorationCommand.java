@@ -67,7 +67,7 @@ public class ExplorationCommand extends CommandAgent {
 	
 
     @Override
-    protected Activity chooseAction() {
+    protected Activity chooseActivity() {
 		if(getGoal() instanceof StrategicExplorationGoal){
 			return new StrategicExploration(this);
 		}

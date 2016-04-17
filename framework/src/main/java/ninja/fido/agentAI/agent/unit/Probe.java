@@ -21,7 +21,7 @@ public class Probe extends Worker{
 	}
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		return null;
 	}
 

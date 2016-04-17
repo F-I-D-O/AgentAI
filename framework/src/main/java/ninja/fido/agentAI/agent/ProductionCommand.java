@@ -36,7 +36,7 @@ public class ProductionCommand extends CommandAgent{
 	
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		if(getGoal() instanceof BBSProductionGoal){
 			return new BBSProduction(this);
 		}

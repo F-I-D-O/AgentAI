@@ -23,7 +23,7 @@ public class Hatchery extends GameAgent{
 	}
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		return new Wait(this);
 	}
 

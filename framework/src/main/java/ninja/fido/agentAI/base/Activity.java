@@ -14,8 +14,9 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
  * @author F.I.D.O.
  * @param <A>
  * @param <G>
+ * @param <AC>
  */
-public abstract class Activity<A extends Agent,G extends Goal> {
+public abstract class Activity<A extends Agent,G extends Goal, AC extends Activity> {
     
     private boolean isInitialized;
 	
@@ -62,6 +63,9 @@ public abstract class Activity<A extends Agent,G extends Goal> {
 
 	@Override
 	public abstract boolean equals(Object obj);
+	
+	public abstract AC create(A agent, G goal);
+	
 	
     
 	protected abstract void performAction() throws ChainOfCommandViolationException;

@@ -222,7 +222,7 @@ public class BuildCommand extends CommandAgent{
 	
 
     @Override
-    protected Activity chooseAction() {
+    protected Activity chooseActivity() {
         if(getGoal() instanceof BBSBuildGoal){
 			return new BBSBuild(this);
 		}

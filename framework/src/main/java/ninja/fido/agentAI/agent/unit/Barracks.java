@@ -48,7 +48,7 @@ public class Barracks extends GameAgent{
 	}
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		if(getGoal() instanceof AutomaticProductionGoal){
 			return new AutomaticProduction(this, UnitType.Terran_Marine);
 		}

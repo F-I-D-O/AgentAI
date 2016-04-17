@@ -79,7 +79,7 @@ public class Larva extends GameAgent implements MorphableUnit{
 	
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		return null;
 	}
 

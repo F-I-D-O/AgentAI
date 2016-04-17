@@ -28,7 +28,7 @@ public class SCV extends ArtificialWorker implements Scout {
 	
 
     @Override
-    protected Activity chooseAction() {
+    protected Activity chooseActivity() {
         if(getGoal() instanceof ExploreBaseLocationGoal){
 			ExploreBaseLocationGoal goal = getGoal();
 			return new ExploreBaseLocation(this, goal.getBaseLocation());

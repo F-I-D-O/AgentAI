@@ -83,7 +83,7 @@ public class FullCommander extends Commander{
 	}
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		return null;
 	}
 

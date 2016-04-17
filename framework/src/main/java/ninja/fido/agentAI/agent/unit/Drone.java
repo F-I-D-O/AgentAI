@@ -24,7 +24,7 @@ public class Drone extends Worker implements MorphableUnit{
 	}
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		return null;
 	}
 

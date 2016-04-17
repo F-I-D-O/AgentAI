@@ -35,7 +35,7 @@ public class SquadCommander extends CommandAgent {
 	
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		if(getGoal() instanceof SquadAttackMoveGoal){
 			SquadAttackMoveGoal goal = getGoal();
 			return new ASAPSquadAttackMove(this, goal.getAttackTarget());

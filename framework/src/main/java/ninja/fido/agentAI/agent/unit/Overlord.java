@@ -38,7 +38,7 @@ public class Overlord extends GameAgent{
 	}
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		return null;
 	}
 

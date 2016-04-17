@@ -38,7 +38,7 @@ public class UnitCommand extends CommandAgent {
 	
 
     @Override
-    protected Activity chooseAction() {
+    protected Activity chooseActivity() {
         if(getGoal() instanceof BBSAttackGoal){
 			return new BBSAttack(this);
 		}

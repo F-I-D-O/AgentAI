@@ -24,7 +24,7 @@ public class Marine extends UnitAgent{
 	}
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		if(getGoal() instanceof AttackMoveGoal){
 			AttackMoveGoal goal = getGoal();
 			return new AttackMove(this, goal.getAttackTarget());

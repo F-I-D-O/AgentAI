@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
  * @author F.I.D.O.
  */
 
-public class Wait extends Activity<Agent,Goal> implements StorableDecisionModuleActivity<Agent, Goal, Wait>{
+public class Wait extends Activity<Agent,Goal,Wait> implements StorableDecisionModuleActivity<Agent,Goal,Wait>{
 
 	public Wait() {
 	}

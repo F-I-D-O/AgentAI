@@ -10,6 +10,7 @@ import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionTablesMapKey;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -36,6 +37,8 @@ public abstract class Agent {
 	private int receivedMineralsTotal;
 	
 	private int receivedGasTotal;
+	
+	private Map<Class<? extends Goal>,? extends Activity> goalActivityMap;
 	
 	private Map<DecisionTablesMapKey,DecisionTable> decisionTablesMap;
 	
@@ -119,6 +122,7 @@ public abstract class Agent {
 			setReferenceKey();
 			reasoningOn = true;
 		}
+		goalActivityMap = getDefaultGoalActivityMap();
 	}
 	
 	
@@ -140,7 +144,7 @@ public abstract class Agent {
 				newAction = decide();
 			}
 			else{
-				newAction = chooseAction();
+				newAction = chooseActivity();
 			}
 			goalChanged = false;
 			
@@ -256,7 +260,10 @@ public abstract class Agent {
 //	}
 	
 	
-	protected abstract Activity chooseAction();
+	protected Activity chooseActivity(){
+		Activity template = goalActivityMap.get(goal.getClass());
+		return template.create(this, goal);
+	}
 	
 	protected void routine() {
 		
@@ -339,6 +346,10 @@ public abstract class Agent {
 
 	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
 		return null;
+	}
+
+	protected Map<Class<? extends Goal>, ? extends Activity> getDefaultGoalActivityMap() {
+		return new HashMap<>();
 	}
 
 

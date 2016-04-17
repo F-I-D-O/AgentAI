@@ -24,7 +24,7 @@ public class HighTemplar extends UnitAgent{
 	}
 
 	@Override
-	protected Activity chooseAction() {
+	protected Activity chooseActivity() {
 		if(getGoal() instanceof WaitGoal){
 			return new Wait(this);
 		}
