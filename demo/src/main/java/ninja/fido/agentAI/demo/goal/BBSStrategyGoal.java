@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI.goal;
+package ninja.fido.agentAI.demo.goal;
 
-import ninja.fido.agentAI.agent.BuildCommand;
+import ninja.fido.agentAI.base.Commander;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.GoalOrder;
 
@@ -13,9 +13,9 @@ import ninja.fido.agentAI.base.GoalOrder;
  *
  * @author F.I.D.O.
  */
-public class BBSBuildGoal extends Goal{
+public class BBSStrategyGoal extends Goal{
 	
-	public BBSBuildGoal(BuildCommand agent, GoalOrder order) {
+	public BBSStrategyGoal(Commander agent, GoalOrder order) {
 		super(agent, order);
 	}
 

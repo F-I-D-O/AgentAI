@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI.order;
+package ninja.fido.agentAI.demo.order;
 
 import ninja.fido.agentAI.agent.UnitCommand;
 import ninja.fido.agentAI.base.CommandAgent;
 import ninja.fido.agentAI.base.GoalOrder;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
-import ninja.fido.agentAI.goal.BBSAttackGoal;
+import ninja.fido.agentAI.demo.goal.BBSAttackGoal;
 
 /**
  *

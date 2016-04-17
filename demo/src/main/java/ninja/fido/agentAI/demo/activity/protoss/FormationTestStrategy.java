@@ -14,8 +14,8 @@ import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.UniversalGoalOrder;
 import java.util.List;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
-import ninja.fido.agentAI.goal.FormationTestSquadFormationGoal;
-import ninja.fido.agentAI.goal.FormationTestSquadFormationIndividualGoal;
+import ninja.fido.agentAI.demo.goal.FormationTestSquadFormationGoal;
+import ninja.fido.agentAI.demo.goal.FormationTestSquadFormationIndividualGoal;
 
 /**
  *

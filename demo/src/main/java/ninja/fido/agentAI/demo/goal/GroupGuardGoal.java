@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ninja.fido.agentAI.goal;
+package ninja.fido.agentAI.demo.goal;
 
 import ninja.fido.agentAI.agent.unit.UnitAgent;
 import ninja.fido.agentAI.agent.unit.Zealot;

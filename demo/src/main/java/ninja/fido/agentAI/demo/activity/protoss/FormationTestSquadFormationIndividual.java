@@ -14,7 +14,7 @@ import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.Info;
 import ninja.fido.agentAI.base.UniversalGoalOrder;
-import ninja.fido.agentAI.goal.GroupGuardGoal;
+import ninja.fido.agentAI.demo.goal.GroupGuardGoal;
 import ninja.fido.agentAI.goal.MoveGoal;
 import ninja.fido.agentAI.info.GuardOnPositionInfo;
 import java.util.ArrayList;

@@ -12,7 +12,7 @@ import ninja.fido.agentAI.agent.unit.Zealot;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.UnitActivity;
-import ninja.fido.agentAI.goal.GroupGuardGoal;
+import ninja.fido.agentAI.demo.goal.GroupGuardGoal;
 import ninja.fido.agentAI.base.Info;
 import ninja.fido.agentAI.info.GuardOnPositionInfo;
 import ninja.fido.agentAI.info.PositionChosenInfo;

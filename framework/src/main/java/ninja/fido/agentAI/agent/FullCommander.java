@@ -6,12 +6,8 @@
 package ninja.fido.agentAI.agent;
 
 import ninja.fido.agentAI.base.Commander;
-import bwapi.Race;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.goal.BBSStrategyGoal;
-import ninja.fido.agentAI.goal.DefaultProtossStrategyGoal;
-import ninja.fido.agentAI.base.exception.CommanderNotCreatedException;
 import ninja.fido.agentAI.base.exception.MultipleCommandersException;
 
 /**

@@ -19,7 +19,6 @@ import ninja.fido.agentAI.Tools;
 import ninja.fido.agentAI.agent.unit.Worker;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.order.ConstructBuildingOrder;
-import ninja.fido.agentAI.goal.BBSBuildGoal;
 import ninja.fido.agentAI.base.Info;
 import ninja.fido.agentAI.base.Request;
 import ninja.fido.agentAI.info.UnitCreationStartedInfo;

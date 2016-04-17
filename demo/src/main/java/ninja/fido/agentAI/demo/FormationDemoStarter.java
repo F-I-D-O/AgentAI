@@ -26,10 +26,10 @@ import ninja.fido.agentAI.demo.activity.protoss.FormationTestSquadFormation;
 import ninja.fido.agentAI.demo.activity.protoss.FormationTestSquadFormationIndividual;
 import ninja.fido.agentAI.demo.activity.protoss.FormationTestStrategy;
 import ninja.fido.agentAI.demo.activity.protoss.GroupGuard;
-import ninja.fido.agentAI.goal.FormationTestSquadFormationGoal;
-import ninja.fido.agentAI.goal.FormationTestSquadFormationIndividualGoal;
-import ninja.fido.agentAI.goal.FormationTestStrategyGoal;
-import ninja.fido.agentAI.goal.GroupGuardGoal;
+import ninja.fido.agentAI.demo.goal.FormationTestSquadFormationGoal;
+import ninja.fido.agentAI.demo.goal.FormationTestSquadFormationIndividualGoal;
+import ninja.fido.agentAI.demo.goal.FormationTestStrategyGoal;
+import ninja.fido.agentAI.demo.goal.GroupGuardGoal;
 import ninja.fido.agentAI.goal.MoveGoal;
 import org.xml.sax.SAXException;
 
