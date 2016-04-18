@@ -61,7 +61,7 @@ public abstract class Order<T extends Agent> {
 	
 	/**
 	 * Returns the target of the command.
-	 * @return 
+	 * @return Target of the command.
 	 */
 	public T getTarget(){
 		return target;

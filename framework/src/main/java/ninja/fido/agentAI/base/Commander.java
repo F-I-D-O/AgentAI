@@ -7,6 +7,7 @@ import ninja.fido.agentAI.ResourceType;
 import ninja.fido.agentAI.info.EnemyBaseDiscovered;
 import java.util.ArrayList;
 import ninja.fido.agentAI.base.exception.MultipleCommandersException;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 public class Commander extends CommandAgent {
 	
@@ -34,12 +35,12 @@ public class Commander extends CommandAgent {
 		return enemyBases;
 	}
 	
-	protected Commander create() throws MultipleCommandersException{
+	protected Commander create() throws MultipleCommandersException, EmptyDecisionTableMapException {
 		return new Commander(name, initialGoal);
 	}
 	
 
-    public Commander(String name, Goal initialGoal) throws MultipleCommandersException {
+    public Commander(String name, Goal initialGoal) throws MultipleCommandersException, EmptyDecisionTableMapException {
 		enemyBases = new ArrayList<>();
 		this.name = name;
 		if(commanderClass != null){

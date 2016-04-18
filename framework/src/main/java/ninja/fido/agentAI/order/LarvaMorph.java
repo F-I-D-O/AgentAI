@@ -5,11 +5,11 @@
  */
 package ninja.fido.agentAI.order;
 
+import ninja.fido.agentAI.base.GoalOrder;
 import ninja.fido.agentAI.Log;
 import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.agent.unit.Larva;
 import ninja.fido.agentAI.base.CommandAgent;
-import ninja.fido.agentAI.base.GoalOrder;
 import java.util.logging.Level;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 

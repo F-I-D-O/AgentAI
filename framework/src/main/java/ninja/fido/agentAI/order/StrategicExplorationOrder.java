@@ -5,9 +5,9 @@
  */
 package ninja.fido.agentAI.order;
 
+import ninja.fido.agentAI.base.GoalOrder;
 import ninja.fido.agentAI.agent.ExplorationCommand;
 import ninja.fido.agentAI.base.CommandAgent;
-import ninja.fido.agentAI.base.GoalOrder;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentAI.goal.StrategicExplorationGoal;
 

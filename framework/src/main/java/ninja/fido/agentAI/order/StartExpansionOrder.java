@@ -5,11 +5,11 @@
  */
 package ninja.fido.agentAI.order;
 
+import ninja.fido.agentAI.base.GoalOrder;
 import bwapi.Position;
 import bwapi.UnitType;
 import ninja.fido.agentAI.agent.unit.Worker;
 import ninja.fido.agentAI.base.CommandAgent;
-import ninja.fido.agentAI.base.GoalOrder;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentAI.goal.StartExpansionGoal;
 
