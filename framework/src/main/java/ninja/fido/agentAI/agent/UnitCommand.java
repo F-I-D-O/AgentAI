@@ -16,6 +16,7 @@ import java.util.Map;
 import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.goal.WaitGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -33,7 +34,7 @@ public class UnitCommand extends CommandAgent {
 	
 	
 
-	public UnitCommand() {
+	public UnitCommand() throws EmptyDecisionTableMapException {
 		this.enemyBases = new ArrayList<>();
 	}
 	

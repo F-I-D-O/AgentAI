@@ -20,6 +20,7 @@ import ninja.fido.agentAI.goal.WaitGoal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -27,7 +28,7 @@ import java.util.TreeMap;
  */
 public class SquadCommander extends CommandAgent {
 
-	public SquadCommander() {
+	public SquadCommander() throws EmptyDecisionTableMapException {
 		
 	}
 	

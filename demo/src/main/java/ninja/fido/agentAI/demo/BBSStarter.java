@@ -14,11 +14,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
-import ninja.fido.agentAI.activity.ManageHarvest;
 import ninja.fido.agentAI.agent.BuildCommand;
 import ninja.fido.agentAI.agent.FullCommander;
 import ninja.fido.agentAI.agent.ProductionCommand;
-import ninja.fido.agentAI.agent.ResourceCommand;
 import ninja.fido.agentAI.agent.SquadCommander;
 import ninja.fido.agentAI.agent.UnitCommand;
 import ninja.fido.agentAI.base.Activity;
@@ -34,12 +32,11 @@ import ninja.fido.agentAI.demo.goal.BBSAttackGoal;
 import ninja.fido.agentAI.demo.goal.BBSBuildGoal;
 import ninja.fido.agentAI.demo.goal.BBSProductionGoal;
 import ninja.fido.agentAI.demo.goal.BBSStrategyGoal;
-import ninja.fido.agentAI.demo.goal.FormationTestStrategyGoal;
-import ninja.fido.agentAI.goal.HarvestGoal;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionModule;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionTable;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionTablesMapKey;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
 import org.xml.sax.SAXException;
 
@@ -50,7 +47,7 @@ import org.xml.sax.SAXException;
 public class BBSStarter {
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
 			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
-			ModuleDependencyException, MultipleCommandersException {
+			ModuleDependencyException, MultipleCommandersException, EmptyDecisionTableMapException {
 		FullCommander commander = new FullCommander("BBS Demo", new BBSStrategyGoal(null, null));
 		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0, commander);
 		
@@ -66,7 +63,7 @@ public class BBSStarter {
         gameAPI.run();
     }
 
-	private static void setGoalActivityMaps() {
+	private static void setGoalActivityMaps() throws EmptyDecisionTableMapException {
 		Map<Class<? extends Goal>,Activity> defaultActivityMap = new BuildCommand().getDefaultGoalActivityMap();
 		defaultActivityMap.put(BBSBuildGoal.class, new BBSBuild());
 		GameAPI.addSimpleDecisionMap(BuildCommand.class, defaultActivityMap);

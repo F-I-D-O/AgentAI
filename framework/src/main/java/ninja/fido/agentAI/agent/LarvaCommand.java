@@ -8,6 +8,7 @@ package ninja.fido.agentAI.agent;
 import ninja.fido.agentAI.base.CommandAgent;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.DroneProductionGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -15,7 +16,7 @@ import ninja.fido.agentAI.goal.DroneProductionGoal;
  */
 public class LarvaCommand extends CommandAgent{
 
-	public LarvaCommand() {
+	public LarvaCommand() throws EmptyDecisionTableMapException{
 		
 	}
 	

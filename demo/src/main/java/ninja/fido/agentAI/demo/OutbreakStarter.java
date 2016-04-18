@@ -15,7 +15,6 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import ninja.fido.agentAI.agent.ExpansionCommand;
-import ninja.fido.agentAI.agent.FullCommander;
 import ninja.fido.agentAI.agent.LarvaCommand;
 import ninja.fido.agentAI.agent.SquadCommander;
 import ninja.fido.agentAI.agent.ZergCommander;
@@ -26,13 +25,13 @@ import ninja.fido.agentAI.base.exception.ModuleDependencyException;
 import ninja.fido.agentAI.base.exception.MultipleCommandersException;
 import ninja.fido.agentAI.demo.activity.zerg.OutbreakProduction;
 import ninja.fido.agentAI.demo.activity.zerg.OutbreakStrategy;
-import ninja.fido.agentAI.demo.goal.BBSStrategyGoal;
 import ninja.fido.agentAI.goal.DroneProductionGoal;
 import ninja.fido.agentAI.demo.goal.OutbreakStrategyGoal;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionModule;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionTable;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionTablesMapKey;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
 import org.xml.sax.SAXException;
 
@@ -43,7 +42,7 @@ import org.xml.sax.SAXException;
 public class OutbreakStarter {
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
 			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
-			ModuleDependencyException, MultipleCommandersException {
+			ModuleDependencyException, MultipleCommandersException, EmptyDecisionTableMapException {
 		ZergCommander commander = new ZergCommander("Outbreak Demo", new OutbreakStrategyGoal(null, null));
 		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0, commander);
 		

@@ -12,6 +12,7 @@ import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.CommandAgent;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.HarvestGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -20,6 +21,10 @@ import ninja.fido.agentAI.goal.HarvestGoal;
 public class ResourceCommand extends CommandAgent{
     
     public static final int MINERAL_SHARE_MINERALS_ONLY = 1;
+
+	public ResourceCommand() throws EmptyDecisionTableMapException {
+	}
+	
 
 	@Override
 	public Map<Class<? extends Goal>, Activity> getDefaultGoalActivityMap() {

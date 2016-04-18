@@ -15,7 +15,7 @@ import ninja.fido.agentAI.demo.goal.BBSProductionGoal;
  *
  * @author F.I.D.O.
  */
-public class BBSProductionOrder extends GoalOrder {
+public class BBSProductionOrder extends GoalOrder<ProductionCommand> {
 
 	public BBSProductionOrder(ProductionCommand target, CommandAgent commandAgent) 
 			throws ChainOfCommandViolationException {

@@ -6,10 +6,12 @@
 package ninja.fido.agentAI.agent;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.base.exception.CommanderNotCreatedException;
 import ninja.fido.agentAI.base.exception.MultipleCommandersException;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -21,7 +23,8 @@ public class ZergCommander extends FullCommander{
 	
 	public ExpansionCommand expansionCommand;
 	
-	public ZergCommander(String name, Goal initialGoal) throws MultipleCommandersException {
+	public ZergCommander(String name, Goal initialGoal) throws MultipleCommandersException, 
+			EmptyDecisionTableMapException {
 		super(name,initialGoal);
 	}
 	
@@ -29,20 +32,24 @@ public class ZergCommander extends FullCommander{
 	
 	
 	@Override
-	protected ZergCommander create() throws MultipleCommandersException{
+	protected ZergCommander create() throws MultipleCommandersException, EmptyDecisionTableMapException{
 		return new ZergCommander(name, initialGoal);
 	}
 	
 
 	@Override
 	protected void init() {
-		super.init();
-		
-		larvaCommand = new LarvaCommand();
-		GameAPI.addAgent(larvaCommand, this);
-		
-		expansionCommand = new ExpansionCommand();
-		GameAPI.addAgent(expansionCommand, this);
+		try {
+			super.init();
+			
+			larvaCommand = new LarvaCommand();
+			GameAPI.addAgent(larvaCommand, this);
+			
+			expansionCommand = new ExpansionCommand();
+			GameAPI.addAgent(expansionCommand, this);
+		} catch (EmptyDecisionTableMapException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	
