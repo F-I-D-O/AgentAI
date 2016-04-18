@@ -11,17 +11,18 @@ import java.util.logging.Level;
 /**
  *
  * @author david_000
- * @param <T>
- * @param <G>
+ * @param <A> Agent
+ * @param <G> Goal
+ * @param <AC> Activity
  */
-public abstract class CommandActivity<T extends CommandAgent,G extends Goal, AC extends CommandActivity> 
-		extends Activity<T,G,AC> {
+public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC extends CommandActivity> 
+		extends Activity<A,G,AC> {
 
 	public CommandActivity() {
 		
 	}
 
-    public CommandActivity(T agent) {
+    public CommandActivity(A agent) {
         super(agent);
     }	
 	

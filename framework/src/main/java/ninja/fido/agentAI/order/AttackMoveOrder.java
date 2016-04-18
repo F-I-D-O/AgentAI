@@ -6,9 +6,9 @@
 package ninja.fido.agentAI.order;
 
 import bwapi.Position;
+import ninja.fido.agentAI.agent.unit.UnitAgent;
 import ninja.fido.agentAI.base.CommandAgent;
 import ninja.fido.agentAI.base.GoalOrder;
-import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentAI.goal.AttackMoveGoal;
 
@@ -16,11 +16,11 @@ import ninja.fido.agentAI.goal.AttackMoveGoal;
  *
  * @author F.I.D.O.
  */
-public class AttackMoveOrder extends GoalOrder{
+public class AttackMoveOrder extends GoalOrder<UnitAgent>{
 	
 	private final Position attackTarget;
 
-	public AttackMoveOrder(GameAgent target, CommandAgent commandAgent, Position attackTarget)
+	public AttackMoveOrder(UnitAgent target, CommandAgent commandAgent, Position attackTarget)
 			throws ChainOfCommandViolationException {
 		super(target, commandAgent);
 		this.attackTarget = attackTarget;

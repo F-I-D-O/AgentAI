@@ -15,7 +15,7 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
  *
  * @author F.I.D.O.
  */
-public class DetachBack extends Order{
+public class DetachBack extends Order<CommandAgent>{
 
 	private Class agentType = null;
 	

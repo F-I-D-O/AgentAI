@@ -8,19 +8,33 @@ package ninja.fido.agentAI.base;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 
 /**
- *
+ * This class represent order.
  * @author F.I.D.O.
+ * @param <T> Command target type. When you subclass order, you should restrict the target type as much as it 
+ * is possible.
  */
-public abstract class Order {
+public abstract class Order<T extends Agent> {
 	
+	/**
+	 * Command agent issuing the order.
+	 */
 	protected final CommandAgent commandAgent;
 	
-	private final Agent target;
+	/**
+	 * Order target.
+	 */
+	private final T target;
 
 	
 	
 	
-	public Order(Agent target, CommandAgent commandAgent) throws ChainOfCommandViolationException {
+	/**
+	 * Order constructor
+	 * @param target Target of the order.
+	 * @param commandAgent Command agent issuing the order.
+	 * @throws ChainOfCommandViolationException 
+	 */
+	public Order(T target, CommandAgent commandAgent) throws ChainOfCommandViolationException {
 		if(!commandAgent.getCommandedAgents().contains(target)){
 			throw new ChainOfCommandViolationException(commandAgent, this, target);
 		}
@@ -30,18 +44,34 @@ public abstract class Order {
 	
 	
 	
-	protected abstract void execute();
-	
+	/**
+	 * This function issues the order to target agent
+	 */
 	public final void issueOrder(){
 		target.addToCommandQueue(this);
 		commandAgent.addUncompletedOrder(this);
 	}
 	
+	/**
+	 * Report that the command is completed to command agent
+	 */
 	public void reportCompleted(){
 		commandAgent.reportOrderCompleted(this);
 	}
 	
-	public <T> T getTarget(){
-		return (T) target;
+	/**
+	 * Returns the target of the command.
+	 * @return 
+	 */
+	public T getTarget(){
+		return target;
 	}
+	
+	
+	/**
+	 * Body of the command. If it's goal command, goal should be set here. Otherwise there could be any code. 
+	 * There shouldn't be any complex code though.
+	 */
+	protected abstract void execute();	
+	
 }

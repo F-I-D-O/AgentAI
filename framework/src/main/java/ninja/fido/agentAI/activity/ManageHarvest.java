@@ -18,7 +18,7 @@ import ninja.fido.agentAI.goal.HarvestGoal;
 /**
  *
  * @author david_000
- * @param <A>
+ * @param <A> Agent
  */
 public class ManageHarvest<A extends ResourceCommand> extends CommandActivity<A,HarvestGoal,ManageHarvest>{
 	

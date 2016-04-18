@@ -14,17 +14,17 @@ import ninja.fido.agentAI.agent.ExplorationCommand;
 import ninja.fido.agentAI.base.Agent;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.order.ExploreBaseLocationOrder;
 import ninja.fido.agentAI.order.MoveOrder;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import ninja.fido.agentAI.agent.unit.UnitAgent;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 
 /**
  *
  * @author david_000
- * @param <A>
+ * @param <A> Agent
  */
 public class StrategicExploration<A extends ExplorationCommand> extends CommandActivity<A,Goal,StrategicExploration> {
     
@@ -56,7 +56,7 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
 							&& !baseInfo.isOurBase()){
 						target = baseInfo.getPosition(); 
 						baseInfo.setExplorationInProgress(true);
-						new ExploreBaseLocationOrder(scout, this.getAgent(), target).issueOrder();
+						new ExploreBaseLocationOrder((Agent) scout, this.getAgent(), target).issueOrder();
 						break;
 					}
 				}
@@ -64,7 +64,7 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
 				// if there are no unexplored bases
 				if(target == null && scout.getPosition().getDistance(GameAPI.getStartBasePosition()) 
 						> Move.DEFAULT_MAX_DISTANCE_FROM_TARGET){
-					new MoveOrder((GameAgent) scout, agent, GameAPI.getStartBasePosition()).issueOrder();
+					new MoveOrder((UnitAgent) scout, agent, GameAPI.getStartBasePosition()).issueOrder();
 				}
 			}
         }

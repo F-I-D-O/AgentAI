@@ -15,9 +15,9 @@ import org.w3c.dom.Element;
 /**
  *
  * @author F.I.D.O.
- * @param <A>
- * @param <G>
- * @param <AC>
+ * @param <A> Agent
+ * @param <G> Goal
+ * @param <AC> Activity
  */
 public interface StorableDecisionModuleActivity<A extends Agent,G extends Goal,AC extends Activity> 
 		extends DecisionModuleActivity<A, G, AC>{

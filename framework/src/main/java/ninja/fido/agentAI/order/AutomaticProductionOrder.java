@@ -15,7 +15,7 @@ import ninja.fido.agentAI.goal.AutomaticProductionGoal;
  *
  * @author F.I.D.O.
  */
-public class AutomaticProductionOrder extends GoalOrder{
+public class AutomaticProductionOrder extends GoalOrder<Barracks>{
 
 	public AutomaticProductionOrder(Barracks target, CommandAgent commandAgent)
 			throws ChainOfCommandViolationException {

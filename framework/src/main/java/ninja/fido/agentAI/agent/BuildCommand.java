@@ -33,6 +33,7 @@ import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentAI.goal.WaitGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -63,7 +64,7 @@ public class BuildCommand extends CommandAgent{
 
 	
 	
-    public BuildCommand() {
+    public BuildCommand() throws EmptyDecisionTableMapException{
         freeWorkers = new ArrayDeque<>();
         this.buildPlans = new ArrayList<>();
 		numberOfMissingWorkers = 0;

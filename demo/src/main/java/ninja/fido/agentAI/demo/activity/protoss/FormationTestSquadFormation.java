@@ -147,7 +147,7 @@ public class FormationTestSquadFormation extends CommandActivity<SquadCommander,
 	protected void handleCompletedOrder(Order order) {
 		if(order instanceof MoveOrder || order instanceof UniversalGoalOrder){
 			if(order.getTarget() instanceof Zealot){
-				zealotsOnPosition.add(order.getTarget());
+				zealotsOnPosition.add((Zealot) order.getTarget());
 				if(!squadInFormation){
 					numberOfZealotsInFormation++;
 					List<Zealot> zealots = agent.getCommandedAgents(Zealot.class);

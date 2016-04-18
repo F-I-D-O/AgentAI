@@ -12,9 +12,9 @@ import ninja.fido.agentAI.base.Goal;
 /**
  *
  * @author F.I.D.O.
- * @param <A>
- * @param <G>
- * @param <AC>
+ * @param <A> Agent
+ * @param <G> Goal
+ * @param <AC> Activity
  */
 public interface DecisionModuleActivity<A extends Agent, G extends Goal, AC extends Activity> {
 	

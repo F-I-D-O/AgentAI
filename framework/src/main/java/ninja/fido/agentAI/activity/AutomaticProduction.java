@@ -11,7 +11,6 @@ import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.agent.unit.Barracks;
 import ninja.fido.agentAI.base.Goal;
 import java.util.Objects;
-import ninja.fido.agentAI.goal.AutomaticProductionGoal;
 
 /**
  *

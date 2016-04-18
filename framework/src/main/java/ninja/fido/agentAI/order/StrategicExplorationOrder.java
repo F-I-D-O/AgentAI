@@ -15,7 +15,7 @@ import ninja.fido.agentAI.goal.StrategicExplorationGoal;
  *
  * @author david
  */
-public class StrategicExplorationOrder extends GoalOrder{
+public class StrategicExplorationOrder extends GoalOrder<ExplorationCommand>{
 
 	public StrategicExplorationOrder(ExplorationCommand target, CommandAgent commandAgent) 
 			throws ChainOfCommandViolationException {

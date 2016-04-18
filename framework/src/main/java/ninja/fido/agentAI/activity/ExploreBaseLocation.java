@@ -20,7 +20,7 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 /**
  *
  * @author david_000
- * @param <A>
+ * @param <A> Agent
  */
 public class ExploreBaseLocation<A extends UnitAgent & Scout> 
 		extends UnitActivity<A,ExploreBaseLocationGoal,ExploreBaseLocation>

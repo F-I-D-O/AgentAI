@@ -9,7 +9,6 @@ import bwapi.Position;
 import ninja.fido.agentAI.agent.unit.UnitAgent;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.GameAPI;
-import ninja.fido.agentAI.base.Goal;
 import java.util.Objects;
 import ninja.fido.agentAI.goal.AttackMoveGoal;
 

@@ -17,7 +17,7 @@ import ninja.fido.agentAI.goal.StartExpansionGoal;
  *
  * @author F.I.D.O.
  */
-public class StartExpansionOrder extends GoalOrder{
+public class StartExpansionOrder extends GoalOrder<Worker>{
 	
 	private final UnitType expansionBuildingType;
 

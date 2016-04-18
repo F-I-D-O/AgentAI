@@ -16,8 +16,9 @@ import ninja.fido.agentAI.goal.ExploreBaseLocationGoal;
 /**
  *
  * @author F.I.D.O.
+ * @param <T>
  */
-public class ExploreBaseLocationOrder extends GoalOrder{
+public class ExploreBaseLocationOrder<T extends Agent & Scout> extends GoalOrder<T>{
 	
 	private final Position baseLocation;
 
@@ -27,9 +28,9 @@ public class ExploreBaseLocationOrder extends GoalOrder{
 	
 	
 
-	public ExploreBaseLocationOrder(Scout target, CommandAgent commandAgent, Position baseLocation) 
+	public ExploreBaseLocationOrder(T target, CommandAgent commandAgent, Position baseLocation) 
 			throws ChainOfCommandViolationException {
-		super((Agent) target, commandAgent);
+		super(target, commandAgent);
 		this.baseLocation = baseLocation;
 	}
 

@@ -30,6 +30,7 @@ import ninja.fido.agentAI.info.ExpansionInfo;
 import ninja.fido.agentAI.request.ExpansionInfoRequest;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -53,7 +54,7 @@ public class ExplorationCommand extends CommandAgent {
 	
 	
 
-	public ExplorationCommand() {
+	public ExplorationCommand() throws EmptyDecisionTableMapException {
 		baseLocations = new ArrayList<>();
 		for(BaseLocation baseLocation : bwta.BWTA.getBaseLocations()) {
 			boolean isOurBase = baseLocation.getTilePosition().equals(GameAPI.getGame().self().getStartLocation());

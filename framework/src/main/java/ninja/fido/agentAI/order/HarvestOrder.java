@@ -15,7 +15,7 @@ import ninja.fido.agentAI.goal.HarvestGoal;
  *
  * @author F.I.D.O.
  */
-public class HarvestOrder extends GoalOrder{
+public class HarvestOrder extends GoalOrder<ResourceCommand>{
 	
 	private final double mineralShare;
 

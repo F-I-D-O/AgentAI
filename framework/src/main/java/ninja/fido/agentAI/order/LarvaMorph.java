@@ -17,7 +17,7 @@ import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
  *
  * @author F.I.D.O.
  */
-public class LarvaMorph extends GoalOrder{
+public class LarvaMorph extends GoalOrder<Larva>{
 	
 	private final Larva.MorphOption morphOption;
 

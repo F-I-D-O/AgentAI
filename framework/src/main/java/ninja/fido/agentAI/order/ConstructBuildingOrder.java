@@ -17,7 +17,7 @@ import ninja.fido.agentAI.goal.ConstructBuildingGoal;
  *
  * @author F.I.D.O.
  */
-public class ConstructBuildingOrder extends GoalOrder{
+public class ConstructBuildingOrder extends GoalOrder<Worker>{
 	
 	private final UnitType buildingType;
 	

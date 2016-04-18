@@ -12,9 +12,9 @@ import org.w3c.dom.Element;
 /**
  *
  * @author F.I.D.O.
- * @param <A>
- * @param <V>
- * @param <P>
+ * @param <A> Agent
+ * @param <V> Parameter value
+ * @param <P> Parameter
  */
 public abstract class DecisionTablesMapParameter<A extends Agent,V,P extends DecisionTablesMapParameter> {
 	

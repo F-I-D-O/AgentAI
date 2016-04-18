@@ -16,7 +16,7 @@ import ninja.fido.agentAI.goal.SquadAttackMoveGoal;
  *
  * @author F.I.D.O.
  */
-public class SquadAttackMoveOrder extends GoalOrder{
+public class SquadAttackMoveOrder extends GoalOrder<SquadCommander>{
 	
 	private final Position attackTarget;
 

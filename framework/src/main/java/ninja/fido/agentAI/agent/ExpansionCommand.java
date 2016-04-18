@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -55,7 +56,7 @@ public class ExpansionCommand extends CommandAgent
 		return nextExpansionPosition;
 	}
 
-	public ExpansionCommand() {
+	public ExpansionCommand() throws EmptyDecisionTableMapException {
 		freeWorkers = new ArrayDeque<>();
 		buildingPlacer = GameAPI.getBuildingPlacer();
 	}

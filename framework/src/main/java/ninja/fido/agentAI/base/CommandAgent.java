@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 public abstract class CommandAgent extends Agent {
 
@@ -36,7 +37,7 @@ public abstract class CommandAgent extends Agent {
 	
 	
 	
-    public CommandAgent() {
+    public CommandAgent() throws EmptyDecisionTableMapException {
         commandedAgents = new ArrayList<>();
 		subordinateAgentsInfo = new SubordinateAgentsInfo(this);
 		requests = new ArrayDeque<>();

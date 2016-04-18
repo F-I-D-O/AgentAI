@@ -14,7 +14,7 @@ import java.util.Objects;
 /**
  *
  * @author F.I.D.O.
- * @param <AC>
+ * @param <AC> Activity
  */
 public abstract class SquadAttackMove<AC extends SquadAttackMove>
 extends CommandActivity<SquadCommander,SquadAttackMoveGoal,AC>{

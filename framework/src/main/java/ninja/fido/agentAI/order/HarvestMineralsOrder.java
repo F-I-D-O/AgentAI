@@ -15,7 +15,7 @@ import ninja.fido.agentAI.goal.HarvestMineralsGoal;
  *
  * @author F.I.D.O.
  */
-public class HarvestMineralsOrder extends GoalOrder{
+public class HarvestMineralsOrder extends GoalOrder<SCV>{
 
 	public HarvestMineralsOrder(SCV target, CommandAgent commandAgent) throws ChainOfCommandViolationException {
 		super(target, commandAgent);
