@@ -38,9 +38,9 @@ public class ZergCommander extends FullCommander{
 	
 
 	@Override
-	protected void init() {
+	protected void onInitialize() {
 		try {
-			super.init();
+			super.onInitialize();
 			
 			larvaCommand = new LarvaCommand();
 			GameAPI.addAgent(larvaCommand, this);

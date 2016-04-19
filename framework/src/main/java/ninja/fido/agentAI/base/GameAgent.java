@@ -4,6 +4,7 @@ import bwapi.Unit;
 import ninja.fido.agentAI.Log;
 import ninja.fido.agentAI.info.EnemyBuildingDiscovered;
 import java.util.logging.Level;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 public abstract class GameAgent extends Agent {
 
@@ -19,11 +20,11 @@ public abstract class GameAgent extends Agent {
 	
 	
 	
-	public GameAgent() {
+	public GameAgent() throws EmptyDecisionTableMapException{
 		unit = null;
 	}
 
-    public GameAgent(Unit unit) {
+    public GameAgent(Unit unit) throws EmptyDecisionTableMapException {
         this.unit = unit;
     }
 	

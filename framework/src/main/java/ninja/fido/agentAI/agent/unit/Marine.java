@@ -14,6 +14,7 @@ import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.AttackMoveGoal;
 import ninja.fido.agentAI.goal.WaitGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -21,7 +22,7 @@ import ninja.fido.agentAI.goal.WaitGoal;
  */
 public class Marine extends UnitAgent{
 
-	public Marine(Unit unit) {
+	public Marine(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
 	

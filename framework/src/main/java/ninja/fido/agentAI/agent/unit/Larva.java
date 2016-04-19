@@ -24,6 +24,7 @@ import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
 import ninja.fido.agentAI.goal.WaitGoal;
 import java.util.TreeMap;
 import java.util.logging.Level;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -54,10 +55,10 @@ public class Larva extends GameAgent implements MorphableUnit{
 //		}
 	}
 
-	public Larva() {
+	public Larva() throws EmptyDecisionTableMapException {
 	}
 
-	public Larva(Unit unit) {
+	public Larva(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
 	

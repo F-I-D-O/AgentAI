@@ -4,7 +4,6 @@ import bwapi.Position;
 import bwapi.Unit;
 import java.util.HashMap;
 import java.util.Map;
-import ninja.fido.agentAI.activity.AttackMove;
 import ninja.fido.agentAI.agent.Scout;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.activity.HarvestMinerals;
@@ -13,16 +12,16 @@ import ninja.fido.agentAI.activity.ExploreBaseLocation;
 import ninja.fido.agentAI.activity.Move;
 import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.goal.AttackMoveGoal;
 import ninja.fido.agentAI.goal.ConstructBuildingGoal;
 import ninja.fido.agentAI.goal.ExploreBaseLocationGoal;
 import ninja.fido.agentAI.goal.HarvestMineralsGoal;
 import ninja.fido.agentAI.goal.MoveGoal;
 import ninja.fido.agentAI.goal.WaitGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 public class SCV extends ArtificialWorker implements Scout {
 
-    public SCV(Unit unit) {
+    public SCV(Unit unit) throws EmptyDecisionTableMapException {
         super(unit);
     }
 

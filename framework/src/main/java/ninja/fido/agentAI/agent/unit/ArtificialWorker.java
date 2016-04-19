@@ -5,12 +5,8 @@
  */
 package ninja.fido.agentAI.agent.unit;
 
-import bwapi.TilePosition;
 import bwapi.Unit;
-import bwapi.UnitType;
-import ninja.fido.agentAI.Log;
-import ninja.fido.agentAI.base.GameAPI;
-import java.util.logging.Level;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -19,7 +15,7 @@ import java.util.logging.Level;
 public abstract class ArtificialWorker extends Worker{
 	
 
-	public ArtificialWorker(Unit unit) {
+	public ArtificialWorker(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
 	

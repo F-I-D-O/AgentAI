@@ -49,7 +49,7 @@ public class FullCommander extends Commander{
 	}
 
 	@Override
-	protected void init() {
+	protected void onInitialize() {
 		try {
 			explorationCommand = new ExplorationCommand();
 			GameAPI.addAgent(explorationCommand, this);

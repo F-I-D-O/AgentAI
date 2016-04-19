@@ -12,6 +12,7 @@ import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.WaitGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -20,10 +21,10 @@ import ninja.fido.agentAI.goal.WaitGoal;
 public class Zealot extends UnitAgent{
 
 	
-	public Zealot() {
+	public Zealot() throws EmptyDecisionTableMapException {
 	}
 	
-	public Zealot(Unit unit) {
+	public Zealot(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
 

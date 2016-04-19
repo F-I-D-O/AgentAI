@@ -16,112 +16,205 @@ import java.util.Queue;
 import java.util.logging.Level;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentAI.base.exception.SimpleDecisionException;
+import ninja.fido.agentAI.modules.decisionMaking.DecisionModule;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
+/**
+ * Agent class.
+ * @author F.I.D.O.
+ */
 public abstract class Agent {
+	
+	/**
+	 * Current chosen activity.
+	 */
+    Activity chosenAction;
 
+	
+	/**
+	 * Command agent.
+	 */
     private CommandAgent commandAgent;
 	
+	/**
+	 * Current goal.
+	 */
 	private Goal goal;
 
-    protected Activity chosenAction;
+	/**
+	 * This property determines whether agent is assigned to some quest. This value is in responsibility of his 
+	 * command agent. Framework change this property only when agent is detached (it' changed to false in this case)
+	 */
+	private boolean assigned;
 	
-	protected boolean assigned;
+	/**
+	 * Queue of orders from command agent.
+	 */
+	private final Queue<Order> orderQueue;
 	
-	private final Queue<Order> commandQueue;
-	
+	/**
+	 * Minerals.
+	 */
 	private final Resource minerals;
     
+	/**
+	 * Gas.
+	 */
     private final Resource gas;
 	
+	/**
+	 * Supply
+	 */
 	private final Resource supply;
 	
+	/**
+	 * Total amount of minerals rceived.
+	 */
 	private int receivedMineralsTotal;
 	
+	/**
+	 * Total amount of gas received.
+	 */
 	private int receivedGasTotal;
 	
+	/**
+	 * This maps goals to activities. It's used for simple goal -> activity decisions.
+	 */
 	private Map<Class<? extends Goal>,Activity> goalActivityMap;
 	
+	/**
+	 * Map for decisions. Maps {@link DecisionTablesMapKey} to  {@link DecisionTable}.
+	 */
 	private Map<DecisionTablesMapKey,DecisionTable> decisionTablesMap;
 	
-	protected DecisionTablesMapKey referenceKey;
+	/**
+	 * Reference key for decision table map. It's used for creating key that represents current state if needed.
+	 */
+	private DecisionTablesMapKey referenceKey;
 	
-	protected final Queue<Info> infoQue;
+	/**
+	 * Queue of incomming informations.
+	 */
+	private final Queue<Info> infoQue;
 	
-	protected boolean reasoningOn;
+	/**
+	 * Determines if {@link DecisionModule} is on and this agent type is registered in it.
+	 */
+	private boolean decisionMakingOn;
 	
+	/**
+	 * Determines if goal has been changed recently.
+	 */
 	private boolean goalChanged;
 	
+	/**
+	 * Determines if agent has been initialized.
+	 */
 	private boolean initialized;
 	
-	private final ArrayList<Request> sendRequests;
-	
-	
-	
+	/**
+	 * List of all request that has been sent by this agent.
+	 */
+	private final ArrayList<Request> sentRequests;
 
 	
-
-	public final <T extends Goal> T getGoal() {
-		return (T) goal;
+	
+	
+	/**
+	 * Goal getter.
+	 * @return Returns current goal.
+	 */
+	public final Goal getGoal() {
+		return goal;
 	}
 
+	/**
+	 * Determines whether agent is assigned to some quest. This value is in responsibility of his 
+	 * command agent. Framework change this property only when agent is detached (it' changed to false in this case)
+	 * @return true if agent is assigned to some quest, false otherwise.
+	 */
 	public final boolean IsAssigned() {
 		return assigned;
 	}
 
+	/**
+	 * Set assigned to new value. This method should be used by this agent's command agent only.
+	 * @param assigned New assigned valu.
+	 */
 	public final void setAssigned(boolean assigned) {
 		this.assigned = assigned;
 	}
 
+	/**
+	 * Total amount of minerals received this game.
+	 * @return Returns total amount of minerals rceived.
+	 */
 	public int getReceivedMineralsTotal() {
 		return receivedMineralsTotal;
 	}
 
+	/**
+	 * Total amount of gas received in this game.
+	 * @return Returns total amount of gas received.
+	 */
 	public int getReceivedGasTotal() {
 		return receivedGasTotal;
 	}
 	
-	void setCommandAgent(CommandAgent commandAgent){
-		this.commandAgent = commandAgent;
-	}
-	
+	/**
+	 * Command agent.
+	 * @return Returns current command agent.
+	 */
 	public CommandAgent getCommandAgent(){
 		return commandAgent;
 	}
 	
-	protected final void addToDecisionTablesMap(DecisionTablesMapKey key, DecisionTable map){
-		decisionTablesMap.put(key, map);
-	}
-
+	/**
+	 * Decision tables map.
+	 * @return Returns decision tables map.
+	 */
 	public Map<DecisionTablesMapKey, DecisionTable> getDecisionTablesMap() {
 		return decisionTablesMap;
 	}
 	
 	
+	/**
+	 * Setts new command agent.
+	 * @param commandAgent new command agent.
+	 */
+	void setCommandAgent(CommandAgent commandAgent){
+		this.commandAgent = commandAgent;
+	}
+
 	
 	
 	
-	
+	/**
+	 * Constructor.
+	 * @throws EmptyDecisionTableMapException 
+	 */
 	public Agent() throws EmptyDecisionTableMapException {
+		
+		// in case that this agent instance is created only for registration, we do not have to initialize any property.
 		if(!GameAPI.ready()){
-			commandQueue = null;
+			orderQueue = null;
 			minerals = null;
 			gas = null;
 			supply = null;
 			infoQue = null;
-			sendRequests = null;
+			sentRequests = null;
 			return;
 		}
 		
 		assigned = false;
-		reasoningOn = false;
+		decisionMakingOn = false;
 		goalChanged = true;
 		initialized = false;
-		commandQueue = new ArrayDeque<>();
+		orderQueue = new ArrayDeque<>();
 		infoQue = new ArrayDeque<>();
-		sendRequests = new ArrayList<>();
+		sentRequests = new ArrayList<>();
 		
-		// resources init
+		// resources onInitialize
 		minerals = new Resource(this, GameAPI.getCommander(), ResourceType.MINERALS, 0);
 		gas = new Resource(this, GameAPI.getCommander(), ResourceType.GAS, 0);
 		supply = new Resource(this, GameAPI.getCommander(), ResourceType.SUPPLY, 0);
@@ -132,7 +225,7 @@ public abstract class Agent {
 		if(GameAPI.isDecisionMakingOn(this)){
 			decisionTablesMap = GameAPI.getDecisionTablesMap(getClass());
 			setReferenceKey();
-			reasoningOn = true;
+			decisionMakingOn = true;
 		}
 		
 		// simple decisions
@@ -144,23 +237,62 @@ public abstract class Agent {
 	
 	
 	
-
-    public final void run() throws CannotDecideException, NoActionChosenException, ChainOfCommandViolationException, 
+	/**
+	 * Called when current activity finises.
+	 * @param activity Activity that just finished.
+	 */
+	protected void onActivityFinish(Activity activity) {
+        Log.log(this, Level.FINE, "Activity finished: {0}", chosenAction);
+//        run(); not needet, because frame rate is high enough
+    }
+	
+	/**
+	 * Called when current activity fails.
+	 * @param activity Activity that just failed.
+	 * @param reason Reason of the failure.
+	 */
+	protected void onActionFailed(Activity activity, String reason) {
+        Log.log(this, Level.SEVERE, "Action {0} failed: {1}", chosenAction, reason);
+//        run();
+    }
+	
+	protected int getOwnedGas(){
+        return gas.getAmount();
+    } 
+    
+    protected int getOwnedMinerals(){
+        return minerals.getAmount();
+    }
+	
+	protected int getOwnedSupply(){
+        return supply.getAmount();
+    }
+	
+	/**
+	 * Main method, runs every frame.
+	 * @throws CannotDecideException
+	 * @throws NoActionChosenException
+	 * @throws ChainOfCommandViolationException
+	 * @throws SimpleDecisionException 
+	 */
+    final void run() throws CannotDecideException, NoActionChosenException, ChainOfCommandViolationException, 
 			SimpleDecisionException {
         Log.log(this, Level.FINE, "{0}: Agent run started", this.getClass());
 		if(!initialized){
 			init();
-			goal = getDefaultGoal();
 			initialized = true;
 		}
 		
 		acceptCommands();
 		
-		Activity newAction;
 		if(goalChanged){
-			if(reasoningOn){
+			Activity newAction;
+			
+			// decision making
+			if(decisionMakingOn){
 				newAction = decide();
 			}
+			// simple decisions
 			else{
 				newAction = chooseActivity();
 			}
@@ -193,23 +325,18 @@ public abstract class Agent {
         }
 		Log.log(this, Level.FINE, "{0}: Goal: {1}", this.getClass(), goal.getClass());
 		Log.log(this, Level.FINE, "{0}: Chosen action: {1}", this.getClass(), chosenAction.getClass());
+		
+		// run action logic
 		chosenAction.run();
 		
         Log.log(this, Level.FINE, "{0}: Agent run ended", this.getClass());
     }
 
-    public final void onActivityFinish(Activity activity) {
-        Log.log(this, Level.FINE, "Action finished: {0}", chosenAction);
-//        run(); not needet, because frame rate is high enough
-    }
-
-    public final void onActionFailed(String reason) {
-        Log.log(this, Level.SEVERE, "Action {0} failed: {1}", chosenAction, reason);
-//        run();
-    }
-	
-	
-	public final void receiveResource(Resource resource){
+	/**
+	 * Called internaly when another agent gives resource to this agent.
+	 * @param resource Resource given.
+	 */
+	final void receiveResource(Resource resource){
 		switch(resource.getResourceType()){
 			case GAS:
 				gas.merge(resource);
@@ -225,17 +352,7 @@ public abstract class Agent {
 		}
     }
 	
-	public int getOwnedGas(){
-        return gas.getAmount();
-    } 
-    
-    public int getOwnedMinerals(){
-        return minerals.getAmount();
-    }
 	
-	public int getOwnedSupply(){
-        return supply.getAmount();
-    }
 	
 	public void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException{
 		switch(material){
@@ -266,11 +383,11 @@ public abstract class Agent {
 	}
 	
 	public boolean requestSended(Request request){
-		return sendRequests.contains(request);
+		return sentRequests.contains(request);
 	}
 	
 	void addSendedRequest(Request request){
-		sendRequests.add(request);
+		sentRequests.add(request);
 	}
 
 //	public Agent(Queue<Order> commandQueue, Resource minerals, Resource gas, HashMap<DecisionTablesMapKey, DecisionTable> decisionTablesMap, Queue<Info> infoQue, ArrayList<Request> sendRequests) {
@@ -324,7 +441,7 @@ public abstract class Agent {
 	
 	
 	final void addToCommandQueue(Order command) {
-		commandQueue.add(command);
+		orderQueue.add(command);
 	}
 	
 	final void setGoal(Goal goal){
@@ -335,8 +452,8 @@ public abstract class Agent {
 	
 	private final void acceptCommands() {
 		Order command;
-		while(!commandQueue.isEmpty()){
-			command = commandQueue.poll();
+		while(!orderQueue.isEmpty()){
+			command = orderQueue.poll();
 			command.execute();
 			Log.log(this, Level.INFO, "{0}: command accepted: {1}", this.getClass(), command.getClass());
 		}
@@ -359,12 +476,12 @@ public abstract class Agent {
 			throw new CannotDecideException(this, key);
 		}
 //		Activity chosenAction = decisionTable.chooseAction();
-//		chosenAction.init(this, goal);
+//		chosenAction.onInitialize(this, goal);
 //		return chosenAction;
 		return decisionTable.chooseAction().create(this, goal);
 	}
 
-	protected void init() {
+	protected void onInitialize() {
 		 
 	}
 
@@ -384,6 +501,11 @@ public abstract class Agent {
 
 	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
 		return new HashMap<>();
+	}
+
+	private void init() {
+		onInitialize();
+		goal = getDefaultGoal();
 	}
 
 

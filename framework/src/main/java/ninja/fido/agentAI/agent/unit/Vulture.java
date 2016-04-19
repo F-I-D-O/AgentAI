@@ -9,6 +9,7 @@ import ninja.fido.agentAI.base.GameAgent;
 import bwapi.Unit;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -16,7 +17,7 @@ import ninja.fido.agentAI.base.Goal;
  */
 public class Vulture extends GameAgent {
 
-    public Vulture(Unit unit) {
+    public Vulture(Unit unit) throws EmptyDecisionTableMapException {
         super(unit);
     }
 

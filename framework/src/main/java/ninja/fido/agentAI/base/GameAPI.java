@@ -4,7 +4,6 @@ import bwapi.DefaultBWListener;
 import bwapi.Game;
 import bwapi.Mirror;
 import bwapi.Position;
-import bwapi.Race;
 import bwapi.TilePosition;
 import bwapi.Unit;
 import bwapi.UnitType;
@@ -21,13 +20,11 @@ import ninja.fido.agentAI.buildingPlacer.UAlbertaBuildingPlacer;
 import ninja.fido.agentAI.mapTools.UAlbertaMapTools;
 import ninja.fido.agentAI.agent.unit.Barracks;
 import ninja.fido.agentAI.agent.unit.Drone;
-import ninja.fido.agentAI.agent.FullCommander;
 import ninja.fido.agentAI.agent.unit.Larva;
 import ninja.fido.agentAI.agent.unit.Marine;
 import ninja.fido.agentAI.agent.ProductionCommand;
 import ninja.fido.agentAI.agent.unit.SCV;
 import ninja.fido.agentAI.agent.UnitCommand;
-import ninja.fido.agentAI.agent.ZergCommander;
 import ninja.fido.agentAI.agent.unit.Hatchery;
 import ninja.fido.agentAI.agent.unit.HighTemplar;
 import ninja.fido.agentAI.agent.unit.Overlord;
@@ -44,11 +41,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import ninja.fido.agentAI.base.exception.ModuleDependencyException;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 import org.xml.sax.SAXException;
 
 public class GameAPI extends DefaultBWListener implements EventEngineListener{
@@ -440,7 +439,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		try{
 			Log.log(this, Level.FINE, "OnStart START");
 			
-			// BWTA init
+			// BWTA onInitialize
 			bwta.BWTA.readMap();
 			bwta.BWTA.analyze();
 
@@ -458,7 +457,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			unitAgents = new ArrayList<>();
 			unitAgentsMappedByUnit = new HashMap<>();
 
-			// commander init
+			// commander onInitialize
 			Commander.onStart();
 			commander = commander.create();
 //			commander = new Commander();
@@ -510,10 +509,18 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		UnitType buildingType = building.getType();
 		
 		if (buildingType.equals(UnitType.Terran_Barracks)) {
-			buildingAgent = new Barracks(building);
+			try {
+				buildingAgent = new Barracks(building);
+			} catch (EmptyDecisionTableMapException ex) {
+				ex.printStackTrace();
+			}
 		}
 		else if(buildingType.equals(UnitType.Zerg_Hatchery)){
-			buildingAgent = new Hatchery(building);
+			try {
+				buildingAgent = new Hatchery(building);
+			} catch (EmptyDecisionTableMapException ex) {
+				ex.printStackTrace();
+			}
 		}
 		
 		if(buildingAgent != null){

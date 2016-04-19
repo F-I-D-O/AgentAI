@@ -8,10 +8,10 @@ package ninja.fido.agentAI.agent.unit;
 import bwapi.Unit;
 import ninja.fido.agentAI.Log;
 import ninja.fido.agentAI.MorphableUnit;
-import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.HarvestMineralsGoal;
 import java.util.logging.Level;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -19,10 +19,10 @@ import java.util.logging.Level;
  */
 public class Drone extends Worker implements MorphableUnit{
 
-	public Drone() {
+	public Drone() throws EmptyDecisionTableMapException {
 	}
 
-	public Drone(Unit unit) {
+	public Drone(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
 	

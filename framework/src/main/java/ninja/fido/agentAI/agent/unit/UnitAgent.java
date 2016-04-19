@@ -9,6 +9,7 @@ import bwapi.Position;
 import bwapi.Unit;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.GameAgent;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -16,10 +17,10 @@ import ninja.fido.agentAI.base.GameAgent;
  */
 public abstract class UnitAgent extends GameAgent{
 
-	public UnitAgent() {
+	public UnitAgent() throws EmptyDecisionTableMapException {
 	}
 	
-	public UnitAgent(Unit unit) {
+	public UnitAgent(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
 	

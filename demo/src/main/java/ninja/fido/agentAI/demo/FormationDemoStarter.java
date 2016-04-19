@@ -31,6 +31,7 @@ import ninja.fido.agentAI.demo.goal.FormationTestSquadFormationIndividualGoal;
 import ninja.fido.agentAI.demo.goal.FormationTestStrategyGoal;
 import ninja.fido.agentAI.demo.goal.GroupGuardGoal;
 import ninja.fido.agentAI.goal.MoveGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 import org.xml.sax.SAXException;
 
 /**
@@ -40,7 +41,7 @@ import org.xml.sax.SAXException;
 public class FormationDemoStarter {
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
 			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
-			ModuleDependencyException, MultipleCommandersException {
+			ModuleDependencyException, MultipleCommandersException, EmptyDecisionTableMapException {
 		FullCommander commander = new FullCommander("Formation Test", new FormationTestStrategyGoal(null, null));
 		
 		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0, commander);
@@ -50,7 +51,7 @@ public class FormationDemoStarter {
         gameAPI.run();
     }
 
-	private static void setGoalActivityMaps() {
+	private static void setGoalActivityMaps() throws EmptyDecisionTableMapException {
 		Map<Class<? extends Goal>,Activity> defaultActivityMap = new Zealot().getDefaultGoalActivityMap();
 		defaultActivityMap.put(GroupGuardGoal.class, new GroupGuard());
 		defaultActivityMap.put(MoveGoal.class, new Move());

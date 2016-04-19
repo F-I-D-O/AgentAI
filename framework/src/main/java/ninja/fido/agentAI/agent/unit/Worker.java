@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -57,11 +58,11 @@ public abstract class Worker extends UnitAgent implements Scout {
 		return invalidBuildPositionFailure;
 	}
 
-	public Worker() {
+	public Worker() throws EmptyDecisionTableMapException {
 	}
 	
 	
-	public Worker(Unit unit) {
+	public Worker(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
 	

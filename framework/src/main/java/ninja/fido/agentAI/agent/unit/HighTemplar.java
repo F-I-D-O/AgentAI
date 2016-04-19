@@ -12,6 +12,7 @@ import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.MoveGoal;
 import ninja.fido.agentAI.goal.WaitGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -19,7 +20,7 @@ import ninja.fido.agentAI.goal.WaitGoal;
  */
 public class HighTemplar extends UnitAgent{
 
-	public HighTemplar(Unit unit) {
+	public HighTemplar(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
 
@@ -29,7 +30,7 @@ public class HighTemplar extends UnitAgent{
 			return new Wait(this);
 		}
 		else if(getGoal() instanceof MoveGoal){
-			MoveGoal goal = getGoal();
+			MoveGoal goal = (MoveGoal) getGoal();
 			if(goal.getMinDistanceFromTarget() == MoveGoal.DEFAULT_MIN_DISTANCE_FROM_TARGET){
 				return new Move(this, goal.getTargetPosition());
 			}

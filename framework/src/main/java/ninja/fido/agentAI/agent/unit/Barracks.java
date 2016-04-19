@@ -15,6 +15,7 @@ import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.goal.AutomaticProductionGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -42,7 +43,7 @@ public class Barracks extends GameAgent{
 	
 	
 
-	public Barracks(Unit unit) {
+	public Barracks(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 //		trainingInProgress = false;
 	}

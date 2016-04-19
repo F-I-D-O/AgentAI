@@ -11,6 +11,7 @@ import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.goal.WaitGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -18,7 +19,7 @@ import ninja.fido.agentAI.goal.WaitGoal;
  */
 public class Hatchery extends GameAgent{
 
-	public Hatchery(Unit unit) {
+	public Hatchery(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
 

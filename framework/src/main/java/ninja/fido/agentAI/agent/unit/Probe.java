@@ -9,6 +9,7 @@ import bwapi.Unit;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.HarvestMineralsGoal;
+import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *
@@ -16,7 +17,7 @@ import ninja.fido.agentAI.goal.HarvestMineralsGoal;
  */
 public class Probe extends Worker{
 
-	public Probe(Unit unit) {
+	public Probe(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
 
