@@ -7,8 +7,12 @@ package ninja.fido.agentAI.agent.unit;
 
 import ninja.fido.agentAI.base.GameAgent;
 import bwapi.Unit;
+import java.util.HashMap;
+import java.util.Map;
+import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
+import ninja.fido.agentAI.goal.WaitGoal;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
@@ -22,13 +26,17 @@ public class Vulture extends GameAgent {
     }
 
     @Override
-    protected Activity chooseActivity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
+
+		defaultActivityMap.put(WaitGoal.class, new Wait());
+
+		return defaultActivityMap;
+	}
 
 	@Override
 	protected Goal getDefaultGoal() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return new WaitGoal(this, null);
 	}
     
 }

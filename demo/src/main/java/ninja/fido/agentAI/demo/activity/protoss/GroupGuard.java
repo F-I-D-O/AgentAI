@@ -175,7 +175,7 @@ public class GroupGuard extends UnitActivity<Zealot,GroupGuardGoal,GroupGuard>{
 	protected void processInfo(Info info) {
 		if(info instanceof PositionChosenInfo && !inFormation){
 			if(zealotPositions == null){
-				agent.queInfo(info);
+				info.send();
 			}
 			else{
 				PositionChosenInfo positionChosenInfo = (PositionChosenInfo) info;

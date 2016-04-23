@@ -44,9 +44,14 @@ public class Overlord extends GameAgent{
 	}
 
 	@Override
-	protected Activity chooseActivity() {
-		return null;
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
+
+		defaultActivityMap.put(WaitGoal.class, new Wait());
+
+		return defaultActivityMap;
 	}
+	
 
 	@Override
 	protected Goal getDefaultGoal() {

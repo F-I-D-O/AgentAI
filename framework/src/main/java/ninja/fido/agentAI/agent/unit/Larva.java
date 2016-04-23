@@ -66,17 +66,21 @@ public class Larva extends GameAgent implements MorphableUnit{
 	
 	public void morph(MorphOption morphOption) throws ResourceDeficiencyException{
 		Log.log(this, Level.INFO, "{0}: morphing into: {1}", this.getClass(), morphOption.unitType);
-		spendSupply(ResourceType.MINERALS, morphOption.unitType.mineralPrice());
-		spendSupply(ResourceType.GAS, morphOption.unitType.gasPrice());
-		spendSupply(ResourceType.SUPPLY, morphOption.unitType.supplyRequired());
+		spendResource(ResourceType.MINERALS, morphOption.unitType.mineralPrice());
+		spendResource(ResourceType.GAS, morphOption.unitType.gasPrice());
+		spendResource(ResourceType.SUPPLY, morphOption.unitType.supplyRequired());
 		unit.morph(morphOption.unitType);
 	}
 	
-
 	@Override
-	protected Activity chooseActivity() {
-		return null;
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
+
+		defaultActivityMap.put(WaitGoal.class, new Wait());
+
+		return defaultActivityMap;
 	}
+
 
 	@Override
 	protected Goal getDefaultGoal() {

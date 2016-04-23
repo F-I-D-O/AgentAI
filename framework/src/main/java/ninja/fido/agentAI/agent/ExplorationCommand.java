@@ -29,7 +29,11 @@ import ninja.fido.agentAI.base.Request;
 import ninja.fido.agentAI.info.ExpansionInfo;
 import ninja.fido.agentAI.request.ExpansionInfoRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
+import ninja.fido.agentAI.activity.Wait;
+import ninja.fido.agentAI.goal.WaitGoal;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
@@ -64,16 +68,15 @@ public class ExplorationCommand extends CommandAgent {
 		enemyUnits = new ArrayList<>();
 	}
 	
-	
-	
+	@Override
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
 
-    @Override
-    protected Activity chooseActivity() {
-		if(getGoal() instanceof StrategicExplorationGoal){
-			return new StrategicExploration(this);
-		}
-		return null;
-    }
+		defaultActivityMap.put(WaitGoal.class, new Wait());
+		defaultActivityMap.put(StrategicExplorationGoal.class, new StrategicExploration());
+
+		return defaultActivityMap;
+	}
     
     public int getNumberOfScouts(){
         return getNumberOfCommandedAgents();

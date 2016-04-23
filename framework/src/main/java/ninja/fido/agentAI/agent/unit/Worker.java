@@ -73,8 +73,8 @@ public abstract class Worker extends UnitAgent implements Scout {
 	
 	public void onConstructionStarted() throws ResourceDeficiencyException{
 		Log.log(this, Level.INFO, "{0}: onConstructionStarted", this.getClass());
-		spendSupply(ResourceType.GAS, constructedBuildingType.gasPrice());
-		spendSupply(ResourceType.MINERALS, constructedBuildingType.mineralPrice());
+		spendResource(ResourceType.GAS, constructedBuildingType.gasPrice());
+		spendResource(ResourceType.MINERALS, constructedBuildingType.mineralPrice());
 //		spendSupply(ResourceType.SUPPLY, constructedBuildingType.supplyRequired());
 		constructionInProgress = true;
 		new UnitCreationStartedInfo(getCommandAgent(), this, constructedBuildingType).send();

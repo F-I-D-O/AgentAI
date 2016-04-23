@@ -235,6 +235,21 @@ public abstract class Agent {
 		}
 	}
 	
+	/**
+	 * Rerurns default decision tables map.
+	 * @return Rerurns default decision tables map.
+	 */
+	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
+		return null;
+	}
+	
+	/**
+	 * Returns default goal activitz map.
+	 * @return Returns default goal activitz map.
+	 */
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		return new HashMap<>();
+	}
 	
 	
 	/**
@@ -256,17 +271,144 @@ public abstract class Agent {
 //        run();
     }
 	
+	/**
+	 * Returns amount of owned gas.
+	 * @return Amount of owned gas.
+	 */
 	protected int getOwnedGas(){
         return gas.getAmount();
     } 
     
+	/**
+	 * Returns amount of owned minerals.
+	 * @return Amount of owned minerals.
+	 */
     protected int getOwnedMinerals(){
         return minerals.getAmount();
     }
 	
+	/**
+	 * Returns amount of owned supply.
+	 * @return Amount of owned supply.
+	 */
 	protected int getOwnedSupply(){
         return supply.getAmount();
     }
+	
+	/**
+	 * Gives resource to oher agent.
+	 * @param receiver Receiver of the recource.
+	 * @param material Material.
+	 * @param amount Resource amount.
+	 * @throws ResourceDeficiencyException 
+	 */
+	protected void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException{
+		switch(material){
+			case GAS:
+				receiver.receiveResource(gas.split(amount));
+				break;
+			case MINERALS:
+				receiver.receiveResource(minerals.split(amount));
+				break;
+			case SUPPLY:
+				receiver.receiveResource(supply.split(amount));
+				break;
+		}
+	}
+	
+	/**
+	 * Return minerals missing to specified amount.
+	 * @param neededAmount Needen amount of minerals.
+	 * @return Amount of mineraal missing to needed amount.
+	 */
+	protected int getMissingMinerals(int neededAmount){
+		int difference = neededAmount - getOwnedMinerals();
+		return difference > 0 ? difference : 0;
+	}
+	
+	/**
+	 * Return gas missing to specified amount.
+	 * @param neededAmount Needen amount of gas.
+	 * @return Amount of gas missing to needed amount.
+	 */
+	protected int getMissingGas(int neededAmount){
+		int difference = neededAmount - getOwnedGas();
+		return difference > 0 ? difference : 0;
+	}
+	
+	/**
+	 * Determines whether certain request was sended. Note that you have to override equals in your reques if you want
+	 * to use this.
+	 * @param request Request to test.
+	 * @return Returns true if this request has been sended before or not.
+	 */
+	protected boolean requestSended(Request request){
+		return sentRequests.contains(request);
+	}
+	
+	/**
+	 * Runs every frame. Agent per frame logic belongs here, if there is some.
+	 */
+	protected void routine() {		
+	}
+	
+	/**
+	 * Spends resource. This should be called only after api call whitch results in spending supply.
+	 * @param material Material.
+	 * @param amount Resource amount.
+	 * @throws ResourceDeficiencyException 
+	 */
+	protected final void spendResource(ResourceType material, int amount) throws ResourceDeficiencyException{
+		Resource resource = null;
+		switch(material){
+			case GAS:
+				resource = gas.split(amount);
+				break;
+			case MINERALS:
+				resource = minerals.split(amount);
+				break;
+			case SUPPLY:
+				resource = supply.split(amount);
+				break;
+		}
+		resource.spend(amount);
+	}
+	
+	/**
+	 * Processes one info object.
+	 * @param info Info object.
+	 */
+	protected void processInfo(Info info) {
+		Log.log(this, Level.FINE, "{0}: info received: {1}", this.getClass(), info.getClass());
+	}
+	
+	/**
+	 * Returns defaul goal for this type.
+	 * @return Returns defaul goal for this type.
+	 */
+	protected abstract Goal getDefaultGoal();
+	
+	/**
+	 * In this function agent make decision what to do next.
+	 * @return Chosen action.
+	 * @throws CannotDecideException 
+	 */
+	protected Activity decide() throws CannotDecideException {
+		DecisionTablesMapKey key = DecisionTablesMapKey.createKeyBasedOnCurrentState(this, referenceKey);
+		DecisionTable decisionTable = decisionTablesMap.get(key);
+		if(decisionTable == null){
+			throw new CannotDecideException(this, key);
+		}
+		return decisionTable.chooseAction().create(this, goal);
+	}
+	
+	/**
+	 * This function is called in the first frame.
+	 */
+	protected void onInitialize() {
+		 
+	}
+	
 	
 	/**
 	 * Main method, runs every frame.
@@ -352,55 +494,47 @@ public abstract class Agent {
 		}
     }
 	
-	
-	
-	public void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException{
-		switch(material){
-			case GAS:
-				receiver.receiveResource(gas.split(amount));
-				break;
-			case MINERALS:
-				receiver.receiveResource(minerals.split(amount));
-				break;
-			case SUPPLY:
-				receiver.receiveResource(supply.split(amount));
-				break;
-		}
-	}
-	
-	public final void queInfo(Info info) {
+	/**
+	 * Queue information from other agent.
+	 * @param info Info object.
+	 */
+	final void queInfo(Info info) {
 		infoQue.add(info);
 	}
 	
-	public int getMissingMinerals(int neededAmount){
-		int difference = neededAmount - getOwnedMinerals();
-		return difference > 0 ? difference : 0;
-	}
-	
-	public int getMissingGas(int neededAmount){
-		int difference = neededAmount - getOwnedGas();
-		return difference > 0 ? difference : 0;
-	}
-	
-	public boolean requestSended(Request request){
-		return sentRequests.contains(request);
-	}
-	
-	void addSendedRequest(Request request){
+	/**
+	 * Adds new request to request que.
+	 * @param request 
+	 */
+	final void addSendedRequest(Request request){
 		sentRequests.add(request);
 	}
 
-//	public Agent(Queue<Order> commandQueue, Resource minerals, Resource gas, HashMap<DecisionTablesMapKey, DecisionTable> decisionTablesMap, Queue<Info> infoQue, ArrayList<Request> sendRequests) {
-//		this.commandQueue = commandQueue;
-//		this.minerals = minerals;
-//		this.gas = gas;
-//		this.decisionTablesMap = decisionTablesMap;
-//		this.infoQue = infoQue;
-//		this.sendRequests = sendRequests;
-//	}
+	/**
+	 * Adds new order to order queue
+	 * @param order Incoming order.
+	 */
+	final void addToCommandQueue(Order order) {
+		orderQueue.add(order);
+	}
+	
+	/**
+	 * Set new goal.
+	 * @param goal New goal.
+	 */
+	final void setGoal(Goal goal){
+		this.goal = goal;
+		goalChanged = true;
+		Log.log(this, Level.INFO, "{0}: new goal set: {1}", this.getClass(), goal.getClass());
+	}
 	
 	
-	protected Activity chooseActivity() throws SimpleDecisionException{
+	/**
+	 * Choose the activity to perform.
+	 * @return Chosen aativity.
+	 * @throws SimpleDecisionException 
+	 */
+	private Activity chooseActivity() throws SimpleDecisionException{
 		Activity template = goalActivityMap.get(goal.getClass());
 		if(template == null){
 			if(this instanceof Commander){
@@ -413,43 +547,9 @@ public abstract class Agent {
 		return template.create(this, goal);
 	}
 	
-	protected void routine() {
-		
-	}
-
-	protected final void spendSupply(ResourceType material, int amount) throws ResourceDeficiencyException{
-		Resource resource = null;
-		switch(material){
-			case GAS:
-				resource = gas.split(amount);
-				break;
-			case MINERALS:
-				resource = minerals.split(amount);
-				break;
-			case SUPPLY:
-				resource = supply.split(amount);
-				break;
-		}
-		resource.spend(amount);
-	}
-	
-	protected void processInfo(Info info) {
-		Log.log(this, Level.FINE, "{0}: info received: {1}", this.getClass(), info.getClass());
-	}
-	
-	protected abstract Goal getDefaultGoal();
-	
-	
-	final void addToCommandQueue(Order command) {
-		orderQueue.add(command);
-	}
-	
-	final void setGoal(Goal goal){
-		this.goal = goal;
-		goalChanged = true;
-		Log.log(this, Level.INFO, "{0}: new goal set: {1}", this.getClass(), goal.getClass());
-	}
-	
+	/**
+	 * Accepts all commands in queue.
+	 */
 	private final void acceptCommands() {
 		Order command;
 		while(!orderQueue.isEmpty()){
@@ -459,6 +559,9 @@ public abstract class Agent {
 		}
 	}
 	
+	/**
+	 * Procces all informations in info queue.
+	 */
 	private final void processInfoQue(){
 		Info info;
 		int infoCount = infoQue.size();
@@ -469,22 +572,10 @@ public abstract class Agent {
 		}
 	}
 
-	protected Activity decide() throws CannotDecideException {
-		DecisionTablesMapKey key = DecisionTablesMapKey.createKeyBasedOnCurrentState(this, referenceKey);
-		DecisionTable decisionTable = decisionTablesMap.get(key);
-		if(decisionTable == null){
-			throw new CannotDecideException(this, key);
-		}
-//		Activity chosenAction = decisionTable.chooseAction();
-//		chosenAction.onInitialize(this, goal);
-//		return chosenAction;
-		return decisionTable.chooseAction().create(this, goal);
-	}
-
-	protected void onInitialize() {
-		 
-	}
-
+	/**
+	 * Sets the reference key to decision table.
+	 * @throws EmptyDecisionTableMapException 
+	 */
 	private void setReferenceKey() throws EmptyDecisionTableMapException {
 		if(decisionTablesMap.isEmpty()){
 			throw new EmptyDecisionTableMapException(this.getClass());
@@ -495,14 +586,9 @@ public abstract class Agent {
 		}
 	}
 
-	public Map<DecisionTablesMapKey, DecisionTable> getDefaultDecisionTablesMap() {
-		return null;
-	}
-
-	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
-		return new HashMap<>();
-	}
-
+	/**
+	 * Intitilaize the agent
+	 */
 	private void init() {
 		onInitialize();
 		goal = getDefaultGoal();

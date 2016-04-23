@@ -26,7 +26,7 @@ public abstract class Activity<A extends Agent,G extends Goal, AC extends Activi
 	/**
 	 * Agent who performs this activity.
 	 */
-	protected A agent;
+	protected final A agent;
     
 	/**
 	 * Parent activity.
@@ -54,7 +54,7 @@ public abstract class Activity<A extends Agent,G extends Goal, AC extends Activi
 	 * created by this constructor!
 	 */
 	public Activity() {
-		
+		agent = null;
 	}
 
 	/**
@@ -162,6 +162,30 @@ public abstract class Activity<A extends Agent,G extends Goal, AC extends Activi
 	protected void onCommandedAgentAdded(Agent commandedAgent) {
 		Log.log(this, Level.FINE, "{0}: Commanded agent added: {1}", this.getClass(), commandedAgent.getClass());
 	}
+	
+	/**
+	 * Returns Amount of gas owned by agent who runs this action.
+	 * @return Returns amount of gas owned by agent who runs this action.
+	 */
+	protected int getAgentOwnedGas(){
+        return agent.getOwnedGas();
+    } 
+    
+	/**
+	 * Returns Amount of mineral owned by agent who runs this action.
+	 * @return Returns amount of mineral owned by agent who runs this action.
+	 */
+    protected int getAgentOwnedMinerals(){
+        return agent.getOwnedMinerals();
+    }
+	
+	/**
+	 * Returns Amount of supply owned by agent who runs this action.
+	 * @return Returns amount of supply owned by agent who runs this action.
+	 */
+	protected int getAgentOwnedSupply(){
+        return agent.getOwnedSupply();
+    }
 	
 	
 	/**

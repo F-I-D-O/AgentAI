@@ -7,14 +7,20 @@ package ninja.fido.agentAI.agent.unit;
 
 import bwapi.Unit;
 import bwapi.UnitType;
+import java.util.HashMap;
+import java.util.Map;
 import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.ResourceType;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.activity.AutomaticProduction;
+import ninja.fido.agentAI.activity.StrategicExploration;
+import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.goal.AutomaticProductionGoal;
+import ninja.fido.agentAI.goal.StrategicExplorationGoal;
+import ninja.fido.agentAI.goal.WaitGoal;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
@@ -45,21 +51,26 @@ public class Barracks extends GameAgent{
 
 	public Barracks(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
-//		trainingInProgress = false;
 	}
-
+	
+	
+	
+	
+	
 	@Override
-	protected Activity chooseActivity() {
-		if(getGoal() instanceof AutomaticProductionGoal){
-			return new AutomaticProduction(this, UnitType.Terran_Marine);
-		}
-		return null;
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
+
+		defaultActivityMap.put(WaitGoal.class, new Wait());
+		defaultActivityMap.put(AutomaticProductionGoal.class, new AutomaticProduction(UnitType.Terran_Marine));
+
+		return defaultActivityMap;
 	}
 	
 	public void train(UnitType unitType) throws ResourceDeficiencyException{
-		spendSupply(ResourceType.MINERALS, unitType.mineralPrice());
-		spendSupply(ResourceType.GAS, unitType.gasPrice());
-		spendSupply(ResourceType.SUPPLY, unitType.supplyRequired());
+		spendResource(ResourceType.MINERALS, unitType.mineralPrice());
+		spendResource(ResourceType.GAS, unitType.gasPrice());
+		spendResource(ResourceType.SUPPLY, unitType.supplyRequired());
 		GameAPI.train(this, unitType);
 	}
 	

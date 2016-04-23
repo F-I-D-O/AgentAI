@@ -82,7 +82,7 @@ public class OutbreakProduction extends CommandActivity<LarvaCommand,Goal,Outbre
 			int supplyPrice = unitToBuild.supplyRequired();
 			
 			// if we have enought resources
-			if(agent.getOwnedSupply() >= supplyPrice && agent.getOwnedMinerals() >= mineralPrice){
+			if(getAgentOwnedSupply() >= supplyPrice && getAgentOwnedMinerals() >= mineralPrice){
 				try {
 					agent.giveResource(larva, ResourceType.MINERALS, mineralPrice);
 					agent.giveResource(larva, ResourceType.SUPPLY, supplyPrice);
@@ -98,11 +98,11 @@ public class OutbreakProduction extends CommandActivity<LarvaCommand,Goal,Outbre
 			else{
 				int mineralsMissing = 0;
 				int supplymissing = 0;
-				if(agent.getOwnedSupply() < supplyPrice){
-					supplymissing = supplyPrice - agent.getOwnedSupply();
+				if(getAgentOwnedSupply() < supplyPrice){
+					supplymissing = supplyPrice - getAgentOwnedSupply();
 				}	
-				if(agent.getOwnedMinerals() < mineralPrice){
-					mineralsMissing = mineralPrice - agent.getOwnedMinerals();	
+				if(getAgentOwnedMinerals() < mineralPrice){
+					mineralsMissing = mineralPrice - getAgentOwnedMinerals();	
 				}
 				new ResourceRequest(agent.getCommandAgent(), agent, mineralsMissing, 0, supplymissing).send();
 				break;

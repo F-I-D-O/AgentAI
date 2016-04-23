@@ -74,11 +74,6 @@ public class ExpansionCommand extends CommandAgent
 	}
 
 	@Override
-	protected Activity chooseActivity() {
-		return null;
-	}
-
-	@Override
 	protected Goal getDefaultGoal() {
 		return new AutomaticExpansionGoal(this, null, UnitType.Zerg_Hatchery);
 	}

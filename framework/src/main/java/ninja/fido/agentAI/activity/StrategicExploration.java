@@ -30,6 +30,13 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
     
     private final ArrayList<Scout> scouts;
 
+	
+	
+	
+	public StrategicExploration() {
+		this.scouts = null;
+	}
+
     public StrategicExploration(A agent) {
         super(agent);
         scouts = new ArrayList<>();

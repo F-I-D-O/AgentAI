@@ -6,6 +6,8 @@
 package ninja.fido.agentAI.agent.unit;
 
 import bwapi.Unit;
+import java.util.HashMap;
+import java.util.Map;
 import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
@@ -24,9 +26,14 @@ public class Hatchery extends GameAgent{
 	}
 
 	@Override
-	protected Activity chooseActivity() {
-		return new Wait(this);
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
+
+		defaultActivityMap.put(WaitGoal.class, new Wait());
+
+		return defaultActivityMap;
 	}
+	
 
 	@Override
 	protected Goal getDefaultGoal() {

@@ -6,6 +6,9 @@
 package ninja.fido.agentAI.agent.unit;
 
 import bwapi.Unit;
+import java.util.HashMap;
+import java.util.Map;
+import ninja.fido.agentAI.activity.HarvestMinerals;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.HarvestMineralsGoal;
@@ -22,8 +25,12 @@ public class Probe extends Worker{
 	}
 
 	@Override
-	protected Activity chooseActivity() {
-		return null;
+	public Map<Class<? extends Goal>,Activity> getDefaultGoalActivityMap() {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
+
+		defaultActivityMap.put(HarvestMineralsGoal.class, new HarvestMinerals());
+
+		return defaultActivityMap;
 	}
 
 	@Override
