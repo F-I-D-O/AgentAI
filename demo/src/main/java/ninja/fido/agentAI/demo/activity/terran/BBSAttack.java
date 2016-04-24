@@ -15,8 +15,6 @@ import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.order.SquadAttackMoveOrder;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
@@ -63,7 +61,7 @@ public class BBSAttack extends CommandActivity<UnitCommand,Goal,BBSAttack>{
 	@Override
 	protected void performAction() throws ChainOfCommandViolationException {
 		List<Marine> marines = agent.getCommandedAgents(Marine.class);
-		agent.detachCommandedAgents(marines, squadCommander);
+		detachCommandedAgents(marines, squadCommander);
 		
 		for (BaseLocationInfo baseInfo : agent.getEnemyBases()) {
 			enemyBaseLocation = baseInfo.getPosition();

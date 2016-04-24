@@ -13,8 +13,6 @@ import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.UniversalGoalOrder;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentAI.demo.goal.FormationTestSquadFormationGoal;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
@@ -43,7 +41,7 @@ public class FormationTestStrategy extends CommandActivity<FullCommander,Goal,Fo
 	@Override
 	protected void performAction() {
 		List<UnitAgent> agents = agent.getCommandedAgents(UnitAgent.class);
-		agent.detachCommandedAgents(agents, squadCommander);
+		detachCommandedAgents(agents, squadCommander);
 	}
 
 	@Override

@@ -5,17 +5,17 @@
  */
 package ninja.fido.agentAI.order;
 
-import ninja.fido.agentAI.base.Order;
 import ninja.fido.agentAI.base.Agent;
 import ninja.fido.agentAI.base.CommandAgent;
 import java.util.List;
+import ninja.fido.agentAI.base.OrderForCommandAgent;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class DetachBack extends Order<CommandAgent>{
+public class DetachBack extends OrderForCommandAgent<CommandAgent>{
 
 	private Class agentType = null;
 	
@@ -62,7 +62,7 @@ public class DetachBack extends Order<CommandAgent>{
 		CommandAgent target = getTarget();
 		List<Agent> subordinateAgents;
 		if(agentType == null){
-			subordinateAgents = target.getCommandedAgents();
+			subordinateAgents = getCommandedAgents();
 		}
 		else if(numberOfUnits == 0){
 			if(idleOnly){
@@ -75,7 +75,7 @@ public class DetachBack extends Order<CommandAgent>{
 		else{
 			subordinateAgents = target.getCommandedAgents(agentType, numberOfUnits);
 		}
-		target.detachCommandedAgents(subordinateAgents, commandAgent);
+		detachCommandedAgents(subordinateAgents, commandAgent);
 	}
 	
 }

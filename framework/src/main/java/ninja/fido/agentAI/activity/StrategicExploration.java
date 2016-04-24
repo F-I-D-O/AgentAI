@@ -47,9 +47,9 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
     public void performAction() throws ChainOfCommandViolationException {
 //        Log.log(this, Level.FINE, "{0}:{1} Number of subordinate Agents: {2}", this.getClass(), getAgent().getClass(),
 //                ((CommandAgent) getAgent()).getCommandedAgents().size());
-		for (Agent subordinateAgent :  getAgent().getCommandedAgents()) {
-			if(subordinateAgent instanceof Scout && !scouts.contains(subordinateAgent)){
-				scouts.add((Scout) subordinateAgent);
+		for (Agent commandedAgent :  getCommandedAgents()) {
+			if(commandedAgent instanceof Scout && !scouts.contains(commandedAgent)){
+				scouts.add((Scout) commandedAgent);
 			}
         }
         

@@ -67,7 +67,7 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander,Goal,Outbrea
 		if(!drones.isEmpty()){           
             for (Drone drone : drones) {
                 if(agent.getSubordinateAgentsDetachedTo(agent.explorationCommand, Drone.class) < targetNumberOfScouts){
-                    getAgent().detachCommandedAgent(drone, agent.explorationCommand);
+                    detachCommandedAgent(drone, agent.explorationCommand);
                 }
 				else{
 					break;
@@ -82,17 +82,15 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander,Goal,Outbrea
 				new DetachBack(agent.resourceCommand, agent, Drone.class, 1).issueOrder();
 			}
 			else{
-				agent.detachCommandedAgent(drone, agent.expansionCommand);
+				detachCommandedAgent(drone, agent.expansionCommand);
 				expandingDrones++;
 			}
 		}
 		
 		drones = agent.getCommandedAgents(Drone.class);
 		
-		agent.detachCommandedAgents(drones, agent.resourceCommand);
-		agent.detachCommandedAgents(larvas, agent.larvaCommand);
-		
-
+		detachCommandedAgents(drones, agent.resourceCommand);
+		detachCommandedAgents(larvas, agent.larvaCommand);
 	}
 
 	@Override

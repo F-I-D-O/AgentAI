@@ -85,15 +85,15 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal,BBS
 		SCV scv;
 		while((scv = agent.getCommandedAgent(SCV.class)) != null 
 				&& explorationCommand.getNumberOfScouts() < targetNumberOfScouts){
-			getAgent().detachCommandedAgent(scv, explorationCommand);
+			detachCommandedAgent(scv, explorationCommand);
 		}
 		
 		List<SCV> scvs = agent.getCommandedAgents(SCV.class);
 		List<Barracks> barracks = agent.getCommandedAgents(Barracks.class);
 		List<Marine> marines = agent.getCommandedAgents(Marine.class);
 		
-		agent.detachCommandedAgents(barracks, productionCommand);
-		agent.detachCommandedAgents(marines, unitCommand);
+		detachCommandedAgents(barracks, productionCommand);
+		detachCommandedAgents(marines, unitCommand);
 		
 		if(buildCommand.getNumberOfConstructionStarted(UnitType.Terran_Barracks) >= NUMBER_OF_BARRACKS
 				&& (!productionCommand.isSupplyMissing() || agent.getFreeSupply() > productionCommand.getMissingSupply())
@@ -122,7 +122,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal,BBS
 					}
 					else {
 						Log.log(this, Level.FINER, "{0}: Have workers - YES", this.getClass());
-						getAgent().detachCommandedAgent(scvs.get(0), buildCommand);
+						detachCommandedAgent(scvs.get(0), buildCommand);
 //						unitsDetachedFromBuildCommand = false;
 					}
 				}	
@@ -174,7 +174,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal,BBS
 		if(!scvs.isEmpty()){           
             for (SCV scv : scvs) {
                 if(explorationCommand.getNumberOfScouts() < targetNumberOfScouts){
-                    getAgent().detachCommandedAgent(scv, explorationCommand);
+                    detachCommandedAgent(scv, explorationCommand);
                 }
             }
         }
@@ -199,7 +199,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal,BBS
 				buildCommand.getMissingMineralForFirsItem() - getAgent().getOwnedMinerals());
 //		if(unitsDetachedFromBuildCommand){
 			if(!scvs.isEmpty()){
-				getAgent().detachCommandedAgents(scvs, resourceCommand);
+				detachCommandedAgents(scvs, resourceCommand);
 			}
 //		}
 //		else{

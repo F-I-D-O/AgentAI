@@ -14,29 +14,50 @@ import java.util.Queue;
 import java.util.logging.Level;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
+
+/**
+ * Command agent type.
+ * @author david
+ */
 public abstract class CommandAgent extends Agent {
 
+	/**
+	 * Agents under direct command
+	 */
     private final ArrayList<Agent> commandedAgents;
 	
+	/**
+	 * Agents under command.
+	 */
 	private final SubordinateAgentsInfo subordinateAgentsInfo;
 	
+	/**
+	 * Requests from other agets.
+	 */
 	protected final Queue<Request> requests;
 	
+	/**
+	 * Completed orders queue
+	 */
 	private final Queue<Order> completedOrdersQueue;
 	
+	/**
+	 * List of uncompleted orders.
+	 */
     private final ArrayList<Order> uncompletedOrders;
 	
+	/**
+	 * Statistics of minerals given to commanded agents.
+	 */
 	private final Map<Agent,Integer> mineralsGiven;
 	
     
 
-    public ArrayList<Agent> getCommandedAgents() {
-        return (ArrayList<Agent>) commandedAgents.clone();
-    }
 	
-	
-	
-	
+	/**
+	 * Constructor.
+	 * @throws EmptyDecisionTableMapException 
+	 */
     public CommandAgent() throws EmptyDecisionTableMapException {
         commandedAgents = new ArrayList<>();
 		subordinateAgentsInfo = new SubordinateAgentsInfo(this);
@@ -49,7 +70,12 @@ public abstract class CommandAgent extends Agent {
 	
 	
 	
-    public final void detachCommandedAgent(Agent subordinateAgent, CommandAgent newCommand) {
+	/**
+	 * Detaches commanded agent to other agent.
+	 * @param subordinateAgent agent to be detached.
+	 * @param newCommand new command agent for agent.
+	 */
+    final void detachCommandedAgent(Agent subordinateAgent, CommandAgent newCommand) {
 		subordinateAgent.setAssigned(false);
         newCommand.addCommandedAgent(subordinateAgent);
         commandedAgents.remove(subordinateAgent);
@@ -61,13 +87,24 @@ public abstract class CommandAgent extends Agent {
 		}
     }
 	
-	public final void detachCommandedAgents(List<? extends Agent> subordinateAgents, CommandAgent newCommand) {
+	/**
+	 * Detaches commanded agents to other agent.
+	 * @param subordinateAgents agent to be detached.
+	 * @param newCommand new command agent for agents.
+	 */
+	final void detachCommandedAgents(List<? extends Agent> subordinateAgents, CommandAgent newCommand) {
 		for (Agent subordinateAgent : subordinateAgents) {
 			detachCommandedAgent(subordinateAgent, newCommand);
 		}
     }
 
-    public final <T> T getCommandedAgent(Class<T> agentClass) {
+	/**
+	 * Get commanded age by type. 
+	 * @param <T>
+	 * @param agentClass
+	 * @return 
+	 */
+    final <T> T getCommandedAgent(Class<T> agentClass) {
         for (Agent subordinateAgent : commandedAgents) {
             if (agentClass.isInstance(subordinateAgent)) {
                 return (T) subordinateAgent;
@@ -159,6 +196,13 @@ public abstract class CommandAgent extends Agent {
 		handleCompletedOrders();
 	}
 	
+	/**
+	 * Returns list of agents under direct command.
+	 * @return Returns list of agents under direct command.
+	 */
+    final ArrayList<Agent> getCommandedAgents() {
+        return (ArrayList<Agent>) commandedAgents.clone();
+    }
 
 	final void addUncompletedOrder(Order order){
 		uncompletedOrders.add(order);
