@@ -61,8 +61,8 @@ public class FormationTestSquadFormation extends CommandActivity<SquadCommander,
 
 	@Override
 	protected void performAction() throws ChainOfCommandViolationException {
-		List<Zealot> zealots = agent.getCommandedAgents(Zealot.class);
-		HighTemplar highTemplar = agent.getCommandedAgent(HighTemplar.class);
+		List<Zealot> zealots = getCommandedAgents(Zealot.class);
+		HighTemplar highTemplar = getCommandedAgent(HighTemplar.class);
 		
 		
 		if(squadInFormation){
@@ -150,7 +150,7 @@ public class FormationTestSquadFormation extends CommandActivity<SquadCommander,
 				zealotsOnPosition.add((Zealot) order.getTarget());
 				if(!squadInFormation){
 					numberOfZealotsInFormation++;
-					List<Zealot> zealots = agent.getCommandedAgents(Zealot.class);
+					List<Zealot> zealots = getCommandedAgents(Zealot.class);
 					if(numberOfZealotsInFormation > 5 && numberOfZealotsInFormation == zealots.size()){
 						squadInFormation = true;
 					}

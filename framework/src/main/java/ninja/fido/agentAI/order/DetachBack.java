@@ -66,14 +66,14 @@ public class DetachBack extends OrderForCommandAgent<CommandAgent>{
 		}
 		else if(numberOfUnits == 0){
 			if(idleOnly){
-				subordinateAgents = target.getCommandedAgents(agentType, idleOnly);
+				subordinateAgents = getCommandedAgents(agentType, idleOnly);
 			}
 			else{
-				subordinateAgents = target.getCommandedAgents(agentType);
+				subordinateAgents = getCommandedAgents(agentType);
 			}
 		}
 		else{
-			subordinateAgents = target.getCommandedAgents(agentType, numberOfUnits);
+			subordinateAgents = getCommandedAgents(agentType, numberOfUnits);
 		}
 		detachCommandedAgents(subordinateAgents, commandAgent);
 	}

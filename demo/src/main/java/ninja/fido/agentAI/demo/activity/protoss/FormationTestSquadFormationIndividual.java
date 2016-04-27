@@ -53,8 +53,8 @@ public class FormationTestSquadFormationIndividual
 
 	@Override
 	protected void performAction() throws ChainOfCommandViolationException {
-		ArrayList<Zealot> zealots = agent.getCommandedAgents(Zealot.class);
-		HighTemplar highTemplar = agent.getCommandedAgent(HighTemplar.class);
+		ArrayList<Zealot> zealots = getCommandedAgents(Zealot.class);
+		HighTemplar highTemplar = getCommandedAgent(HighTemplar.class);
 		
 		if(!zealotsOrdered && zealots.size() > 8){
 			for (Zealot zealot : zealots) {

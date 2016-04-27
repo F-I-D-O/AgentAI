@@ -38,7 +38,7 @@ public class ManageHarvest<A extends ResourceCommand> extends CommandActivity<A,
 
     @Override
     public void performAction() throws ChainOfCommandViolationException {
-		List<SCV> scvs = getAgent().getCommandedAgents(SCV.class);
+		List<SCV> scvs = getCommandedAgents(SCV.class);
         for (SCV scv : scvs) {
 			if(!(scv.getGoal() instanceof HarvestMineralsGoal)){
 				new HarvestMineralsOrder(scv, this.getAgent()).issueOrder();

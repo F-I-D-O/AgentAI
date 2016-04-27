@@ -60,7 +60,7 @@ public class BBSAttack extends CommandActivity<UnitCommand,Goal,BBSAttack>{
 
 	@Override
 	protected void performAction() throws ChainOfCommandViolationException {
-		List<Marine> marines = agent.getCommandedAgents(Marine.class);
+		List<Marine> marines = getCommandedAgents(Marine.class);
 		detachCommandedAgents(marines, squadCommander);
 		
 		for (BaseLocationInfo baseInfo : agent.getEnemyBases()) {

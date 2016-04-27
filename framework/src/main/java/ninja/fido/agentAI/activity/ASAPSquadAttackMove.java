@@ -39,7 +39,7 @@ public class ASAPSquadAttackMove extends SquadAttackMove<ASAPSquadAttackMove>
 	
 	@Override
 	protected void performAction() throws ChainOfCommandViolationException {
-		List<Marine> marines = agent.getCommandedAgents(Marine.class);
+		List<Marine> marines = getCommandedAgents(Marine.class);
 		Unit unit;
 		for (Marine marine : marines) {
 			if(marine.isIdle()){

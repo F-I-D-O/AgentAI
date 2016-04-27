@@ -41,14 +41,14 @@ public class DefaultProtossStrategy extends CommandActivity<FullCommander, Goal,
 
 	@Override
 	protected void performAction() {
-		List<Probe> probes = agent.getCommandedAgents(Probe.class);
+		List<Probe> probes = getCommandedAgents(Probe.class);
 		
 		detachCommandedAgents(probes, agent.resourceCommand);
 	}
 
 	@Override
 	protected void init() {
-		List<Probe> probes = agent.getCommandedAgents(Probe.class);
+		List<Probe> probes = getCommandedAgents(Probe.class);
 		
 		if(!probes.isEmpty()){           
             for (Probe probe : probes) {

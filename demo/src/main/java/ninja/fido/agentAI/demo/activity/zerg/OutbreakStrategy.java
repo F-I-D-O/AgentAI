@@ -60,8 +60,8 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander,Goal,Outbrea
 
 	@Override
 	protected void performAction() throws ChainOfCommandViolationException {
-		List<Larva> larvas = agent.getCommandedAgents(Larva.class);
-		List<Drone> drones = agent.getCommandedAgents(Drone.class);
+		List<Larva> larvas = getCommandedAgents(Larva.class);
+		List<Drone> drones = getCommandedAgents(Drone.class);
 		
 		// saturating exploration command
 		if(!drones.isEmpty()){           
@@ -77,7 +77,7 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander,Goal,Outbrea
 		
 		// base expansions
 		if(agent.resourceCommand.getCommandedAgents(Drone.class).size() / 4 > expandingDrones){
-			Drone drone = agent.getCommandedAgent(Drone.class);
+			Drone drone = getCommandedAgent(Drone.class);
 			if(drone == null){
 				new DetachBack(agent.resourceCommand, agent, Drone.class, 1).issueOrder();
 			}
@@ -87,7 +87,7 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander,Goal,Outbrea
 			}
 		}
 		
-		drones = agent.getCommandedAgents(Drone.class);
+		drones = getCommandedAgents(Drone.class);
 		
 		detachCommandedAgents(drones, agent.resourceCommand);
 		detachCommandedAgents(larvas, agent.larvaCommand);

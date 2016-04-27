@@ -40,7 +40,7 @@ public class FormationTestStrategy extends CommandActivity<FullCommander,Goal,Fo
 
 	@Override
 	protected void performAction() {
-		List<UnitAgent> agents = agent.getCommandedAgents(UnitAgent.class);
+		List<UnitAgent> agents = getCommandedAgents(UnitAgent.class);
 		detachCommandedAgents(agents, squadCommander);
 	}
 

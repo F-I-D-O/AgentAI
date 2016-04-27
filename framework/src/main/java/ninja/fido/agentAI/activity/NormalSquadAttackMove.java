@@ -53,7 +53,7 @@ public class NormalSquadAttackMove extends SquadAttackMove<NormalSquadAttackMove
 	
 	@Override
 	protected void performAction() throws ChainOfCommandViolationException {
-		List<Marine> marines = agent.getCommandedAgents(Marine.class);
+		List<Marine> marines = getCommandedAgents(Marine.class);
 		if(marines.size() >= minSquadSize){
 			for (Marine marine : marines) {
 				if(marine.isIdle()){

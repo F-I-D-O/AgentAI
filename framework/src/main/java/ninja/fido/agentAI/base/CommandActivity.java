@@ -66,6 +66,73 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 		agent.detachCommandedAgents(subordinateAgents, newCommand);
 	}
 	
+	/**
+	 * Get commanded age by type. 
+	 * @param <T> type of agent we want to get.
+	 * @param agentClass class specifying agent type.
+	 * @return Returns commanded agent specified by type.
+	 */
+    public final <T> T getCommandedAgent(Class<T> agentClass) {
+		return agent.getCommandedAgent(agentClass);
+	}
+	
+	/**
+	 * Get commanded agents by type. 
+	 * @param <T> Type of agent we want to get.
+	 * @param agentClass Class specifying agent type.
+	 * @return Returns all commanded agents of specified type.
+	 */
+    public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass) {
+		return agent.getCommandedAgents(agentClass);
+	}
+	
+	/**
+	 * Get all commanded agents of scpecified type. 
+	 * @param <T> Type of agent we want to get.
+	 * @param agentClass Class specifying agent type.
+	 * @param idleOnly By this parameter, you can specify to return only agents that are not assigned. true means not 
+	 * assigned only, false means all.
+	 * @return Returns all commanded agents of specified type. If {@code idleOnly} is true, this method returns only 
+	 * agents that are not assigned.
+	 */
+	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, boolean idleOnly) {
+		return agent.getCommandedAgents(agentClass, idleOnly);
+    }
+	
+	/**
+	 * Get commanded agents by type. 
+	 * @param <T> Type of agent you want to get.
+	 * @param agentClass Class specifying agent type.
+	 * @param count Number of agents you need.
+	 * @return Returns commanded agents of specified type {@code T}. Number of agents returned is specified by 
+	 * {@code count}.
+	 */
+	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count) {
+		return agent.getCommandedAgents(agentClass, count);
+	}
+	
+	/**
+	 * Get commanded agents by type. 
+	 * @param <T> Type of agent you want to get.
+	 * @param agentClass Class specifying agent type.
+	 * @param count Number of agents you need.
+	 * @param idleOnly By this parameter, you can specify to return only agents that are not assigned. true means not 
+	 * assigned only, false means all.
+	 * @return Returns commanded agents of specified type {@code T}. Number of agents returned is specified by 
+	 * {@code count}. If {@code idleOnly} is true, this method returns only agents that are not assigned.
+	 */
+	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count, boolean idleOnly) {
+		return agent.getCommandedAgents(agentClass, count, idleOnly);
+	}
+	
+	/**
+	 * Returns nuber of agents under direct command.
+	 * @return Returns nuber of agents under direct command.
+	 */
+	public final int getNumberOfCommandedAgents(){
+		return agent.getNumberOfCommandedAgents();
+	}   
+	
 	
 	/**
 	 * Handles sisngle request from request queue.

@@ -83,14 +83,14 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal,BBS
 		new DetachBack(buildCommand, this.getAgent(), SCV.class, true).issueOrder();
 		
 		SCV scv;
-		while((scv = agent.getCommandedAgent(SCV.class)) != null 
+		while((scv = getCommandedAgent(SCV.class)) != null 
 				&& explorationCommand.getNumberOfScouts() < targetNumberOfScouts){
 			detachCommandedAgent(scv, explorationCommand);
 		}
 		
-		List<SCV> scvs = agent.getCommandedAgents(SCV.class);
-		List<Barracks> barracks = agent.getCommandedAgents(Barracks.class);
-		List<Marine> marines = agent.getCommandedAgents(Marine.class);
+		List<SCV> scvs = getCommandedAgents(SCV.class);
+		List<Barracks> barracks = getCommandedAgents(Barracks.class);
+		List<Marine> marines = getCommandedAgents(Marine.class);
 		
 		detachCommandedAgents(barracks, productionCommand);
 		detachCommandedAgents(marines, unitCommand);
@@ -164,13 +164,13 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal,BBS
 
 	@Override
 	protected void init() throws ChainOfCommandViolationException {
-		resourceCommand = agent.getCommandedAgent(ResourceCommand.class);
-        explorationCommand = agent.getCommandedAgent(ExplorationCommand.class);
-        buildCommand = agent.getCommandedAgent(BuildCommand.class);
-		productionCommand = agent.getCommandedAgent(ProductionCommand.class);
-		unitCommand = agent.getCommandedAgent(UnitCommand.class);
+		resourceCommand = getCommandedAgent(ResourceCommand.class);
+        explorationCommand = getCommandedAgent(ExplorationCommand.class);
+        buildCommand = getCommandedAgent(BuildCommand.class);
+		productionCommand = getCommandedAgent(ProductionCommand.class);
+		unitCommand = getCommandedAgent(UnitCommand.class);
 		
-		List<SCV> scvs = agent.getCommandedAgents(SCV.class);
+		List<SCV> scvs = getCommandedAgents(SCV.class);
 		if(!scvs.isEmpty()){           
             for (SCV scv : scvs) {
                 if(explorationCommand.getNumberOfScouts() < targetNumberOfScouts){

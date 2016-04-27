@@ -75,7 +75,7 @@ public abstract class CommandAgent extends Agent {
 	 * @param subordinateAgent agent to be detached.
 	 * @param newCommand new command agent for agent.
 	 */
-    final void detachCommandedAgent(Agent subordinateAgent, CommandAgent newCommand) {
+    protected final void detachCommandedAgent(Agent subordinateAgent, CommandAgent newCommand) {
 		subordinateAgent.setAssigned(false);
         newCommand.addCommandedAgent(subordinateAgent);
         commandedAgents.remove(subordinateAgent);
@@ -92,19 +92,19 @@ public abstract class CommandAgent extends Agent {
 	 * @param subordinateAgents agent to be detached.
 	 * @param newCommand new command agent for agents.
 	 */
-	final void detachCommandedAgents(List<? extends Agent> subordinateAgents, CommandAgent newCommand) {
+	protected final void detachCommandedAgents(List<? extends Agent> subordinateAgents, CommandAgent newCommand) {
 		for (Agent subordinateAgent : subordinateAgents) {
 			detachCommandedAgent(subordinateAgent, newCommand);
 		}
     }
 
 	/**
-	 * Get commanded age by type. 
-	 * @param <T>
-	 * @param agentClass
-	 * @return 
+	 * Get commanded agent by type. 
+	 * @param <T> type of agent we want to get.
+	 * @param agentClass class specifying agent type.
+	 * @return Returns commanded agent specified by type.
 	 */
-    final <T> T getCommandedAgent(Class<T> agentClass) {
+    protected final <T> T getCommandedAgent(Class<T> agentClass) {
         for (Agent subordinateAgent : commandedAgents) {
             if (agentClass.isInstance(subordinateAgent)) {
                 return (T) subordinateAgent;
@@ -114,19 +114,52 @@ public abstract class CommandAgent extends Agent {
         return null;
     }
 
-    public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass) {
+	/**
+	 * Get commanded agents by type. 
+	 * @param <T> Type of agent we want to get.
+	 * @param agentClass Class specifying agent type.
+	 * @return Returns all commanded agents of specified type.
+	 */
+    protected final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass) {
 		return CommandAgent.this.getCommandedAgents(agentClass, Integer.MAX_VALUE);
     }
 	
-	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, boolean idleOnly) {
+	/**
+	 * Get all commanded agents of scpecified type. 
+	 * @param <T> Type of agent we want to get.
+	 * @param agentClass Class specifying agent type.
+	 * @param idleOnly By this parameter, you can specify to return only agents that are not assigned. true means not 
+	 * assigned only, false means all.
+	 * @return Returns all commanded agents of specified type. If {@code idleOnly} is true, this method returns only 
+	 * agents that are not assigned.
+	 */
+	protected final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, boolean idleOnly) {
 		return getCommandedAgents(agentClass, Integer.MAX_VALUE, idleOnly);
     }
 	
-	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count) {
+	/**
+	 * Get commanded agents by type. 
+	 * @param <T> Type of agent you want to get.
+	 * @param agentClass Class specifying agent type.
+	 * @param count Number of agents you need.
+	 * @return Returns commanded agents of specified type {@code T}. Number of agents returned is specified by 
+	 * {@code count}.
+	 */
+	protected final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count) {
 		return getCommandedAgents(agentClass, count, false);
 	}
 	
-	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count, boolean idleOnly) {
+	/**
+	 * Get commanded agents by type. 
+	 * @param <T> Type of agent you want to get.
+	 * @param agentClass Class specifying agent type.
+	 * @param count Number of agents you need.
+	 * @param idleOnly By this parameter, you can specify to return only agents that are not assigned. true means not 
+	 * assigned only, false means all.
+	 * @return Returns commanded agents of specified type {@code T}. Number of agents returned is specified by 
+	 * {@code count}. If {@code idleOnly} is true, this method returns only agents that are not assigned.
+	 */
+	protected final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count, boolean idleOnly) {
         ArrayList<T> agents = new ArrayList();
         for (Agent subordinateAgent : commandedAgents) {
             if (agentClass.isInstance(subordinateAgent) && (!idleOnly || ((GameAgent) subordinateAgent).isIdle())) {
@@ -145,7 +178,11 @@ public abstract class CommandAgent extends Agent {
         return agents;
     }
 	
-	public final int getNumberOfCommandedAgents(){
+	/**
+	 * Returns nuber of agents under direct command.
+	 * @return Returns nuber of agents under direct command.
+	 */
+	protected final int getNumberOfCommandedAgents(){
 		return commandedAgents.size();
 	}   
 	

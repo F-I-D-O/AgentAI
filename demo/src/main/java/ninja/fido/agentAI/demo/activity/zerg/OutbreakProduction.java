@@ -54,7 +54,7 @@ public class OutbreakProduction extends CommandActivity<LarvaCommand,Goal,Outbre
 
 	@Override
 	protected void performAction() throws ChainOfCommandViolationException {
-		List<Larva> larvas = agent.getCommandedAgents(Larva.class);
+		List<Larva> larvas = getCommandedAgents(Larva.class);
 		
 		UnitType unitToBuild;
 		Larva.MorphOption morphOption;
