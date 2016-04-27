@@ -7,6 +7,8 @@ package ninja.fido.agentAI.base;
 
 import ninja.fido.agentAI.Log;
 import java.util.logging.Level;
+import ninja.fido.agentAI.ResourceDeficiencyException;
+import ninja.fido.agentAI.ResourceType;
 import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
 
 /**
@@ -186,6 +188,18 @@ public abstract class Activity<A extends Agent,G extends Goal, AC extends Activi
 	protected int getAgentOwnedSupply(){
         return agent.getOwnedSupply();
     }
+	
+	/**
+	 * Gives resource to oher agent.
+	 * @param receiver Receiver of the recource.
+	 * @param material Material.
+	 * @param amount Resource amount.
+	 * @throws ResourceDeficiencyException 
+	 */
+	protected void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException{
+		agent.giveResource(receiver, material, amount);
+	}
+
 	
 	
 	/**

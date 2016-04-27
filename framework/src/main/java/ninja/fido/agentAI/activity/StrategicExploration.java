@@ -56,7 +56,7 @@ public class StrategicExploration<A extends ExplorationCommand> extends CommandA
         Log.log(this, Level.FINE, "{0}: Number of scouts: {1}", this, scouts.size());
 		
         for (Scout scout : scouts) {
-			if(!agent.isCommandedAgentOccupied((Agent) scout)){
+			if(!isCommandedAgentOccupied((Agent) scout)){
 				Position target = null;
 				for (BaseLocationInfo baseInfo : agent.getBaseLocations()) {
 					if(baseInfo.isStartLocation() && !baseInfo.isExpplored() && !baseInfo.isExplorationInProgress() 

@@ -84,8 +84,8 @@ public class OutbreakProduction extends CommandActivity<LarvaCommand,Goal,Outbre
 			// if we have enought resources
 			if(getAgentOwnedSupply() >= supplyPrice && getAgentOwnedMinerals() >= mineralPrice){
 				try {
-					agent.giveResource(larva, ResourceType.MINERALS, mineralPrice);
-					agent.giveResource(larva, ResourceType.SUPPLY, supplyPrice);
+					giveResource(larva, ResourceType.MINERALS, mineralPrice);
+					giveResource(larva, ResourceType.SUPPLY, supplyPrice);
 					new LarvaMorph(larva, agent, morphOption).issueOrder();
 					if(morphOption == Larva.MorphOption.OVERLORD){
 						overlordInProduction = true;

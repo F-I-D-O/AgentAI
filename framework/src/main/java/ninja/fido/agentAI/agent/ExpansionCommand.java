@@ -14,7 +14,6 @@ import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.ResourceType;
 import ninja.fido.agentAI.activity.AutomaticExpansion;
 import ninja.fido.agentAI.agent.unit.Worker;
-import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.CommandAgent;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
@@ -128,7 +127,7 @@ public class ExpansionCommand extends CommandAgent
 					new ResourceRequest(getCommandAgent(), this, missingMinerals, missingGas, 0).send();
 				}
 				materialRequest.setProcessed(true);
-				queRequest(materialRequest);
+				materialRequest.send();
 			}
 		}
 	}

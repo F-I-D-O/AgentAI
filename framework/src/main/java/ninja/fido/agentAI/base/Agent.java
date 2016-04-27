@@ -514,7 +514,7 @@ public abstract class Agent {
 	 * Adds new order to order queue
 	 * @param order Incoming order.
 	 */
-	final void addToCommandQueue(Order order) {
+	final void addToOrderQueue(Order order) {
 		orderQueue.add(order);
 	}
 	

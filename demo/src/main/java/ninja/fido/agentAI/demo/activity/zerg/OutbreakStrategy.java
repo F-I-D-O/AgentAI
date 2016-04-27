@@ -66,7 +66,7 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander,Goal,Outbrea
 		// saturating exploration command
 		if(!drones.isEmpty()){           
             for (Drone drone : drones) {
-                if(agent.getSubordinateAgentsDetachedTo(agent.explorationCommand, Drone.class) < targetNumberOfScouts){
+                if(getSubordinateAgentsDetachedTo(agent.explorationCommand, Drone.class) < targetNumberOfScouts){
                     detachCommandedAgent(drone, agent.explorationCommand);
                 }
 				else{
@@ -76,7 +76,7 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander,Goal,Outbrea
         }
 		
 		// base expansions
-		if(agent.resourceCommand.getCommandedAgents(Drone.class).size() / 4 > expandingDrones){
+		if(getSubordinateAgentsDetachedTo(agent.resourceCommand, Drone.class) / 4 > expandingDrones){
 			Drone drone = getCommandedAgent(Drone.class);
 			if(drone == null){
 				new DetachBack(agent.resourceCommand, agent, Drone.class, 1).issueOrder();
@@ -116,13 +116,13 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander,Goal,Outbrea
 					}
 				}
 				else {
-					agent.queRequest(materialRequest);
+					materialRequest.send();
 				}
 			}
 			else if(request.getSender() == agent.larvaCommand){
 				if(materialRequest.getMineralAmount() <= agent.getOwnedMinerals() 
 						&& materialRequest.getSupplyAmount() <= agent.getOwnedSupply()){
-					if(agent.getMineralsGivenTo(agent.larvaCommand) < DRONE_LIMIT_PER_BASE * UnitType.Zerg_Drone.mineralPrice()){
+					if(getMineralsGivenTo(agent.larvaCommand) < DRONE_LIMIT_PER_BASE * UnitType.Zerg_Drone.mineralPrice()){
 						try {
 							agent.giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
 							agent.giveResource(materialRequest.getSender(), ResourceType.SUPPLY, materialRequest.getSupplyAmount());

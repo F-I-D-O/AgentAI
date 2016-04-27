@@ -70,6 +70,12 @@ public abstract class CommandAgent extends Agent {
 	
 	
 	
+	@Override
+	protected void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException {
+		super.giveResource(receiver, material, amount); 
+		countGivenMaterial(receiver, material, amount);
+	}
+	
 	/**
 	 * Detaches commanded agent to other agent.
 	 * @param subordinateAgent agent to be detached.
@@ -113,6 +119,15 @@ public abstract class CommandAgent extends Agent {
 //        Log.log(this, Level.WARNING, "{0}: No subordinate agents of type: {1}", this.getClass(), agentClass);
         return null;
     }
+	
+	
+	/**
+	 * Returns list of all agents under direct command.
+	 * @return Returns list of agents under direct command.
+	 */
+    protected final ArrayList<Agent> getCommandedAgents() {
+        return (ArrayList<Agent>) commandedAgents.clone();
+    }
 
 	/**
 	 * Get commanded agents by type. 
@@ -121,7 +136,7 @@ public abstract class CommandAgent extends Agent {
 	 * @return Returns all commanded agents of specified type.
 	 */
     protected final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass) {
-		return CommandAgent.this.getCommandedAgents(agentClass, Integer.MAX_VALUE);
+		return getCommandedAgents(agentClass, Integer.MAX_VALUE);
     }
 	
 	/**
@@ -186,11 +201,13 @@ public abstract class CommandAgent extends Agent {
 		return commandedAgents.size();
 	}   
 	
-	public void queRequest(Request request){
-		requests.add(request);
-	}	
-	
-	public final boolean isCommandedAgentOccupied(Agent agent){
+	/**
+	 * Tells whether some specified commanded agent is occupied. IE this agent issueed an order to the agent, and the order 
+	 * hasn't been completed yet.
+	 * @param agent Agent.
+	 * @return True if agent is occupied, faalse otherwise.
+	 */
+	protected final boolean isCommandedAgentOccupied(Agent agent){
 		for (Order order : uncompletedOrders) {
 			if(order.getTarget().equals(agent)){
 				return true;
@@ -199,33 +216,50 @@ public abstract class CommandAgent extends Agent {
 		return false;
 	}
 	
-	public int getSubordinateAgentsDetachedTo(CommandAgent commandAgent, Class<? extends Agent> agentClass){
+	/**
+	 * Returns the number of suboordinate agents detached to specified command agent.
+	 * @param commandAgent Command aagent.
+	 * @param agentClass ssubordinate agent type.
+	 * @return Returns the number of suboordinate agents detached to specified command agent.
+	 */
+	protected final int getSubordinateAgentsDetachedTo(CommandAgent commandAgent, Class<? extends Agent> agentClass){
 		return subordinateAgentsInfo.getSubordinateAgentsDetachedTo(commandAgent, agentClass);
 	}
-
-	@Override
-	public void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException {
-		super.giveResource(receiver, material, amount); 
-		countGivenMaterial(receiver, material, amount);
-	}
 	
-	public int getMineralsGivenTo(Agent receiver){
+	/**
+	 * Returns amount of minerals given to specified agent.
+	 * @param receiver Agent.
+	 * @return Returns amount of minerals given to specified agent.
+	 */
+	protected int getMineralsGivenTo(Agent receiver){
 		return mineralsGiven.containsKey(receiver) ? mineralsGiven.get(receiver) : 0;
 	}
 	
-
+	
+	/**
+	 * Called when new agent is detached under the dirct command of this agent.
+	 * @param subordinateAgent New commanded agent.
+	 */
 	protected void onCommandedAgentAdded(Agent subordinateAgent) {
 		Log.log(this, Level.INFO, "{0}: Subordinate agent added: {1}", this.getClass(), subordinateAgent.getClass());
 	}
 	
+	/**
+	 * Handles sisngle request from request queue.
+	 * @param request Request.
+	 */
 	protected void handleRequest(Request request) {
 		Log.log(this, Level.FINE, "{0}: request received: {1}", this.getClass(), request.getClass());
 	}
 	
+	/**
+	 * Called when order from commanded agent is completed
+	 * @param order Completed orde.
+	 */
 	protected void handleCompletedOrder(Order order) {
 		Log.log(this, Level.FINE, "{0}: order completed: {1}", this.getClass(), order.getClass());
 	}
-
+	
 	@Override
 	protected void routine() {
 		super.routine(); 
@@ -233,18 +267,27 @@ public abstract class CommandAgent extends Agent {
 		handleCompletedOrders();
 	}
 	
+	
 	/**
-	 * Returns list of agents under direct command.
-	 * @return Returns list of agents under direct command.
+	 * Adds new request to request queue.
+	 * @param request new request.
 	 */
-    final ArrayList<Agent> getCommandedAgents() {
-        return (ArrayList<Agent>) commandedAgents.clone();
-    }
+	final void queRequest(Request request){
+		requests.add(request);
+	}	
 
+	/**
+	 * Add order issued to some agent to the list of uncompleted orders.
+	 * @param order Order.
+	 */
 	final void addUncompletedOrder(Order order){
 		uncompletedOrders.add(order);
 	}
 	
+	/**
+	 * Adds some agent under direct command of this agent.
+	 * @param commandedAgent Agent.
+	 */
     final void addCommandedAgent(Agent commandedAgent) {
         commandedAgents.add(commandedAgent);
 		commandedAgent.setCommandAgent(this);
@@ -255,11 +298,26 @@ public abstract class CommandAgent extends Agent {
 		}
     }
 	
+	/**
+	 * Called when some order issued by this agent was completed.
+	 * @param order Completed order.
+	 */
 	final void reportOrderCompleted(Order order) {
 		completedOrdersQueue.add(order);
 	}
+	
+	/**
+	 * This is called when agent is removed from the game. 
+	 * @param agent Removed agent.
+	 */
+	final void removeCommandedAgent(GameAgent agent) {
+		commandedAgents.remove(agent);
+	}
 		
 	
+	/**
+	 * Processes the request queue
+	 */
 	private void handleRequests(){
 		Request request;
 		int requestCount = requests.size();
@@ -270,6 +328,9 @@ public abstract class CommandAgent extends Agent {
 		}
 	}
 
+	/**
+	 * processes completed orders.
+	 */
 	private void handleCompletedOrders(){
 		Order order;
 		while((order = completedOrdersQueue.poll()) != null){
@@ -279,16 +340,17 @@ public abstract class CommandAgent extends Agent {
 		}
 	}
 
-	void removeCommandedAgent(GameAgent agent) {
-		commandedAgents.remove(agent);
-	}
-	
+	/**
+	 * Counts given material.
+	 * @param receiver Agent that received the mmmaterial.
+	 * @param material Material type.
+	 * @param amount Material amount.
+	 */
 	private void countGivenMaterial(Agent receiver, ResourceType material, int amount){
 		switch(material){
 			case MINERALS:
 				Tools.incrementMapValue(mineralsGiven, receiver, amount);
 		}
 	}
-	
 
 }

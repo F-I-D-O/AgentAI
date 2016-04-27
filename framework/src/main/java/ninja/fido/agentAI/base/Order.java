@@ -48,7 +48,7 @@ public abstract class Order<T extends Agent> {
 	 * This function issues the order to target agent
 	 */
 	public final void issueOrder(){
-		target.addToCommandQueue(this);
+		target.addToOrderQueue(this);
 		commandAgent.addUncompletedOrder(this);
 	}
 	

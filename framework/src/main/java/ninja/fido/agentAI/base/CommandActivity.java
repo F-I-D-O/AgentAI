@@ -44,7 +44,7 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 	 * Returns list of agents under direct command of the agent who runs this activity.
 	 * @return Returns list of agents under direct command.
 	 */
-    public final ArrayList<Agent> getCommandedAgents() {
+    protected final ArrayList<Agent> getCommandedAgents() {
         return agent.getCommandedAgents();
     }
 	
@@ -53,7 +53,7 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 	 * @param subordinateAgent agent to be detached.
 	 * @param newCommand new command agent for agent.
 	 */
-	public final void detachCommandedAgent(Agent subordinateAgent, CommandAgent newCommand) {
+	protected final void detachCommandedAgent(Agent subordinateAgent, CommandAgent newCommand) {
 		agent.detachCommandedAgent(subordinateAgent, newCommand);
 	}
 	
@@ -62,7 +62,7 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 	 * @param subordinateAgents agent to be detached.
 	 * @param newCommand new command agent for agents.
 	 */
-	public final void detachCommandedAgents(List<? extends Agent> subordinateAgents, CommandAgent newCommand) {
+	protected final void detachCommandedAgents(List<? extends Agent> subordinateAgents, CommandAgent newCommand) {
 		agent.detachCommandedAgents(subordinateAgents, newCommand);
 	}
 	
@@ -72,7 +72,7 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 	 * @param agentClass class specifying agent type.
 	 * @return Returns commanded agent specified by type.
 	 */
-    public final <T> T getCommandedAgent(Class<T> agentClass) {
+    protected final <T> T getCommandedAgent(Class<T> agentClass) {
 		return agent.getCommandedAgent(agentClass);
 	}
 	
@@ -82,7 +82,7 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 	 * @param agentClass Class specifying agent type.
 	 * @return Returns all commanded agents of specified type.
 	 */
-    public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass) {
+    protected final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass) {
 		return agent.getCommandedAgents(agentClass);
 	}
 	
@@ -95,7 +95,7 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 	 * @return Returns all commanded agents of specified type. If {@code idleOnly} is true, this method returns only 
 	 * agents that are not assigned.
 	 */
-	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, boolean idleOnly) {
+	protected final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, boolean idleOnly) {
 		return agent.getCommandedAgents(agentClass, idleOnly);
     }
 	
@@ -107,7 +107,7 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 	 * @return Returns commanded agents of specified type {@code T}. Number of agents returned is specified by 
 	 * {@code count}.
 	 */
-	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count) {
+	protected final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count) {
 		return agent.getCommandedAgents(agentClass, count);
 	}
 	
@@ -121,7 +121,7 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 	 * @return Returns commanded agents of specified type {@code T}. Number of agents returned is specified by 
 	 * {@code count}. If {@code idleOnly} is true, this method returns only agents that are not assigned.
 	 */
-	public final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count, boolean idleOnly) {
+	protected final <T> ArrayList<T> getCommandedAgents(Class<T> agentClass, int count, boolean idleOnly) {
 		return agent.getCommandedAgents(agentClass, count, idleOnly);
 	}
 	
@@ -129,10 +129,38 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 	 * Returns nuber of agents under direct command.
 	 * @return Returns nuber of agents under direct command.
 	 */
-	public final int getNumberOfCommandedAgents(){
+	protected final int getNumberOfCommandedAgents(){
 		return agent.getNumberOfCommandedAgents();
 	}   
 	
+	/**
+	 * Tells whether some specified commanded agent is occupied. IE this agent issueed an order to the agent, and the order 
+	 * hasn't been completed yet.
+	 * @param agent Agent.
+	 * @return True if agent is occupied, faalse otherwise.
+	 */
+	protected final boolean isCommandedAgentOccupied(Agent agent){
+		return this.agent.isCommandedAgentOccupied(agent);
+	}
+	
+	/**
+	 * Returns the number of suboordinate agents detached to specified command agent.
+	 * @param commandAgent Command aagent.
+	 * @param agentClass ssubordinate agent type.
+	 * @return Returns the number of suboordinate agents detached to specified command agent.
+	 */
+	protected final int getSubordinateAgentsDetachedTo(CommandAgent commandAgent, Class<? extends Agent> agentClass){
+		return agent.getSubordinateAgentsDetachedTo(commandAgent, agentClass);
+	}
+	
+	/**
+	 * Returns amount of minerals given to specified agent.
+	 * @param receiver Agent.
+	 * @return Returns amount of minerals given to specified agent.
+	 */
+	protected final int getMineralsGivenTo(Agent receiver){
+		return agent.getMineralsGivenTo(receiver);
+	}
 	
 	/**
 	 * Handles sisngle request from request queue.
@@ -144,10 +172,12 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 
 	/**
 	 * Called when order from commanded agent is completed
-	 * @param order 
+	 * @param order Completed orde.
 	 */
 	protected void handleCompletedOrder(Order order) {
 		Log.log(this, Level.FINE, "{0}: order completed: {1}", this.getClass(), order.getClass());
 	}
+	
+	
 
 }
