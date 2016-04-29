@@ -105,11 +105,11 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander,Goal,Outbrea
 		if(request instanceof ResourceRequest){
 			ResourceRequest materialRequest = (ResourceRequest) request;
 			if(request.getSender() == agent.expansionCommand){
-				if(materialRequest.getMineralAmount() <= agent.getOwnedMinerals() 
-						&& materialRequest.getGasAmount() <= agent.getOwnedGas()){
+				if(materialRequest.getMineralAmount() <= getOwnedMinerals() 
+						&& materialRequest.getGasAmount() <= getOwnedGas()){
 					try {
-						agent.giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
-						agent.giveResource(materialRequest.getSender(), ResourceType.GAS, materialRequest.getGasAmount());
+						giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
+						giveResource(materialRequest.getSender(), ResourceType.GAS, materialRequest.getGasAmount());
 					} 
 					catch (ResourceDeficiencyException ex) {
 						ex.printStackTrace();
@@ -120,12 +120,12 @@ public class OutbreakStrategy extends CommandActivity<ZergCommander,Goal,Outbrea
 				}
 			}
 			else if(request.getSender() == agent.larvaCommand){
-				if(materialRequest.getMineralAmount() <= agent.getOwnedMinerals() 
-						&& materialRequest.getSupplyAmount() <= agent.getOwnedSupply()){
+				if(materialRequest.getMineralAmount() <= getOwnedMinerals() 
+						&& materialRequest.getSupplyAmount() <= getOwnedSupply()){
 					if(getMineralsGivenTo(agent.larvaCommand) < DRONE_LIMIT_PER_BASE * UnitType.Zerg_Drone.mineralPrice()){
 						try {
-							agent.giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
-							agent.giveResource(materialRequest.getSender(), ResourceType.SUPPLY, materialRequest.getSupplyAmount());
+							giveResource(materialRequest.getSender(), ResourceType.MINERALS, materialRequest.getMineralAmount());
+							giveResource(materialRequest.getSender(), ResourceType.SUPPLY, materialRequest.getSupplyAmount());
 						} 
 						catch (ResourceDeficiencyException ex) {
 							ex.printStackTrace();

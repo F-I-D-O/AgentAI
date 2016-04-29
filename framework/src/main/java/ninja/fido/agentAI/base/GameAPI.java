@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -50,43 +49,74 @@ import ninja.fido.agentAI.base.exception.ModuleDependencyException;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 import org.xml.sax.SAXException;
 
+/**
+ * Game API. Through this API, you access BWMirror, that accesses BWAPI, that accesses StarCraft.
+ * @author david
+ */
 public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
-	private static final int GAME_SPEED = 0;
-	
+	/**
+	 * static reference to Commander
+	 */
 	private static Commander commanderStatic;
 	
+	/**
+	 * UAlbertaBot Map tools
+	 */
 	private static MapTools mapTools;
 	
+	/**
+	 * UAlbetaBot building placer
+	 */
 	private static BuildingPlacer buildingPlacer;
 	
+	/**
+	 * Game mirror - BWMirror object
+	 */
 	private static Mirror mirror;
 
+	/**
+	 * Game - BWMirror object
+	 */
     private static Game game;
 	
+	/**
+	 * singleton reference
+	 */
 	private static GameAPI gameAPI;
 	
 	
-	
+	/**
+	 * Returns commander.
+	 * @return Returns commander.
+	 */
 	public static Commander getCommander(){
 		return commanderStatic;
 	}
 
+	/**
+	 * Returns map tools.
+	 * @return Returns map tools.
+	 */
 	public static MapTools getMapTools() {
 		return mapTools;
 	}
 
+	/**
+	 * Returns building placer.
+	 * @return Returns building placer.
+	 */
 	public static BuildingPlacer getBuildingPlacer() {
 		return buildingPlacer;
 	}
 
-    public static Mirror getMirror() {
-        return mirror;
-    }
-
 	
 	
 	
+	/**
+	 * Returns Game. Through Game object you can access BWMirror.
+	 * @return Returns Game. Through Game object you can access BWMirror.
+	 */
     public static Game getGame() {
         if (game == null) {
             game = mirror.getGame();
@@ -94,6 +124,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         return game;
     }
 	
+	/**
+	 * TODO
+	 * @param agent
+	 * @param commandAgent 
+	 */
 	public static void addAgent(Agent agent, CommandAgent commandAgent){
 		commandAgent.addCommandedAgent(agent);
         gameAPI.agents.add(agent);
@@ -104,31 +139,64 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		}
 	}
 	
+	/**
+	 * Returns the position of the start base.
+	 * @return Returns the position of the start base.
+	 */
 	public static Position getStartBasePosition(){
 		return getGame().self().getStartLocation().toPosition();
 	}
 	
+	/**
+	 * Returns current frame count.
+	 * @return Returns current frame count.
+	 */
 	public static int getFrameCount(){
 		return gameAPI.frameCount;
 	}
 	
+	/**
+	 * Build command wrapper. Handles busy error automaticaly.
+	 * @param worker Worker that will be constructing the building.
+	 * @param buildingType Building type.
+	 * @param placeToBuildOn Place where the building will be build.
+	 */
 	public static void build(Worker worker, UnitType buildingType, TilePosition placeToBuildOn){
 		gameAPI.commandInterface.build(worker, buildingType, placeToBuildOn);
 	}
 	
+	/**
+	 * Attack move wrapper. Handles busy error automaticaly.
+	 * @param agent Agent.
+	 * @param target Attack target
+	 */
 	public static void attackMove(UnitAgent agent, Position target){
 		gameAPI.commandInterface.attackMove(agent, target);
 	}
 	
+	/**
+	 * Train command wrapper. Handles busy error automaticaly.
+	 * @param agent Agent.
+	 * @param unitType Unit type to train.
+	 */
 	public static void train(GameAgent agent, UnitType unitType){
 		gameAPI.commandInterface.train(agent, unitType);
 	}
 	
+	/**
+	 * Move command wrapper. Handles busy error automaticaly.
+	 * @param agent Agent.
+	 * @param target Move target.
+	 */
 	public static void move(UnitAgent agent, Position target){
 		gameAPI.commandInterface.move(agent, target);
 	}
 
-	
+	/**
+	 * Returns decision table map for agent type.
+	 * @param agentClass Agent type.
+	 * @return Returns decision table map for agent type.
+	 */
 	public static Map<DecisionTablesMapKey,DecisionTable> getDecisionTablesMap(Class<? extends Agent> agentClass){
 		DecisionModule decisionModule;
 		if((decisionModule = (DecisionModule) gameAPI.getRegisteredModule(DecisionModule.class)) == null){
@@ -137,6 +205,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		return decisionModule.getDecisionTablesMap(agentClass);
 	}
 	
+	/**
+	 * Determines if decision module is turned on for agent type.
+	 * @param agent Agent type.
+	 * @return True if decision module is turned on and agent type is registered to it.
+	 */
 	public static boolean isDecisionMakingOn(Agent agent){
 		DecisionModule decisionModule;
 		if((decisionModule = (DecisionModule) gameAPI.getRegisteredModule(DecisionModule.class)) == null){
@@ -145,15 +218,29 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		return decisionModule.isDecisionMakingOn(agent);
 	}
 	
+	/**
+	 * Adds new simple decision map.
+	 * @param agentClass Agent type.
+	 * @param simpleDecisionsMap New simple decision map for agent type.
+	 */
 	public static void addSimpleDecisionMap(
 			Class<? extends Agent> agentClass, Map<Class<? extends Goal>,Activity> simpleDecisionsMap){
 		gameAPI.agentSimpleDecisions.put(agentClass, simpleDecisionsMap);
 	}
 	
+	/**
+	 * Returns simple decision map for agent type.
+	 * @param agentClass Agent type.
+	 * @return Returns simple decision map for agent type.
+	 */
 	public static Map<Class<? extends Goal>,Activity> getSimpleDecisionsMap(Class<? extends Agent> agentClass){
 		return gameAPI.agentSimpleDecisions.get(agentClass);
 	}
 	
+	/**
+	 * Determines if game API is ready.
+	 * @return True if game API is ready, false otherwwise.
+	 */
 	public static boolean ready(){
 		return gameAPI != null;
 	}
@@ -162,63 +249,87 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	
 	
-	public GameApiModule getRegisteredModule(Class<? extends GameApiModule> moduleType){
-		for (GameApiModule module : registeredModules) {
-			if(moduleType.isInstance(module)){
-				return module;
-			}
-		}
-		return null;
-	}
-	
-	public boolean moduleRegistered(Class<? extends GameApiModule> moduleType){
-		for (GameApiModule module : registeredModules) {
-			if(moduleType.isInstance(module)){
-				return true;
-			}
-		}
-		return false;
-	}
 	
 	
-	
+	/**
+	 * Event engine. Can generate events that are not generated by BWAPI.
+	 */
 	private final EventEngine eventEngine;
 	
+	/**
+	 * Reference to commander.
+	 */
 	private Commander commander;
 	
+	/**
+	 * List of all agents.
+	 */
 	private ArrayList<Agent> agents;
 	
-	private List<GameAgent> unitAgents;
+	/**
+	 * List of all game agents.
+	 */
+	private List<GameAgent> gameAgents;
 	
-	private HashMap<Unit,GameAgent> unitAgentsMappedByUnit;
+	/**
+	 * List of all game agents mapped by unit.
+	 */
+	private HashMap<Unit,GameAgent> gameAgentsMappedByUnit;
 	
+	/**
+	 * Frame count.
+	 */
 	private int frameCount;
 	
+	/**
+	 * Game count. Used when there are multiple game in row.
+	 */
 	private int gameCount;
 	
+	/**
+	 * Log level. Use standard java levels.
+	 */
 	private final Level logLevel;
 	
+	/**
+	 * Game speeed.
+	 */
 	private final int gameSpeed;
 	
+	/**
+	 * Frame skip. Determines how many logical franes will be skipped on screen (logical to screen frame ratio). 
+	 */
 	private final int frameSkip;
 
+	/**
+	 * Command interface.
+	 */
 	private final BWAPICommandInterface commandInterface;
 	
+	/**
+	 * List of registered modules.
+	 */
 	private final List<GameApiModule> registeredModules;
 	
+	/**
+	 * Map of workers mapped by unfinished buildings.
+	 */
 	private final Map<Unit,Worker> unfinishedBuildings;
 	
+	/**
+	 * Simple decision tables maped by agent type.
+	 */
 	private final Map<Class<? extends Agent>,Map<Class<? extends Goal>,Activity>> agentSimpleDecisions;
 	
 	
 	
 	
 	private List<GameAgent> getUnitAgents() {
-		return unitAgents;
+		return gameAgents;
 	}
 
 	private HashMap<Unit, GameAgent> getUnitAgentsMappedByUnit() {
-		return unitAgentsMappedByUnit;
+		return gameAgentsMappedByUnit;
 	}
 
 	public Level getLogLevel() {
@@ -264,7 +375,23 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	}
 	
 	
+	public GameApiModule getRegisteredModule(Class<? extends GameApiModule> moduleType){
+		for (GameApiModule module : registeredModules) {
+			if(moduleType.isInstance(module)){
+				return module;
+			}
+		}
+		return null;
+	}
 	
+	public boolean moduleRegistered(Class<? extends GameApiModule> moduleType){
+		for (GameApiModule module : registeredModules) {
+			if(moduleType.isInstance(module)){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	@Override
     public void onUnitCreate(Unit unit) {
@@ -278,7 +405,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			// Construction started event and other
 			if(type.isBuilding()){
 				Unit builderUnit = unit.getBuildUnit();
-				SCV builderAgent = (SCV) unitAgentsMappedByUnit.get(builderUnit);
+				SCV builderAgent = (SCV) gameAgentsMappedByUnit.get(builderUnit);
 				
 				// units obtained on start has no event
 				if(builderAgent != null){
@@ -366,7 +493,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				return;
 			}
 
-			MorphableUnit formerUnitAgent = (MorphableUnit) unitAgentsMappedByUnit.get(unit);
+			MorphableUnit formerUnitAgent = (MorphableUnit) gameAgentsMappedByUnit.get(unit);
 
 			// units obtained on start has no event
 			if(formerUnitAgent != null){
@@ -454,8 +581,8 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			
 			// collections
 			agents = new ArrayList<>();
-			unitAgents = new ArrayList<>();
-			unitAgentsMappedByUnit = new HashMap<>();
+			gameAgents = new ArrayList<>();
+			gameAgentsMappedByUnit = new HashMap<>();
 
 			// commander onInitialize
 			Commander.onStart();
@@ -537,7 +664,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			
 			// buildings
 			if(type.isBuilding()){
-				for (GameAgent agent : unitAgents) {
+				for (GameAgent agent : gameAgents) {
 					if(agent.canSeeUnit(unit)){
 						agent.onEnemyBuildingDiscoverd(unit);
 					}
@@ -611,11 +738,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     }
 
 	private void removeAgent(Unit unit) {
-		GameAgent agent = unitAgentsMappedByUnit.remove(unit);
+		GameAgent agent = gameAgentsMappedByUnit.remove(unit);
 		
 		// if the agent has been in the map
 		if(agent != null){
-			unitAgents.remove(agent);
+			gameAgents.remove(agent);
 			agent.getCommandAgent().removeCommandedAgent(agent);
 			gameAPI.agents.remove(agent);
 		}

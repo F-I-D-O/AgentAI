@@ -5,7 +5,6 @@ import ninja.fido.agentAI.modules.decisionMaking.DecisionTable;
 import ninja.fido.agentAI.Log;
 import ninja.fido.agentAI.ResourceType;
 import ninja.fido.agentAI.NoActionChosenException;
-import ninja.fido.agentAI.Resource;
 import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionTablesMapKey;
 import java.util.ArrayDeque;

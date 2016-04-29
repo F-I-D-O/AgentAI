@@ -96,13 +96,13 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal,BBS
 		detachCommandedAgents(marines, unitCommand);
 		
 		if(buildCommand.getNumberOfConstructionStarted(UnitType.Terran_Barracks) >= NUMBER_OF_BARRACKS
-				&& (!productionCommand.isSupplyMissing() || agent.getFreeSupply() > productionCommand.getMissingSupply())
+				&& (!productionCommand.isSupplyMissing() || getOwnedSupply() > productionCommand.getMissingSupply())
 				&& productionCommand.isMineralsMissing()){
-			if(productionCommand.getMissingMinerals() <= getAgent().getOwnedMinerals() 
-						&& productionCommand.getMissingSupply() <= agent.getOwnedSupply()){
+			if(productionCommand.getMissingMinerals() <= getOwnedMinerals() 
+						&& productionCommand.getMissingSupply() <= getOwnedSupply()){
 				try {
-					getAgent().giveResource(productionCommand, ResourceType.MINERALS, productionCommand.getMissingMinerals());
-					getAgent().giveResource(productionCommand, ResourceType.SUPPLY, productionCommand.getMissingSupply());
+					giveResource(productionCommand, ResourceType.MINERALS, productionCommand.getMissingMinerals());
+					giveResource(productionCommand, ResourceType.SUPPLY, productionCommand.getMissingSupply());
 				} catch (ResourceDeficiencyException ex) {
 					ex.printStackTrace();
 				}
@@ -132,11 +132,11 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal,BBS
 			}	
 			else{
 				Log.log(this, Level.FINER, "{0}: Missing crystal - YES", this.getClass());
-				Log.log(this, Level.FINEST, "{0}: Owned crystal: {1}", this.getClass(), getAgent().getOwnedMinerals());
-				if(buildCommand.getMissingMineralForFirsItem() <= getAgent().getOwnedMinerals()){
+				Log.log(this, Level.FINEST, "{0}: Owned crystal: {1}", this.getClass(), getOwnedMinerals());
+				if(buildCommand.getMissingMineralForFirsItem() <= getOwnedMinerals()){
 					Log.log(this, Level.FINER, "{0}: Have crystal to give - YES", this.getClass());
 					try {
-						getAgent().giveResource(buildCommand, ResourceType.MINERALS, buildCommand.getMissingMineralForFirsItem());
+						giveResource(buildCommand, ResourceType.MINERALS, buildCommand.getMissingMineralForFirsItem());
 					} catch (ResourceDeficiencyException ex) {
 						ex.printStackTrace();
 					}
@@ -196,7 +196,7 @@ public class BBSStrategy<A extends Commander> extends CommandActivity<A,Goal,BBS
 	private void focusOnHarvest(List<SCV> scvs) {
 		Log.log(this, Level.FINER, "{0}: Have crystal to give - NO", this.getClass());
 		Log.log(this, Level.FINER, "{0}: Missing amount of crystal: {1}", this.getClass(), 
-				buildCommand.getMissingMineralForFirsItem() - getAgent().getOwnedMinerals());
+				buildCommand.getMissingMineralForFirsItem() - getOwnedMinerals());
 //		if(unitsDetachedFromBuildCommand){
 			if(!scvs.isEmpty()){
 				detachCommandedAgents(scvs, resourceCommand);

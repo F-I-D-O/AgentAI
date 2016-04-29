@@ -169,7 +169,7 @@ public abstract class Activity<A extends Agent,G extends Goal, AC extends Activi
 	 * Returns Amount of gas owned by agent who runs this action.
 	 * @return Returns amount of gas owned by agent who runs this action.
 	 */
-	protected int getAgentOwnedGas(){
+	protected int getOwnedGas(){
         return agent.getOwnedGas();
     } 
     
@@ -177,7 +177,7 @@ public abstract class Activity<A extends Agent,G extends Goal, AC extends Activi
 	 * Returns Amount of mineral owned by agent who runs this action.
 	 * @return Returns amount of mineral owned by agent who runs this action.
 	 */
-    protected int getAgentOwnedMinerals(){
+    protected int getOwnedMinerals(){
         return agent.getOwnedMinerals();
     }
 	
@@ -185,7 +185,7 @@ public abstract class Activity<A extends Agent,G extends Goal, AC extends Activi
 	 * Returns Amount of supply owned by agent who runs this action.
 	 * @return Returns amount of supply owned by agent who runs this action.
 	 */
-	protected int getAgentOwnedSupply(){
+	protected int getOwnedSupply(){
         return agent.getOwnedSupply();
     }
 	
