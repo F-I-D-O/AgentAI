@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import ninja.fido.agentAI.base.Commander;
-import ninja.fido.agentAI.base.GameApiModule;
+import ninja.fido.agentAI.base.GameAPIModule;
 
 /**
  *
  * @author F.I.D.O.
  */
-public class DecisionModule implements GameApiModule{
+public class DecisionModule implements GameAPIModule{
 	private final Set<Class<? extends Agent>> registeredAgentsTypes;
 	
 	private final Map<Class<? extends Agent>,Map<DecisionTablesMapKey,DecisionTable>> decisionSettings;
@@ -101,7 +101,7 @@ public class DecisionModule implements GameApiModule{
 	}
 
 	@Override
-	public List<Class<? extends GameApiModule>> getDependencies() {
+	public List<Class<? extends GameAPIModule>> getDependencies() {
 		return null;
 	}
 

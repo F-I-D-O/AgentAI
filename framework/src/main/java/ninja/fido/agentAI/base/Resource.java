@@ -5,42 +5,67 @@
  */
 package ninja.fido.agentAI.base;
 
-import ninja.fido.agentAI.base.Commander;
-import ninja.fido.agentAI.base.Agent;
 import java.util.logging.Level;
 import ninja.fido.agentAI.Log;
 import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.ResourceType;
 
 /**
- *
+ * Represents game resourse ie Supply, Mineral or Gas.
  * @author david_000
  */
-public class Resource {
+public final class Resource {
 	
+	/**
+	 * Agent who owns this resource.
+	 */
 	private final Agent agent;
     
+	/**
+	 * Reference to commander.
+	 */
     private final Commander commander;
     
+	/**
+	 * Resource type.
+	 */
     private final ResourceType resourceType;
     
+	/**
+	 * Amount of the resource.
+	 */
     private int amount;
     
     
     
 
-    public ResourceType getResourceType() {
+	/**
+	 * Returns resource type.
+	 * @return Returns resource type.
+	 */
+    final ResourceType getResourceType() {
         return resourceType;
     }
 
-    public int getAmount() {
+	/**
+	 * Returns resource amount.
+	 * @return Returns resource amount.
+	 */
+    final int getAmount() {
         return amount;
     }
 
     
     
     
-    public Resource(Agent agent, Commander commander, ResourceType resourceType, int amount) {
+	/**
+	 * Constructor.
+	 * @param agent Agent who owns this resource.
+	 * @param commander Reference to commander
+	 * @param resourceType Resource type.
+	 * @param amount Amount of the resource.
+	 */
+    Resource(Agent agent, Commander commander, ResourceType resourceType, int amount) {
         this.commander = commander;
         this.resourceType = resourceType;
         this.amount = amount;
@@ -50,16 +75,26 @@ public class Resource {
     
     
     
-    public void merge(Resource supply){
-        if(resourceType != supply.getResourceType()){
-            Log.log(this, Level.SEVERE, "Canot merge {0} to {1}", supply.getResourceType(), resourceType);
+	/**
+	 * Merge this resource with another resource of the same type.
+	 * @param resource Resource of the same tzpe as this.
+	 */
+    final void merge(Resource resource){
+        if(resourceType != resource.getResourceType()){
+            Log.log(this, Level.SEVERE, "Cannot merge {0} to {1}", resource.getResourceType(), resourceType);
         }
         else{
-            amount += supply.getAmount();
+            amount += resource.getAmount();
         }
     }
     
-    public Resource split(int amount) throws ResourceDeficiencyException{
+	/**
+	 * Split this resource.
+	 * @param amount Amount to split.
+	 * @return Returns new resource of the same type.
+	 * @throws ResourceDeficiencyException 
+	 */
+    final Resource split(int amount) throws ResourceDeficiencyException{
         if(amount > this.amount){
 //            Log.log(this, Level.SEVERE, "Don't have enough supply to split - requested amount: {0}, current amount: {1}",
 //                    amount, this.amount);
@@ -70,7 +105,10 @@ public class Resource {
         return new Resource(agent, commander, resourceType, amount);
     }
     
-    public void spend(int amount){
+	/**
+	 * Spends this resource.
+	 */
+    final void spend(){
         commander.removeReservedResource(this);
     }
     

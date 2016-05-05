@@ -5,7 +5,7 @@
  */
 package ninja.fido.agentAI.base.exception;
 
-import ninja.fido.agentAI.base.GameApiModule;
+import ninja.fido.agentAI.base.GameAPIModule;
 
 /**
  *
@@ -13,15 +13,15 @@ import ninja.fido.agentAI.base.GameApiModule;
  */
 public class ModuleDependencyException extends Exception{
 	
-	private final Class<? extends GameApiModule> moduleClass;
+	private final Class<? extends GameAPIModule> moduleClass;
 	
-	private final Class<? extends GameApiModule> dependencyClass;
+	private final Class<? extends GameAPIModule> dependencyClass;
 	
 	
 	
 
-	public ModuleDependencyException(Class<? extends GameApiModule> moduleClass,
-			Class<? extends GameApiModule> dependencyClass) {
+	public ModuleDependencyException(Class<? extends GameAPIModule> moduleClass,
+			Class<? extends GameAPIModule> dependencyClass) {
 		this.moduleClass = moduleClass;
 		this.dependencyClass = dependencyClass;
 	}

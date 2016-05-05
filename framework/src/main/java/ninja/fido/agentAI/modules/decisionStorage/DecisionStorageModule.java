@@ -23,7 +23,7 @@ import java.util.TreeMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import ninja.fido.agentAI.base.GameApiModule;
+import ninja.fido.agentAI.base.GameAPIModule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,7 +33,7 @@ import org.xml.sax.SAXException;
  *
  * @author F.I.D.O.
  */
-public class DecisionStorageModule implements GameApiModule{
+public class DecisionStorageModule implements GameAPIModule{
 	private final Map<String,StorableDecisionModuleActivity> registeredActivities;
 	
 	private final Map<String,DecisionTablesMapParameter> registeredDecisionParameters;
@@ -182,8 +182,8 @@ public class DecisionStorageModule implements GameApiModule{
 	}
 
 	@Override
-	public List<Class<? extends GameApiModule>> getDependencies() {
-		List<Class<? extends GameApiModule>> dependencies = new ArrayList<>();
+	public List<Class<? extends GameAPIModule>> getDependencies() {
+		List<Class<? extends GameAPIModule>> dependencies = new ArrayList<>();
 		dependencies.add(DecisionModule.class);
 		
 		return dependencies;

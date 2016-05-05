@@ -370,7 +370,7 @@ public abstract class Agent {
 				resource = supply.split(amount);
 				break;
 		}
-		resource.spend(amount);
+		resource.spend();
 	}
 	
 	/**

@@ -134,7 +134,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         gameAPI.agents.add(agent);
 		if(agent instanceof GameAgent){
 			GameAgent unitAgent = (GameAgent) agent;
-			gameAPI.getUnitAgents().add(unitAgent);
+			gameAPI.getGameAgents().add(unitAgent);
 			gameAPI.getUnitAgentsMappedByUnit().put(unitAgent.getUnit(), unitAgent);
 		}
 	}
@@ -309,7 +309,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	/**
 	 * List of registered modules.
 	 */
-	private final List<GameApiModule> registeredModules;
+	private final List<GameAPIModule> registeredModules;
 	
 	/**
 	 * Map of workers mapped by unfinished buildings.
@@ -323,15 +323,26 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	
 	
-	
-	private List<GameAgent> getUnitAgents() {
+	/**
+	 * Returns list of all game agents.
+	 * @return Returns list of all game agents.
+	 */
+	private List<GameAgent> getGameAgents() {
 		return gameAgents;
 	}
 
+	/**
+	 * Return map of game agents mapped by unit.
+	 * @return Return map of game agents mapped by unit.
+	 */
 	private HashMap<Unit, GameAgent> getUnitAgentsMappedByUnit() {
 		return gameAgentsMappedByUnit;
 	}
 
+	/**
+	 * Returs log level.
+	 * @return Returs log level.
+	 */
 	public Level getLogLevel() {
 		return logLevel;
 	}
@@ -340,15 +351,25 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 //	public void setLogLevel(Level logLevel) {
 //		this.logLevel = logLevel;
 //	}
-
-	public void setCommander(Commander commander) {
-		this.commander = commander;
-	}
-
 	
 	
 	
 	
+	/**
+	 * Constructor.
+	 * @param logLevel Standard java log level.
+	 * @param gameSpeed Game speed. Max speed is 0, standard speed is arround TODO.
+	 * @param frameSkip Frame skip. Determines how many logical franes will be skipped on screen (logical to screen 
+	 * frame ratio). 
+	 * @param commander Commander.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 * @throws ClassNotFoundException
+	 * @throws TransformerException
+	 * @throws TransformerConfigurationException
+	 * @throws XPathExpressionException 
+	 */
 	public GameAPI(final Level logLevel, int gameSpeed, int frameSkip, Commander commander) throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException, 
 			TransformerException, TransformerConfigurationException, XPathExpressionException {
 		frameCount = 1;
@@ -374,9 +395,13 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		gameAPI = this;
 	}
 	
-	
-	public GameApiModule getRegisteredModule(Class<? extends GameApiModule> moduleType){
-		for (GameApiModule module : registeredModules) {
+	/**
+	 * Returns registered module by class.
+	 * @param moduleType Module type.
+	 * @return Returns registered module by class.
+	 */
+	public GameAPIModule getRegisteredModule(Class<? extends GameAPIModule> moduleType){
+		for (GameAPIModule module : registeredModules) {
 			if(moduleType.isInstance(module)){
 				return module;
 			}
@@ -384,8 +409,13 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		return null;
 	}
 	
-	public boolean moduleRegistered(Class<? extends GameApiModule> moduleType){
-		for (GameApiModule module : registeredModules) {
+	/**
+	 * Returns true if module is registered.
+	 * @param moduleType Module type.
+	 * @return Returns true if module is registered.
+	 */
+	public boolean moduleRegistered(Class<? extends GameAPIModule> moduleType){
+		for (GameAPIModule module : registeredModules) {
 			if(moduleType.isInstance(module)){
 				return true;
 			}
@@ -605,7 +635,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			addAgent(new UnitCommand());
 			
 			//modules
-			for (GameApiModule module : registeredModules) {
+			for (GameAPIModule module : registeredModules) {
 				module.onStart(gameCount);
 			}	
 			
@@ -679,7 +709,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			int score = getGame().self().getKillScore();
 			
 			//modules
-			for (GameApiModule module : registeredModules) {
+			for (GameAPIModule module : registeredModules) {
 				module.onEnd(isWinner, score);
 			}
 			
@@ -710,11 +740,15 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         }
 	}
 	
-	
-	
-	
-
-	
+	/**
+	 * Start method. Call this when gameAPI is ready and you want to start the AI.
+	 * @throws SAXException
+	 * @throws XPathExpressionException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 * @throws ClassNotFoundException
+	 * @throws TransformerException 
+	 */
     public void run() throws SAXException, XPathExpressionException, IOException, ParserConfigurationException, 
 			ClassNotFoundException, TransformerException {
 		
@@ -726,28 +760,18 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         mirror.getModule().setEventListener(this);
 		
 		//modules
-		for (GameApiModule module : registeredModules) {
+		for (GameAPIModule module : registeredModules) {
 			module.onRun();
 		}	
 		
         mirror.startGame();
     }
-
-    public void addAgent(Agent agent) {
-		addAgent(agent, commander);
-    }
-
-	private void removeAgent(Unit unit) {
-		GameAgent agent = gameAgentsMappedByUnit.remove(unit);
-		
-		// if the agent has been in the map
-		if(agent != null){
-			gameAgents.remove(agent);
-			agent.getCommandAgent().removeCommandedAgent(agent);
-			gameAPI.agents.remove(agent);
-		}
-	}
-
+	
+	/**
+	 * Returns agent by type.
+	 * @param agentClass Agent type.
+	 * @return Returns agent by type.
+	 */
 	public Agent getAgent(Class<? extends Agent> agentClass) {
         for (Agent agent : agents) {
             if (agentClass.isInstance(agent)) {
@@ -757,12 +781,17 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         return null;
     }
 	
-	public void registerModule(GameApiModule module) throws ModuleDependencyException{
-		List<Class<? extends GameApiModule>> dependencies = module.getDependencies();
+	/**
+	 * Register module to gameAPI. 
+	 * @param module Module.
+	 * @throws ModuleDependencyException 
+	 */
+	public void registerModule(GameAPIModule module) throws ModuleDependencyException{
+		List<Class<? extends GameAPIModule>> dependencies = module.getDependencies();
 		if(dependencies != null){
-			for (Class<? extends GameApiModule> dependency : dependencies) {
+			for (Class<? extends GameAPIModule> dependency : dependencies) {
 				boolean moduleRegistered = false;
-				for(GameApiModule registeredModule : registeredModules){
+				for(GameAPIModule registeredModule : registeredModules){
 					if(dependency.isInstance(registeredModule)){
 						moduleRegistered = true;
 						break;
@@ -775,7 +804,29 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		}
 		registeredModules.add(module);
 	}
-	
 
 	
+	/**
+	 * Adds agent to the system.
+	 * @param agent Agent.
+	 */
+    private void addAgent(Agent agent) {
+		addAgent(agent, commander);
+    }
+
+	/**
+	 * Removes game agent from the system. Used when unit dies.
+	 * @param unit Unit.
+	 */
+	private void removeAgent(Unit unit) {
+		GameAgent agent = gameAgentsMappedByUnit.remove(unit);
+		
+		// if the agent has been in the map
+		if(agent != null){
+			gameAgents.remove(agent);
+			agent.getCommandAgent().removeCommandedAgent(agent);
+			gameAPI.agents.remove(agent);
+		}
+	}
+
 }

@@ -38,7 +38,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import ninja.fido.agentAI.base.GameApiModule;
+import ninja.fido.agentAI.base.GameAPIModule;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionModule;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -51,7 +51,7 @@ import org.xml.sax.SAXException;
  *
  * @author F.I.D.O.
  */
-public class LearningModule implements GameApiModule{
+public class LearningModule implements GameAPIModule{
 	
 	private static final String RESULTS_FILE = "results.xml";
 	
@@ -309,8 +309,8 @@ public class LearningModule implements GameApiModule{
 	}
 	
 	@Override
-	public List<Class<? extends GameApiModule>> getDependencies() {
-		List<Class<? extends GameApiModule>> dependencies = new ArrayList<>();
+	public List<Class<? extends GameAPIModule>> getDependencies() {
+		List<Class<? extends GameAPIModule>> dependencies = new ArrayList<>();
 		dependencies.add(DecisionModule.class);
 		dependencies.add(DecisionStorageModule.class);
 		
