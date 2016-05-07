@@ -1,3 +1,6 @@
+/* 
+ * AgentAI
+ */
 package ninja.fido.agentAI.base;
 
 import bwapi.Unit;

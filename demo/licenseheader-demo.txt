@@ -1,0 +1,7 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}AgentAI - Demo
+<#if licenseLast??>
+${licenseLast}
+</#if>

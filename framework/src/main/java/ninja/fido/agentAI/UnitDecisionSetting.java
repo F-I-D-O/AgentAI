@@ -1,3 +1,6 @@
+/* 
+ * AgentAI
+ */
 package ninja.fido.agentAI;
 
 import ninja.fido.agentAI.base.Agent;
