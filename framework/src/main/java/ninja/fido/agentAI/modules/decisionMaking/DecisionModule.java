@@ -5,7 +5,6 @@
  */
 package ninja.fido.agentAI.modules.decisionMaking;
 
-import java.util.ArrayList;
 import ninja.fido.agentAI.UnitDecisionSetting;
 import ninja.fido.agentAI.base.Agent;
 import java.util.HashMap;

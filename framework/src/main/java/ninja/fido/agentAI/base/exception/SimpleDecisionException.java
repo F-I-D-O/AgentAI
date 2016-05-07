@@ -5,6 +5,7 @@
  */
 package ninja.fido.agentAI.base.exception;
 
+import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.Agent;
 import ninja.fido.agentAI.base.Goal;
 
@@ -18,12 +19,29 @@ public class SimpleDecisionException extends Exception{
 
 	private final Goal goal;
 	
-	private final Class<? extends Agent> commandAgentClass;
+	private Class<? extends Agent> commandAgentClass;
+	
+	private Activity activity;
+	
+	
+	
+	
+	public SimpleDecisionException(Class<? extends Agent> agentClass, Goal goal) {
+		this.agentClass = agentClass;
+		this.goal = goal;
+	}
 
-	public SimpleDecisionException(Class<? extends Agent> agentClass, Goal goal, Class<? extends Agent> commandAgentClass) {
+	public SimpleDecisionException(Class<? extends Agent> agentClass, Goal goal, 
+			Class<? extends Agent> commandAgentClass) {
 		this.agentClass = agentClass;
 		this.goal = goal;
 		this.commandAgentClass = commandAgentClass;
+	}
+	
+	public SimpleDecisionException(Class<? extends Agent> agentClass, Goal goal, Activity activity) {
+		this.agentClass = agentClass;
+		this.goal = goal;
+		this.activity = activity;
 	}
 	
 	
@@ -31,8 +49,14 @@ public class SimpleDecisionException extends Exception{
 	
 	@Override
 	public String getMessage() {
-		return agentClass + ": Cannot decide what to do! There is no mapping for goal: " + goal + ", Command Agent class: "
-				+ commandAgentClass;
+		if(activity == null){
+			return agentClass + ": Cannot decide what to do! There is no mapping for goal: " + goal.getClass() + ", Command Agent class: "
+					+ commandAgentClass;
+		}
+		else{
+			return agentClass + ": Wrong mapping for goal: " + goal.getClass() + ", Activity: " + activity.getClass()
+					+ "is incompatible with this goal";
+		}
 	}
 	
 }

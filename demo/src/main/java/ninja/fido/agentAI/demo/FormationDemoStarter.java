@@ -44,7 +44,7 @@ public class FormationDemoStarter {
 			ModuleDependencyException, MultipleCommandersException, EmptyDecisionTableMapException {
 		FullCommander commander = new FullCommander("Formation Test", new FormationTestStrategyGoal(null, null));
 		
-		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0, commander);
+		GameAPI gameAPI = new GameAPI(Level.FINE, 30, 0, commander);
 		
 		setGoalActivityMaps();
 		

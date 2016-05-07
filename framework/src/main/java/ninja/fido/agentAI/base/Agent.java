@@ -537,13 +537,18 @@ public abstract class Agent {
 		Activity template = goalActivityMap.get(goal.getClass());
 		if(template == null){
 			if(this instanceof Commander){
-				throw new SimpleDecisionException(this.getClass(), goal, null);
+				throw new SimpleDecisionException(this.getClass(), goal);
 			}
 			else{
 				throw new SimpleDecisionException(this.getClass(), goal, commandAgent.getClass());
 			}
 		}
-		return template.create(this, goal);
+		try{
+			return template.create(this, goal);
+		}
+		catch(ClassCastException ex){
+			throw new SimpleDecisionException(this.getClass(), goal, template);
+		}
 	}
 	
 	/**

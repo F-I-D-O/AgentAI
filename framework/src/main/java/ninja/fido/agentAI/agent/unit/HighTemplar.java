@@ -33,7 +33,7 @@ public class HighTemplar extends UnitAgent{
 		Map<Class<? extends Goal>,Activity> defaultActivityMap = new HashMap<>();
 
 		defaultActivityMap.put(WaitGoal.class, new Wait());
-		defaultActivityMap.put(WaitGoal.class, new Move());
+		defaultActivityMap.put(MoveGoal.class, new Move());
 
 		return defaultActivityMap;
 	}
