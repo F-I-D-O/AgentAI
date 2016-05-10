@@ -9,6 +9,7 @@ import java.util.Map;
 import ninja.fido.agentAI.activity.AttackMove;
 import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.Activity;
+import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.AttackMoveGoal;
 import ninja.fido.agentAI.goal.WaitGoal;
@@ -40,6 +41,11 @@ public class Marine extends UnitAgent{
 	@Override
 	protected Goal getDefaultGoal() {
 		return new WaitGoal(this, null);
+	}
+
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new Marine(unit);
 	}
 	
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 import ninja.fido.agentAI.activity.Move;
 import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.Activity;
+import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.MoveGoal;
 import ninja.fido.agentAI.goal.WaitGoal;
@@ -36,10 +37,15 @@ public class HighTemplar extends UnitAgent{
 		return defaultActivityMap;
 	}
 	
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new HighTemplar(unit);
+	}
+	
 
 	@Override
 	protected Goal getDefaultGoal() {
 		return new WaitGoal(this, null);
 	}
-	
+
 }

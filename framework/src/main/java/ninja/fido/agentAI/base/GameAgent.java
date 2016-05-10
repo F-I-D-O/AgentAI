@@ -12,8 +12,9 @@ import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 /**
  * Game agent. Game agent is an agent that represents some unit in game.
  * @author david
+ * @param <A> Agent type
  */
-public abstract class GameAgent extends Agent {
+public abstract class GameAgent<A extends GameAgent> extends Agent {
 
 	/**
 	 * Unit that is represented by tthis agent.
@@ -53,6 +54,13 @@ public abstract class GameAgent extends Agent {
 	
 	
 	
+	/**
+	 * Create new instance from empty agent.
+	 * @param unit BWAPI unit.
+	 * @return Returns new instance of the agent.
+	 * @throws ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException
+	 */
+	public abstract A create(Unit unit) throws EmptyDecisionTableMapException;
 	
 	/**
 	 * Returns true if unit is idle (same as BWAPI isIdle). 

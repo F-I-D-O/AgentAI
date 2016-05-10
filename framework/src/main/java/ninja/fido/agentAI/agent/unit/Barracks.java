@@ -11,13 +11,11 @@ import ninja.fido.agentAI.ResourceDeficiencyException;
 import ninja.fido.agentAI.ResourceType;
 import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.activity.AutomaticProduction;
-import ninja.fido.agentAI.activity.StrategicExploration;
 import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.goal.AutomaticProductionGoal;
-import ninja.fido.agentAI.goal.StrategicExplorationGoal;
 import ninja.fido.agentAI.goal.WaitGoal;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
@@ -100,6 +98,11 @@ public class Barracks extends GameAgent{
 	@Override
 	protected Goal getDefaultGoal() {
 		return new AutomaticProductionGoal(this, null);
+	}
+
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new Barracks(unit);
 	}
 	
 }

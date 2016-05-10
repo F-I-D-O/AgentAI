@@ -14,6 +14,7 @@ import ninja.fido.agentAI.activity.ConstructBuilding;
 import ninja.fido.agentAI.activity.ExploreBaseLocation;
 import ninja.fido.agentAI.activity.Move;
 import ninja.fido.agentAI.activity.Wait;
+import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.ConstructBuildingGoal;
 import ninja.fido.agentAI.goal.ExploreBaseLocationGoal;
@@ -73,5 +74,10 @@ public class SCV extends ArtificialWorker implements Scout {
 	@Override
 	protected Goal getDefaultGoal() {
 		return new HarvestMineralsGoal(this, null);
+	}
+
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new SCV(unit);
 	}
 }

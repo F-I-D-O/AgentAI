@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.Activity;
+import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.WaitGoal;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
@@ -40,6 +41,11 @@ public class Zealot extends UnitAgent{
 		defaultActivityMap.put(WaitGoal.class, new Wait());
 
 		return defaultActivityMap;
+	}
+
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new Zealot(unit);
 	}
 	
 	

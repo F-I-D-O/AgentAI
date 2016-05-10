@@ -34,6 +34,11 @@ public class Larva extends GameAgent implements MorphableUnit{
 	public void onMorphFinished() {
 		Log.log(this, Level.INFO, "{0}: morph into {1} finished.", this.getClass(), unit.getType());
 	}
+
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new Larva(unit);
+	}
 	
 	public enum MorphOption {
 		DRONE(UnitType.Zerg_Drone),

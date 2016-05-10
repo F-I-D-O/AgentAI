@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import ninja.fido.agentAI.activity.HarvestMinerals;
 import ninja.fido.agentAI.base.Activity;
+import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.HarvestMineralsGoal;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
@@ -34,6 +35,11 @@ public class Probe extends Worker{
 	@Override
 	protected Goal getDefaultGoal() {
 		return new HarvestMineralsGoal(this, null);
+	}
+
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new Probe(unit);
 	}
 	
 }

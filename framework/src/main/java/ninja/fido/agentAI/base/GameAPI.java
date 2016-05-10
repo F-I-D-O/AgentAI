@@ -324,6 +324,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	 */
 	private final Map<Class<? extends Agent>,Map<Class<? extends Goal>,Activity>> agentSimpleDecisions;
 	
+	/**
+	 * Registered game agents mapped by BWAPI unit types.
+	 */
+	private final Map<UnitType,GameAgent> registeredGameAgents;
+	
 	
 	
 	/**
@@ -380,6 +385,8 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		registeredModules = new ArrayList<>();
 		unfinishedBuildings = new HashMap<>();
 		agentSimpleDecisions = new HashMap<>();
+		registeredGameAgents = new HashMap<>();
+		
 		this.logLevel = logLevel;
 		this.gameSpeed = gameSpeed;
 		this.frameSkip = frameSkip;
@@ -393,6 +400,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		
 		// command interface
 		commandInterface = new DefaultBWAPICommandInterface();
+		
+//		// register default game agents
+//		registerDefaultGameAgents();
 		
 		// static access
 		gameAPI = this;
@@ -529,20 +539,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			MorphableUnit formerUnitAgent = (MorphableUnit) gameAgentsMappedByUnit.get(unit);
 
 			// units obtained on start has no event
-			if(formerUnitAgent != null){
+			if(formerUnitAgent != null && !type.isBuilding()){
 
-				GameAgent agent = null;
-
-				if(type.equals(UnitType.Zerg_Drone)){
-					agent = new Drone(unit);
-				}
-				else if(type.equals(UnitType.Zerg_Overlord)){
-					agent = new Overlord(unit);
-				}
-
-				if(agent == null && !type.isBuilding()){
-					throw new NonImplementedMorphException(formerUnitAgent, type);
-				}
+				GameAgent agent = getRegisteredAgent(type, unit, formerUnitAgent);
 
 				//onMorphFinished event
 				formerUnitAgent.onMorphFinished();
@@ -571,7 +570,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
         try {
             Log.log(this, Level.INFO, "OnFrame start - game: {0}, frame: {1}", gameCount, frameCount);
 			
-			// process queued commands from units that was busz last frame 
+			// process queued commands from units that was busy last frame 
 			commandInterface.processQueuedCommands();
 			
 //			eventEngine.run();
@@ -598,6 +597,9 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
     public void onStart() {
 		try{
 			Log.log(this, Level.FINE, "OnStart START");
+			
+			// register default game agents
+			registerDefaultGameAgents();
 			
 			// BWTA onInitialize
 			bwta.BWTA.readMap();
@@ -830,6 +832,45 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 			agent.getCommandAgent().removeCommandedAgent(agent);
 			gameAPI.agents.remove(agent);
 		}
+	}
+
+	/**
+	 * Registers default game agents.
+	 */
+	private void registerDefaultGameAgents() {
+		try {
+			registerGameAgent(UnitType.Zerg_Drone, new Drone());
+			registerGameAgent(UnitType.Zerg_Overlord, new Overlord());
+		} catch (EmptyDecisionTableMapException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Register game agent to BWAPI. Each game agent is map to one unit. If more than one game agents is map to one 
+	 * unit, the latest agent is used.
+	 * @param unitType BWAPI unit type.
+	 * @param agent Game agent.
+	 */
+	public void registerGameAgent(UnitType unitType, GameAgent agent){
+		registeredGameAgents.put(unitType, agent);
+	}
+	
+	/**
+	 * Returns registered game agent for BWAPI unit type.
+	 * @param type BWAPI unit type.
+	 * @param unit BWAPI unit.
+	 * @return Returns registered game agent for BWAPI unit type.
+	 */
+	private GameAgent getRegisteredAgent(UnitType type, Unit unit, MorphableUnit formerUnitAgent) 
+			throws EmptyDecisionTableMapException, NonImplementedMorphException {
+		GameAgent template = registeredGameAgents.get(type);
+		
+		if(template == null){
+			throw new NonImplementedMorphException(formerUnitAgent, type);
+		}
+		
+		return template.create(unit);
 	}
 
 }

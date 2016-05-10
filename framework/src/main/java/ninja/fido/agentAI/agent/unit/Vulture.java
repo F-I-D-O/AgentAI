@@ -36,5 +36,10 @@ public class Vulture extends GameAgent {
 	protected Goal getDefaultGoal() {
 		return new WaitGoal(this, null);
 	}
+
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new Vulture(unit);
+	}
     
 }

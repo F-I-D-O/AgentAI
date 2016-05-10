@@ -24,6 +24,9 @@ import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
  */
 public class Overlord extends GameAgent{
 
+	public Overlord() throws EmptyDecisionTableMapException {
+	}
+
 	public Overlord(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
 	}
@@ -50,7 +53,12 @@ public class Overlord extends GameAgent{
 		return defaultActivityMap;
 	}
 	
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new Overlord(unit);
+	}
 
+	
 	@Override
 	protected Goal getDefaultGoal() {
 		return new WaitGoal(this, null);

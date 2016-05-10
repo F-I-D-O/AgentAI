@@ -32,7 +32,12 @@ public class Hatchery extends GameAgent{
 		return defaultActivityMap;
 	}
 	
-
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new Hatchery(unit);
+	}
+	
+	
 	@Override
 	protected Goal getDefaultGoal() {
 		return new WaitGoal(this, null);

@@ -27,6 +27,6 @@ public class NonImplementedMorphException extends Exception{
 	
 	@Override
 	public String getMessage() {
-		return formerUnitAgent + ": morph to " + unitType + " is not implemented";
+		return formerUnitAgent.getClass() + ": morph to " + unitType + " is not implemented";
 	}
 }

@@ -9,6 +9,7 @@ import ninja.fido.agentAI.MorphableUnit;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.HarvestMineralsGoal;
 import java.util.logging.Level;
+import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
@@ -48,6 +49,11 @@ public class Drone extends Worker implements MorphableUnit{
 	@Override
 	public void onMorphFinished() {
 		Log.log(this, Level.INFO, "{0}: morph into {1} finished.", this.getClass(), unit.getType());
+	}
+
+	@Override
+	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+		return new Drone(unit);
 	}
 
 	
