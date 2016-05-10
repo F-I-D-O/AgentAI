@@ -9,7 +9,6 @@ import java.util.Map;
 import ninja.fido.agentAI.activity.Move;
 import ninja.fido.agentAI.activity.Wait;
 import ninja.fido.agentAI.base.Activity;
-import ninja.fido.agentAI.base.GameAgent;
 import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.goal.MoveGoal;
 import ninja.fido.agentAI.goal.WaitGoal;
@@ -19,7 +18,10 @@ import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
  *
  * @author F.I.D.O.
  */
-public class HighTemplar extends UnitAgent{
+public class HighTemplar extends UnitAgent<HighTemplar>{
+
+	public HighTemplar() throws EmptyDecisionTableMapException {
+	}
 
 	public HighTemplar(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
@@ -38,7 +40,7 @@ public class HighTemplar extends UnitAgent{
 	}
 	
 	@Override
-	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+	public HighTemplar create(Unit unit) throws EmptyDecisionTableMapException {
 		return new HighTemplar(unit);
 	}
 	

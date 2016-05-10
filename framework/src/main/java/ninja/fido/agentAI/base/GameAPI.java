@@ -44,10 +44,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
+import ninja.fido.agentAI.GameAPIListener;
+import ninja.fido.agentAI.NoGameAgentForUnitException;
+import ninja.fido.agentAI.agent.unit.CommandCenter;
+import ninja.fido.agentAI.agent.unit.Nexus;
+import ninja.fido.agentAI.agent.unit.SupplyDepot;
 import ninja.fido.agentAI.base.exception.ModuleDependencyException;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 import org.xml.sax.SAXException;
@@ -56,7 +62,7 @@ import org.xml.sax.SAXException;
  * Game API. Through this API, you access BWMirror, that accesses BWAPI, that accesses StarCraft.
  * @author david
  */
-public class GameAPI extends DefaultBWListener implements EventEngineListener{
+public final class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	/**
 	 * static reference to Commander
@@ -329,6 +335,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	 */
 	private final Map<UnitType,GameAgent> registeredGameAgents;
 	
+	/**
+	 * Game API listeners.
+	 */
+	private final ArrayList<GameAPIListener> listeners;
+	
 	
 	
 	/**
@@ -386,6 +397,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 		unfinishedBuildings = new HashMap<>();
 		agentSimpleDecisions = new HashMap<>();
 		registeredGameAgents = new HashMap<>();
+		listeners = new ArrayList<>();
 		
 		this.logLevel = logLevel;
 		this.gameSpeed = gameSpeed;
@@ -482,30 +494,7 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				onBuildingConstructionFinished(unit);
 			}
 			
-			GameAgent agent = null;
-			
-			if(type.equals(UnitType.Terran_SCV)) {
-				agent = new SCV(unit);
-			}
-			else if(type.equals(UnitType.Terran_Marine)) {
-				agent = new Marine(unit);
-			}
-			else if(type.equals(UnitType.Zerg_Larva)){
-				agent = new Larva(unit);
-			}
-			else if(type.equals(UnitType.Zerg_Drone)){
-				agent = new Drone(unit);
-			}
-			else if(type.equals(UnitType.Protoss_Probe)){
-				agent = new Probe(unit);
-			}
-			else if(type.equals(UnitType.Protoss_Zealot)){
-				agent = new Zealot(unit);
-			}
-			else if(type.equals(UnitType.Protoss_High_Templar)){
-				agent = new HighTemplar(unit);
-			}
-			
+			GameAgent agent = getRegisteredAgent(type, unit, null);
 			
 			// check beacause we not handle all units creation
 			if(agent != null){
@@ -644,6 +633,11 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 				module.onStart(gameCount);
 			}	
 			
+			// listeners
+			for (GameAPIListener listener : listeners) {
+				listener.onStart();
+			}
+			
 			Log.log(this, Level.FINE, "OnStart END");
 		}
 		catch (Exception exception) {
@@ -658,36 +652,31 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	
 	@Override
 	public void onBuildingConstructionFinished(Unit building) {
-		Log.log(this, Level.INFO, "Building construction finished: {0}", building.getBuildType());
-
-		Worker builderAgent = unfinishedBuildings.get(building);
-		
-		// units obtained on start has no event
-		if(builderAgent != null){
-			builderAgent.onConstructionFinished();
-		}
-		
-		GameAgent buildingAgent = null;
-		UnitType buildingType = building.getType();
-		
-		if (buildingType.equals(UnitType.Terran_Barracks)) {
-			try {
-				buildingAgent = new Barracks(building);
-			} catch (EmptyDecisionTableMapException ex) {
-				ex.printStackTrace();
+		try {
+			Log.log(this, Level.INFO, "Building construction finished: {0}", building.getBuildType());
+			
+			Worker builderAgent = unfinishedBuildings.get(building);
+			
+			// units obtained on start has no event
+			if(builderAgent != null){
+				builderAgent.onConstructionFinished();
+			}
+			
+			UnitType buildingType = building.getType();
+			GameAgent buildingAgent = getRegisteredAgent(buildingType, building, null);
+			
+			if(buildingAgent != null){
+				addAgent(buildingAgent);
 			}
 		}
-		else if(buildingType.equals(UnitType.Zerg_Hatchery)){
-			try {
-				buildingAgent = new Hatchery(building);
-			} catch (EmptyDecisionTableMapException ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		if(buildingAgent != null){
-			addAgent(buildingAgent);
-		}
+		catch (Exception exception) {
+            Log.log(this, Level.SEVERE, "EXCEPTION!");
+            exception.printStackTrace();
+        } 
+		catch (Error error) {
+            Log.log(this, Level.SEVERE, "ERROR!");
+            error.printStackTrace();
+        }
 	}
 
 	@Override
@@ -839,11 +828,30 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	 */
 	private void registerDefaultGameAgents() {
 		try {
+			registerGameAgent(UnitType.Terran_Barracks, new Barracks());
+			registerGameAgent(UnitType.Terran_SCV, new SCV());
+			registerGameAgent(UnitType.Terran_Marine, new Marine());
+			registerGameAgent(UnitType.Terran_Command_Center, new CommandCenter());
+			registerGameAgent(UnitType.Terran_Supply_Depot, new SupplyDepot());
 			registerGameAgent(UnitType.Zerg_Drone, new Drone());
 			registerGameAgent(UnitType.Zerg_Overlord, new Overlord());
+			registerGameAgent(UnitType.Zerg_Larva, new Larva());
+			registerGameAgent(UnitType.Zerg_Hatchery, new Hatchery());
+			registerGameAgent(UnitType.Protoss_Probe, new Probe());
+			registerGameAgent(UnitType.Protoss_Zealot, new Zealot());
+			registerGameAgent(UnitType.Protoss_High_Templar, new HighTemplar());
+			registerGameAgent(UnitType.Protoss_Nexus, new Nexus());
 		} catch (EmptyDecisionTableMapException ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Registers new listerner in the API.
+	 * @param listener Listener.
+	 */
+	public void registerListener(GameAPIListener listener){
+		listeners.add(listener);
 	}
 	
 	/**
@@ -863,11 +871,16 @@ public class GameAPI extends DefaultBWListener implements EventEngineListener{
 	 * @return Returns registered game agent for BWAPI unit type.
 	 */
 	private GameAgent getRegisteredAgent(UnitType type, Unit unit, MorphableUnit formerUnitAgent) 
-			throws EmptyDecisionTableMapException, NonImplementedMorphException {
+			throws EmptyDecisionTableMapException, NonImplementedMorphException, NoGameAgentForUnitException {
 		GameAgent template = registeredGameAgents.get(type);
 		
 		if(template == null){
-			throw new NonImplementedMorphException(formerUnitAgent, type);
+			if(formerUnitAgent == null){
+				throw new NoGameAgentForUnitException(type);
+			}
+			else{
+				throw new NonImplementedMorphException(formerUnitAgent, type);
+			}
 		}
 		
 		return template.create(unit);

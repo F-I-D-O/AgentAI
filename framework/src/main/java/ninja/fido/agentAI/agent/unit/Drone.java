@@ -16,7 +16,7 @@ import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
  *
  * @author F.I.D.O.
  */
-public class Drone extends Worker implements MorphableUnit{
+public class Drone extends Worker<Drone> implements MorphableUnit{
 
 	public Drone() throws EmptyDecisionTableMapException {
 	}
@@ -52,7 +52,7 @@ public class Drone extends Worker implements MorphableUnit{
 	}
 
 	@Override
-	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+	public Drone create(Unit unit) throws EmptyDecisionTableMapException {
 		return new Drone(unit);
 	}
 

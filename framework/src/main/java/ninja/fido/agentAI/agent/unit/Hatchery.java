@@ -17,7 +17,10 @@ import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
  *
  * @author F.I.D.O.
  */
-public class Hatchery extends GameAgent{
+public class Hatchery extends GameAgent<Hatchery>{
+
+	public Hatchery() throws EmptyDecisionTableMapException {
+	}
 
 	public Hatchery(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
@@ -33,7 +36,7 @@ public class Hatchery extends GameAgent{
 	}
 	
 	@Override
-	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+	public Hatchery create(Unit unit) throws EmptyDecisionTableMapException {
 		return new Hatchery(unit);
 	}
 	

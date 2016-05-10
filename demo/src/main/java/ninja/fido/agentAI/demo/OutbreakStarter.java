@@ -3,6 +3,7 @@
  */
 package ninja.fido.agentAI.demo;
 
+import bwapi.UnitType;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,12 +13,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
+import ninja.fido.agentAI.GameAPIListener;
 import ninja.fido.agentAI.agent.ExpansionCommand;
 import ninja.fido.agentAI.agent.LarvaCommand;
 import ninja.fido.agentAI.agent.SquadCommander;
 import ninja.fido.agentAI.agent.ZergCommander;
 import ninja.fido.agentAI.agent.unit.Drone;
 import ninja.fido.agentAI.agent.unit.Larva;
+import ninja.fido.agentAI.agent.unit.Overlord;
 import ninja.fido.agentAI.base.GameAPI;
 import ninja.fido.agentAI.base.exception.ModuleDependencyException;
 import ninja.fido.agentAI.base.exception.MultipleCommandersException;
@@ -37,12 +40,16 @@ import org.xml.sax.SAXException;
  *
  * @author F.I.D.O.
  */
-public class OutbreakStarter {
-	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
-			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
-			ModuleDependencyException, MultipleCommandersException, EmptyDecisionTableMapException {
+public class OutbreakStarter implements GameAPIListener{
+	
+	
+	GameAPI gameAPI;
+
+	public OutbreakStarter() throws MultipleCommandersException, EmptyDecisionTableMapException, SAXException, 
+			IOException, ParserConfigurationException, ClassNotFoundException, TransformerException,
+			TransformerConfigurationException, XPathExpressionException, ModuleDependencyException {
 		ZergCommander commander = new ZergCommander("Outbreak Demo", new OutbreakStrategyGoal(null, null));
-		GameAPI gameAPI = new GameAPI(Level.FINE, 0, 0, commander);
+		gameAPI = new GameAPI(Level.FINE, 0, 0, commander);
 		
 		DecisionModule decisionModule = new DecisionModule();
 		
@@ -56,7 +63,18 @@ public class OutbreakStarter {
 		
 		gameAPI.registerModule(decisionModule);
 		
+		gameAPI.registerListener(this);
+		
         gameAPI.run();
+	}
+	
+	
+	
+	
+	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, 
+			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
+			ModuleDependencyException, MultipleCommandersException, EmptyDecisionTableMapException {
+		new OutbreakStarter();				
     }
 
 	public static Map<DecisionTablesMapKey, DecisionTable> getLarvaCommandDecisionTablesMap() {
@@ -81,5 +99,15 @@ public class OutbreakStarter {
 		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));
 		
 		return defaultDecisionTablesMap;
+	}
+
+	@Override
+	public void onStart() {
+		try {
+			gameAPI.registerGameAgent(UnitType.Zerg_Drone, new Drone());
+			gameAPI.registerGameAgent(UnitType.Zerg_Overlord, new Overlord());
+		} catch (EmptyDecisionTableMapException ex) {
+			ex.printStackTrace();
+		}
 	}
 }

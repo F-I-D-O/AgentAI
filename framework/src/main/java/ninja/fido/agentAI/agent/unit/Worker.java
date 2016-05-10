@@ -36,8 +36,9 @@ import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 /**
  *
  * @author F.I.D.O.
+ * @param <A> Worker agent type.
  */
-public abstract class Worker extends UnitAgent implements Scout {
+public abstract class Worker<A extends Worker> extends UnitAgent<A> implements Scout {
 	
 	private boolean constructionInProgress;
 	

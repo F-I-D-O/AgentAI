@@ -16,4 +16,9 @@ Any value defined here will override the pom.xml file value but is only applicab
         <netbeans.hint.jdkPlatform>JDK_1.8_x86</netbeans.hint.jdkPlatform>
         <netbeans.hint.licensePath>${project.basedir}/licenseheader.txt</netbeans.hint.licensePath>
     </properties>
+    <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
+        <configurations>
+            <configuration id="raw types" profiles=""/>
+        </configurations>
+    </config-data>
 </project-shared-configuration>

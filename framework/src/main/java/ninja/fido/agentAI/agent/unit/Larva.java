@@ -28,7 +28,7 @@ import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
  *
  * @author F.I.D.O.
  */
-public class Larva extends GameAgent implements MorphableUnit{
+public class Larva extends GameAgent<Larva> implements MorphableUnit{
 
 	@Override
 	public void onMorphFinished() {
@@ -36,7 +36,7 @@ public class Larva extends GameAgent implements MorphableUnit{
 	}
 
 	@Override
-	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+	public Larva create(Unit unit) throws EmptyDecisionTableMapException {
 		return new Larva(unit);
 	}
 	

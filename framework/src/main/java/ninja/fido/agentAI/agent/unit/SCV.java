@@ -23,11 +23,17 @@ import ninja.fido.agentAI.goal.MoveGoal;
 import ninja.fido.agentAI.goal.WaitGoal;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
-public class SCV extends ArtificialWorker implements Scout {
+public class SCV extends ArtificialWorker<SCV> implements Scout {
 
-    public SCV(Unit unit) throws EmptyDecisionTableMapException {
-        super(unit);
-    }
+	public SCV() throws EmptyDecisionTableMapException {
+	}
+
+	public SCV(Unit unit) throws EmptyDecisionTableMapException {
+		super(unit);
+	}
+
+	
+
 
 	@Override
 	public Position getPosition() {
@@ -77,7 +83,7 @@ public class SCV extends ArtificialWorker implements Scout {
 	}
 
 	@Override
-	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+	public SCV create(Unit unit) throws EmptyDecisionTableMapException {
 		return new SCV(unit);
 	}
 }

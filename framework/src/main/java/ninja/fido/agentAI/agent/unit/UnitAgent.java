@@ -12,8 +12,9 @@ import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 /**
  *
  * @author F.I.D.O.
+ * @param <A> Agent type;
  */
-public abstract class UnitAgent extends GameAgent{
+public abstract class UnitAgent<A extends UnitAgent> extends GameAgent<A>{
 
 	public UnitAgent() throws EmptyDecisionTableMapException {
 	}

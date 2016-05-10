@@ -23,7 +23,7 @@ import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
  *
  * @author F.I.D.O.
  */
-public class Barracks extends GameAgent{
+public class Barracks extends GameAgent<Barracks>{
 	
 //	private boolean trainingInProgress;
 //
@@ -38,12 +38,12 @@ public class Barracks extends GameAgent{
 	public void setAutomaticProductionUnitType(UnitType automaticProductionUnitType) {
 		this.automaticProductionUnitType = automaticProductionUnitType;
 	}
+
 	
 	
 	
-	
-	
-	
+	public Barracks() throws EmptyDecisionTableMapException {
+	}
 
 	public Barracks(Unit unit) throws EmptyDecisionTableMapException {
 		super(unit);
@@ -101,7 +101,7 @@ public class Barracks extends GameAgent{
 	}
 
 	@Override
-	public GameAgent create(Unit unit) throws EmptyDecisionTableMapException {
+	public Barracks create(Unit unit) throws EmptyDecisionTableMapException {
 		return new Barracks(unit);
 	}
 	
