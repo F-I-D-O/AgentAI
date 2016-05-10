@@ -161,6 +161,24 @@ public abstract class CommandActivity<A extends CommandAgent,G extends Goal, AC 
 	}
 	
 	/**
+	 * Returns amount of gas given to specified agent.
+	 * @param receiver Agent.
+	 * @return Returns amount of gas given to specified agent.
+	 */
+	protected final int getGasGivenTo(Agent receiver){
+		return agent.getGasGivenTo(receiver);
+	}
+	
+	/**
+	 * Returns amount of supply given to specified agent.
+	 * @param receiver Agent.
+	 * @return Returns amount of supply given to specified agent.
+	 */
+	protected final int getSupplyGivenTo(Agent receiver){
+		return agent.getSupplyGivenTo(receiver);
+	}
+	
+	/**
 	 * Handles sisngle request from request queue.
 	 * @param request Request.
 	 */

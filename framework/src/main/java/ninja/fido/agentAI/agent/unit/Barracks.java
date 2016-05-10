@@ -77,6 +77,10 @@ public class Barracks extends GameAgent<Barracks>{
 		return getMissingMinerals() > 0;
 	}
 	
+	public boolean isGasMissing() {
+		return getMissingGas() > 0;
+	}
+	
 	public boolean isSupplyMissing() {
 		return getMissingSupply() > 0;
 	}
@@ -85,12 +89,16 @@ public class Barracks extends GameAgent<Barracks>{
 		return automaticProductionUnitType == null ? 0 : automaticProductionUnitType.mineralPrice() - getOwnedMinerals();
 	}
 	
+	public int getMissingGas(){
+		return automaticProductionUnitType == null ? 0 : automaticProductionUnitType.gasPrice() - getOwnedGas();
+	}
+	
 	public int getMissingSupply(){
 		return automaticProductionUnitType == null ? 0 : automaticProductionUnitType.supplyRequired() - getOwnedSupply();
 	}
 
 	public void automaticProduction() throws ResourceDeficiencyException {
-		if(!unit.isTraining() && automaticProductionUnitType.mineralPrice() <= getOwnedMinerals()){
+		if(!unit.isTraining()){
 			train(automaticProductionUnitType);
 		}
 	}

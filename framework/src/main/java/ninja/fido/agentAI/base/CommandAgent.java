@@ -54,6 +54,16 @@ public abstract class CommandAgent extends Agent {
 	 */
 	private final Map<Agent,Integer> mineralsGiven;
 	
+	/**
+	 * Statistics of minerals given to commanded agents.
+	 */
+	private final Map<Agent,Integer> gasGiven;
+	
+	/**
+	 * Statistics of minerals given to commanded agents.
+	 */
+	private final Map<Agent,Integer> supplyGiven;
+	
     
 
 	
@@ -68,6 +78,8 @@ public abstract class CommandAgent extends Agent {
 		completedOrdersQueue = new ArrayDeque<>();
 		uncompletedOrders = new ArrayList<>();
 		mineralsGiven = new HashMap<>();
+		gasGiven = new HashMap<>();
+		supplyGiven = new HashMap<>();
     }
 
 	
@@ -238,6 +250,25 @@ public abstract class CommandAgent extends Agent {
 		return mineralsGiven.containsKey(receiver) ? mineralsGiven.get(receiver) : 0;
 	}
 	
+	/**
+	 * Returns amount of gas given to specified agent.
+	 * @param receiver Agent.
+	 * @return Returns amount of gas given to specified agent.
+	 */
+	protected int getGasGivenTo(Agent receiver){
+		return gasGiven.containsKey(receiver) ? gasGiven.get(receiver) : 0;
+	}
+	
+	/**
+	 * Returns amount of supply given to specified agent.
+	 * @param receiver Agent.
+	 * @return Returns amount of supply given to specified agent.
+	 */
+	protected int getSupplyGivenTo(Agent receiver){
+		return supplyGiven.containsKey(receiver) ? supplyGiven.get(receiver) : 0;
+	}
+	
+	
 	
 	/**
 	 * Called when new agent is detached under the dirct command of this agent.
@@ -353,6 +384,10 @@ public abstract class CommandAgent extends Agent {
 		switch(material){
 			case MINERALS:
 				Tools.incrementMapValue(mineralsGiven, receiver, amount);
+			case GAS:
+				Tools.incrementMapValue(gasGiven, receiver, amount);
+			case SUPPLY:
+				Tools.incrementMapValue(supplyGiven, receiver, amount);
 		}
 	}
 

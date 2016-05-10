@@ -80,6 +80,11 @@ public abstract class Agent {
 	private int receivedGasTotal;
 	
 	/**
+	 * Total amount of gas received.
+	 */
+	private int receivedSupplyTotal;
+	
+	/**
 	 * This maps goals to activities. It's used for simple goal -> activity decisions.
 	 */
 	private Map<Class<? extends Goal>,Activity> goalActivityMap;
@@ -164,6 +169,14 @@ public abstract class Agent {
 	}
 	
 	/**
+	 * Total amount of gas received in this game.
+	 * @return Returns total amount of gas received.
+	 */
+	public int getReceivedSupplyTotal() {
+		return receivedSupplyTotal;
+	}
+	
+	/**
 	 * Command agent.
 	 * @return Returns current command agent.
 	 */
@@ -222,6 +235,7 @@ public abstract class Agent {
 		supply = new Resource(this, GameAPI.getCommander(), ResourceType.SUPPLY, 0);
 		receivedMineralsTotal = 0;
 		receivedMineralsTotal = 0;
+		receivedSupplyTotal = 0;
 		
 		// decision making
 		if(GameAPI.isDecisionMakingOn(this)){
@@ -335,6 +349,16 @@ public abstract class Agent {
 	 */
 	protected int getMissingGas(int neededAmount){
 		int difference = neededAmount - getOwnedGas();
+		return difference > 0 ? difference : 0;
+	}
+	
+	/**
+	 * Return supply missing to specified amount.
+	 * @param neededAmount Needen amount of supply.
+	 * @return Amount of supply missing to needed amount.
+	 */
+	protected int getMissingSupply(int neededAmount){
+		int difference = neededAmount - getOwnedSupply();
 		return difference > 0 ? difference : 0;
 	}
 	
@@ -492,6 +516,7 @@ public abstract class Agent {
 				break;
 			case SUPPLY:
 				supply.merge(resource);
+				receivedSupplyTotal += resource.getAmount();
 				break;
 		}
     }

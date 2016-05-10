@@ -150,4 +150,22 @@ public abstract class OrderForCommandAgent<T extends CommandAgent> extends Order
 		return getTarget().getMineralsGivenTo(receiver);
 	}
 	
+	/**
+	 * Returns amount of gas given to specified agent.
+	 * @param receiver Agent.
+	 * @return Returns amount of gas given to specified agent.
+	 */
+	protected final int getGasGivenTo(Agent receiver){
+		return getTarget().getGasGivenTo(receiver);
+	}
+	
+	/**
+	 * Returns amount of supply given to specified agent.
+	 * @param receiver Agent.
+	 * @return Returns amount of supply given to specified agent.
+	 */
+	protected final int getSupplyGivenTo(Agent receiver){
+		return getTarget().getSupplyGivenTo(receiver);
+	}
+	
 }
