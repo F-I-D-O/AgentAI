@@ -32,11 +32,14 @@ import org.xml.sax.SAXException;
  * @author F.I.D.O.
  */
 public class DecisionStorageModule implements GameAPIModule{
+	
 	private final Map<String,StorableDecisionModuleActivity> registeredActivities;
 	
 	private final Map<String,DecisionTablesMapParameter> registeredDecisionParameters;
 	
 	private final DecisionModule decisionModule;
+	
+	private final String inputFile;
 
 	
 	
@@ -45,6 +48,14 @@ public class DecisionStorageModule implements GameAPIModule{
 		registeredActivities = new HashMap<>();
 		registeredDecisionParameters = new HashMap<>();
 		this.decisionModule = decisionModule;
+		inputFile = LearningModule.LEARNED_DECISIONS_FILE;
+	}
+	
+	public DecisionStorageModule(DecisionModule decisionModule, String inputFile) {
+		registeredActivities = new HashMap<>();
+		registeredDecisionParameters = new HashMap<>();
+		this.decisionModule = decisionModule;
+		this.inputFile = inputFile;
 	}
 	
 	
@@ -67,12 +78,12 @@ public class DecisionStorageModule implements GameAPIModule{
 	}
 	
 	private void loadSettings() throws ParserConfigurationException, SAXException, IOException, ClassNotFoundException{
-		File file = new File(LearningModule.LEARNED_DECISIONS_FILE);
+		File file = new File(inputFile);
 		if(file.exists()){
 			ArrayList<UnitDecisionSetting> unitDecisionSettings = new ArrayList<>();
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-			Document document = documentBuilder.parse(LearningModule.LEARNED_DECISIONS_FILE);
+			Document document = documentBuilder.parse(inputFile);
 
 			Element decisionSettingsNode = document.getDocumentElement();
 
