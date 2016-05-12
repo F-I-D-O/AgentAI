@@ -5,8 +5,6 @@
  */
 package ninja.fido.agentAI.buildingPlacer;
 
-import ninja.fido.agentAI.buildingPlacer.BuildingPlacer;
-import ninja.fido.agentAI.buildingPlacer.Building;
 import ninja.fido.agentAI.base.GameAPI;
 import bwapi.Color;
 import bwapi.Position;
@@ -14,15 +12,13 @@ import bwapi.Race;
 import bwapi.TilePosition;
 import bwapi.Unit;
 import bwapi.UnitType;
-import bwapi.Unitset;
 import bwta.BWTA;
 import bwta.BaseLocation;
-import static ninja.fido.agentAI.buildingPlacer.UAlbertaDistanceMap.MOVE_TO_DEFAULT;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- *
+ * Building placer from UAlbertaBot
  * @author F.I.D.O.
  */
 public class UAlbertaBuildingPlacer implements BuildingPlacer {

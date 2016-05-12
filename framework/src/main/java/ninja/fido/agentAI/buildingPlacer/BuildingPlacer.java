@@ -5,7 +5,6 @@
  */
 package ninja.fido.agentAI.buildingPlacer;
 
-import ninja.fido.agentAI.buildingPlacer.Building;
 import bwapi.TilePosition;
 
 /**

@@ -10,7 +10,7 @@ import bwapi.Unit;
 import bwapi.UnitType;
 
 /**
- *
+ * Building from UAlbertBot
  * @author F.I.D.O.
  */
 public class Building {

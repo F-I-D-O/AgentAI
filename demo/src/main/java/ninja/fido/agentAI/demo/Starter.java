@@ -47,7 +47,7 @@ import ninja.fido.agentAI.modules.learning.SquadAttackScenario;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * Modules demo starter.
  * @author F.I.D.O.
  */
 public class Starter {

@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import ninja.fido.agentAI.Log;
 
 /**
- *
+ * Map tools from UAlbertaBot.
  * @author F.I.D.O.
  */
 public class UAlbertaMapTools implements MapTools{

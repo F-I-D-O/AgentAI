@@ -37,7 +37,7 @@ import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * Zerg demo starter.
  * @author F.I.D.O.
  */
 public class OutbreakStarter implements GameAPIListener{

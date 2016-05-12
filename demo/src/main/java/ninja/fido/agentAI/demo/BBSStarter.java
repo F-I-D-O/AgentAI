@@ -39,7 +39,7 @@ import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * Terran demo starter.
  * @author F.I.D.O.
  */
 public class BBSStarter {

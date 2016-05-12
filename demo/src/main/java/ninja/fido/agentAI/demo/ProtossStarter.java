@@ -28,7 +28,7 @@ import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * Protoss demo starter
  * @author F.I.D.O.
  */
 public class ProtossStarter {

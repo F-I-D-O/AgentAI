@@ -33,7 +33,7 @@ import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * Formation demo starter
  * @author david
  */
 public class FormationDemoStarter {

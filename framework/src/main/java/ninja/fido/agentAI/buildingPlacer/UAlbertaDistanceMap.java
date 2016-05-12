@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- *
+ * Distance map from UAlbertaBot
  * @author F.I.D.O.
  */
 public class UAlbertaDistanceMap {
