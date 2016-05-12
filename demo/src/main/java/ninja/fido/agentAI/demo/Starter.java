@@ -15,13 +15,24 @@ import javax.xml.xpath.XPathExpressionException;
 import ninja.fido.agentAI.activity.ASAPSquadAttackMove;
 import ninja.fido.agentAI.activity.NormalSquadAttackMove;
 import ninja.fido.agentAI.activity.Wait;
+import ninja.fido.agentAI.agent.BuildCommand;
 import ninja.fido.agentAI.demo.activity.terran.BBSStrategy;
 import ninja.fido.agentAI.agent.FullCommander;
+import ninja.fido.agentAI.agent.ProductionCommand;
 import ninja.fido.agentAI.agent.SquadCommander;
+import ninja.fido.agentAI.agent.UnitCommand;
+import ninja.fido.agentAI.base.Activity;
 import ninja.fido.agentAI.base.GameAPI;
+import ninja.fido.agentAI.base.Goal;
 import ninja.fido.agentAI.base.exception.ModuleDependencyException;
 import ninja.fido.agentAI.base.exception.MultipleCommandersException;
 import ninja.fido.agentAI.demo.activity.protoss.DefaultProtossStrategy;
+import ninja.fido.agentAI.demo.activity.terran.BBSAttack;
+import ninja.fido.agentAI.demo.activity.terran.BBSBuild;
+import ninja.fido.agentAI.demo.activity.terran.BBSProduction;
+import ninja.fido.agentAI.demo.goal.BBSAttackGoal;
+import ninja.fido.agentAI.demo.goal.BBSBuildGoal;
+import ninja.fido.agentAI.demo.goal.BBSProductionGoal;
 import ninja.fido.agentAI.demo.goal.BBSStrategyGoal;
 import ninja.fido.agentAI.demo.goal.DefaultProtossStrategyGoal;
 import ninja.fido.agentAI.modules.decisionStorage.DecisionStorageModule;
@@ -31,6 +42,8 @@ import ninja.fido.agentAI.modules.decisionMaking.DecisionTable;
 import ninja.fido.agentAI.modules.decisionMaking.DecisionTablesMapKey;
 import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
 import ninja.fido.agentAI.modules.decisionMaking.GoalParameter;
+import ninja.fido.agentAI.modules.learning.LearningModule;
+import ninja.fido.agentAI.modules.learning.SquadAttackScenario;
 import org.xml.sax.SAXException;
 
 /**
@@ -58,17 +71,33 @@ public class Starter {
 		
 		decisionStorageModule.registerParameter(new GoalParameter(null));
 		
-//		LearningModule learningModule = new LearningModule(gameAPI, decisionModule, decisionStorageModule);
-//		learningModule.setLearningScenario(new SquadAttackScenario());
+		LearningModule learningModule = new LearningModule(gameAPI, decisionModule, decisionStorageModule);
+		learningModule.setLearningScenario(new SquadAttackScenario());
 		
 		gameAPI.registerModule(decisionModule);
 		gameAPI.registerModule(decisionStorageModule);
-//		gameAPI.registerModule(learningModule);
+		gameAPI.registerModule(learningModule);
 		
 //		learningModule.processResults();
+
+		setGoalActivityMaps();
 		
         gameAPI.run();
     }
+	
+	private static void setGoalActivityMaps() throws EmptyDecisionTableMapException {
+		Map<Class<? extends Goal>,Activity> defaultActivityMap = new BuildCommand().getDefaultGoalActivityMap();
+		defaultActivityMap.put(BBSBuildGoal.class, new BBSBuild());
+		GameAPI.addSimpleDecisionMap(BuildCommand.class, defaultActivityMap);
+		
+		defaultActivityMap = new ProductionCommand().getDefaultGoalActivityMap();
+		defaultActivityMap.put(BBSProductionGoal.class, new BBSProduction());
+		GameAPI.addSimpleDecisionMap(ProductionCommand.class, defaultActivityMap);
+		
+		defaultActivityMap = new UnitCommand().getDefaultGoalActivityMap();
+		defaultActivityMap.put(BBSAttackGoal.class, new BBSAttack());
+		GameAPI.addSimpleDecisionMap(UnitCommand.class, defaultActivityMap);
+	}
 	
 	private static Map<DecisionTablesMapKey, DecisionTable> getFullCommanderDefaultDecisionTablesMap() {
 		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();

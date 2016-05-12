@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<results>
+    <result score="1700" victory="false">
+        <decisionTablesMap agent="ninja.fido.agentAI.agent.SquadCommander">
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentAI.goal.SquadAttackMoveGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <normalSquadAttackMove minSquadSize="1"/>
+                    </row>
+                </table>
+            </entry>
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentAI.goal.WaitGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <wait/>
+                    </row>
+                </table>
+            </entry>
+        </decisionTablesMap>
+    </result>
+<result score="0" victory="false">
+        <decisionTablesMap agent="ninja.fido.agentAI.agent.SquadCommander">
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentAI.goal.SquadAttackMoveGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <normalSquadAttackMove minSquadSize="2"/>
+                    </row>
+                </table>
+            </entry>
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentAI.goal.WaitGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <wait/>
+                    </row>
+                </table>
+            </entry>
+        </decisionTablesMap>
+    </result>
+<result score="100" victory="false">
+        <decisionTablesMap agent="ninja.fido.agentAI.agent.SquadCommander">
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentAI.goal.SquadAttackMoveGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <normalSquadAttackMove minSquadSize="1"/>
+                    </row>
+                </table>
+            </entry>
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentAI.goal.WaitGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <wait/>
+                    </row>
+                </table>
+            </entry>
+        </decisionTablesMap>
+    </result>
+</results>

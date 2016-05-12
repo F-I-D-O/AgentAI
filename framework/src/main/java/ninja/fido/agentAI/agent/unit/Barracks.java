@@ -98,7 +98,7 @@ public class Barracks extends GameAgent<Barracks>{
 	}
 
 	public void automaticProduction() throws ResourceDeficiencyException {
-		if(!unit.isTraining()){
+		if(!unit.isTraining() && !isMineralsMissing() && !isSupplyMissing() && !isGasMissing()){
 			train(automaticProductionUnitType);
 		}
 	}
