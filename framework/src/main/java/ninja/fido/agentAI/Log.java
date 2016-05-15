@@ -10,13 +10,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Logger,
  * @author david_000
  */
 public class Log {
 	
+	/**
+	 * Java logger.
+	 */
 	private static Logger logger;
 	
+	
+	
+	
+	/**
+	 * Inits logger.
+	 * @param logLevel Java log level.
+	 */
 	public static void init(Level logLevel){
 
 		logger = Logger.getLogger("AgentAI Logger");
@@ -42,11 +52,24 @@ public class Log {
 		}
 	}
 	
-    public static void log(Object object, Level level, String message){ 
+	/**
+	 * Log message with no params.
+	 * @param caller Caller of the method.
+	 * @param level Java log level.
+	 * @param message Log message.
+	 */
+    public static void log(Object caller, Level level, String message){ 
 		logger.log(level, message);
     }
     
-    public static void log(Object object, Level level, String message, Object... params){
+	/**
+	 * Log message.
+	 * @param caller Caller of the method.
+	 * @param level Java log level.
+	 * @param message Log message.
+	 * @param params Message parameters.
+	 */
+    public static void log(Object caller, Level level, String message, Object... params){
 		logger.log(level, message, params);
     }
 }
