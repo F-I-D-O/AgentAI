@@ -72,4 +72,28 @@
             </entry>
         </decisionTablesMap>
     </result>
+<result score="0" victory="false">
+        <decisionTablesMap agent="ninja.fido.agentAI.agent.SquadCommander">
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentAI.goal.SquadAttackMoveGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <normalSquadAttackMove minSquadSize="1"/>
+                    </row>
+                </table>
+            </entry>
+            <entry>
+                <key>
+                    <goalParameter value="ninja.fido.agentAI.goal.WaitGoal"/>
+                </key>
+                <table>
+                    <row probability="1.0">
+                        <wait/>
+                    </row>
+                </table>
+            </entry>
+        </decisionTablesMap>
+    </result>
 </results>

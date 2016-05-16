@@ -1,5 +1,5 @@
 /* 
- * AgentAI - Demo
+ * AgentSCAI - Demo
  */
 package ninja.fido.agentSCAI.demo.goal;
 

@@ -1,5 +1,5 @@
-/*
- * AgentAI
+/* 
+ * AgentSCAI
  */
 package ninja.fido.agentSCAI.agent.unit;
 
