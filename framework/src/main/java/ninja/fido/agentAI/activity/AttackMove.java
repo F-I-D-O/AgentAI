@@ -31,6 +31,11 @@ public class AttackMove extends Activity<UnitAgent,AttackMoveGoal,AttackMove>{
 		super(agent);
 		this.target = goal.getAttackTarget();
 	}
+	
+	public AttackMove(UnitAgent agent, Position target) {
+		super(agent);
+		this.target = target;
+	}
 
 	@Override
 	protected void performAction() {

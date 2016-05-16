@@ -26,7 +26,7 @@ public class ExploreBaseLocation<A extends UnitAgent & Scout>
     
     private boolean locationExplored;
     
-    private Position baseLocation;
+    protected Position baseLocation;
 
 	
 	
