@@ -3,15 +3,15 @@
  */
 package ninja.fido.agentSCAI.demo.activity.terran;
 
-import ninja.fido.agentAI.ResourceDeficiencyException;
-import ninja.fido.agentAI.ResourceType;
-import ninja.fido.agentAI.agent.unit.Barracks;
-import ninja.fido.agentAI.base.CommandActivity;
-import ninja.fido.agentAI.agent.ProductionCommand;
-import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
-import ninja.fido.agentAI.goal.AutomaticProductionGoal;
-import ninja.fido.agentAI.order.AutomaticProductionOrder;
+import ninja.fido.agentSCAI.ResourceDeficiencyException;
+import ninja.fido.agentSCAI.ResourceType;
+import ninja.fido.agentSCAI.agent.unit.Barracks;
+import ninja.fido.agentSCAI.base.CommandActivity;
+import ninja.fido.agentSCAI.agent.ProductionCommand;
+import ninja.fido.agentSCAI.base.Goal;
+import ninja.fido.agentSCAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentSCAI.goal.AutomaticProductionGoal;
+import ninja.fido.agentSCAI.order.AutomaticProductionOrder;
 
 /**
  *

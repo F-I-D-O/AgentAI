@@ -4,19 +4,19 @@
 package ninja.fido.agentSCAI.demo.activity.protoss;
 
 import bwapi.Position;
-import ninja.fido.agentAI.agent.SquadCommander;
-import ninja.fido.agentAI.agent.unit.HighTemplar;
-import ninja.fido.agentAI.agent.unit.Zealot;
-import ninja.fido.agentAI.base.CommandActivity;
-import ninja.fido.agentAI.base.GameAPI;
-import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.base.Info;
-import ninja.fido.agentAI.base.UniversalGoalOrder;
+import ninja.fido.agentSCAI.agent.SquadCommander;
+import ninja.fido.agentSCAI.agent.unit.HighTemplar;
+import ninja.fido.agentSCAI.agent.unit.Zealot;
+import ninja.fido.agentSCAI.base.CommandActivity;
+import ninja.fido.agentSCAI.base.GameAPI;
+import ninja.fido.agentSCAI.base.Goal;
+import ninja.fido.agentSCAI.base.Info;
+import ninja.fido.agentSCAI.base.UniversalGoalOrder;
 import ninja.fido.agentSCAI.demo.goal.GroupGuardGoal;
-import ninja.fido.agentAI.goal.MoveGoal;
-import ninja.fido.agentAI.info.GuardOnPositionInfo;
+import ninja.fido.agentSCAI.goal.MoveGoal;
+import ninja.fido.agentSCAI.info.GuardOnPositionInfo;
 import java.util.ArrayList;
-import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentSCAI.base.exception.ChainOfCommandViolationException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**

@@ -4,34 +4,34 @@
 package ninja.fido.agentSCAI.demo.activity.terran;
 
 import bwapi.UnitType;
-import ninja.fido.agentAI.BaseLocationInfo;
-import ninja.fido.agentAI.base.CommandActivity;
-import ninja.fido.agentAI.Log;
-import ninja.fido.agentAI.ResourceDeficiencyException;
-import ninja.fido.agentAI.ResourceType;
-import ninja.fido.agentAI.agent.unit.Barracks;
-import ninja.fido.agentAI.agent.BuildCommand;
-import ninja.fido.agentAI.base.Commander;
-import ninja.fido.agentAI.agent.ExplorationCommand;
-import ninja.fido.agentAI.agent.unit.Marine;
-import ninja.fido.agentAI.agent.ProductionCommand;
-import ninja.fido.agentAI.agent.ResourceCommand;
-import ninja.fido.agentAI.agent.unit.SCV;
-import ninja.fido.agentAI.agent.UnitCommand;
-import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.info.EnemyBaseDiscovered;
-import ninja.fido.agentAI.info.EnemyBasesInfo;
-import ninja.fido.agentAI.base.Info;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentSCAI.BaseLocationInfo;
+import ninja.fido.agentSCAI.base.CommandActivity;
+import ninja.fido.agentSCAI.Log;
+import ninja.fido.agentSCAI.ResourceDeficiencyException;
+import ninja.fido.agentSCAI.ResourceType;
+import ninja.fido.agentSCAI.agent.unit.Barracks;
+import ninja.fido.agentSCAI.agent.BuildCommand;
+import ninja.fido.agentSCAI.base.Commander;
+import ninja.fido.agentSCAI.agent.ExplorationCommand;
+import ninja.fido.agentSCAI.agent.unit.Marine;
+import ninja.fido.agentSCAI.agent.ProductionCommand;
+import ninja.fido.agentSCAI.agent.ResourceCommand;
+import ninja.fido.agentSCAI.agent.unit.SCV;
+import ninja.fido.agentSCAI.agent.UnitCommand;
+import ninja.fido.agentSCAI.base.Goal;
+import ninja.fido.agentSCAI.info.EnemyBaseDiscovered;
+import ninja.fido.agentSCAI.info.EnemyBasesInfo;
+import ninja.fido.agentSCAI.base.Info;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentSCAI.demo.order.BBSAttackOrder;
 import ninja.fido.agentSCAI.demo.order.BBSBuildOrder;
 import ninja.fido.agentSCAI.demo.order.BBSProductionOrder;
-import ninja.fido.agentAI.order.DetachBack;
-import ninja.fido.agentAI.order.HarvestOrder;
-import ninja.fido.agentAI.order.StrategicExplorationOrder;
+import ninja.fido.agentSCAI.order.DetachBack;
+import ninja.fido.agentSCAI.order.HarvestOrder;
+import ninja.fido.agentSCAI.order.StrategicExplorationOrder;
 import java.util.List;
 import java.util.logging.Level;
-import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentSCAI.base.exception.ChainOfCommandViolationException;
 
 /**
  *

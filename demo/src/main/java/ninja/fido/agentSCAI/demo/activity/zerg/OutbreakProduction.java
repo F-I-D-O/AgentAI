@@ -4,20 +4,20 @@
 package ninja.fido.agentSCAI.demo.activity.zerg;
 
 import bwapi.UnitType;
-import ninja.fido.agentAI.ResourceDeficiencyException;
-import ninja.fido.agentAI.ResourceType;
-import ninja.fido.agentAI.agent.LarvaCommand;
-import ninja.fido.agentAI.agent.unit.Larva;
-import ninja.fido.agentAI.base.CommandActivity;
-import ninja.fido.agentAI.base.GameAPI;
-import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.base.Info;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
-import ninja.fido.agentAI.info.CodeMessageInfo;
-import ninja.fido.agentAI.order.LarvaMorph;
-import ninja.fido.agentAI.request.ResourceRequest;
+import ninja.fido.agentSCAI.ResourceDeficiencyException;
+import ninja.fido.agentSCAI.ResourceType;
+import ninja.fido.agentSCAI.agent.LarvaCommand;
+import ninja.fido.agentSCAI.agent.unit.Larva;
+import ninja.fido.agentSCAI.base.CommandActivity;
+import ninja.fido.agentSCAI.base.GameAPI;
+import ninja.fido.agentSCAI.base.Goal;
+import ninja.fido.agentSCAI.base.Info;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentSCAI.info.CodeMessageInfo;
+import ninja.fido.agentSCAI.order.LarvaMorph;
+import ninja.fido.agentSCAI.request.ResourceRequest;
 import java.util.List;
-import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentSCAI.base.exception.ChainOfCommandViolationException;
 
 /**
  *

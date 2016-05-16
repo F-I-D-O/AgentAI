@@ -3,17 +3,17 @@
  */
 package ninja.fido.agentSCAI.demo.activity.protoss;
 
-import ninja.fido.agentAI.agent.FullCommander;
-import ninja.fido.agentAI.agent.SquadCommander;
-import ninja.fido.agentAI.agent.unit.UnitAgent;
-import ninja.fido.agentAI.base.CommandActivity;
-import ninja.fido.agentAI.base.GameAPI;
-import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.base.UniversalGoalOrder;
+import ninja.fido.agentSCAI.agent.FullCommander;
+import ninja.fido.agentSCAI.agent.SquadCommander;
+import ninja.fido.agentSCAI.agent.unit.UnitAgent;
+import ninja.fido.agentSCAI.base.CommandActivity;
+import ninja.fido.agentSCAI.base.GameAPI;
+import ninja.fido.agentSCAI.base.Goal;
+import ninja.fido.agentSCAI.base.UniversalGoalOrder;
 import java.util.List;
-import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentSCAI.base.exception.ChainOfCommandViolationException;
 import ninja.fido.agentSCAI.demo.goal.FormationTestSquadFormationGoal;
-import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
+import ninja.fido.agentSCAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *

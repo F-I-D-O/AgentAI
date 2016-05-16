@@ -3,12 +3,12 @@
  */
 package ninja.fido.agentSCAI.demo.activity.terran;
 
-import ninja.fido.agentAI.base.CommandActivity;
+import ninja.fido.agentSCAI.base.CommandActivity;
 import bwapi.UnitType;
-import ninja.fido.agentAI.BuildPlan;
-import ninja.fido.agentAI.Log;
-import ninja.fido.agentAI.agent.BuildCommand;
-import ninja.fido.agentAI.base.Goal;
+import ninja.fido.agentSCAI.BuildPlan;
+import ninja.fido.agentSCAI.Log;
+import ninja.fido.agentSCAI.agent.BuildCommand;
+import ninja.fido.agentSCAI.base.Goal;
 import java.util.logging.Level;
 
 /**

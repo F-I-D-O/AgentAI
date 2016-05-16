@@ -4,17 +4,17 @@
 package ninja.fido.agentSCAI.demo.activity.terran;
 
 import bwapi.Position;
-import ninja.fido.agentAI.BaseLocationInfo;
-import ninja.fido.agentAI.agent.unit.Marine;
-import ninja.fido.agentAI.agent.SquadCommander;
-import ninja.fido.agentAI.agent.UnitCommand;
-import ninja.fido.agentAI.base.CommandActivity;
-import ninja.fido.agentAI.base.GameAPI;
-import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.order.SquadAttackMoveOrder;
+import ninja.fido.agentSCAI.BaseLocationInfo;
+import ninja.fido.agentSCAI.agent.unit.Marine;
+import ninja.fido.agentSCAI.agent.SquadCommander;
+import ninja.fido.agentSCAI.agent.UnitCommand;
+import ninja.fido.agentSCAI.base.CommandActivity;
+import ninja.fido.agentSCAI.base.GameAPI;
+import ninja.fido.agentSCAI.base.Goal;
+import ninja.fido.agentSCAI.order.SquadAttackMoveOrder;
 import java.util.List;
-import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
-import ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException;
+import ninja.fido.agentSCAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentSCAI.modules.decisionMaking.EmptyDecisionTableMapException;
 
 /**
  *

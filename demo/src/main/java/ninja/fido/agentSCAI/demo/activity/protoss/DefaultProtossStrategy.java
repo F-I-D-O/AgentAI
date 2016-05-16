@@ -3,11 +3,11 @@
  */
 package ninja.fido.agentSCAI.demo.activity.protoss;
 
-import ninja.fido.agentAI.agent.FullCommander;
-import ninja.fido.agentAI.agent.unit.Probe;
-import ninja.fido.agentAI.base.CommandActivity;
-import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentSCAI.agent.FullCommander;
+import ninja.fido.agentSCAI.agent.unit.Probe;
+import ninja.fido.agentSCAI.base.CommandActivity;
+import ninja.fido.agentSCAI.base.Goal;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionModuleActivity;
 import java.util.List;
 
 /**

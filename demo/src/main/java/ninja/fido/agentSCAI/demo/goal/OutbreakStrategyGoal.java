@@ -3,9 +3,9 @@
  */
 package ninja.fido.agentSCAI.demo.goal;
 
-import ninja.fido.agentAI.agent.ZergCommander;
-import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.base.GoalOrder;
+import ninja.fido.agentSCAI.agent.ZergCommander;
+import ninja.fido.agentSCAI.base.Goal;
+import ninja.fido.agentSCAI.base.GoalOrder;
 
 /**
  *
