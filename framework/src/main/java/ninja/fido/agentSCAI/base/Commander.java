@@ -5,7 +5,7 @@ package ninja.fido.agentSCAI.base;
 
 import ninja.fido.agentSCAI.BaseLocationInfo;
 import ninja.fido.agentSCAI.ResourceDeficiencyException;
-import ninja.fido.agentAI.ResourceType;
+import ninja.fido.agentSCAI.ResourceType;
 import ninja.fido.agentSCAI.info.EnemyBaseDiscovered;
 import java.util.ArrayList;
 import ninja.fido.agentSCAI.base.exception.MultipleCommandersException;

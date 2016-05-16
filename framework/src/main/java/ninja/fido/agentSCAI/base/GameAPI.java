@@ -12,7 +12,7 @@ import bwapi.Unit;
 import bwapi.UnitType;
 import ninja.fido.agentSCAI.bwapiCommandInterface.BWAPICommandInterface;
 import ninja.fido.agentSCAI.bwapiCommandInterface.DefaultBWAPICommandInterface;
-import ninja.fido.agentAI.buildingPlacer.BuildingPlacer;
+import ninja.fido.agentSCAI.buildingPlacer.BuildingPlacer;
 import ninja.fido.agentSCAI.EventEngine;
 import ninja.fido.agentSCAI.EventEngineListener;
 import ninja.fido.agentSCAI.Log;

@@ -8,7 +8,7 @@ import bwapi.UnitType;
 import java.util.HashMap;
 import java.util.Map;
 import ninja.fido.agentSCAI.ResourceDeficiencyException;
-import ninja.fido.agentAI.ResourceType;
+import ninja.fido.agentSCAI.ResourceType;
 import ninja.fido.agentSCAI.base.Activity;
 import ninja.fido.agentSCAI.activity.AutomaticProduction;
 import ninja.fido.agentSCAI.activity.Wait;

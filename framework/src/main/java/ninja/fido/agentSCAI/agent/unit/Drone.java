@@ -5,7 +5,7 @@ package ninja.fido.agentSCAI.agent.unit;
 
 import bwapi.Unit;
 import ninja.fido.agentSCAI.Log;
-import ninja.fido.agentAI.MorphableUnit;
+import ninja.fido.agentSCAI.MorphableUnit;
 import ninja.fido.agentSCAI.base.Goal;
 import ninja.fido.agentSCAI.goal.HarvestMineralsGoal;
 import java.util.logging.Level;

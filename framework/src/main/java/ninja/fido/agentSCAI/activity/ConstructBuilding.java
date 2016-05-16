@@ -11,7 +11,7 @@ import ninja.fido.agentSCAI.base.Activity;
 import ninja.fido.agentSCAI.base.GameAPI;
 import ninja.fido.agentSCAI.base.Goal;
 import ninja.fido.agentSCAI.base.UnitActivity;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentSCAI.goal.ConstructBuildingGoal;
 import java.util.Objects;
 

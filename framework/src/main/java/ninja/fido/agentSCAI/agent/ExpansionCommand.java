@@ -7,7 +7,7 @@ import bwapi.Position;
 import bwapi.TilePosition;
 import bwapi.UnitType;
 import ninja.fido.agentSCAI.buildingPlacer.Building;
-import ninja.fido.agentAI.buildingPlacer.BuildingPlacer;
+import ninja.fido.agentSCAI.buildingPlacer.BuildingPlacer;
 import ninja.fido.agentSCAI.ResourceDeficiencyException;
 import ninja.fido.agentSCAI.ResourceType;
 import ninja.fido.agentSCAI.activity.AutomaticExpansion;

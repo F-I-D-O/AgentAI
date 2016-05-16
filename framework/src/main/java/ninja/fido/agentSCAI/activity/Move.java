@@ -10,7 +10,7 @@ import ninja.fido.agentSCAI.Log;
 import ninja.fido.agentSCAI.agent.unit.UnitAgent;
 import ninja.fido.agentSCAI.base.Activity;
 import ninja.fido.agentSCAI.base.GameAPI;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentSCAI.goal.MoveGoal;
 import java.util.Objects;
 import java.util.logging.Level;

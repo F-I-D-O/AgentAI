@@ -6,10 +6,10 @@
 package ninja.fido.agentai.base;
 
 import java.util.Map;
-import ninja.fido.agentAI.base.Resource;
-import ninja.fido.agentAI.ResourceType;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionTable;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionTablesMapKey;
+import ninja.fido.agentSCAI.base.Resource;
+import ninja.fido.agentSCAI.ResourceType;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionTable;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionTablesMapKey;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

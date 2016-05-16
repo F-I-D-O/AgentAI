@@ -10,7 +10,7 @@ import ninja.fido.agentSCAI.activity.Wait;
 import ninja.fido.agentSCAI.base.Activity;
 import ninja.fido.agentSCAI.base.Goal;
 import ninja.fido.agentSCAI.base.GameAgent;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentSCAI.modules.decisionMaking.DecisionTable;
 import ninja.fido.agentSCAI.modules.decisionMaking.DecisionTablesMapKey;
 import ninja.fido.agentSCAI.modules.decisionMaking.GoalParameter;

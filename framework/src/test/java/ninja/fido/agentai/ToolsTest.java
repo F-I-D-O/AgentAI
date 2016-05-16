@@ -5,7 +5,7 @@
  */
 package ninja.fido.agentai;
 
-import ninja.fido.agentAI.Tools;
+import ninja.fido.agentSCAI.Tools;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

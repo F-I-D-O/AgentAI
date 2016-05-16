@@ -6,12 +6,12 @@
 package ninja.fido.agentai.base;
 
 import bwapi.Position;
-import ninja.fido.agentAI.agent.UnitCommand;
-import ninja.fido.agentAI.agent.unit.SCV;
-import ninja.fido.agentAI.base.Goal;
-import ninja.fido.agentAI.base.UniversalGoalOrder;
-import ninja.fido.agentAI.base.exception.ChainOfCommandViolationException;
-import ninja.fido.agentAI.order.MoveOrder;
+import ninja.fido.agentSCAI.agent.UnitCommand;
+import ninja.fido.agentSCAI.agent.unit.SCV;
+import ninja.fido.agentSCAI.base.Goal;
+import ninja.fido.agentSCAI.base.UniversalGoalOrder;
+import ninja.fido.agentSCAI.base.exception.ChainOfCommandViolationException;
+import ninja.fido.agentSCAI.order.MoveOrder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

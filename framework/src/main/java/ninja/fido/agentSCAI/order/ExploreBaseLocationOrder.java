@@ -5,7 +5,7 @@ package ninja.fido.agentSCAI.order;
 
 import ninja.fido.agentSCAI.base.GoalOrder;
 import bwapi.Position;
-import ninja.fido.agentAI.agent.Scout;
+import ninja.fido.agentSCAI.agent.Scout;
 import ninja.fido.agentSCAI.base.CommandAgent;
 import ninja.fido.agentSCAI.base.Agent;
 import ninja.fido.agentSCAI.base.exception.ChainOfCommandViolationException;

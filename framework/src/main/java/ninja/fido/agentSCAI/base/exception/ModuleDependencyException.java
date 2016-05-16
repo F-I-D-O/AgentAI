@@ -3,7 +3,7 @@
  */
 package ninja.fido.agentSCAI.base.exception;
 
-import ninja.fido.agentAI.base.GameAPIModule;
+import ninja.fido.agentSCAI.base.GameAPIModule;
 
 /**
  *

@@ -11,7 +11,7 @@ import ninja.fido.agentSCAI.base.CommandActivity;
 import ninja.fido.agentSCAI.base.GameAPI;
 import ninja.fido.agentSCAI.base.Order;
 import ninja.fido.agentSCAI.base.exception.ChainOfCommandViolationException;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentSCAI.goal.AutomaticExpansionGoal;
 import ninja.fido.agentSCAI.request.ExpansionInfoRequest;
 

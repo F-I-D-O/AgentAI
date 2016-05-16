@@ -13,7 +13,7 @@ import ninja.fido.agentSCAI.agent.SquadCommander;
 import ninja.fido.agentSCAI.base.Agent;
 import ninja.fido.agentSCAI.goal.SquadAttackMoveGoal;
 import ninja.fido.agentSCAI.goal.WaitGoal;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionModuleActivity;
 import ninja.fido.agentSCAI.modules.decisionMaking.DecisionTable;
 import ninja.fido.agentSCAI.modules.decisionMaking.DecisionTablesMapKey;
 import ninja.fido.agentSCAI.modules.decisionMaking.GoalParameter;

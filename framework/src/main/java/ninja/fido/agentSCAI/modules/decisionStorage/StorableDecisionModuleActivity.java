@@ -6,7 +6,7 @@ package ninja.fido.agentSCAI.modules.decisionStorage;
 import ninja.fido.agentSCAI.base.Activity;
 import ninja.fido.agentSCAI.base.Agent;
 import ninja.fido.agentSCAI.base.Goal;
-import ninja.fido.agentAI.modules.decisionMaking.DecisionModuleActivity;
+import ninja.fido.agentSCAI.modules.decisionMaking.DecisionModuleActivity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
