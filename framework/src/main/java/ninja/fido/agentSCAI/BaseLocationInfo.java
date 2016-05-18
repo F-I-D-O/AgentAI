@@ -95,7 +95,7 @@ public class BaseLocationInfo {
 
 	/**
 	 * Sets the exploration in progress flag. True for in progress.
-	 * @param explorationInProgress 
+	 * @param explorationInProgress True to set exploration in progress, false otherwise.
 	 */
 	public void setExplorationInProgress(boolean explorationInProgress) {
 		this.explorationInProgress = explorationInProgress;
@@ -111,7 +111,7 @@ public class BaseLocationInfo {
 
 	/**
 	 * Set the chosen for expansion mark. True for chosen.
-	 * @param chosenForExpansion 
+	 * @param chosenForExpansion  True to set chosen for expansion mark, false otherwise.
 	 */
 	public void setChosenForExpansion(boolean chosenForExpansion) {
 		this.chosenForExpansion = chosenForExpansion;

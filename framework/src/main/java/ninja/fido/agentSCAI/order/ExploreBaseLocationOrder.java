@@ -14,7 +14,7 @@ import ninja.fido.agentSCAI.goal.ExploreBaseLocationGoal;
 /**
  *
  * @author F.I.D.O.
- * @param <T>
+ * @param <T> Agent type. 
  */
 public class ExploreBaseLocationOrder<T extends Agent & Scout> extends GoalOrder<T>{
 	

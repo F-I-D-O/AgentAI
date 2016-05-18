@@ -14,7 +14,7 @@ public class BWAPITools {
 	/**
 	 * Transform string to Race enum.
 	 * @param raceString string representing the race.
-	 * @return 
+	 * @return Race enum.
 	 */
 	public static Race raceFromString(String raceString) {
 		Race race = null;

@@ -90,7 +90,7 @@ public final class Resource {
 	 * Split this resource.
 	 * @param amount Amount to split.
 	 * @return Returns new resource of the same type.
-	 * @throws ResourceDeficiencyException 
+	 * @throws ResourceDeficiencyException If the agent does not own enought resources to split.
 	 */
     final Resource split(int amount) throws ResourceDeficiencyException{
         if(amount > this.amount){

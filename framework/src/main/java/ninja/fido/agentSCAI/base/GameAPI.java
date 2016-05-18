@@ -134,9 +134,9 @@ public final class GameAPI extends DefaultBWListener implements EventEngineListe
     }
 	
 	/**
-	 * TODO
-	 * @param agent
-	 * @param commandAgent 
+	 * Adds agent to game API. It has to be used only for non-game gaents when calling from outside GameAPI.
+	 * @param agent New agent.
+	 * @param commandAgent Command agent of the new agent.
 	 */
 	public static void addAgent(Agent agent, CommandAgent commandAgent){
 		commandAgent.addCommandedAgent(agent);
@@ -381,16 +381,8 @@ public final class GameAPI extends DefaultBWListener implements EventEngineListe
 	 * @param frameSkip Frame skip. Determines how many logical franes will be skipped on screen (logical to screen 
 	 * frame ratio). 
 	 * @param commander Commander.
-	 * @throws SAXException
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 * @throws ClassNotFoundException
-	 * @throws TransformerException
-	 * @throws TransformerConfigurationException
-	 * @throws XPathExpressionException 
 	 */
-	public GameAPI(final Level logLevel, int gameSpeed, int frameSkip, Commander commander) throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException, 
-			TransformerException, TransformerConfigurationException, XPathExpressionException {
+	public GameAPI(final Level logLevel, int gameSpeed, int frameSkip, Commander commander) {
 		frameCount = 1;
 		gameCount = 1;
 		registeredModules = new ArrayList<>();
@@ -736,15 +728,8 @@ public final class GameAPI extends DefaultBWListener implements EventEngineListe
 	
 	/**
 	 * Start method. Call this when gameAPI is ready and you want to start the AI.
-	 * @throws SAXException
-	 * @throws XPathExpressionException
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 * @throws ClassNotFoundException
-	 * @throws TransformerException 
 	 */
-    public void run() throws SAXException, XPathExpressionException, IOException, ParserConfigurationException, 
-			ClassNotFoundException, TransformerException {
+    public void run(){
 		
 		//log
 		Log.init(logLevel);
@@ -778,7 +763,7 @@ public final class GameAPI extends DefaultBWListener implements EventEngineListe
 	/**
 	 * Register module to gameAPI. 
 	 * @param module Module.
-	 * @throws ModuleDependencyException 
+	 * @throws ModuleDependencyException If you try to register some module before registering it's dependencies.
 	 */
 	public void registerModule(GameAPIModule module) throws ModuleDependencyException{
 		List<Class<? extends GameAPIModule>> dependencies = module.getDependencies();

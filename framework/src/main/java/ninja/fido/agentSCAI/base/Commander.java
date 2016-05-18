@@ -83,8 +83,8 @@ public class Commander extends CommandAgent {
 	 * onstructor.
 	 * @param name Name for the commander.
 	 * @param initialGoal Initaial goal for the commander.
-	 * @throws MultipleCommandersException
-	 * @throws EmptyDecisionTableMapException 
+	 * @throws MultipleCommandersException If multiple commanders has been created in one game.
+	 * @throws EmptyDecisionTableMapException If the decision tables map is not initialized.
 	 */
     public Commander(String name, Goal initialGoal) throws MultipleCommandersException, EmptyDecisionTableMapException {
 		enemyBases = new ArrayList<>();
@@ -102,8 +102,8 @@ public class Commander extends CommandAgent {
 	/**
 	 * Creates new instace of the commander.
 	 * @return Returns new instace of the commander.
-	 * @throws MultipleCommandersException
-	 * @throws EmptyDecisionTableMapException 
+	 * @throws MultipleCommandersException If multiple commanders has been created in one game.
+	 * @throws EmptyDecisionTableMapException If the decision tables map is not initialized.
 	 */
 	protected Commander create() throws MultipleCommandersException, EmptyDecisionTableMapException {
 		return new Commander(name, initialGoal);

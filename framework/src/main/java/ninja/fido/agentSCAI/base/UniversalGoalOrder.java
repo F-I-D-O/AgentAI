@@ -21,7 +21,7 @@ public class UniversalGoalOrder extends GoalOrder{
 	 * @param target Target of the order.
 	 * @param commandAgent Command agent issuing the order.
 	 * @param goal New goal for target.
-	 * @throws ChainOfCommandViolationException 
+	 * @throws ChainOfCommandViolationException If the agent send order to unit that is not under it's direct command.
 	 */
 	public UniversalGoalOrder(Agent target, CommandAgent commandAgent, Goal goal) 
 			throws ChainOfCommandViolationException {

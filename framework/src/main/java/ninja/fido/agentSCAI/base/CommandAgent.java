@@ -69,7 +69,7 @@ public abstract class CommandAgent extends Agent {
 	
 	/**
 	 * Constructor.
-	 * @throws EmptyDecisionTableMapException 
+	 * @throws EmptyDecisionTableMapException If the decision tables map is not initialized.
 	 */
     public CommandAgent() throws EmptyDecisionTableMapException {
         commandedAgents = new ArrayList<>();

@@ -30,7 +30,7 @@ public abstract class Order<T extends Agent> {
 	 * Order constructor
 	 * @param target Target of the order.
 	 * @param commandAgent Command agent issuing the order.
-	 * @throws ChainOfCommandViolationException 
+	 * @throws ChainOfCommandViolationException If the agent send order to unit that is not under it's direct command.
 	 */
 	public Order(T target, CommandAgent commandAgent) throws ChainOfCommandViolationException {
 		if(!commandAgent.getCommandedAgents().contains(target)){

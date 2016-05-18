@@ -19,7 +19,7 @@ public abstract class OrderForCommandAgent<T extends CommandAgent> extends Order
 	 * Constructor
 	 * @param target Target command agent.
 	 * @param commandAgent Command agent that issued this order.
-	 * @throws ChainOfCommandViolationException 
+	 * @throws ChainOfCommandViolationException If the agent send order to unit that is not under it's direct command.
 	 */
 	public OrderForCommandAgent(T target, CommandAgent commandAgent) throws ChainOfCommandViolationException {
 		super(target, commandAgent);

@@ -37,7 +37,7 @@ public abstract class GameAgent<A extends GameAgent> extends Agent {
 	
 	/**
 	 * Empty constructor. This constructor is intended to be used in goal activity maps.
-	 * @throws EmptyDecisionTableMapException 
+	 * @throws EmptyDecisionTableMapException If the decision tables map is not initialized.
 	 */
 	public GameAgent() throws EmptyDecisionTableMapException{
 		unit = null;
@@ -46,7 +46,7 @@ public abstract class GameAgent<A extends GameAgent> extends Agent {
 	/**
 	 * Constructor. This constructor should by called by GameAPI when unit first appear in game.
 	 * @param unit The unit that is represented by this agent.
-	 * @throws EmptyDecisionTableMapException 
+	 * @throws EmptyDecisionTableMapException If the decision tables map is not initialized.
 	 */
     public GameAgent(Unit unit) throws EmptyDecisionTableMapException {
         this.unit = unit;
@@ -58,7 +58,7 @@ public abstract class GameAgent<A extends GameAgent> extends Agent {
 	 * Create new instance from empty agent.
 	 * @param unit BWAPI unit.
 	 * @return Returns new instance of the agent.
-	 * @throws ninja.fido.agentAI.modules.decisionMaking.EmptyDecisionTableMapException
+	 * @throws EmptyDecisionTableMapException If the decision tables map is not initialized.
 	 */
 	public abstract A create(Unit unit) throws EmptyDecisionTableMapException;
 	

@@ -83,13 +83,13 @@ public abstract class Activity<A extends Agent,G extends Goal, AC extends Activi
 	
 	/**
 	 * Action logic. This method is called every frame.
-	 * @throws ChainOfCommandViolationException 
+	 * @throws ChainOfCommandViolationException If the agent send order to unit that is not under it's direct command.
 	 */
 	protected abstract void performAction() throws ChainOfCommandViolationException;
 	
 	/**
 	 * Acitvity initializatin. This method is called on first frame.
-	 * @throws ChainOfCommandViolationException 
+	 * @throws ChainOfCommandViolationException If the agent send order to unit that is not under it's direct command.
 	 */
 	protected abstract void init() throws ChainOfCommandViolationException;
 	
@@ -192,7 +192,7 @@ public abstract class Activity<A extends Agent,G extends Goal, AC extends Activi
 	 * @param receiver Receiver of the recource.
 	 * @param material Material.
 	 * @param amount Resource amount.
-	 * @throws ResourceDeficiencyException 
+	 * @throws ResourceDeficiencyException If the agent does not own enought resources for some operation.
 	 */
 	protected void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException{
 		agent.giveResource(receiver, material, amount);
@@ -202,7 +202,7 @@ public abstract class Activity<A extends Agent,G extends Goal, AC extends Activi
 	
 	/**
 	 * Main activity method. This method is called automaticaly by framework.
-	 * @throws ChainOfCommandViolationException 
+	 * @throws ChainOfCommandViolationException If the agent send order to unit that is not under it's direct command.
 	 */   
     final void run() throws ChainOfCommandViolationException{
         Log.log(this, Level.FINE, "{0}: run() START", this.getClass());

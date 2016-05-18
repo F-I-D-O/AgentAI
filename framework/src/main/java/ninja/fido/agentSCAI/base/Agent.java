@@ -206,7 +206,7 @@ public abstract class Agent {
 	
 	/**
 	 * Constructor.
-	 * @throws EmptyDecisionTableMapException 
+	 * @throws EmptyDecisionTableMapException If the decision tables map is not initialized.
 	 */
 	public Agent() throws EmptyDecisionTableMapException {
 		
@@ -316,7 +316,7 @@ public abstract class Agent {
 	 * @param receiver Receiver of the recource.
 	 * @param material Material.
 	 * @param amount Resource amount.
-	 * @throws ResourceDeficiencyException 
+	 * @throws ResourceDeficiencyException If the agent does not own enought resources for some operation.
 	 */
 	protected void giveResource(Agent receiver, ResourceType material, int amount) throws ResourceDeficiencyException{
 		switch(material){
@@ -382,7 +382,7 @@ public abstract class Agent {
 	 * Spends resource. This should be called only after api call whitch results in spending supply.
 	 * @param material Material.
 	 * @param amount Resource amount.
-	 * @throws ResourceDeficiencyException 
+	 * @throws ResourceDeficiencyException If the agent does not own enought resources for some operation.
 	 */
 	protected final void spendResource(ResourceType material, int amount) throws ResourceDeficiencyException{
 		Resource resource = null;
@@ -417,7 +417,7 @@ public abstract class Agent {
 	/**
 	 * In this function agent make decision what to do next.
 	 * @return Chosen action.
-	 * @throws CannotDecideException 
+	 * @throws CannotDecideException If the decision tables map does not contain a keý for current situation.
 	 */
 	protected Activity decide() throws CannotDecideException {
 		DecisionTablesMapKey key = DecisionTablesMapKey.createKeyBasedOnCurrentState(this, referenceKey);
@@ -438,10 +438,11 @@ public abstract class Agent {
 	
 	/**
 	 * Main method, runs every frame.
-	 * @throws CannotDecideException
-	 * @throws NoActionChosenException
-	 * @throws ChainOfCommandViolationException
-	 * @throws SimpleDecisionException 
+	 * @throws CannotDecideException If the decision tables map does not contain a keý for current situation.
+	 * @throws NoActionChosenException If no action has been chosen this frame.
+	 * @throws ChainOfCommandViolationException If the agent send order to unit that is not under it's direct command.
+	 * @throws SimpleDecisionException If there is something wrong with simple decision making system. For example there 
+	 * is no action for current goal.
 	 */
     final void run() throws CannotDecideException, NoActionChosenException, ChainOfCommandViolationException, 
 			SimpleDecisionException {
@@ -559,7 +560,8 @@ public abstract class Agent {
 	/**
 	 * Choose the activity to perform.
 	 * @return Chosen aativity.
-	 * @throws SimpleDecisionException 
+	 * @throws SimpleDecisionException If there is something wrong with simple decision making system. For example
+	 * there is no action for current goal.
 	 */
 	private Activity chooseActivity() throws SimpleDecisionException{
 		Activity template = goalActivityMap.get(goal.getClass());
@@ -606,7 +608,7 @@ public abstract class Agent {
 
 	/**
 	 * Sets the reference key to decision table.
-	 * @throws EmptyDecisionTableMapException 
+	 * @throws EmptyDecisionTableMapException If the decision tables map is not initialized.
 	 */
 	private void setReferenceKey() throws EmptyDecisionTableMapException {
 		if(decisionTablesMap.isEmpty()){

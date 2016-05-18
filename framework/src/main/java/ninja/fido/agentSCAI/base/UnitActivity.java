@@ -21,7 +21,7 @@ public abstract class UnitActivity<A extends GameAgent, G extends Goal, AC exten
 	
 	/**
 	 * Constructor.
-	 * @param unitAgent 
+	 * @param unitAgent Agent.
 	 */
     public UnitActivity(A unitAgent) {
         super(unitAgent);

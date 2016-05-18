@@ -31,7 +31,7 @@ public interface GameAPIModule {
 	
 	/**
 	 * Returns list of modules this module depends on.
-	 * @return 
+	 * @return Returns list of modules this module depends on.
 	 */
 	public List<Class<? extends GameAPIModule>> getDependencies();
 }

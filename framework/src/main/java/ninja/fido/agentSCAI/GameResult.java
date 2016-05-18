@@ -65,7 +65,7 @@ public class GameResult {
 
 	/**
 	 * Returns decision module settings for agents.
-	 * @return 
+	 * @return Returns decision module settings for agents. 
 	 */
 	public ArrayList<UnitDecisionSetting> getUnitDecisionSettings() {
 		return unitDecisionSettings;
@@ -73,7 +73,7 @@ public class GameResult {
 
 	/**
 	 * Sets the the decision module settings for agents.
-	 * @param unitDecisionSettings 
+	 * @param unitDecisionSettings List of unit decision settings.
 	 */
 	public void setUnitDecisionSettings(ArrayList<UnitDecisionSetting> unitDecisionSettings) {
 		this.unitDecisionSettings = unitDecisionSettings;
