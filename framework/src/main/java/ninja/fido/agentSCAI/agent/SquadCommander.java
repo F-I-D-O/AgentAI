@@ -52,8 +52,8 @@ public class SquadCommander extends CommandAgent {
 		Map<DecisionTablesMapKey, DecisionTable> defaultDecisionTablesMap = new HashMap<>();
 		
 		TreeMap<Double,DecisionModuleActivity> actionMap = new TreeMap<>();
-		actionMap.put(0.2, new ASAPSquadAttackMove());
-		actionMap.put(1.0, new NormalSquadAttackMove());
+		actionMap.put(1.0, new ASAPSquadAttackMove());
+//		actionMap.put(1.0, new NormalSquadAttackMove());
 		DecisionTablesMapKey key =  new DecisionTablesMapKey();
 		key.addParameter(new GoalParameter(SquadAttackMoveGoal.class));
 		defaultDecisionTablesMap.put(key, new DecisionTable(actionMap));

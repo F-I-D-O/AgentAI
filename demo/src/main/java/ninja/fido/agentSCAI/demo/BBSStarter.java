@@ -47,7 +47,7 @@ public class BBSStarter {
 			ClassNotFoundException, TransformerException, TransformerConfigurationException, XPathExpressionException, 
 			ModuleDependencyException, MultipleCommandersException, EmptyDecisionTableMapException {
 		FullCommander commander = new FullCommander("BBS Demo", new BBSStrategyGoal(null, null));
-		GameAPI gameAPI = new GameAPI(Level.FINE, 25, 0, commander);
+		GameAPI gameAPI = new GameAPI(Level.FINE, 10, 0, commander);
 		
 		DecisionModule decisionModule = new DecisionModule();
 		

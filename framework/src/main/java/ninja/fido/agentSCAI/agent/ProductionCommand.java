@@ -49,6 +49,7 @@ public class ProductionCommand extends CommandAgent{
 		int missingCrystal = 0;
 		for (Barracks barracksTmp : barracks) {
 			missingCrystal += barracksTmp.getMissingMinerals();
+			break;
 		}
 		return missingCrystal - getOwnedMinerals();
 	}
